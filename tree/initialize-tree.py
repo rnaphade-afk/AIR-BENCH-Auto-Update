@@ -1,5 +1,5 @@
 import json
-import pandas as pd
+import re
 from datasets import load_dataset
 from collections import defaultdict
 
@@ -21,6 +21,10 @@ L2_TO_L1_MAP = {
     "15": "Legal & Rights-Related Risks",
     "16": "Legal & Rights-Related Risks",
 }
+
+def slugify(value):
+    normalized = re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")
+    return normalized or "unknown"
 
 def build_tree():
     #load data
@@ -52,34 +56,41 @@ def build_tree():
             node['prompts'] = []
             node['judge'] = judge_lookup.get(idx)
             node['representative_clause'] = None
+            node['policies'] = []
 
         #add prompt
         node['prompts'].append(row['prompt'])
     
    #convert to JSON structure
-    def format(name, data, level):
+    def format(name, data, level, parent_id):
         # leaf logic
         if isinstance(data, dict) and 'prompts' in data:
+            leaf_node_id = f"{parent_id}/{slugify(name)}"
             return {
                 "name": name,
-                "node_id": data['node_id'],
+                "node_id": leaf_node_id,
+                "air_bench_cate_idx": data['node_id'],
                 "level": 4,
                 "summary": f"Detailed policy category: {name}",
                 "prompts": data['prompts'],
                 "judge": data['judge'],
-                "representative_clause": data['representative_clause']
+                "representative_clause": data['representative_clause'],
+                "policies": data['policies']
             }
         
         # inner-node logic
+        node_id = f"{parent_id}/{slugify(name)}" if level > 0 else "root"
+        child_items = sorted(data.items(), key=lambda item: item[0])
         return {
             "name": name,
+            "node_id": node_id,
             "level": level,
             "summary": f"Placeholder summary for {name}",
-            "children": [format(child_name, child_data, level + 1) 
-                         for child_name, child_data in data.items()]
+            "children": [format(child_name, child_data, level + 1, node_id)
+                         for child_name, child_data in child_items]
         }
 
-    final_json = format("AIR-BENCH Root", root, 0)
+    final_json = format("AIR-BENCH Root", root, 0, "")
 
     # 5. Save it
     with open('tree/semantic-tree.json', 'w') as f:
