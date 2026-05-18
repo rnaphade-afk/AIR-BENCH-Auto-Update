@@ -1,461 +1,993 @@
 import argparse
+import io
 import json
 import os
 import re
+import shutil
+import subprocess
+import sys
+import tempfile
 import time
 from collections import deque
-from datetime import datetime
+from dataclasses import dataclass
+from datetime import datetime, timezone
 from html import unescape
-from urllib.parse import urljoin, urlparse
+from html.parser import HTMLParser
+from typing import Dict, Iterable, List, Optional, Sequence, Tuple
+from urllib.parse import parse_qs, urlencode, urljoin, urlparse, urlunparse
 
 import requests
 from dotenv import load_dotenv
 from openai import OpenAI
 
-DEFAULT_MODEL = "gpt-5.4-mini"
 
-SOURCE_SEEDS = [
-    {
-        "name": "EUR-Lex",
-        "seed_urls": [
-            "https://eur-lex.europa.eu/search.html?scope=EURLEX&text=artificial+intelligence",
-            "https://eur-lex.europa.eu/EN/legal-content/summary/artificial-intelligence.html",
-        ],
-        "allowed_domains": {"eur-lex.europa.eu"},
-    },
-    {
-        "name": "OECD AI Policy Navigator",
-        "seed_urls": ["https://oecd.ai/en/dashboards/policy-initiatives?orderBy=startYearDesc&page=1"],
-        "allowed_domains": {"oecd.ai"},
-    },
-    {
-        "name": "Congress.gov",
-        "seed_urls": ["https://www.congress.gov/search?q=%7B%22source%22%3A%22legislation%22%2C%22search%22%3A%22artificial+intelligence%22%7D"],
-        "allowed_domains": {"www.congress.gov", "congress.gov"},
-    },
-    {
-        "name": "Federal Register",
-        "seed_urls": [
-            "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=artificial+intelligence",
-            "https://www.federalregister.gov/agencies/national-institute-of-standards-and-technology",
-        ],
-        "allowed_domains": {"www.federalregister.gov", "federalregister.gov"},
-    },
-    {
-        "name": "NIST AI pages",
-        "seed_urls": [
-            "https://www.nist.gov/artificial-intelligence",
-            "https://www.nist.gov/itl/ai-risk-management-framework",
-        ],
-        "allowed_domains": {"www.nist.gov", "nist.gov"},
-    },
-    {
-        "name": "EU AI Act Explorer",
-        "seed_urls": ["https://artificialintelligenceact.eu/"],
-        "allowed_domains": {"artificialintelligenceact.eu"},
-    },
-    {
-        "name": "LawAI Gov Hub",
-        "seed_urls": ["https://law-ai.org/"],
-        "allowed_domains": {"law-ai.org", "www.law-ai.org"},
-    },
-    {
-        "name": "UK Parliament Bills",
-        "seed_urls": [
-            "https://bills.parliament.uk/",
-            "https://www.parliament.uk/business/bills-and-legislation/",
-        ],
-        "allowed_domains": {"bills.parliament.uk", "www.parliament.uk", "parliament.uk"},
-    },
-    {
-        "name": "CAC China",
-        "seed_urls": ["https://www.cac.gov.cn/"],
-        "allowed_domains": {"www.cac.gov.cn", "cac.gov.cn"},
-    },
-    {
-        "name": "AI Incident Database",
-        "seed_urls": ["https://incidentdatabase.ai/"],
-        "allowed_domains": {"incidentdatabase.ai", "www.incidentdatabase.ai"},
-    },
-]
+DEFAULT_MODEL = "gpt-5.4-mini"
+DEFAULT_OUTPUT = "webscraper/lm_policy_clauses_multisource.json"
+
+QUERY_TERMS = (
+    "foundation model",
+    "frontier model",
+    "general-purpose AI",
+    "GPAI",
+    "large language model",
+    "LLM",
+    "generative artificial intelligence",
+    "dual-use foundation model",
+    "model safety",
+    "AI safety incident",
+)
 
 LINK_HINTS = (
-    "ai",
-    "artificial",
-    "model",
-    "llm",
     "foundation",
-    "act",
-    "bill",
-    "law",
-    "policy",
+    "frontier",
+    "general-purpose",
+    "gpai",
+    "large-language",
+    "llm",
+    "generative",
+    "artificial-intelligence",
+    "ai-",
+    "model",
+    "safety",
+    "security",
+    "risk",
+    "incident",
     "regulation",
-    "rule",
-    "guidance",
+    "bill",
+    "act",
+    "law",
+    "code",
+    "guideline",
     "framework",
-    "chapter",
-    "article",
-    "annex",
-    "title",
+    "standard",
+    "办法",
+    "规定",
+    "生成式",
+    "人工智能",
 )
 
-COMPLIANCE_POINTER_PATTERNS = (
-    "comply with the obligations in",
-    "comply with obligations in",
-    "comply with the obligations",
-    "comply with obligations",
-    "obligations applicable to chapter",
-    "in accordance with chapter",
-    "as set out in chapter",
+HARD_EXCLUDE_PATTERNS = (
+    "committee",
+    "task force",
+    "working group",
+    "advisory",
+    "appropriation",
+    "grant",
+    "procurement",
+    "copyright",
+    "training data summary",
+    "technical documentation",
+    "notify the commission",
+    "provide to the ai office",
+    "market surveillance",
+    "competent authority",
+    "member state",
+    "secretary shall",
+    "commission shall",
+    "office shall",
+    "institute shall",
+    "perform model evaluations",
+    "standardized protocols",
+    "state of the art",
+    "risk assessment",
+    "risk mitigation",
+    "manage systemic risks",
+    "make a covered model available",
+    "commercial, public, or foreseeably public use",
 )
-PROCEDURAL_EXCLUSION_PATTERNS = (
-    "respond to a commission",
-    "request for documentation",
-    "request for information",
-    "provide access to the gpai model",
-    "provide access to the model",
-    "may request providers",
-    "withdraw or recall the model",
-    "restrict the making available on the market",
+
+ATTACKABLE_RISK_KEYWORDS = (
+    "biological weapon",
+    "chemical weapon",
+    "nuclear weapon",
+    "radiological weapon",
+    "weapon",
+    "explosive",
+    "terrorism",
+    "extremism",
+    "violent",
+    "violence",
+    "self-harm",
+    "suicide",
+    "child sexual",
+    "minor",
+    "cyber",
+    "malware",
+    "phishing",
+    "vulnerability exploitation",
+    "unauthorized access",
+    "fraud",
+    "scam",
+    "deception",
+    "impersonation",
+    "deepfake",
+    "privacy",
+    "personal data",
+    "sensitive personal",
+    "biometric",
+    "discrimination",
+    "protected characteristic",
+    "hate",
+    "harassment",
+    "obscene",
+    "pornographic",
+    "false information",
+    "misinformation",
+    "disinformation",
+    "illegal content",
+    "unsafe output",
+    "prohibited content",
+    "harmful content",
+    "national security",
+    "public order",
+    "social stability",
+    "ethnic hatred",
+    "ethnic discrimination",
+    "separatism",
+    "subversion",
+    "国家安全",
+    "安全",
+    "恐怖主义",
+    "极端主义",
+    "民族仇恨",
+    "民族歧视",
+    "暴力",
+    "淫秽",
+    "色情",
+    "虚假",
+    "违法",
+    "犯罪",
+    "歧视",
+    "个人信息",
+    "隐私",
+)
+
+BROAD_GOVERNANCE_KEYWORDS = (
+    "evaluation",
+    "evaluate",
+    "red-team",
+    "red team",
+    "testing",
+    "风险",
+    "评估",
+    "监测",
+    "处置",
+    "mitigate",
+    "mitigation",
+    "incident",
+    "cybersecurity",
+    "security protocol",
+    "safeguard",
+    "monitor",
+    "robustness",
 )
 
 
-def extract_links(html, base_url):
-    links = []
-    for href in re.findall(r'href="([^"]+)"', html, flags=re.IGNORECASE):
-        if href.startswith("#") or href.startswith("mailto:") or href.startswith("javascript:"):
-            continue
-        full = urljoin(base_url, href)
-        links.append(full)
+@dataclass(frozen=True)
+class SourceConfig:
+    name: str
+    seed_urls: Tuple[str, ...]
+    allowed_domains: Tuple[str, ...]
+    api_kind: str = "html"
+
+
+SOURCES: Tuple[SourceConfig, ...] = (
+    SourceConfig(
+        name="Congress.gov",
+        seed_urls=(
+            "https://www.congress.gov/bill/118th-congress/house-bill/6881/text?format=txt",
+            "https://www.congress.gov/bill/119th-congress/house-bill/6461/text/ih?format=txt",
+            "https://www.congress.gov/bill/118th-congress/senate-bill/4178/text/is?format=txt",
+            "https://www.congress.gov/search?q=%7B%22source%22%3A%22legislation%22%2C%22search%22%3A%22foundation%20model%20artificial%20intelligence%22%7D",
+        ),
+        allowed_domains=("www.congress.gov", "congress.gov", "api.congress.gov"),
+        api_kind="congress",
+    ),
+    SourceConfig(
+        name="Federal Register",
+        seed_urls=(
+            "https://www.federalregister.gov/api/v1/documents.json?conditions%5Bterm%5D=foundation%20model%20artificial%20intelligence&per_page=20&order=newest",
+            "https://www.federalregister.gov/api/v1/documents.json?conditions%5Bterm%5D=dual-use%20foundation%20model&per_page=20&order=newest",
+            "https://www.federalregister.gov/api/v1/documents.json?conditions%5Bterm%5D=generative%20artificial%20intelligence%20model%20safety&per_page=20&order=newest",
+        ),
+        allowed_domains=("www.federalregister.gov", "federalregister.gov"),
+        api_kind="federal_register",
+    ),
+    SourceConfig(
+        name="California Legislature",
+        seed_urls=(
+            "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "https://leginfo.legislature.ca.gov/faces/billVersionsCompareClient.xhtml?bill_id=202520260SB53",
+            "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202520260SB813",
+            "https://leginfo.legislature.ca.gov/faces/billSearchClient.xhtml?session_year=20252026&keyword=artificial%20intelligence",
+        ),
+        allowed_domains=("leginfo.legislature.ca.gov", "www.leginfo.legislature.ca.gov"),
+    ),
+    SourceConfig(
+        name="EUR-Lex",
+        seed_urls=(
+            "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1689",
+            "https://eur-lex.europa.eu/search.html?scope=EURLEX&text=general-purpose%20AI%20model",
+            "https://eur-lex.europa.eu/search.html?scope=EURLEX&text=foundation%20model%20artificial%20intelligence",
+        ),
+        allowed_domains=("eur-lex.europa.eu",),
+    ),
+    SourceConfig(
+        name="EU AI Office",
+        seed_urls=(
+            "https://digital-strategy.ec.europa.eu/en/factpages/general-purpose-ai-obligations-under-ai-act",
+            "https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai",
+            "https://digital-strategy.ec.europa.eu/en/policies/guidelines-gpai-providers",
+            "https://digital-strategy.ec.europa.eu/en/faqs/guidelines-obligations-general-purpose-ai-providers",
+        ),
+        allowed_domains=("digital-strategy.ec.europa.eu",),
+    ),
+    SourceConfig(
+        name="UK AISI",
+        seed_urls=(
+            "https://www.aisi.gov.uk/",
+            "https://www.aisi.gov.uk/work",
+            "https://www.aisi.gov.uk/work/principles-for-safeguard-evaluation",
+            "https://www.gov.uk/government/organisations/ai-security-institute",
+        ),
+        allowed_domains=("www.aisi.gov.uk", "aisi.gov.uk", "www.gov.uk", "gov.uk"),
+    ),
+    SourceConfig(
+        name="CAC China",
+        seed_urls=(
+            "https://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm",
+            "https://www.cac.gov.cn/2024-04/02/c_1713729983803145.htm",
+            "https://www.cac.gov.cn/",
+        ),
+        allowed_domains=("www.cac.gov.cn", "cac.gov.cn"),
+    ),
+    SourceConfig(
+        name="NIST AI",
+        seed_urls=(
+            "https://www.nist.gov/artificial-intelligence",
+            "https://www.nist.gov/itl/ai-risk-management-framework",
+            "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+            "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-1.ipd2.pdf",
+        ),
+        allowed_domains=("www.nist.gov", "nist.gov", "nvlpubs.nist.gov"),
+    ),
+    SourceConfig(
+        name="OECD AI Observatory",
+        seed_urls=(
+            "https://oecd.ai/en/dashboards/policy-initiatives?orderBy=startYearDesc&page=1",
+            "https://oecd.ai/en/wonk/documents",
+            "https://oecd.ai/en/ai-principles",
+        ),
+        allowed_domains=("oecd.ai", "www.oecd.ai", "wp.oecd.ai"),
+    ),
+    SourceConfig(
+        name="AI Incident Database",
+        seed_urls=(
+            "https://incidentdatabase.ai/",
+            "https://incidentdatabase.ai/apps/discover",
+            "https://incidentdatabase.ai/taxonomies/",
+        ),
+        allowed_domains=("incidentdatabase.ai", "www.incidentdatabase.ai"),
+    ),
+)
+
+
+class PageParser(HTMLParser):
+    def __init__(self, base_url: str):
+        super().__init__(convert_charrefs=True)
+        self.base_url = base_url
+        self.text_parts: List[str] = []
+        self.links: List[Dict[str, str]] = []
+        self.title_parts: List[str] = []
+        self._skip_depth = 0
+        self._in_title = False
+        self._anchor_href: Optional[str] = None
+        self._anchor_text: List[str] = []
+
+    def handle_starttag(self, tag: str, attrs: List[Tuple[str, Optional[str]]]) -> None:
+        tag = tag.lower()
+        attrs_dict = {key.lower(): value for key, value in attrs if value is not None}
+        if tag in {"script", "style", "noscript", "svg"}:
+            self._skip_depth += 1
+            return
+        if self._skip_depth:
+            return
+        if tag == "title":
+            self._in_title = True
+        if tag == "a" and attrs_dict.get("href"):
+            self._anchor_href = urljoin(self.base_url, attrs_dict["href"])
+            self._anchor_text = []
+        if tag in {"p", "br", "div", "section", "article", "li", "tr", "h1", "h2", "h3", "h4"}:
+            self.text_parts.append("\n")
+
+    def handle_endtag(self, tag: str) -> None:
+        tag = tag.lower()
+        if tag in {"script", "style", "noscript", "svg"} and self._skip_depth:
+            self._skip_depth -= 1
+            return
+        if self._skip_depth:
+            return
+        if tag == "title":
+            self._in_title = False
+        if tag == "a" and self._anchor_href:
+            text = normalize_ws(" ".join(self._anchor_text))
+            if self._anchor_href and is_http_url(self._anchor_href):
+                self.links.append({"url": self._anchor_href, "text": text})
+            self._anchor_href = None
+            self._anchor_text = []
+        if tag in {"p", "div", "section", "article", "li", "tr", "h1", "h2", "h3", "h4"}:
+            self.text_parts.append("\n")
+
+    def handle_data(self, data: str) -> None:
+        if self._skip_depth:
+            return
+        if self._in_title:
+            self.title_parts.append(data)
+        if self._anchor_href:
+            self._anchor_text.append(data)
+        self.text_parts.append(data)
+
+    @property
+    def title(self) -> str:
+        return normalize_ws(" ".join(self.title_parts))
+
+    @property
+    def text(self) -> str:
+        lines = [normalize_ws(line) for line in "".join(self.text_parts).splitlines()]
+        return "\n".join(line for line in lines if line)
+
+
+def normalize_ws(value: str) -> str:
+    return " ".join(unescape(value or "").split())
+
+
+def is_http_url(url: str) -> bool:
+    return urlparse(url).scheme in {"http", "https"}
+
+
+def canonicalize_url(url: str) -> str:
+    parsed = urlparse(url)
+    query = parse_qs(parsed.query, keep_blank_values=True)
+    tracking_prefixes = ("utm_",)
+    cleaned_query = {
+        key: values
+        for key, values in query.items()
+        if not key.startswith(tracking_prefixes) and key not in {"fbclid", "gclid"}
+    }
+    return urlunparse(
+        (
+            parsed.scheme,
+            parsed.netloc.lower(),
+            parsed.path.rstrip("/") or "/",
+            "",
+            urlencode(cleaned_query, doseq=True),
+            "",
+        )
+    )
+
+
+def domain_allowed(url: str, allowed_domains: Sequence[str]) -> bool:
+    domain = urlparse(url).netloc.lower()
+    return any(domain == allowed or domain.endswith("." + allowed) for allowed in allowed_domains)
+
+
+def score_link(link: Dict[str, str]) -> int:
+    haystack = f"{link.get('url', '')} {link.get('text', '')}".lower()
+    score = sum(3 for hint in LINK_HINTS if hint in haystack)
+    score += sum(4 for term in QUERY_TERMS if term.lower() in haystack)
+    if any(ext in haystack for ext in (".pdf", "format=txt", "text", "billnav", "billtext")):
+        score += 2
+    if any(bad in haystack for bad in ("facebook", "twitter", "linkedin", "mailto:", "javascript:")):
+        score -= 20
+    return score
+
+
+def extract_json_text(obj, max_chars: int = 120000) -> str:
+    return json.dumps(obj, ensure_ascii=False, indent=2)[:max_chars]
+
+
+def extract_pdf_text(content: bytes, url: str) -> Tuple[str, str]:
+    try:
+        import pypdf  # type: ignore
+
+        reader = pypdf.PdfReader(io.BytesIO(content))
+        text = "\n".join(page.extract_text() or "" for page in reader.pages)
+        return text, ""
+    except Exception:
+        pass
+
+    pdftotext = shutil.which("pdftotext")
+    if not pdftotext:
+        return "", "PDF skipped: install pypdf or pdftotext to extract PDF text."
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        pdf_path = os.path.join(tmpdir, "source.pdf")
+        txt_path = os.path.join(tmpdir, "source.txt")
+        with open(pdf_path, "wb") as f:
+            f.write(content)
+        try:
+            subprocess.run(
+                [pdftotext, "-layout", pdf_path, txt_path],
+                check=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
+            with open(txt_path, "r", encoding="utf-8", errors="replace") as f:
+                return f.read(), ""
+        except Exception as exc:
+            return "", f"PDF skipped for {url}: {exc}"
+
+
+def fetch_page(session: requests.Session, source: SourceConfig, url: str, max_page_chars: int) -> Dict[str, object]:
+    resp = session.get(url, timeout=40)
+    resp.raise_for_status()
+
+    content_type = resp.headers.get("content-type", "").lower()
+    title = ""
+    links: List[Dict[str, str]] = []
+    warning = ""
+
+    if "application/json" in content_type or url.endswith(".json"):
+        data = resp.json()
+        text = extract_json_text(data, max_page_chars)
+        links = links_from_json(data, url)
+        title = json_title(data) or source.name
+    elif "application/pdf" in content_type or urlparse(url).path.lower().endswith(".pdf"):
+        text, warning = extract_pdf_text(resp.content, url)
+        text = text[:max_page_chars]
+        title = os.path.basename(urlparse(url).path)
+    else:
+        parser = PageParser(url)
+        parser.feed(resp.text)
+        text = parser.text[:max_page_chars]
+        links = parser.links
+        title = parser.title or first_text_line(text) or source.name
+
+    return {
+        "source_name": source.name,
+        "url": url,
+        "title": title,
+        "published_date": infer_date(resp.text if "application/pdf" not in content_type else "", url),
+        "text": text,
+        "links": links,
+        "warning": warning,
+        "content_type": content_type,
+        "extractable": not is_discovery_only_url(url, source),
+    }
+
+
+def is_discovery_only_url(url: str, source: SourceConfig) -> bool:
+    parsed = urlparse(url)
+    path = parsed.path.lower()
+    query = parsed.query.lower()
+    if source.api_kind == "congress" and parsed.netloc.lower() == "api.congress.gov":
+        return True
+    if source.api_kind == "federal_register" and path.endswith("/documents.json"):
+        return True
+    if "search" in path or "search" in query:
+        return True
+    if "billsearchclient.xhtml" in path:
+        return True
+    if "dashboards/" in path or "/apps/discover" in path:
+        return True
+    return False
+
+
+def first_text_line(text: str) -> str:
+    for line in text.splitlines():
+        line = normalize_ws(line)
+        if line:
+            return line[:180]
+    return ""
+
+
+def links_from_json(obj, base_url: str) -> List[Dict[str, str]]:
+    links: List[Dict[str, str]] = []
+
+    def visit(value) -> None:
+        if isinstance(value, dict):
+            url = value.get("html_url") or value.get("url") or value.get("link")
+            title = value.get("title") or value.get("name") or value.get("document_number") or ""
+            if isinstance(url, str) and is_http_url(url):
+                links.append({"url": urljoin(base_url, url), "text": normalize_ws(str(title))})
+            for nested in value.values():
+                visit(nested)
+        elif isinstance(value, list):
+            for item in value:
+                visit(item)
+
+    visit(obj)
     return links
 
 
-def extract_anchor_pairs(html, base_url):
-    pairs = []
-    anchor_pattern = re.compile(r"<a[^>]*href=\"([^\"]+)\"[^>]*>([\s\S]*?)</a>", flags=re.IGNORECASE)
-    for href, inner in anchor_pattern.findall(html):
-        if href.startswith("#") or href.startswith("mailto:") or href.startswith("javascript:"):
-            continue
-        full = urljoin(base_url, href)
-        text = re.sub(r"<[^>]+>", " ", inner)
-        text = " ".join(unescape(text).split())
-        pairs.append({"url": full, "text": text})
-    return pairs
+def json_title(obj) -> str:
+    if isinstance(obj, dict):
+        for key in ("title", "name", "document_number"):
+            if obj.get(key):
+                return normalize_ws(str(obj[key]))
+        if isinstance(obj.get("results"), list) and obj["results"]:
+            return "JSON results"
+    return ""
 
 
-def clean_text(html):
-    text = re.sub(r"<script[\s\S]*?</script>", " ", html, flags=re.IGNORECASE)
-    text = re.sub(r"<style[\s\S]*?</style>", " ", text, flags=re.IGNORECASE)
-    text = re.sub(r"<[^>]+>", "\n", text)
-    text = unescape(text)
-    lines = [" ".join(line.split()) for line in text.splitlines()]
-    joined = "\n".join(line for line in lines if line)
-    return joined[:50000]
+def infer_date(html: str, url: str) -> str:
+    candidates = [
+        r'property=["\']article:published_time["\'][^>]+content=["\']([^"\']+)',
+        r'name=["\']dcterms\.created["\'][^>]+content=["\']([^"\']+)',
+        r'name=["\']date["\'][^>]+content=["\']([^"\']+)',
+        r"Date Published:\s*([0-9]{2}/[0-9]{2}/[0-9]{4})",
+        r"([12][0-9]{3}-[01][0-9]-[0-3][0-9])",
+    ]
+    haystack = html + "\n" + url
+    for pattern in candidates:
+        match = re.search(pattern, haystack, flags=re.IGNORECASE)
+        if match:
+            return normalize_ws(match.group(1))
+    return ""
 
 
-def is_allowed(url, allowed_domains):
-    domain = urlparse(url).netloc.lower()
-    return domain in allowed_domains
+def discover_congress_api_urls(session: requests.Session) -> List[str]:
+    api_key = os.getenv("CONGRESS_API_KEY", "").strip()
+    if not api_key:
+        return []
 
-
-def score_link(url):
-    lowered = url.lower()
-    return sum(1 for hint in LINK_HINTS if hint in lowered)
-
-
-def crawl_source(session, source_cfg, pages_per_source, delay_seconds):
-    queue = deque(source_cfg["seed_urls"])
-    visited = set()
-    pages = []
-
-    while queue and len(pages) < pages_per_source:
-        url = queue.popleft()
-        if url in visited:
-            continue
-        visited.add(url)
-
-        if not is_allowed(url, source_cfg["allowed_domains"]):
-            continue
-
+    urls: List[str] = []
+    endpoint = "https://api.congress.gov/v3/bill"
+    for term in ("foundation model", "large language model", "generative artificial intelligence"):
+        params = {
+            "format": "json",
+            "limit": 20,
+            "sort": "updateDate+desc",
+            "query": term,
+            "api_key": api_key,
+        }
         try:
-            resp = session.get(url, timeout=30)
+            resp = session.get(endpoint, params=params, timeout=30)
             resp.raise_for_status()
+            for bill in resp.json().get("bills", []):
+                congress = bill.get("congress")
+                bill_type = str(bill.get("type", "")).lower()
+                number = bill.get("number")
+                if congress and bill_type and number:
+                    urls.append(
+                        f"https://api.congress.gov/v3/bill/{congress}/{bill_type}/{number}/text"
+                        f"?format=json&api_key={api_key}"
+                    )
         except Exception:
             continue
+    return urls
 
-        html = resp.text
-        pages.append(
-            {
-                "source_name": source_cfg["name"],
-                "url": url,
-                "html": html,
-                "text": clean_text(html),
-            }
-        )
 
-        links = extract_links(html, url)
-        links = [lnk for lnk in links if is_allowed(lnk, source_cfg["allowed_domains"])]
-        links = sorted(set(links), key=score_link, reverse=True)
-        for lnk in links[:20]:
-            if lnk not in visited:
-                queue.append(lnk)
+def expand_api_page_links(page: Dict[str, object], source: SourceConfig) -> List[Dict[str, str]]:
+    if source.api_kind != "federal_register":
+        return []
+    try:
+        data = json.loads(str(page.get("text") or "{}"))
+    except Exception:
+        return []
+    out = []
+    for result in data.get("results", []):
+        html_url = result.get("html_url")
+        if html_url:
+            out.append({"url": html_url, "text": result.get("title", "")})
+    return out
+
+
+def crawl_source(
+    session: requests.Session,
+    source: SourceConfig,
+    pages_per_source: int,
+    max_depth: int,
+    max_links_per_page: int,
+    delay_seconds: float,
+    max_page_chars: int,
+) -> Tuple[List[Dict[str, object]], List[str]]:
+    queue: deque[Tuple[str, int]] = deque((url, 0) for url in source.seed_urls)
+    warnings: List[str] = []
+
+    if source.api_kind == "congress":
+        for url in discover_congress_api_urls(session):
+            queue.append((url, 0))
+
+    pages: List[Dict[str, object]] = []
+    visited = set()
+
+    while queue and len(pages) < pages_per_source:
+        url, depth = queue.popleft()
+        if not is_http_url(url) or not domain_allowed(url, source.allowed_domains):
+            continue
+        canonical = canonicalize_url(url)
+        if canonical in visited:
+            continue
+        visited.add(canonical)
+
+        try:
+            page = fetch_page(session, source, url, max_page_chars=max_page_chars)
+        except Exception as exc:
+            warnings.append(f"{source.name}: failed to fetch {url}: {exc}")
+            continue
+
+        if page.get("warning"):
+            warnings.append(f"{source.name}: {page['warning']}")
+        if page.get("text"):
+            pages.append(page)
+
+        if depth >= max_depth:
+            time.sleep(delay_seconds)
+            continue
+
+        links = list(page.get("links") or [])
+        links.extend(expand_api_page_links(page, source))
+        links = [
+            link
+            for link in links
+            if is_http_url(link.get("url", "")) and domain_allowed(link["url"], source.allowed_domains)
+        ]
+        links.sort(key=score_link, reverse=True)
+        for link in links[:max_links_per_page]:
+            if score_link(link) > 0:
+                queue.append((link["url"], depth + 1))
 
         time.sleep(delay_seconds)
-    return pages
+
+    return pages, warnings
 
 
-def extract_clauses_with_model(client, model, page, allow_pointers=True):
-    system_prompt = (
-        "You are an exacting legal-policy extractor for AIR-BENCH.\n"
-        "Your job is to return only specific, concrete regulations ON LLM/foundation-model safety.\n"
-        "Return clauses in English. If source text is non-English, translate faithfully.\n"
-        "Do not output paraphrased inventions; stay faithful to source text."
-    )
-    pointer_rule = (
-        '- If a sentence is a pointer (e.g., "must comply with obligations in Chapter/Article X"), set "is_pointer": true and include a short "pointer_ref".\n'
-        '- For concrete obligations, set "is_pointer": false and "pointer_ref": "".\n'
-        if allow_pointers
-        else '- Exclude pointer-only statements and keep only concrete obligations stated directly in this text.\n'
-    )
-    user_prompt = f"""
-Extract only regulation-grade clauses relevant to LLM/foundation-model safety.
+def chunk_text(text: str, max_chars: int) -> List[str]:
+    if len(text) <= max_chars:
+        return [text]
+    chunks: List[str] = []
+    current: List[str] = []
+    current_len = 0
+    for para in text.splitlines():
+        para = para.strip()
+        if not para:
+            continue
+        if len(para) > max_chars:
+            if current:
+                chunks.append("\n".join(current))
+                current = []
+                current_len = 0
+            for start in range(0, len(para), max_chars):
+                chunks.append(para[start : start + max_chars])
+            continue
+        if current_len + len(para) + 1 > max_chars and current:
+            chunks.append("\n".join(current))
+            current = []
+            current_len = 0
+        current.append(para)
+        current_len += len(para) + 1
+    if current:
+        chunks.append("\n".join(current))
+    return chunks
 
-Return JSON only in this exact format:
+
+def parse_model_json(content: str) -> Dict[str, object]:
+    try:
+        return json.loads(content)
+    except json.JSONDecodeError:
+        match = re.search(r"\{[\s\S]*\}", content)
+        if not match:
+            raise
+        return json.loads(match.group(0))
+
+
+def chat_json(client: OpenAI, model: str, messages: List[Dict[str, str]], max_tokens: int = 3000) -> Dict[str, object]:
+    kwargs = {
+        "model": model,
+        "messages": messages,
+        "response_format": {"type": "json_object"},
+        "max_completion_tokens": max_tokens,
+    }
+    try:
+        response = client.chat.completions.create(**kwargs, temperature=0)
+    except Exception as first_exc:
+        try:
+            response = client.chat.completions.create(**kwargs)
+        except Exception:
+            raise first_exc
+    content = response.choices[0].message.content or "{}"
+    return parse_model_json(content)
+
+
+def extraction_prompt(page: Dict[str, object], chunk: str) -> List[Dict[str, str]]:
+    system_prompt = """You are an exacting legal-policy clause extractor for AIR-BENCH.
+Extract only source-grounded policy clauses that can become concrete LM/foundation-model red-team categories.
+Return faithful English clauses. If source text is non-English, translate the clause faithfully.
+Do not invent, summarize broadly, classify, or include reasoning."""
+
+    user_prompt = f"""Return JSON only:
 {{
   "items": [
     {{
-      "clause": "string",
-      "source_url": "{page['url']}",
-      "source_site": "{page['source_name']}",
-      "is_pointer": false,
-      "pointer_ref": ""
+      "clause": "one faithful policy clause in English",
+      "published_date": "YYYY-MM-DD or source date if visible, else empty string"
     }}
   ]
 }}
 
-Rules:
-- Only include a clause if it passes ALL gates:
-  1) It is an explicit regulatory requirement/prohibition/duty (not a principle).
-  2) It targets LLM/foundation/GPAI model safety behavior or controls.
-  3) It is specific enough to map to an AIR-BENCH level 4 risk category.
-  4) It is grounded in the page text (faithful extraction/translation, no invention).
-  5) It is not a meta-pointer unless allow_pointers behavior below applies.
-- EXCLUDE clauses about: general compliance references, chapter/article pointers without concrete duty text, market-entry formalities, generic documentation duties, copyright-only duties, institutional setup, regulator/member-state tasks, broad policy aspirations.
-- EXCLUDE clauses about: regulator-interaction procedures (e.g., responding to authority info requests, providing model access for inspection) and authority enforcement powers (e.g., withdrawal/recall/restriction powers), unless the clause itself states a direct provider safety-control duty.
-- Prefer clauses with concrete safety controls: evaluation/testing/red-teaming, risk assessment/mitigation, incident reporting, security hardening, misuse prevention, monitoring, escalation, shutdown/suspension triggers.
-{pointer_rule}
-- Skip content unrelated to LLM/foundation-model safety.
-- If no valid clauses exist, return an empty items list.
+Extraction gates. Include a clause only if all gates pass:
+1. It is directly about what an LM/foundation model/GPAI/generative AI service must not generate, must refuse, must prevent users from doing with the model, or must specifically block as model behavior.
+2. It names a concrete harmful content, capability, misuse, or victim/rights category that could be tested with attack prompts.
+3. It is narrow enough to become or support an AIR-BENCH level-4 risk category without adding missing facts.
+4. It is grounded in the page text below.
 
-PAGE TEXT:
-{page['text']}
-"""
+Good clauses name risks such as: CBRN or weapon assistance, cyber intrusion/malware/phishing, terrorism or extremism, child sexual abuse, sexual/violent/obscene content, self-harm, fraud or impersonation, privacy/personal-data abuse, discriminatory outputs, hate/harassment, unlawful deception, election/political manipulation, illegal content, or concrete national-security/public-order harms.
 
-    response = client.chat.completions.create(
-        model=model,
-        response_format={"type": "json_object"},
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt},
-        ],
-        temperature=0.0,
-    )
+Exclude:
+- provider/company governance duties such as evaluations, red-teaming, risk assessment, risk mitigation, cybersecurity programs, incident reporting, model cards, documentation, transparency, registration, or market-release conditions, unless the same clause explicitly names a concrete harmful output/capability category;
+- vague language like "systemic risk", "critical harm", "unreasonable risk", "safe and secure", "trustworthy AI", or "materially enable harm" unless the clause itself lists the specific harm category;
+- principles, aspirations, news, commentary, incidents, research-only best practices, and press descriptions;
+- regulator duties, office duties, committee duties, market-surveillance powers, and agency procedures;
+- generic AI-system rules that do not directly concern foundation/frontier/GPAI/generative models or generative AI service outputs;
+- copyright-only and transparency-only obligations.
 
-    parsed = json.loads(response.choices[0].message.content)
-    return parsed.get("items", [])
+Litmus test: If you cannot imagine a red-team prompt that asks the model to violate the exact clause, do not include it.
+
+Source name: {page.get('source_name', '')}
+Source URL: {page.get('url', '')}
+Source title: {page.get('title', '')}
+
+PAGE TEXT CHUNK:
+{chunk}"""
+
+    return [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_prompt},
+    ]
 
 
-def dedupe(records):
-    out = []
-    seen = set()
-    for rec in records:
-        clause = " ".join((rec.get("clause") or "").split())
-        source_url = (rec.get("source_url") or "").strip()
-        source_site = (rec.get("source_site") or "").strip()
-        if not clause or not source_url:
+def gate_prompt(item: Dict[str, str]) -> List[Dict[str, str]]:
+    system_prompt = """You are a strict final gate for AIR-BENCH policy clauses.
+Return KEEP only when the clause names a concrete harmful output, misuse capability, or rights violation that can be attacked with prompts.
+Return DROP for provider governance duties, evaluations, risk assessments, mitigation programs, broad critical-harm language, institutions, incidents, transparency, copyright, or anything too vague for a level-4 benchmark category."""
+    user_prompt = f"""Clause:
+{item.get('clause', '')}
+
+Source:
+{item.get('source_name', '')} - {item.get('source_title', '')} - {item.get('source_url', '')}
+
+Return JSON only:
+{{"decision":"KEEP or DROP"}}"""
+    return [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_prompt},
+    ]
+
+
+def normalize_clause_record(raw: Dict[str, object], page: Dict[str, object]) -> Optional[Dict[str, str]]:
+    clause = normalize_ws(str(raw.get("clause") or ""))
+    if len(clause.split()) < 8:
+        return None
+    lowered = clause.lower()
+    has_attackable_risk = any(keyword in lowered for keyword in ATTACKABLE_RISK_KEYWORDS)
+    has_only_broad_governance = any(keyword in lowered for keyword in BROAD_GOVERNANCE_KEYWORDS)
+    if not has_attackable_risk:
+        return None
+    if any(pattern in lowered for pattern in HARD_EXCLUDE_PATTERNS):
+        return None
+    if has_only_broad_governance and not has_attackable_risk:
+        return None
+    return {
+        "clause": clause,
+        "source_name": str(page.get("source_name") or ""),
+        "source_url": str(page.get("url") or ""),
+        "source_title": normalize_ws(str(page.get("title") or "")),
+        "published_date": normalize_ws(str(raw.get("published_date") or page.get("published_date") or "")),
+    }
+
+
+def extract_page_items(
+    client: OpenAI,
+    model: str,
+    page: Dict[str, object],
+    chunk_chars: int,
+    max_chunks_per_page: int,
+) -> Tuple[List[Dict[str, str]], List[str]]:
+    items: List[Dict[str, str]] = []
+    warnings: List[str] = []
+    text = str(page.get("text") or "")
+    for chunk_idx, chunk in enumerate(chunk_text(text, chunk_chars)[:max_chunks_per_page], start=1):
+        try:
+            parsed = chat_json(client, model, extraction_prompt(page, chunk))
+        except Exception as exc:
+            warnings.append(f"{page.get('source_name')}: extraction failed for {page.get('url')} chunk {chunk_idx}: {exc}")
             continue
-        key = (clause.lower(), source_url.lower())
+        for raw in parsed.get("items", []) if isinstance(parsed.get("items"), list) else []:
+            if isinstance(raw, dict):
+                record = normalize_clause_record(raw, page)
+                if record:
+                    items.append(record)
+    return items, warnings
+
+
+def dedupe_items(items: Iterable[Dict[str, str]]) -> List[Dict[str, str]]:
+    out: List[Dict[str, str]] = []
+    seen = set()
+    for item in items:
+        clause_key = re.sub(r"[^a-z0-9\u4e00-\u9fff]+", " ", item["clause"].lower()).strip()
+        source_key = canonicalize_url(item["source_url"])
+        key = (clause_key, source_key)
         if key in seen:
             continue
         seen.add(key)
-        out.append(
-            {
-                "clause": clause,
-                "source_url": source_url,
-                "source_site": source_site,
-                "is_pointer": bool(rec.get("is_pointer", False)),
-                "pointer_ref": (rec.get("pointer_ref") or "").strip(),
-            }
-        )
+        out.append(item)
     return out
 
 
-def passes_hard_filter(clause):
-    lowered = clause.lower()
-    is_compliance_pointer_only = any(pattern in lowered for pattern in COMPLIANCE_POINTER_PATTERNS)
-    is_procedural_or_enforcement = any(pattern in lowered for pattern in PROCEDURAL_EXCLUSION_PATTERNS)
-    long_enough = len(clause.split()) >= 8
-    if is_compliance_pointer_only:
-        return False
-    if is_procedural_or_enforcement:
-        return False
-    if "comply" in lowered and "obligation" in lowered and ("chapter" in lowered or "article" in lowered):
-        return False
-    return long_enough
+def final_gate_items(client: OpenAI, model: str, items: List[Dict[str, str]]) -> Tuple[List[Dict[str, str]], List[str]]:
+    kept: List[Dict[str, str]] = []
+    warnings: List[str] = []
+    for item in items:
+        try:
+            parsed = chat_json(client, model, gate_prompt(item), max_tokens=200)
+            decision = str(parsed.get("decision") or "").strip().upper()
+            if decision == "KEEP":
+                kept.append(item)
+        except Exception as exc:
+            warnings.append(f"gate failed for {item.get('source_url')}: {exc}")
+    return kept, warnings
 
 
-def resolve_pointer_urls(page, pointer_ref):
-    if not pointer_ref:
-        return []
-    tokens = [tok for tok in re.split(r"[^a-z0-9]+", pointer_ref.lower()) if tok]
-    anchors = extract_anchor_pairs(page.get("html", ""), page["url"])
-    ranked = []
-    for anchor in anchors:
-        hay = f"{anchor['text']} {anchor['url']}".lower()
-        overlap = sum(1 for tok in tokens if tok in hay)
-        if overlap == 0:
-            continue
-        if any(key in hay for key in ("chapter", "article", "annex", "title", "gpa", "general-purpose")):
-            overlap += 2
-        ranked.append((overlap, anchor["url"]))
-    ranked.sort(reverse=True)
-    out = []
-    seen = set()
-    for _, url in ranked:
-        if url in seen:
-            continue
-        seen.add(url)
-        out.append(url)
-        if len(out) >= 5:
-            break
-    return out
+def selected_sources(names: Sequence[str]) -> Tuple[SourceConfig, ...]:
+    if not names:
+        return SOURCES
+    wanted = {name.strip().lower() for name in names}
+    found = tuple(source for source in SOURCES if source.name.lower() in wanted)
+    missing = sorted(wanted - {source.name.lower() for source in found})
+    if missing:
+        raise ValueError(f"Unknown source(s): {', '.join(missing)}")
+    return found
 
 
-def fetch_page(session, source_name, url):
-    try:
-        resp = session.get(url, timeout=30)
-        resp.raise_for_status()
-    except Exception:
-        return None
-    html = resp.text
-    return {
-        "source_name": source_name,
-        "url": url,
-        "html": html,
-        "text": clean_text(html),
-    }
+def write_json(path: str, payload) -> None:
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2, ensure_ascii=False)
+        f.write("\n")
 
 
-def safety_gate_with_model(client, model, clause):
-    system_prompt = (
-        "You are a strict AIR-BENCH clause gate.\n"
-        "Return YES only if the clause is a specific regulation ON LLM/foundation-model safety controls.\n"
-        "Return NO for generic AI duties, transparency-only labeling, documentation-only duties, market/admin/procedural obligations, and regulator enforcement powers."
-    )
-    user_prompt = f"""Clause:
-{clause}
-
-Decision rule:
-- YES only if this is directly about model safety controls (e.g., evaluation/red-team/risk mitigation/incident reporting/cybersecurity robustness/misuse prevention/monitoring safeguards).
-- NO otherwise.
-
-Return JSON only:
-{{"keep":"YES|NO"}}
-"""
-    try:
-        response = client.chat.completions.create(
-            model=model,
-            response_format={"type": "json_object"},
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
-            temperature=0.0,
-        )
-        parsed = json.loads(response.choices[0].message.content)
-        keep_raw = str(parsed.get("keep", "")).strip().upper()
-        return keep_raw.startswith("YES")
-    except Exception:
-        return False
-
-
-def main():
-    load_dotenv()
-
+def build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Multi-source LLM safety clause scraper using an OpenAI model."
+        description="Scrape policy clauses that directly regulate LM/foundation-model/GPAI safety."
     )
-    parser.add_argument("--output", default="webscraper/lm_policy_clauses_multisource.json")
-    parser.add_argument("--model", default=DEFAULT_MODEL)
-    parser.add_argument("--pages-per-source", type=int, default=4)
-    parser.add_argument("--delay-seconds", type=float, default=0.2)
+    parser.add_argument("--output", default=DEFAULT_OUTPUT, help="JSON array output path.")
+    parser.add_argument("--report", default="", help="Optional crawl report JSON path.")
+    parser.add_argument("--model", default=os.getenv("OPENAI_MODEL", DEFAULT_MODEL))
+    parser.add_argument("--source", action="append", default=[], help="Limit to one source name. Repeatable.")
+    parser.add_argument("--pages-per-source", type=int, default=8)
+    parser.add_argument("--max-depth", type=int, default=1)
+    parser.add_argument("--max-links-per-page", type=int, default=12)
+    parser.add_argument("--max-page-chars", type=int, default=180000)
+    parser.add_argument("--chunk-chars", type=int, default=60000)
+    parser.add_argument("--max-chunks-per-page", type=int, default=4)
+    parser.add_argument("--delay-seconds", type=float, default=0.35)
+    parser.add_argument("--skip-final-gate", action="store_true")
+    parser.add_argument("--list-sources", action="store_true")
+    parser.add_argument("--dry-run", action="store_true", help="Validate configuration without fetching or calling OpenAI.")
+    return parser
+
+
+def main() -> int:
+    load_dotenv()
+    parser = build_arg_parser()
     args = parser.parse_args()
 
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        raise RuntimeError("OPENAI_API_KEY is not set.")
+    if args.list_sources:
+        for source in SOURCES:
+            print(source.name)
+        return 0
+
+    try:
+        sources = selected_sources(args.source)
+    except ValueError as exc:
+        parser.error(str(exc))
+        return 2
+
+    if args.dry_run:
+        print(f"Configured {len(sources)} source(s); output={args.output}; model={args.model}")
+        return 0
+
+    if not os.getenv("OPENAI_API_KEY"):
+        raise RuntimeError("OPENAI_API_KEY is not set. Add it to .env or the environment.")
 
     session = requests.Session()
-    session.headers.update({"User-Agent": "AIR-BENCH-multisource-policy-scraper/1.0"})
+    session.headers.update(
+        {
+            "User-Agent": "AIR-BENCH-LM-safety-policy-scraper/1.0 (research; clause extraction)",
+            "Accept": "text/html,application/xhtml+xml,application/xml,application/json,application/pdf;q=0.9,*/*;q=0.8",
+        }
+    )
+    client = OpenAI()
 
-    crawled_pages = []
-    for source_cfg in SOURCE_SEEDS:
-        crawled_pages.extend(
-            crawl_source(
-                session=session,
-                source_cfg=source_cfg,
-                pages_per_source=args.pages_per_source,
-                delay_seconds=args.delay_seconds,
-            )
+    all_pages: List[Dict[str, object]] = []
+    all_warnings: List[str] = []
+    for source in sources:
+        print(f"[crawl] {source.name}", file=sys.stderr)
+        pages, warnings = crawl_source(
+            session=session,
+            source=source,
+            pages_per_source=args.pages_per_source,
+            max_depth=args.max_depth,
+            max_links_per_page=args.max_links_per_page,
+            delay_seconds=args.delay_seconds,
+            max_page_chars=args.max_page_chars,
         )
+        all_pages.extend(pages)
+        all_warnings.extend(warnings)
 
-    client = OpenAI(api_key=api_key)
-    raw_records = []
-    pointer_records = []
-    for page in crawled_pages:
-        try:
-            extracted = extract_clauses_with_model(client, args.model, page, allow_pointers=True)
-            for rec in extracted:
-                if rec.get("is_pointer"):
-                    pointer_records.append((page, rec))
-                else:
-                    raw_records.append(rec)
-        except Exception:
+    raw_items: List[Dict[str, str]] = []
+    for page in all_pages:
+        if not page.get("extractable", True):
+            print(f"[skip] discovery-only {page.get('source_name')} - {page.get('url')}", file=sys.stderr)
             continue
+        print(f"[extract] {page.get('source_name')} - {page.get('url')}", file=sys.stderr)
+        items, warnings = extract_page_items(
+            client=client,
+            model=args.model,
+            page=page,
+            chunk_chars=args.chunk_chars,
+            max_chunks_per_page=args.max_chunks_per_page,
+        )
+        raw_items.extend(items)
+        all_warnings.extend(warnings)
 
-    resolved_pages = []
-    seen_resolved = set()
-    for parent_page, pointer in pointer_records:
-        for ref_url in resolve_pointer_urls(parent_page, pointer.get("pointer_ref", "")):
-            if ref_url in seen_resolved:
-                continue
-            seen_resolved.add(ref_url)
-            page = fetch_page(session, parent_page["source_name"], ref_url)
-            if page:
-                resolved_pages.append(page)
+    items = dedupe_items(raw_items)
+    if not args.skip_final_gate:
+        items, gate_warnings = final_gate_items(client, args.model, items)
+        all_warnings.extend(gate_warnings)
 
-    for page in resolved_pages:
-        try:
-            raw_records.extend(extract_clauses_with_model(client, args.model, page, allow_pointers=False))
-        except Exception:
-            continue
+    items = dedupe_items(items)
+    items.sort(key=lambda item: (item["source_name"], item["source_title"], item["clause"]))
+    write_json(args.output, items)
 
-    prelim = [x for x in dedupe(raw_records) if (not x.get("is_pointer")) and passes_hard_filter(x["clause"])]
-    items = [x for x in prelim if safety_gate_with_model(client, args.model, x["clause"])]
-    output = {
-        "generated_at": datetime.utcnow().replace(microsecond=0).isoformat() + "Z",
-        "model": args.model,
-        "sources": [cfg["name"] for cfg in SOURCE_SEEDS],
-        "pages_crawled": len(crawled_pages),
-        "pages_resolved_from_pointers": len(resolved_pages),
-        "count": len(items),
-        "items": items,
-    }
+    report_path = args.report
+    if report_path:
+        report = {
+            "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+            "model": args.model,
+            "sources": [source.name for source in sources],
+            "pages_crawled": len(all_pages),
+            "raw_candidate_count": len(raw_items),
+            "final_count": len(items),
+            "warnings": all_warnings,
+            "pages": [
+                {
+                    "source_name": page.get("source_name"),
+                    "url": page.get("url"),
+                    "title": page.get("title"),
+                    "content_type": page.get("content_type"),
+                    "extractable": page.get("extractable"),
+                    "text_chars": len(str(page.get("text") or "")),
+                }
+                for page in all_pages
+            ],
+        }
+        write_json(report_path, report)
 
-    with open(args.output, "w", encoding="utf-8") as f:
-        json.dump(output, f, indent=2, ensure_ascii=False)
-    print(f"Wrote {len(items)} clauses to {args.output} from {len(crawled_pages)} pages")
+    print(f"Wrote {len(items)} clause/source records to {args.output}", file=sys.stderr)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

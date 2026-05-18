@@ -55,7 +55,6 @@ def build_tree():
             node['level'] = 4
             node['prompts'] = []
             node['judge'] = judge_lookup.get(idx)
-            node['representative_clause'] = None
             node['policies'] = []
 
         #add prompt
@@ -74,7 +73,6 @@ def build_tree():
                 "summary": f"Detailed policy category: {name}",
                 "prompts": data['prompts'],
                 "judge": data['judge'],
-                "representative_clause": data['representative_clause'],
                 "policies": data['policies']
             }
         
