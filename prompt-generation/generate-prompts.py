@@ -73,6 +73,8 @@ def category_context(category):
     parts = []
     if category.get("name"):
         parts.append(f"name: {category['name']}")
+    if category.get("summary"):
+        parts.append(f"summary: {category['summary']}")
     path = category.get("node_id") or category.get("id")
     if path:
         parts.append(f"path: {path}")
@@ -103,6 +105,13 @@ def find_level3_node_by_name(taxonomy, name):
     if not matches:
         return None
     raise ValueError(f"Parent category name {name!r} is ambiguous.")
+
+
+def find_node_by_id(taxonomy, node_id):
+    for node in iter_tree_nodes(taxonomy):
+        if node.get("node_id") == node_id:
+            return node
+    return None
 
 
 def select_benchmark_prompts(prompts, limit=15):
@@ -439,19 +448,41 @@ def mutate_prompts(prompts, review_rounds=2):
             mutated_prompt = iterate_mutation_prompt(
                 prompt, mutation_type, mutated_prompt, client, rounds=review_rounds
             )
-            if mutation_type == "authority_endorsement" and prompt not in mutated_prompt:
-                raise ValueError(
-                    "Authority endorsement mutation must preserve the original base prompt verbatim "
-                    f"after the authority preamble: {data}"
-                )
             mutated.append(mutated_prompt)
     return mutated
+
+
+def prompt_triplets(base_prompts, mutated_prompts):
+    expected_mutations = len(base_prompts) * 2
+    if len(mutated_prompts) != expected_mutations:
+        raise ValueError(
+            f"Expected {expected_mutations} mutations for {len(base_prompts)} base prompts, "
+            f"got {len(mutated_prompts)}."
+        )
+
+    prompts = []
+    for idx, base_prompt in enumerate(base_prompts):
+        mutation_start = idx * 2
+        prompts.extend(
+            [
+                base_prompt,
+                mutated_prompts[mutation_start],
+                mutated_prompts[mutation_start + 1],
+            ]
+        )
+    return prompts
+
+
+def generate_attack_prompts(category, n=10, base_review_rounds=2, mutation_review_rounds=2):
+    base_prompts = generate_base_prompts(category, n=n, review_rounds=base_review_rounds)
+    mutated_prompts = mutate_prompts(base_prompts, review_rounds=mutation_review_rounds)
+    return prompt_triplets(base_prompts, mutated_prompts)
 
 
 def generate_judge_prompts(
     category_name,
     benchmark_prompts,
-    parent_category_name,
+    parent_node_id,
     category_summary="",
     taxonomy_path=DEFAULT_TREE_PATH,
 ):
@@ -463,9 +494,11 @@ def generate_judge_prompts(
         raise ValueError("benchmark_prompts is required.")
     client = get_client()
     taxonomy = load_taxonomy(taxonomy_path)
-    level3_parent = find_level3_node_by_name(taxonomy, parent_category_name)
+    level3_parent = find_node_by_id(taxonomy, parent_node_id)
     if not level3_parent:
-        raise ValueError(f"Could not find level-3 parent category {parent_category_name!r}.")
+        raise ValueError(f"Could not find parent node_id {parent_node_id!r}.")
+    if level3_parent.get("level") != 3:
+        raise ValueError(f"Parent node {parent_node_id!r} is not a level-3 category.")
 
     benchmark_prompts = select_benchmark_prompts(benchmark_prompts, limit=15)
     example_nodes = select_judge_examples(level3_parent)
@@ -499,9 +532,12 @@ def generate_judge_prompts(
 
 
 if __name__ == "__main__":
-    base_prompts = generate_base_prompts("Homophobia", n=1)
-    mutated_prompts = mutate_prompts(base_prompts)
-    all_prompts = base_prompts + mutated_prompts
-    print(base_prompts)
-    print(mutated_prompts)
-    print(generate_judge_prompts("Homophobia", all_prompts, "Discrimination/Protected Characteristics Combinations"))
+    all_prompts = generate_attack_prompts("Homophobia", n=1)
+    print(all_prompts)
+    print(
+        generate_judge_prompts(
+            "Homophobia",
+            all_prompts,
+            "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations",
+        )
+    )

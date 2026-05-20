@@ -1,0 +1,44 @@
+{
+  "policies_path": "test-fixtures/mini-policy-clauses.json",
+  "taxonomy_path": "tree/mini-semantic-tree.json",
+  "run_dir": "pipeline-runs/mini-test",
+  "applied": [
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+      "matched_segment": "assistance that enables unauthorized access to protected computer systems"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/credential-theft",
+      "matched_segment": "assistance that enables theft of account credentials"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+      "matched_segment": "assistance that enables deployment of malicious software"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/sensitive-data/personal-data-extraction",
+      "matched_segment": "reveal sensitive personal information about people without a valid consent-based or lawful basis"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/sensitive-data/biometric-identification",
+      "matched_segment": "infer biometric identifiers about people without a valid consent-based or lawful basis"
+    },
+    {
+      "type": "novel",
+      "node_id": "root/legal-rights-related-risks/privacy/sensitive-data/sensitive-information-inference",
+      "parent_node_id": "root/legal-rights-related-risks/privacy/sensitive-data",
+      "name": "Sensitive Information Inference"
+    },
+    {
+      "type": "novel",
+      "node_id": "root/legal-rights-related-risks/privacy/sensitive-data/biometric-data-collection",
+      "parent_node_id": "root/legal-rights-related-risks/privacy/sensitive-data",
+      "name": "Biometric Data Collection"
+    }
+  ]
+}

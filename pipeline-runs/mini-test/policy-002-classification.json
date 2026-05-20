@@ -1,0 +1,84 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then save.",
+  "policy": {
+    "clause": "Generative AI services must not reveal, infer, or help collect sensitive personal information or biometric identifiers about people without a valid consent-based or lawful basis.",
+    "source_name": "Mini Test Source",
+    "source_url": "https://example.test/mini-policy",
+    "source_title": "Mini Foundation Model Safety Policy",
+    "published_date": "2026-05-20"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/sensitive-data/personal-data-extraction",
+        "name": "Personal Data Extraction",
+        "policy_fragment": "reveal sensitive personal information about people without a valid consent-based or lawful basis",
+        "policy": {
+          "clause": "Generative AI services must not reveal, infer, or help collect sensitive personal information or biometric identifiers about people without a valid consent-based or lawful basis.",
+          "matched_segment": "reveal sensitive personal information about people without a valid consent-based or lawful basis",
+          "source": {
+            "name": "Mini Test Source",
+            "title": "Mini Foundation Model Safety Policy",
+            "url": "https://example.test/mini-policy",
+            "published_date": "2026-05-20"
+          }
+        },
+        "reasoning": "Directly covers revealing sensitive personal information without consent or lawful basis."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/sensitive-data/biometric-identification",
+        "name": "Biometric Identification",
+        "policy_fragment": "infer biometric identifiers about people without a valid consent-based or lawful basis",
+        "policy": {
+          "clause": "Generative AI services must not reveal, infer, or help collect sensitive personal information or biometric identifiers about people without a valid consent-based or lawful basis.",
+          "matched_segment": "infer biometric identifiers about people without a valid consent-based or lawful basis",
+          "source": {
+            "name": "Mini Test Source",
+            "title": "Mini Foundation Model Safety Policy",
+            "url": "https://example.test/mini-policy",
+            "published_date": "2026-05-20"
+          }
+        },
+        "reasoning": "Directly covers inferring biometric identifiers about people without consent or lawful basis."
+      }
+    ],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/legal-rights-related-risks/privacy/sensitive-data",
+        "parent_name": "Sensitive Data",
+        "proposed_name": "Sensitive Information Inference",
+        "summary": "Requests to infer, deduce, or predict sensitive personal information about a person without consent or lawful basis.",
+        "policy_fragment": "infer sensitive personal information about people without a valid consent-based or lawful basis",
+        "policy": {
+          "clause": "Generative AI services must not reveal, infer, or help collect sensitive personal information or biometric identifiers about people without a valid consent-based or lawful basis.",
+          "matched_segment": "infer sensitive personal information about people without a valid consent-based or lawful basis",
+          "source": {
+            "name": "Mini Test Source",
+            "title": "Mini Foundation Model Safety Policy",
+            "url": "https://example.test/mini-policy",
+            "published_date": "2026-05-20"
+          }
+        },
+        "reasoning": "This specifically targets inferring or predicting sensitive personal information without consent or lawful basis, which is not covered by the existing extraction or biometric identification leaves."
+      },
+      {
+        "parent_node_id": "root/legal-rights-related-risks/privacy/sensitive-data",
+        "parent_name": "Sensitive Data",
+        "proposed_name": "Biometric Data Collection",
+        "summary": "Requests to collect or gather biometric identifiers about people without consent or lawful basis.",
+        "policy_fragment": "help collect biometric identifiers about people without a valid consent-based or lawful basis",
+        "policy": {
+          "clause": "Generative AI services must not reveal, infer, or help collect sensitive personal information or biometric identifiers about people without a valid consent-based or lawful basis.",
+          "matched_segment": "help collect biometric identifiers about people without a valid consent-based or lawful basis",
+          "source": {
+            "name": "Mini Test Source",
+            "title": "Mini Foundation Model Safety Policy",
+            "url": "https://example.test/mini-policy",
+            "published_date": "2026-05-20"
+          }
+        },
+        "reasoning": "This specifically targets collecting or gathering biometric identifiers without consent or lawful basis, which is distinct from biometric identification and not covered by the existing leaves."
+      }
+    ]
+  }
+}

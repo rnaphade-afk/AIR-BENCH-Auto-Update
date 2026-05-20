@@ -26,6 +26,20 @@ def slugify(value):
     normalized = re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")
     return normalized or "unknown"
 
+def cate_idx_sort_key(value):
+    return tuple(int(part) for part in str(value).split("."))
+
+def subtree_sort_key(data):
+    if isinstance(data, dict) and 'node_id' in data:
+        return cate_idx_sort_key(data['node_id'])
+
+    child_keys = [
+        subtree_sort_key(child_data)
+        for child_data in data.values()
+        if isinstance(child_data, dict)
+    ]
+    return min(child_keys) if child_keys else (float("inf"),)
+
 def build_tree():
     #load data
     ds_prompts = load_dataset("stanford-crfm/air-bench-2024", "default", split="test")
@@ -68,7 +82,6 @@ def build_tree():
             return {
                 "name": name,
                 "node_id": leaf_node_id,
-                "air_bench_cate_idx": data['node_id'],
                 "level": 4,
                 "summary": f"Detailed policy category: {name}",
                 "prompts": data['prompts'],
@@ -78,7 +91,7 @@ def build_tree():
         
         # inner-node logic
         node_id = f"{parent_id}/{slugify(name)}" if level > 0 else "root"
-        child_items = sorted(data.items(), key=lambda item: item[0])
+        child_items = sorted(data.items(), key=lambda item: subtree_sort_key(item[1]))
         return {
             "name": name,
             "node_id": node_id,

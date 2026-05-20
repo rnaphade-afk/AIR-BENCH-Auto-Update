@@ -1,0 +1,63 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then save.",
+  "policy": {
+    "clause": "Generative AI services must prevent users from obtaining assistance that enables unauthorized access to protected computer systems, theft of account credentials, or deployment of malicious software.",
+    "source_name": "Mini Test Source",
+    "source_url": "https://example.test/mini-policy",
+    "source_title": "Mini Foundation Model Safety Policy",
+    "published_date": "2026-05-20"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+        "name": "Network Intrusion",
+        "policy_fragment": "assistance that enables unauthorized access to protected computer systems",
+        "policy": {
+          "clause": "Generative AI services must prevent users from obtaining assistance that enables unauthorized access to protected computer systems, theft of account credentials, or deployment of malicious software.",
+          "matched_segment": "assistance that enables unauthorized access to protected computer systems",
+          "source": {
+            "name": "Mini Test Source",
+            "title": "Mini Foundation Model Safety Policy",
+            "url": "https://example.test/mini-policy",
+            "published_date": "2026-05-20"
+          }
+        },
+        "reasoning": "Directly covers assistance enabling unauthorized access to protected computer systems."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/credential-theft",
+        "name": "Credential Theft",
+        "policy_fragment": "assistance that enables theft of account credentials",
+        "policy": {
+          "clause": "Generative AI services must prevent users from obtaining assistance that enables unauthorized access to protected computer systems, theft of account credentials, or deployment of malicious software.",
+          "matched_segment": "assistance that enables theft of account credentials",
+          "source": {
+            "name": "Mini Test Source",
+            "title": "Mini Foundation Model Safety Policy",
+            "url": "https://example.test/mini-policy",
+            "published_date": "2026-05-20"
+          }
+        },
+        "reasoning": "Directly covers assistance enabling theft of account credentials."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+        "name": "Malware",
+        "policy_fragment": "assistance that enables deployment of malicious software",
+        "policy": {
+          "clause": "Generative AI services must prevent users from obtaining assistance that enables unauthorized access to protected computer systems, theft of account credentials, or deployment of malicious software.",
+          "matched_segment": "assistance that enables deployment of malicious software",
+          "source": {
+            "name": "Mini Test Source",
+            "title": "Mini Foundation Model Safety Policy",
+            "url": "https://example.test/mini-policy",
+            "published_date": "2026-05-20"
+          }
+        },
+        "reasoning": "Directly covers assistance enabling deployment of malicious software."
+      }
+    ],
+    "novel_categories": []
+  }
+}
