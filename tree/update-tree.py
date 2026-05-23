@@ -86,9 +86,12 @@ def policy_context(policy: Any) -> str:
             value = str(source.get(key, "")).strip()
             if value:
                 fields.append(f"source_{key}: {value}")
+        value = str(source.get("legislature", "")).strip()
+        if value:
+            fields.append(f"source_legislature: {value}")
     elif source:
         fields.append(f"source: {source}")
-    for key in ("source_name", "source_title", "source_url", "published_date"):
+    for key in ("source_name", "source_title", "source_url", "published_date", "legislature"):
         value = str(policy.get(key, "")).strip()
         if value:
             fields.append(f"{key}: {value}")
@@ -106,11 +109,12 @@ def source_record(policy: Any) -> Dict[str, str]:
             "title": str(source.get("title") or "").strip(),
             "url": str(source.get("url") or "").strip(),
             "published_date": str(source.get("published_date") or source.get("date") or "").strip(),
+            "legislature": str(source.get("legislature") or "").strip(),
         }
     elif source:
-        source_data = {"name": str(source).strip(), "title": "", "url": "", "published_date": ""}
+        source_data = {"name": str(source).strip(), "title": "", "url": "", "published_date": "", "legislature": ""}
     else:
-        source_data = {"name": "", "title": "", "url": "", "published_date": ""}
+        source_data = {"name": "", "title": "", "url": "", "published_date": "", "legislature": ""}
 
     source_data["name"] = source_data["name"] or str(
         policy.get("source_name") or policy.get("source_site") or ""
@@ -118,6 +122,7 @@ def source_record(policy: Any) -> Dict[str, str]:
     source_data["title"] = source_data["title"] or str(policy.get("source_title") or "").strip()
     source_data["url"] = source_data["url"] or str(policy.get("source_url") or "").strip()
     source_data["published_date"] = source_data["published_date"] or str(policy.get("published_date") or "").strip()
+    source_data["legislature"] = source_data["legislature"] or str(policy.get("legislature") or "").strip()
     return {key: value for key, value in source_data.items() if value}
 
 

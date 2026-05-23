@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from html import unescape
 from html.parser import HTMLParser
-from typing import Dict, Iterable, List, Optional, Sequence, Tuple
+from typing import Dict, Iterable, List, Optional, Sequence, Set, Tuple
 from urllib.parse import parse_qs, urlencode, urljoin, urlparse, urlunparse
 
 import requests
@@ -188,12 +188,14 @@ class SourceConfig:
     name: str
     seed_urls: Tuple[str, ...]
     allowed_domains: Tuple[str, ...]
+    legislature: str
     api_kind: str = "html"
 
 
 SOURCES: Tuple[SourceConfig, ...] = (
     SourceConfig(
         name="Congress.gov",
+        legislature="us",
         seed_urls=(
             "https://www.congress.gov/bill/118th-congress/house-bill/6881/text?format=txt",
             "https://www.congress.gov/bill/119th-congress/house-bill/6461/text/ih?format=txt",
@@ -205,6 +207,7 @@ SOURCES: Tuple[SourceConfig, ...] = (
     ),
     SourceConfig(
         name="Federal Register",
+        legislature="us",
         seed_urls=(
             "https://www.federalregister.gov/api/v1/documents.json?conditions%5Bterm%5D=foundation%20model%20artificial%20intelligence&per_page=20&order=newest",
             "https://www.federalregister.gov/api/v1/documents.json?conditions%5Bterm%5D=dual-use%20foundation%20model&per_page=20&order=newest",
@@ -215,6 +218,7 @@ SOURCES: Tuple[SourceConfig, ...] = (
     ),
     SourceConfig(
         name="California Legislature",
+        legislature="us",
         seed_urls=(
             "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
             "https://leginfo.legislature.ca.gov/faces/billVersionsCompareClient.xhtml?bill_id=202520260SB53",
@@ -225,6 +229,7 @@ SOURCES: Tuple[SourceConfig, ...] = (
     ),
     SourceConfig(
         name="EUR-Lex",
+        legislature="eu",
         seed_urls=(
             "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1689",
             "https://eur-lex.europa.eu/search.html?scope=EURLEX&text=general-purpose%20AI%20model",
@@ -234,6 +239,7 @@ SOURCES: Tuple[SourceConfig, ...] = (
     ),
     SourceConfig(
         name="EU AI Office",
+        legislature="eu",
         seed_urls=(
             "https://digital-strategy.ec.europa.eu/en/factpages/general-purpose-ai-obligations-under-ai-act",
             "https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai",
@@ -244,6 +250,7 @@ SOURCES: Tuple[SourceConfig, ...] = (
     ),
     SourceConfig(
         name="UK AISI",
+        legislature="uk",
         seed_urls=(
             "https://www.aisi.gov.uk/",
             "https://www.aisi.gov.uk/work",
@@ -254,6 +261,7 @@ SOURCES: Tuple[SourceConfig, ...] = (
     ),
     SourceConfig(
         name="CAC China",
+        legislature="china",
         seed_urls=(
             "https://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm",
             "https://www.cac.gov.cn/2024-04/02/c_1713729983803145.htm",
@@ -263,6 +271,7 @@ SOURCES: Tuple[SourceConfig, ...] = (
     ),
     SourceConfig(
         name="NIST AI",
+        legislature="us",
         seed_urls=(
             "https://www.nist.gov/artificial-intelligence",
             "https://www.nist.gov/itl/ai-risk-management-framework",
@@ -273,6 +282,7 @@ SOURCES: Tuple[SourceConfig, ...] = (
     ),
     SourceConfig(
         name="OECD AI Observatory",
+        legislature="international",
         seed_urls=(
             "https://oecd.ai/en/dashboards/policy-initiatives?orderBy=startYearDesc&page=1",
             "https://oecd.ai/en/wonk/documents",
@@ -282,6 +292,7 @@ SOURCES: Tuple[SourceConfig, ...] = (
     ),
     SourceConfig(
         name="AI Incident Database",
+        legislature="international",
         seed_urls=(
             "https://incidentdatabase.ai/",
             "https://incidentdatabase.ai/apps/discover",
@@ -465,6 +476,7 @@ def fetch_page(session: requests.Session, source: SourceConfig, url: str, max_pa
 
     return {
         "source_name": source.name,
+        "legislature": source.legislature,
         "url": url,
         "title": title,
         "published_date": infer_date(resp.text if "application/pdf" not in content_type else "", url),
@@ -745,6 +757,7 @@ Exclude:
 Litmus test: If you cannot imagine a red-team prompt that asks the model to violate the exact clause, do not include it.
 
 Source name: {page.get('source_name', '')}
+Legislature: {page.get('legislature', '')}
 Source URL: {page.get('url', '')}
 Source title: {page.get('title', '')}
 
@@ -765,7 +778,7 @@ Return DROP for provider governance duties, evaluations, risk assessments, mitig
 {item.get('clause', '')}
 
 Source:
-{item.get('source_name', '')} - {item.get('source_title', '')} - {item.get('source_url', '')}
+{item.get('source_name', '')} - {item.get('legislature', '')} - {item.get('source_title', '')} - {item.get('source_url', '')}
 
 Return JSON only:
 {{"decision":"KEEP or DROP"}}"""
@@ -791,6 +804,7 @@ def normalize_clause_record(raw: Dict[str, object], page: Dict[str, object]) -> 
     return {
         "clause": clause,
         "source_name": str(page.get("source_name") or ""),
+        "legislature": normalize_ws(str(page.get("legislature") or "")),
         "source_url": str(page.get("url") or ""),
         "source_title": normalize_ws(str(page.get("title") or "")),
         "published_date": normalize_ws(str(raw.get("published_date") or page.get("published_date") or "")),
@@ -835,6 +849,83 @@ def dedupe_items(items: Iterable[Dict[str, str]]) -> List[Dict[str, str]]:
     return out
 
 
+def policy_identity_key(policy) -> str:
+    if isinstance(policy, str):
+        clause = policy
+    elif isinstance(policy, dict):
+        nested_policy = policy.get("policy")
+        if not policy.get("clause") and isinstance(nested_policy, dict):
+            clause = str(nested_policy.get("clause") or "")
+        else:
+            clause = str(policy.get("clause") or "")
+    else:
+        clause = ""
+    return re.sub(r"[^a-z0-9\u4e00-\u9fff]+", " ", clause.lower()).strip()
+
+
+def iter_policy_records(payload) -> Iterable[object]:
+    if isinstance(payload, list):
+        yield from payload
+    elif isinstance(payload, dict):
+        for key in ("policies", "items", "clauses"):
+            value = payload.get(key)
+            if isinstance(value, list):
+                yield from value
+                return
+        if payload.get("clause"):
+            yield payload
+        elif isinstance(payload.get("policy"), dict) and payload["policy"].get("clause"):
+            yield payload["policy"]
+
+
+def load_policy_identity_keys(paths: Iterable[str]) -> Set[str]:
+    keys: Set[str] = set()
+    for path in paths:
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                payload = json.load(f)
+        except (OSError, json.JSONDecodeError):
+            continue
+        for record in iter_policy_records(payload):
+            key = policy_identity_key(record)
+            if key:
+                keys.add(key)
+    return keys
+
+
+def discover_policy_jsons(directories: Iterable[str], exclude_paths: Iterable[str] = ()) -> List[str]:
+    excluded = {os.path.abspath(path) for path in exclude_paths if path}
+    paths: List[str] = []
+    for directory in directories:
+        if not directory or not os.path.isdir(directory):
+            continue
+        for root, _, filenames in os.walk(directory):
+            for filename in filenames:
+                if not filename.endswith(".json") or filename.endswith(".sample.json"):
+                    continue
+                path = os.path.abspath(os.path.join(root, filename))
+                if path in excluded:
+                    continue
+                paths.append(path)
+    return sorted(paths)
+
+
+def filter_new_policy_items(
+    items: Iterable[Dict[str, str]],
+    previous_json_paths: Iterable[str],
+) -> Tuple[List[Dict[str, str]], int]:
+    seen = load_policy_identity_keys(previous_json_paths)
+    previous_count = len(seen)
+    new_items: List[Dict[str, str]] = []
+    for item in items:
+        key = policy_identity_key(item)
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        new_items.append(item)
+    return new_items, previous_count
+
+
 def final_gate_items(client: OpenAI, model: str, items: List[Dict[str, str]]) -> Tuple[List[Dict[str, str]], List[str]]:
     kept: List[Dict[str, str]] = []
     warnings: List[str] = []
@@ -847,6 +938,93 @@ def final_gate_items(client: OpenAI, model: str, items: List[Dict[str, str]]) ->
         except Exception as exc:
             warnings.append(f"gate failed for {item.get('source_url')}: {exc}")
     return kept, warnings
+
+
+def scrape_policy_clauses(
+    model: str,
+    sources: Sequence[SourceConfig],
+    pages_per_source: int,
+    max_depth: int,
+    max_links_per_page: int,
+    max_page_chars: int,
+    chunk_chars: int,
+    max_chunks_per_page: int,
+    delay_seconds: float,
+    skip_final_gate: bool,
+) -> Tuple[List[Dict[str, str]], Dict[str, object]]:
+    if not os.getenv("OPENAI_API_KEY"):
+        raise RuntimeError("OPENAI_API_KEY is not set. Add it to .env or the environment.")
+
+    session = requests.Session()
+    session.headers.update(
+        {
+            "User-Agent": "AIR-BENCH-LM-safety-policy-scraper/1.0 (research; clause extraction)",
+            "Accept": "text/html,application/xhtml+xml,application/xml,application/json,application/pdf;q=0.9,*/*;q=0.8",
+        }
+    )
+    client = OpenAI()
+
+    all_pages: List[Dict[str, object]] = []
+    all_warnings: List[str] = []
+    for source in sources:
+        print(f"[crawl] {source.name}", file=sys.stderr)
+        pages, warnings = crawl_source(
+            session=session,
+            source=source,
+            pages_per_source=pages_per_source,
+            max_depth=max_depth,
+            max_links_per_page=max_links_per_page,
+            delay_seconds=delay_seconds,
+            max_page_chars=max_page_chars,
+        )
+        all_pages.extend(pages)
+        all_warnings.extend(warnings)
+
+    raw_items: List[Dict[str, str]] = []
+    for page in all_pages:
+        if not page.get("extractable", True):
+            print(f"[skip] discovery-only {page.get('source_name')} - {page.get('url')}", file=sys.stderr)
+            continue
+        print(f"[extract] {page.get('source_name')} - {page.get('url')}", file=sys.stderr)
+        items, warnings = extract_page_items(
+            client=client,
+            model=model,
+            page=page,
+            chunk_chars=chunk_chars,
+            max_chunks_per_page=max_chunks_per_page,
+        )
+        raw_items.extend(items)
+        all_warnings.extend(warnings)
+
+    items = dedupe_items(raw_items)
+    if not skip_final_gate:
+        items, gate_warnings = final_gate_items(client, model, items)
+        all_warnings.extend(gate_warnings)
+
+    items = dedupe_items(items)
+    items.sort(key=lambda item: (item.get("legislature", ""), item["source_name"], item["source_title"], item["clause"]))
+    report = {
+        "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+        "model": model,
+        "sources": [source.name for source in sources],
+        "pages_crawled": len(all_pages),
+        "raw_candidate_count": len(raw_items),
+        "final_count": len(items),
+        "warnings": all_warnings,
+        "pages": [
+            {
+                "source_name": page.get("source_name"),
+                "legislature": page.get("legislature"),
+                "url": page.get("url"),
+                "title": page.get("title"),
+                "content_type": page.get("content_type"),
+                "extractable": page.get("extractable"),
+                "text_chars": len(str(page.get("text") or "")),
+            }
+            for page in all_pages
+        ],
+    }
+    return items, report
 
 
 def selected_sources(names: Sequence[str]) -> Tuple[SourceConfig, ...]:
@@ -872,7 +1050,10 @@ def build_arg_parser() -> argparse.ArgumentParser:
         description="Scrape policy clauses that directly regulate LM/foundation-model/GPAI safety."
     )
     parser.add_argument("--output", default=DEFAULT_OUTPUT, help="JSON array output path.")
+    parser.add_argument("--all-output", default="", help="Optional JSON path for all scraped policies before history filtering.")
     parser.add_argument("--report", default="", help="Optional crawl report JSON path.")
+    parser.add_argument("--previous-json", action="append", default=[], help="Prior policy JSON to filter from output. Repeatable.")
+    parser.add_argument("--previous-dir", action="append", default=[], help="Directory of prior policy JSONs to filter from output. Repeatable.")
     parser.add_argument("--model", default=os.getenv("OPENAI_MODEL", DEFAULT_MODEL))
     parser.add_argument("--source", action="append", default=[], help="Limit to one source name. Repeatable.")
     parser.add_argument("--pages-per-source", type=int, default=8)
@@ -908,84 +1089,47 @@ def main() -> int:
         print(f"Configured {len(sources)} source(s); output={args.output}; model={args.model}")
         return 0
 
-    if not os.getenv("OPENAI_API_KEY"):
-        raise RuntimeError("OPENAI_API_KEY is not set. Add it to .env or the environment.")
-
-    session = requests.Session()
-    session.headers.update(
-        {
-            "User-Agent": "AIR-BENCH-LM-safety-policy-scraper/1.0 (research; clause extraction)",
-            "Accept": "text/html,application/xhtml+xml,application/xml,application/json,application/pdf;q=0.9,*/*;q=0.8",
-        }
+    items, report = scrape_policy_clauses(
+        model=args.model,
+        sources=sources,
+        pages_per_source=args.pages_per_source,
+        max_depth=args.max_depth,
+        max_links_per_page=args.max_links_per_page,
+        max_page_chars=args.max_page_chars,
+        chunk_chars=args.chunk_chars,
+        max_chunks_per_page=args.max_chunks_per_page,
+        delay_seconds=args.delay_seconds,
+        skip_final_gate=args.skip_final_gate,
     )
-    client = OpenAI()
 
-    all_pages: List[Dict[str, object]] = []
-    all_warnings: List[str] = []
-    for source in sources:
-        print(f"[crawl] {source.name}", file=sys.stderr)
-        pages, warnings = crawl_source(
-            session=session,
-            source=source,
-            pages_per_source=args.pages_per_source,
-            max_depth=args.max_depth,
-            max_links_per_page=args.max_links_per_page,
-            delay_seconds=args.delay_seconds,
-            max_page_chars=args.max_page_chars,
+    previous_jsons = list(args.previous_json)
+    previous_jsons.extend(
+        discover_policy_jsons(
+            args.previous_dir,
+            exclude_paths=[args.output, args.all_output],
         )
-        all_pages.extend(pages)
-        all_warnings.extend(warnings)
-
-    raw_items: List[Dict[str, str]] = []
-    for page in all_pages:
-        if not page.get("extractable", True):
-            print(f"[skip] discovery-only {page.get('source_name')} - {page.get('url')}", file=sys.stderr)
-            continue
-        print(f"[extract] {page.get('source_name')} - {page.get('url')}", file=sys.stderr)
-        items, warnings = extract_page_items(
-            client=client,
-            model=args.model,
-            page=page,
-            chunk_chars=args.chunk_chars,
-            max_chunks_per_page=args.max_chunks_per_page,
-        )
-        raw_items.extend(items)
-        all_warnings.extend(warnings)
-
-    items = dedupe_items(raw_items)
-    if not args.skip_final_gate:
-        items, gate_warnings = final_gate_items(client, args.model, items)
-        all_warnings.extend(gate_warnings)
-
-    items = dedupe_items(items)
-    items.sort(key=lambda item: (item["source_name"], item["source_title"], item["clause"]))
-    write_json(args.output, items)
+    )
+    new_items, previous_policy_count = filter_new_policy_items(items, previous_jsons)
+    if args.all_output:
+        write_json(args.all_output, items)
+    write_json(args.output, new_items)
 
     report_path = args.report
     if report_path:
-        report = {
-            "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
-            "model": args.model,
-            "sources": [source.name for source in sources],
-            "pages_crawled": len(all_pages),
-            "raw_candidate_count": len(raw_items),
-            "final_count": len(items),
-            "warnings": all_warnings,
-            "pages": [
-                {
-                    "source_name": page.get("source_name"),
-                    "url": page.get("url"),
-                    "title": page.get("title"),
-                    "content_type": page.get("content_type"),
-                    "extractable": page.get("extractable"),
-                    "text_chars": len(str(page.get("text") or "")),
-                }
-                for page in all_pages
-            ],
-        }
+        report.update(
+            {
+                "previous_jsons": previous_jsons,
+                "previous_policy_count": previous_policy_count,
+                "new_count": len(new_items),
+                "all_output": args.all_output,
+                "new_output": args.output,
+            }
+        )
         write_json(report_path, report)
 
-    print(f"Wrote {len(items)} clause/source records to {args.output}", file=sys.stderr)
+    print(f"Wrote {len(new_items)} new clause/source records to {args.output}", file=sys.stderr)
+    if args.all_output:
+        print(f"Wrote {len(items)} total clause/source records to {args.all_output}", file=sys.stderr)
     return 0
 
 

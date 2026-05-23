@@ -2,12 +2,13 @@ import argparse
 import csv
 import json
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 
 DEFAULT_TREE_PATH = Path(__file__).with_name("semantic-tree.json")
-DEFAULT_PROMPTS_PATH = Path(__file__).with_name("air_bench_prompts.csv")
+DEFAULT_PROMPTS_PATH = Path(__file__).with_name("air_bench_prompts_default.csv")
 DEFAULT_JUDGES_PATH = Path(__file__).with_name("air_bench_judge_prompts.csv")
+PROMPT_SUBSETS = ("default", "china", "eu", "us")
 
 PROMPT_COLUMNS = ["cate-idx", "l2-name", "l3-name", "l4-name", "prompt"]
 JUDGE_COLUMNS = ["cate-idx", "l2-name", "l3-name", "l4-name", "judge_prompt"]
@@ -41,7 +42,32 @@ def validate_leaf(leaf: Dict[str, Any]) -> Tuple[List[str], str]:
     return prompts, judge
 
 
-def tree_to_data(root: Dict[str, Any]) -> Tuple[List[List[str]], List[List[str]]]:
+def source_legislatures(leaf: Dict[str, Any]) -> set:
+    legislatures = set()
+    for policy in leaf.get("policies", []):
+        if not isinstance(policy, dict):
+            continue
+        source = policy.get("source", {})
+        legislature = ""
+        if isinstance(source, dict):
+            legislature = str(source.get("legislature") or "").strip().lower()
+        legislature = legislature or str(policy.get("legislature") or "").strip().lower()
+        if legislature:
+            legislatures.add(legislature)
+    return legislatures
+
+
+def include_leaf(leaf: Dict[str, Any], legislature: Optional[str]) -> bool:
+    if legislature is None:
+        return True
+    return legislature in source_legislatures(leaf)
+
+
+def tree_to_data(
+    root: Dict[str, Any],
+    legislature: Optional[str] = None,
+    include_judges: bool = True,
+) -> Tuple[List[List[str]], List[List[str]]]:
     prompt_rows = []
     judge_rows = []
     l2_index = 0
@@ -63,12 +89,15 @@ def tree_to_data(root: Dict[str, Any]) -> Tuple[List[List[str]], List[List[str]]
                 for l4_node in l3_node.get("children", []):
                     prompts, judge = validate_leaf(l4_node)
                     l4_index += 1
+                    if not include_leaf(l4_node, legislature):
+                        continue
                     l4_name = l4_node.get("name", "")
                     cate_id = node_to_cate_id(l2_index, l3_index, l4_index)
 
                     for prompt in prompts:
                         prompt_rows.append([cate_id, l2_name, l3_name, l4_name, prompt])
-                    judge_rows.append([cate_id, l2_name, l3_name, l4_name, judge])
+                    if include_judges:
+                        judge_rows.append([cate_id, l2_name, l3_name, l4_name, judge])
 
     return prompt_rows, judge_rows
 
@@ -81,26 +110,56 @@ def write_csv(path: Path, columns: List[str], rows: List[List[str]]) -> None:
         writer.writerows(rows)
 
 
+def prompt_subset_paths(default_path: Path = DEFAULT_PROMPTS_PATH) -> Dict[str, Path]:
+    paths = {"default": default_path}
+    stem = default_path.stem
+    for subset in PROMPT_SUBSETS:
+        if subset == "default":
+            continue
+        if stem.endswith("_default"):
+            subset_stem = f"{stem[: -len('_default')]}_{subset}"
+        else:
+            subset_stem = f"{stem}_{subset}"
+        paths[subset] = default_path.with_name(f"{subset_stem}{default_path.suffix}")
+    return paths
+
+
 def data_to_csv(
     tree_path: Path = DEFAULT_TREE_PATH,
     prompts_path: Path = DEFAULT_PROMPTS_PATH,
     judges_path: Path = DEFAULT_JUDGES_PATH,
-) -> Tuple[List[List[str]], List[List[str]]]:
-    prompt_rows, judge_rows = tree_to_data(load_tree(tree_path))
-    write_csv(prompts_path, PROMPT_COLUMNS, prompt_rows)
+) -> Tuple[Dict[str, List[List[str]]], List[List[str]]]:
+    root = load_tree(tree_path)
+    prompt_rows_by_subset: Dict[str, List[List[str]]] = {}
+    for subset, path in prompt_subset_paths(prompts_path).items():
+        legislature = None if subset == "default" else subset
+        prompt_rows, _ = tree_to_data(root, legislature=legislature, include_judges=False)
+        prompt_rows_by_subset[subset] = prompt_rows
+        write_csv(path, PROMPT_COLUMNS, prompt_rows)
+
+    _, judge_rows = tree_to_data(root)
     write_csv(judges_path, JUDGE_COLUMNS, judge_rows)
-    return prompt_rows, judge_rows
+    return prompt_rows_by_subset, judge_rows
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Export the semantic tree as AIR-BENCH CSV files.")
     parser.add_argument("--tree", type=Path, default=DEFAULT_TREE_PATH)
-    parser.add_argument("--prompts-out", type=Path, default=DEFAULT_PROMPTS_PATH)
+    parser.add_argument(
+        "--prompts-out",
+        type=Path,
+        default=DEFAULT_PROMPTS_PATH,
+        help=(
+            "Default prompt CSV path. Legislature-specific prompt CSVs are written as sibling "
+            "files with _china, _eu, and _us suffixes."
+        ),
+    )
     parser.add_argument("--judges-out", type=Path, default=DEFAULT_JUDGES_PATH)
     args = parser.parse_args()
 
-    prompt_rows, judge_rows = data_to_csv(args.tree, args.prompts_out, args.judges_out)
-    print(f"Wrote {len(prompt_rows)} prompt rows to {args.prompts_out}")
+    prompt_rows_by_subset, judge_rows = data_to_csv(args.tree, args.prompts_out, args.judges_out)
+    for subset, path in prompt_subset_paths(args.prompts_out).items():
+        print(f"Wrote {len(prompt_rows_by_subset[subset])} prompt rows to {path}")
     print(f"Wrote {len(judge_rows)} judge rows to {args.judges_out}")
     return 0
 

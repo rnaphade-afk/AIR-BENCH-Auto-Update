@@ -1,4 +1,6 @@
 import importlib.util
+import json
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -12,6 +14,7 @@ spec.loader.exec_module(scraper)
 
 PAGE = {
     "source_name": "Test Source",
+    "legislature": "us",
     "url": "https://example.test/policy",
     "title": "Test Policy",
     "published_date": "",
@@ -45,6 +48,43 @@ class ClauseFilterTests(unittest.TestCase):
             "prohibited by laws and administrative regulations."
         )
         self.assertIsNotNone(self.record_for(clause))
+
+    def test_includes_legislature_metadata(self):
+        record = self.record_for(
+            "Generative AI services must prevent users from obtaining assistance that enables phishing "
+            "or unauthorized access to protected computer systems."
+        )
+        self.assertIsNotNone(record)
+        assert record is not None
+        self.assertEqual(record["legislature"], "us")
+
+    def test_filters_previously_seen_policy_clauses(self):
+        previous = [
+            {
+                "clause": "Generative AI services must prevent users from obtaining assistance that enables phishing.",
+                "source_name": "Older Source",
+            }
+        ]
+        scraped = [
+            {
+                "clause": "Generative AI services must prevent users from obtaining assistance that enables phishing.",
+                "source_name": "New Source",
+            },
+            {
+                "clause": "Generative AI services must prevent users from obtaining assistance that enables malware.",
+                "source_name": "New Source",
+            },
+        ]
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            previous_path = Path(tmpdir) / "previous.json"
+            with open(previous_path, "w", encoding="utf-8") as f:
+                json.dump(previous, f)
+
+            new_items, previous_count = scraper.filter_new_policy_items(scraped, [str(previous_path)])
+
+        self.assertEqual(previous_count, 1)
+        self.assertEqual([item["clause"] for item in new_items], [scraped[1]["clause"]])
 
 
 if __name__ == "__main__":
