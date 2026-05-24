@@ -281,24 +281,79 @@ SOURCES: Tuple[SourceConfig, ...] = (
         allowed_domains=("www.nist.gov", "nist.gov", "nvlpubs.nist.gov"),
     ),
     SourceConfig(
-        name="OECD AI Observatory",
-        legislature="international",
+        name="IMDA Singapore",
+        legislature="singapore",
         seed_urls=(
-            "https://oecd.ai/en/dashboards/policy-initiatives?orderBy=startYearDesc&page=1",
-            "https://oecd.ai/en/wonk/documents",
-            "https://oecd.ai/en/ai-principles",
+            "https://www.imda.gov.sg/how-we-can-help/ai-verify",
+            "https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/factsheets/2024/gen-ai-and-digital-foss-ai-governance-playbook",
+            "https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/factsheets/2024/project-moonshot",
+            "https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2026/new-model-ai-governance-framework-for-agentic-ai",
         ),
-        allowed_domains=("oecd.ai", "www.oecd.ai", "wp.oecd.ai"),
+        allowed_domains=("www.imda.gov.sg", "imda.gov.sg"),
     ),
     SourceConfig(
-        name="AI Incident Database",
-        legislature="international",
+        name="AI Verify Foundation",
+        legislature="singapore",
         seed_urls=(
-            "https://incidentdatabase.ai/",
-            "https://incidentdatabase.ai/apps/discover",
-            "https://incidentdatabase.ai/taxonomies/",
+            "https://aiverifyfoundation.sg/resources/mgf-gen-ai/",
+            "https://aiverifyfoundation.sg/what-is-ai-verify/",
+            "https://aiverifyfoundation.sg/resources/",
+            "https://aiverifyfoundation.sg/wp-content/uploads/2024/05/Model-AI-Governance-Framework-for-Generative-AI-May-2024-1-1.pdf",
         ),
-        allowed_domains=("incidentdatabase.ai", "www.incidentdatabase.ai"),
+        allowed_domains=("aiverifyfoundation.sg", "www.aiverifyfoundation.sg", "assurance.aiverifyfoundation.sg"),
+    ),
+    SourceConfig(
+        name="METI Japan AI Policy",
+        legislature="japan",
+        seed_urls=(
+            "https://www.meti.go.jp/english/press/2024/0419_002.html",
+            "https://www.meti.go.jp/policy/it_policy/ai-governance/",
+            "https://www.meti.go.jp/english/policy/mono_info_service/geniac/index.html",
+            "https://www.meti.go.jp/policy/mono_info_service/ai_semiconductor_frame/ai_semiconductor_frame.html",
+        ),
+        allowed_domains=("www.meti.go.jp", "meti.go.jp"),
+    ),
+    SourceConfig(
+        name="MSIT Korea",
+        legislature="korea",
+        seed_urls=(
+            "https://www.msit.go.kr/eng/bbs/view.do?bbsSeqNo=42&nttSeqNo=1071",
+            "https://www.msit.go.kr/eng/bbs/view.do?bbsSeqNo=42&mId=4&mPid=2&nttSeqNo=1214&sCode=eng",
+            "https://www.msit.go.kr/eng/bbs/view.do?bbsSeqNo=42&mId=4&mPid=2&nttSeqNo=1040&pageIndex=1",
+            "https://www.msit.go.kr/eng/bbs/view.do?bbsSeqNo=42&mId=4&nttSeqNo=1057&sCode=eng",
+        ),
+        allowed_domains=("www.msit.go.kr", "msit.go.kr"),
+    ),
+    SourceConfig(
+        name="Korea Law Information Center",
+        legislature="korea",
+        seed_urls=(
+            "https://www.law.go.kr/lsInfoP.do?chrClsCd=&efYd=20260122&lsId=014820&lsiSeq=268543&urlMode=engLsInfoR&viewCls=engLsInfoR",
+            "https://www.law.go.kr/eng/engMain.do",
+        ),
+        allowed_domains=("www.law.go.kr", "law.go.kr"),
+    ),
+    SourceConfig(
+        name="Parliament of Canada LegisINFO",
+        legislature="canada",
+        seed_urls=(
+            "https://www.parl.ca/legisinfo/en/bill/44-1/c-27",
+            "https://www.parl.ca/documentviewer/en/44-1/bill/c-27/first-reading",
+            "https://www.parl.ca/legisinfo/en/bill/45-1/c-277",
+            "https://www.parl.ca/DocumentViewer/en/45-1/bill/C-277/first-reading",
+        ),
+        allowed_domains=("www.parl.ca", "parl.ca"),
+    ),
+    SourceConfig(
+        name="ISED Canada AI",
+        legislature="canada",
+        seed_urls=(
+            "https://ised-isde.canada.ca/site/ised/en/voluntary-code-conduct-responsible-development-and-management-advanced-generative-ai-systems",
+            "https://ised-isde.canada.ca/site/ised/en/implementation-guide-managers-artificial-intelligence-systems",
+            "https://ised-isde.canada.ca/site/ised/en/canadian-guardrails-generative-ai-code-practice",
+            "https://ised-isde.canada.ca/site/innovation-better-canada/en/artificial-intelligence-and-data-act-aida-companion-document",
+        ),
+        allowed_domains=("ised-isde.canada.ca",),
     ),
 )
 
@@ -499,8 +554,6 @@ def is_discovery_only_url(url: str, source: SourceConfig) -> bool:
     if "search" in path or "search" in query:
         return True
     if "billsearchclient.xhtml" in path:
-        return True
-    if "dashboards/" in path or "/apps/discover" in path:
         return True
     return False
 

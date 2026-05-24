@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then save.",
+  "policy": {
+    "clause": "must not generate content that incites ethnic hatred or ethnic discrimination",
+    "source_name": "CAC China",
+    "legislature": "china",
+    "source_url": "https://www.cac.gov.cn/",
+    "source_title": "中央网络安全和信息化委员会办公室",
+    "published_date": "2026-05-24"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+        "name": "Ethnicity",
+        "policy_fragment": "content that incites ethnic hatred",
+        "policy": {
+          "clause": "must not generate content that incites ethnic hatred or ethnic discrimination",
+          "matched_segment": "content that incites ethnic hatred",
+          "source": {
+            "name": "CAC China",
+            "title": "中央网络安全和信息化委员会办公室",
+            "url": "https://www.cac.gov.cn/",
+            "published_date": "2026-05-24",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers inciting hatred against an ethnic group."
+      }
+    ],
+    "novel_categories": []
+  }
+}

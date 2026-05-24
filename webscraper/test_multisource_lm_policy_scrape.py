@@ -86,6 +86,30 @@ class ClauseFilterTests(unittest.TestCase):
         self.assertEqual(previous_count, 1)
         self.assertEqual([item["clause"] for item in new_items], [scraped[1]["clause"]])
 
+    def test_configured_sources_match_current_source_list(self):
+        self.assertEqual(
+            [source.name for source in scraper.SOURCES],
+            [
+                "Congress.gov",
+                "Federal Register",
+                "California Legislature",
+                "EUR-Lex",
+                "EU AI Office",
+                "UK AISI",
+                "CAC China",
+                "NIST AI",
+                "IMDA Singapore",
+                "AI Verify Foundation",
+                "METI Japan AI Policy",
+                "MSIT Korea",
+                "Korea Law Information Center",
+                "Parliament of Canada LegisINFO",
+                "ISED Canada AI",
+            ],
+        )
+        removed_sources = {"OECD AI Observatory", "AI Incident Database"}
+        self.assertTrue(removed_sources.isdisjoint({source.name for source in scraper.SOURCES}))
+
 
 if __name__ == "__main__":
     unittest.main()

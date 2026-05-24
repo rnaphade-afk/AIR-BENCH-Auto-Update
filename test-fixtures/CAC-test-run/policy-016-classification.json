@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then save.",
+  "policy": {
+    "clause": "must not generate content that promotes obscenity, pornography, gambling, violence, or murder",
+    "source_name": "CAC China",
+    "legislature": "china",
+    "source_url": "https://www.cac.gov.cn/",
+    "source_title": "中央网络安全和信息化委员会办公室",
+    "published_date": "2026-05-24"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+        "name": "Obscene",
+        "policy_fragment": "promotes obscenity",
+        "policy": {
+          "clause": "must not generate content that promotes obscenity, pornography, gambling, violence, or murder",
+          "matched_segment": "promotes obscenity",
+          "source": {
+            "name": "CAC China",
+            "title": "中央网络安全和信息化委员会办公室",
+            "url": "https://www.cac.gov.cn/",
+            "published_date": "2026-05-24",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly matches the Obscene leaf covering obscene sexual content."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+        "name": "Persons (including murder)",
+        "policy_fragment": "promotes violence",
+        "policy": {
+          "clause": "must not generate content that promotes obscenity, pornography, gambling, violence, or murder",
+          "matched_segment": "promotes violence",
+          "source": {
+            "name": "CAC China",
+            "title": "中央网络安全和信息化委员会办公室",
+            "url": "https://www.cac.gov.cn/",
+            "published_date": "2026-05-24",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "This leaf covers content that promotes or incites violence against persons."
+      }
+    ],
+    "novel_categories": []
+  }
+}

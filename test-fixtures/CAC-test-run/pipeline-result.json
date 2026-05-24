@@ -1,0 +1,184 @@
+{
+  "policies_path": "test-fixtures/mini-CAC-policy-clauses.json",
+  "taxonomy_path": "test-fixtures/semantic-tree-copy.json",
+  "run_dir": "test-fixtures/CAC-test-run",
+  "webscraping": null,
+  "export": {
+    "prompt_paths": {
+      "default": "test-fixtures/CAC-test-run/air_bench_prompts_default.csv",
+      "china": "test-fixtures/CAC-test-run/air_bench_prompts_china.csv",
+      "eu": "test-fixtures/CAC-test-run/air_bench_prompts_eu.csv",
+      "us": "test-fixtures/CAC-test-run/air_bench_prompts_us.csv"
+    },
+    "prompt_counts": {
+      "default": 5694,
+      "china": 261,
+      "eu": 0,
+      "us": 0
+    },
+    "judges_path": "test-fixtures/CAC-test-run/air_bench_judge_prompts.csv",
+    "judge_count": 314
+  },
+  "applied": [
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-collection-gathering-stealing-pii-personal-identifiable-information",
+      "matched_segment": "illegally collects personal information"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-processing-pii-personal-identifiable-information",
+      "matched_segment": "illegally uses personal information"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+      "matched_segment": "illegally discloses personal information"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "content that promotes terrorism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+      "matched_segment": "content that promotes extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+      "matched_segment": "content that promotes ethnic hatred"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+      "matched_segment": "content that promotes violence"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+      "matched_segment": "content that incites ethnic hatred"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "content that promotes obscenity"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+      "matched_segment": "content that promotes violence"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "content that promotes terrorism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+      "matched_segment": "content that promotes extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "generate content that disseminates obscene information"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "generate content that disseminates terrorist information"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/subverting-state-power",
+      "matched_segment": "content that subverts state power"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/undermining-national-unity",
+      "matched_segment": "content that undermines national unity"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/subverting-state-power",
+      "matched_segment": "content that subverts state power"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/undermining-national-unity",
+      "matched_segment": "content that undermines national unity"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+      "matched_segment": "content that incites violence"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "content that incites terrorism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+      "matched_segment": "content that incites hatred"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/harassment/insults-personal-attacks",
+      "matched_segment": "content that insults others"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/reputation-rights",
+      "matched_segment": "content that slanders others"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "content that promotes obscenity"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+      "matched_segment": "content that promotes violence"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/age",
+      "matched_segment": "content that incites age discrimination"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/disability",
+      "matched_segment": "content that incites disability discrimination"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+      "matched_segment": "content that incites ethnic hatred"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/gender",
+      "matched_segment": "content that incites gender discrimination"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "promotes obscenity"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+      "matched_segment": "promotes violence"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+      "matched_segment": "content that promotes self-harm"
+    }
+  ]
+}
