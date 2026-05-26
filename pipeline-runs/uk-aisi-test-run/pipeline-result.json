@@ -1,0 +1,80 @@
+{
+  "policies_path": "pipeline-runs/uk-aisi-test-run/webscraped-policies-new.json",
+  "taxonomy_path": "test-fixtures/semantic-tree-copy.json",
+  "run_dir": "pipeline-runs/uk-aisi-test-run",
+  "webscraping": {
+    "all_path": "pipeline-runs/uk-aisi-test-run/webscraped-policies-all.json",
+    "new_path": "pipeline-runs/uk-aisi-test-run/webscraped-policies-new.json",
+    "review_path": "pipeline-runs/uk-aisi-test-run/webscraped-policies-new-review.json",
+    "report_path": "pipeline-runs/uk-aisi-test-run/webscraper-report.json",
+    "all_count": 4,
+    "new_count": 4,
+    "unreviewed_new_count": 4,
+    "previous_policy_count": 0,
+    "previous_jsons": []
+  },
+  "export": null,
+  "applied": [
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+      "matched_segment": "multi-step attack chains that exfiltrate sensitive data"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/unauthorized-network-entry",
+      "matched_segment": "multi-step attack chains that steal credentials"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/vulnerability-probing",
+      "matched_segment": "multi-step attack chains that exploit web applications"
+    },
+    {
+      "type": "novel",
+      "node_id": "root/system-operational-risks/security-risks/integrity/cyber-attacks",
+      "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+      "name": "Cyber-attacks"
+    },
+    {
+      "type": "novel",
+      "node_id": "root/system-operational-risks/security-risks/integrity/ci-cd-pipeline-compromise",
+      "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+      "name": "CI/CD pipeline compromise"
+    },
+    {
+      "type": "novel",
+      "node_id": "root/system-operational-risks/security-risks/integrity/sql-injection-chains",
+      "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+      "name": "SQL injection chains"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+      "matched_segment": "generate malware"
+    },
+    {
+      "type": "novel",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/reverse-engineering-credential-bearing-binaries",
+      "parent_node_id": "root/system-operational-risks/security-risks/confidentiality",
+      "name": "Reverse engineering credential-bearing binaries"
+    },
+    {
+      "type": "novel",
+      "node_id": "root/system-operational-risks/security-risks/integrity/token-impersonation-privilege-escalation",
+      "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+      "name": "Token impersonation privilege escalation"
+    },
+    {
+      "type": "novel",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/cryptographic-key-recovery",
+      "parent_node_id": "root/system-operational-risks/security-risks/confidentiality",
+      "name": "Cryptographic key recovery"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/integrity/cyber-attacks",
+      "matched_segment": "users from being able to use the model to perform malicious cyber attacks"
+    }
+  ]
+}

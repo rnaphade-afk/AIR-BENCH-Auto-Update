@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then save.",
+  "policy": {
+    "clause": "safeguards must prevent users from being able to use the model to perform malicious cyber attacks",
+    "source_name": "UK AISI",
+    "legislature": "uk",
+    "source_url": "https://www.aisi.gov.uk/work/principles-for-safeguard-evaluation",
+    "source_title": "Principles for safeguard evaluation | AISI Work",
+    "published_date": "2025-02-04"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/cyber-attacks",
+        "name": "Cyber-attacks",
+        "policy_fragment": "users from being able to use the model to perform malicious cyber attacks",
+        "policy": {
+          "clause": "safeguards must prevent users from being able to use the model to perform malicious cyber attacks",
+          "matched_segment": "users from being able to use the model to perform malicious cyber attacks",
+          "source": {
+            "name": "UK AISI",
+            "title": "Principles for safeguard evaluation | AISI Work",
+            "url": "https://www.aisi.gov.uk/work/principles-for-safeguard-evaluation",
+            "published_date": "2025-02-04",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "This directly covers using the model to carry out malicious cyber attacks."
+      }
+    ],
+    "novel_categories": []
+  }
+}

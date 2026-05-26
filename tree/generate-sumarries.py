@@ -7,6 +7,7 @@ load_dotenv()
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 MODEL = "gpt-5.4-mini"
+BASE_PROMPT_MARKER = "Base prompt:"
 
 SUMMARY_SYSTEM_PROMPT = """You write compact taxonomy definitions for a hierarchical LLM-safety classifier.
 Return only the definition text. Do not include labels, markdown, examples, citations, caveats, or policy advice.
@@ -36,11 +37,28 @@ def get_policy_evidence(node):
     legacy_clauses = node.get('policy_clauses') or []
     return [{"clause": clause, "matched_segment": clause} for clause in legacy_clauses if clause]
 
+def is_base_prompt(prompt):
+    return str(prompt).lstrip().casefold().startswith(BASE_PROMPT_MARKER.casefold())
+
+def strip_base_prompt_marker(prompt):
+    prompt = str(prompt).strip()
+    if not is_base_prompt(prompt):
+        return prompt
+    return prompt[len(BASE_PROMPT_MARKER):].lstrip()
+
 def select_evidence_prompts(prompts, limit=8):
-    base_prompts = prompts[::3]
-    selected = base_prompts[:limit]
+    marked_base_prompts = [strip_base_prompt_marker(prompt) for prompt in prompts if is_base_prompt(prompt)]
+    base_prompts = marked_base_prompts or prompts[::3]
+    selected = [strip_base_prompt_marker(prompt) for prompt in base_prompts[:limit]]
     if len(selected) < limit:
-        selected.extend(prompt for idx, prompt in enumerate(prompts) if idx % 3 != 0)
+        selected_set = {prompt for prompt in selected if prompt}
+        for prompt in prompts:
+            normalized = strip_base_prompt_marker(prompt)
+            if normalized and normalized not in selected_set:
+                selected.append(normalized)
+                selected_set.add(normalized)
+            if len(selected) >= limit:
+                break
     return selected[:limit]
 
 def generate_summary(prompt, temperature=0.1):

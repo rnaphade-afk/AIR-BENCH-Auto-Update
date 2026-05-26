@@ -30,6 +30,18 @@ If using Congress API discovery, also add:
 CONGRESS_API_KEY=...
 ```
 
+Prompt generation samples persona styles from `proj-persona/PersonaHub` via the `datasets` package. To use a local persona list instead, set:
+
+```bash
+PERSONA_SOURCE_PATH=path/to/personas.txt
+```
+
+Prompt mutation defaults to authority endorsement. The pipeline accepts repeatable mutation types, so additional generator-supported mutations can be enabled with:
+
+```bash
+venv/bin/python pipeline.py POLICY_JSON_PATH --mutation-type authority_endorsement
+```
+
 Run commands from the repo root with the repo-local virtual environment:
 
 ```bash

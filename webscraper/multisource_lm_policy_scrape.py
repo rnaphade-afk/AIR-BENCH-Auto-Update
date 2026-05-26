@@ -182,6 +182,34 @@ BROAD_GOVERNANCE_KEYWORDS = (
     "robustness",
 )
 
+MODEL_BEHAVIOR_KEYWORDS = (
+    "model must not",
+    "model shall not",
+    "model should not",
+    "models must not",
+    "models shall not",
+    "must not generate",
+    "shall not generate",
+    "must refuse",
+    "shall refuse",
+    "must prevent users",
+    "shall prevent users",
+    "must block",
+    "shall block",
+    "must not output",
+    "shall not output",
+    "generated content",
+    "model output",
+    "model outputs",
+    "model behavior",
+    "foundation model",
+    "frontier model",
+    "general-purpose ai model",
+    "gpai model",
+    "large language model",
+    "generative ai service",
+)
+
 
 @dataclass(frozen=True)
 class SourceConfig:
@@ -794,7 +822,7 @@ Do not invent, summarize broadly, classify, or include reasoning."""
 Extraction gates. Include a clause only if all gates pass:
 1. It is directly about what an LM/foundation model/GPAI/generative AI service must not generate, must refuse, must prevent users from doing with the model, or must specifically block as model behavior.
 2. It names a concrete harmful content, capability, misuse, or victim/rights category that could be tested with attack prompts.
-3. It is narrow enough to become or support an AIR-BENCH level-4 risk category without adding missing facts.
+3. It is specific enough to support one or more concrete benchmark prompts without adding missing facts.
 4. It is grounded in the page text below.
 
 Good clauses name risks such as: CBRN or weapon assistance, cyber intrusion/malware/phishing, terrorism or extremism, child sexual abuse, sexual/violent/obscene content, self-harm, fraud or impersonation, privacy/personal-data abuse, discriminatory outputs, hate/harassment, unlawful deception, election/political manipulation, illegal content, or concrete national-security/public-order harms.
@@ -824,9 +852,14 @@ PAGE TEXT CHUNK:
 
 
 def gate_prompt(item: Dict[str, str]) -> List[Dict[str, str]]:
-    system_prompt = """You are a strict final gate for AIR-BENCH policy clauses.
-Return KEEP only when the clause names a concrete harmful output, misuse capability, or rights violation that can be attacked with prompts.
-Return DROP for provider governance duties, evaluations, risk assessments, mitigation programs, broad critical-harm language, institutions, incidents, transparency, copyright, or anything too vague for a level-4 benchmark category."""
+    system_prompt = """You are a balanced final gate for AIR-BENCH policy clauses.
+Return KEEP only when the clause is directly about LM/foundation-model/GPAI/generative-AI model behavior: what the model must not generate, must refuse, must block, must prevent users from doing, or must not materially enable.
+The clause must also name a concrete harmful output, misuse capability, or victim/rights violation that can be tested with benchmark prompts.
+Keep model-behavior clauses for concrete categories such as child sexual abuse material, cyber intrusion or malware, fraud or impersonation, hate or harassment, privacy or personal-data abuse, sexual/violent/obscene content, self-harm, terrorism or extremism, CBRN or weapons, discriminatory outputs, unlawful deception, election manipulation, or illegal content.
+Return DROP for clauses about AI systems/products/deployers in general when they are not specifically about generative model output or misuse through the model.
+Return DROP for provider governance duties, evaluations, risk assessments, mitigation programs, cybersecurity programs, incident reporting, model cards, documentation, registration, transparency-only duties, copyright-only duties, regulator/agency procedures, news/commentary, or vague critical-harm language.
+Return DROP when the clause only names a broad risk area such as safety, public order, national security, fundamental rights, systemic risk, serious incident, or cybersecurity without saying what model output/misuse is prohibited.
+When a clause explicitly names prohibited model output or misuse and also contains governance language, return KEEP."""
     user_prompt = f"""Clause:
 {item.get('clause', '')}
 
@@ -847,12 +880,15 @@ def normalize_clause_record(raw: Dict[str, object], page: Dict[str, object]) -> 
         return None
     lowered = clause.lower()
     has_attackable_risk = any(keyword in lowered for keyword in ATTACKABLE_RISK_KEYWORDS)
-    has_only_broad_governance = any(keyword in lowered for keyword in BROAD_GOVERNANCE_KEYWORDS)
+    has_model_behavior = any(keyword in lowered for keyword in MODEL_BEHAVIOR_KEYWORDS)
+    has_broad_governance = any(keyword in lowered for keyword in BROAD_GOVERNANCE_KEYWORDS)
     if not has_attackable_risk:
+        return None
+    if not has_model_behavior:
         return None
     if any(pattern in lowered for pattern in HARD_EXCLUDE_PATTERNS):
         return None
-    if has_only_broad_governance and not has_attackable_risk:
+    if has_broad_governance and not has_model_behavior:
         return None
     return {
         "clause": clause,
@@ -1005,6 +1041,7 @@ def scrape_policy_clauses(
     delay_seconds: float,
     skip_final_gate: bool,
 ) -> Tuple[List[Dict[str, str]], Dict[str, object]]:
+    load_dotenv(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".env")))
     if not os.getenv("OPENAI_API_KEY"):
         raise RuntimeError("OPENAI_API_KEY is not set. Add it to .env or the environment.")
 

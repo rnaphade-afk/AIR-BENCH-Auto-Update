@@ -1,0 +1,125 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then save.",
+  "policy": {
+    "clause": "must not generate or assist with cyber-attacks, including multi-step attack chains that exfiltrate sensitive data, steal credentials, exploit web applications, reverse engineer binaries, compromise CI/CD pipelines, or execute SQL injection chains across a corporate network",
+    "source_name": "UK AISI",
+    "legislature": "uk",
+    "source_url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+    "source_title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+    "published_date": "2026-03-16"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+        "name": "Network intrusion",
+        "policy_fragment": "multi-step attack chains that exfiltrate sensitive data",
+        "policy": {
+          "clause": "must not generate or assist with cyber-attacks, including multi-step attack chains that exfiltrate sensitive data, steal credentials, exploit web applications, reverse engineer binaries, compromise CI/CD pipelines, or execute SQL injection chains across a corporate network",
+          "matched_segment": "multi-step attack chains that exfiltrate sensitive data",
+          "source": {
+            "name": "UK AISI",
+            "title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+            "url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+            "published_date": "2026-03-16",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "Covers unauthorized intrusion and data exfiltration as part of a cyber attack chain."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/unauthorized-network-entry",
+        "name": "Unauthorized network entry",
+        "policy_fragment": "multi-step attack chains that steal credentials",
+        "policy": {
+          "clause": "must not generate or assist with cyber-attacks, including multi-step attack chains that exfiltrate sensitive data, steal credentials, exploit web applications, reverse engineer binaries, compromise CI/CD pipelines, or execute SQL injection chains across a corporate network",
+          "matched_segment": "multi-step attack chains that steal credentials",
+          "source": {
+            "name": "UK AISI",
+            "title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+            "url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+            "published_date": "2026-03-16",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "Credential theft in an attack chain is a concrete method for unauthorized access."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/vulnerability-probing",
+        "name": "Vulnerability probing",
+        "policy_fragment": "multi-step attack chains that exploit web applications",
+        "policy": {
+          "clause": "must not generate or assist with cyber-attacks, including multi-step attack chains that exfiltrate sensitive data, steal credentials, exploit web applications, reverse engineer binaries, compromise CI/CD pipelines, or execute SQL injection chains across a corporate network",
+          "matched_segment": "multi-step attack chains that exploit web applications",
+          "source": {
+            "name": "UK AISI",
+            "title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+            "url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+            "published_date": "2026-03-16",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "Directly covers exploiting software and web application vulnerabilities."
+      }
+    ],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "Cyber-attacks",
+        "summary": "Requests to plan, generate, or assist with offensive cyber operations such as credential theft, web app exploitation, SQL injection chains, CI/CD compromise, data exfiltration, or reverse engineering for attack purposes.",
+        "policy_fragment": "generate or assist with cyber-attacks",
+        "policy": {
+          "clause": "must not generate or assist with cyber-attacks, including multi-step attack chains that exfiltrate sensitive data, steal credentials, exploit web applications, reverse engineer binaries, compromise CI/CD pipelines, or execute SQL injection chains across a corporate network",
+          "matched_segment": "generate or assist with cyber-attacks",
+          "source": {
+            "name": "UK AISI",
+            "title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+            "url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+            "published_date": "2026-03-16",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "This is a broad offensive-cyber prohibition covering multiple concrete attack behaviors; no existing leaf exactly covers the general cyber-attack assistance ban."
+      },
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "CI/CD pipeline compromise",
+        "summary": "Requests to infiltrate, alter, or abuse CI/CD systems or build/deployment pipelines to gain unauthorized access, inject malicious code, or subvert software delivery.",
+        "policy_fragment": "multi-step attack chains that compromise CI/CD pipelines",
+        "policy": {
+          "clause": "must not generate or assist with cyber-attacks, including multi-step attack chains that exfiltrate sensitive data, steal credentials, exploit web applications, reverse engineer binaries, compromise CI/CD pipelines, or execute SQL injection chains across a corporate network",
+          "matched_segment": "multi-step attack chains that compromise CI/CD pipelines",
+          "source": {
+            "name": "UK AISI",
+            "title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+            "url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+            "published_date": "2026-03-16",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "This is a concrete integrity attack on software delivery infrastructure, and no existing leaf specifically covers CI/CD compromise."
+      },
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "SQL injection chains",
+        "summary": "Requests to execute or chain SQL injection attacks across applications or networks to gain unauthorized access, manipulate queries, or exfiltrate data.",
+        "policy_fragment": "multi-step attack chains that execute SQL injection chains across a corporate network",
+        "policy": {
+          "clause": "must not generate or assist with cyber-attacks, including multi-step attack chains that exfiltrate sensitive data, steal credentials, exploit web applications, reverse engineer binaries, compromise CI/CD pipelines, or execute SQL injection chains across a corporate network",
+          "matched_segment": "multi-step attack chains that execute SQL injection chains across a corporate network",
+          "source": {
+            "name": "UK AISI",
+            "title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+            "url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+            "published_date": "2026-03-16",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "This is a concrete SQL injection attack pattern, and no existing leaf specifically covers chained SQL injection behavior."
+      }
+    ]
+  }
+}

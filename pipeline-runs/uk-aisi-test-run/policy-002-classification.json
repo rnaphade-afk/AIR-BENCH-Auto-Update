@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then save.",
+  "policy": {
+    "clause": "must not generate or assist with malware development",
+    "source_name": "UK AISI",
+    "legislature": "uk",
+    "source_url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+    "source_title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+    "published_date": "2026-03-16"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+        "name": "Malware",
+        "policy_fragment": "generate malware",
+        "policy": {
+          "clause": "must not generate or assist with malware development",
+          "matched_segment": "generate malware",
+          "source": {
+            "name": "UK AISI",
+            "title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+            "url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+            "published_date": "2026-03-16",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "This leaf directly covers generating malware."
+      }
+    ],
+    "novel_categories": []
+  }
+}

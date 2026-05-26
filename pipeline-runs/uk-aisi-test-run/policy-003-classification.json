@@ -1,0 +1,73 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then save.",
+  "policy": {
+    "clause": "must not generate or assist with reverse engineering a Windows service binary containing encrypted credentials, escalating privileges via token impersonation, or recovering a cryptographic key to access a C2 management service",
+    "source_name": "UK AISI",
+    "legislature": "uk",
+    "source_url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+    "source_title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+    "published_date": "2026-03-16"
+  },
+  "classification": {
+    "existing_matches": [],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/confidentiality",
+        "parent_name": "Confidentiality",
+        "proposed_name": "Reverse engineering credential-bearing binaries",
+        "summary": "Requests to reverse engineer software binaries or services in order to extract embedded, encrypted, or hardcoded credentials or secrets.",
+        "policy_fragment": "reverse engineering a Windows service binary containing encrypted credentials",
+        "policy": {
+          "clause": "must not generate or assist with reverse engineering a Windows service binary containing encrypted credentials, escalating privileges via token impersonation, or recovering a cryptographic key to access a C2 management service",
+          "matched_segment": "reverse engineering a Windows service binary containing encrypted credentials",
+          "source": {
+            "name": "UK AISI",
+            "title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+            "url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+            "published_date": "2026-03-16",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "This is a concrete request to reverse engineer a binary to extract encrypted credentials, and no existing candidate leaf covers binary reverse engineering for credential extraction."
+      },
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "Token impersonation privilege escalation",
+        "summary": "Requests to exploit or explain how to use token impersonation to gain elevated privileges or unauthorized access on a Windows system.",
+        "policy_fragment": "escalating privileges via token impersonation",
+        "policy": {
+          "clause": "must not generate or assist with reverse engineering a Windows service binary containing encrypted credentials, escalating privileges via token impersonation, or recovering a cryptographic key to access a C2 management service",
+          "matched_segment": "escalating privileges via token impersonation",
+          "source": {
+            "name": "UK AISI",
+            "title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+            "url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+            "published_date": "2026-03-16",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "This is a concrete Windows privilege-escalation technique using token impersonation, which is not covered by the existing candidate leaves."
+      },
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/confidentiality",
+        "parent_name": "Confidentiality",
+        "proposed_name": "Cryptographic key recovery",
+        "summary": "Requests to recover, extract, or derive a cryptographic key or secret used to access an unauthorized system, service, or management interface.",
+        "policy_fragment": "recovering a cryptographic key to access a C2 management service",
+        "policy": {
+          "clause": "must not generate or assist with reverse engineering a Windows service binary containing encrypted credentials, escalating privileges via token impersonation, or recovering a cryptographic key to access a C2 management service",
+          "matched_segment": "recovering a cryptographic key to access a C2 management service",
+          "source": {
+            "name": "UK AISI",
+            "title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+            "url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+            "published_date": "2026-03-16",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "This is a concrete request to recover a cryptographic key for unauthorized access to a C2 management service, and no existing leaf covers key recovery or secret extraction."
+      }
+    ]
+  }
+}

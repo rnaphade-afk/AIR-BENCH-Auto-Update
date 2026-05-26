@@ -5,11 +5,15 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List
 
+from dotenv import load_dotenv
+
 
 ROOT = Path(__file__).resolve().parent
 DEFAULT_TREE_PATH = ROOT / "tree" / "semantic-tree.json"
 DEFAULT_RUNS_DIR = ROOT / "pipeline-runs"
 DEFAULT_SCRAPER_RUNS_DIR = ROOT / "webscraper" / "runs"
+
+load_dotenv(ROOT / ".env")
 
 
 def load_module(name: str, path: Path):
@@ -241,6 +245,22 @@ def selected_base_prompts(review: Dict[str, Any]) -> List[str]:
     return prompts
 
 
+def selected_mutation_types(args: argparse.Namespace) -> List[str]:
+    mutation_types = args.mutation_type or list(generate_prompts.DEFAULT_MUTATION_TYPES)
+    mutation_types = [str(mutation_type).strip() for mutation_type in mutation_types if str(mutation_type).strip()]
+    if not mutation_types:
+        raise ValueError("At least one mutation type is required.")
+
+    known_mutation_types = set(generate_prompts.MUTATION_INSTRUCTIONS)
+    unknown = [mutation_type for mutation_type in mutation_types if mutation_type not in known_mutation_types]
+    if unknown:
+        raise ValueError(
+            "Unknown mutation type(s): "
+            f"{', '.join(unknown)}. Known types: {', '.join(sorted(known_mutation_types))}."
+        )
+    return mutation_types
+
+
 def apply_existing_matches(
     classification_review: Dict[str, Any],
     taxonomy_path: Path,
@@ -300,8 +320,8 @@ def create_reviewed_novel_leaf(
             base_review_path,
             {
                 "instructions": (
-                    "Review base_prompt_candidates. Put the 5-10 prompts you want to keep, with any "
-                    "manual edits, in selected_base_prompts."
+                    "Review persona-styled base_prompt_candidates. Put the 5-10 prompts you want to keep, "
+                    "with any manual edits, in selected_base_prompts."
                 ),
                 "novel_category": novel,
                 "base_prompt_candidates": base_candidates,
@@ -312,6 +332,7 @@ def create_reviewed_novel_leaf(
             yes=args.yes,
         )
     base_prompts = selected_base_prompts(base_review)
+    mutation_types = selected_mutation_types(args)
 
     attack_path = run_dir / f"policy-{policy_index:03d}-novel-{novel_index:03d}-attack-prompts.json"
     if args.resume and attack_path.exists():
@@ -321,13 +342,19 @@ def create_reviewed_novel_leaf(
         mutated_prompts = generate_prompts.mutate_prompts(
             base_prompts,
             review_rounds=args.mutation_review_rounds,
+            mutation_types=mutation_types,
         )
-        attack_prompts = generate_prompts.prompt_triplets(base_prompts, mutated_prompts)
+        attack_prompts = generate_prompts.prompts_with_mutations(
+            base_prompts,
+            mutated_prompts,
+            mutation_types=mutation_types,
+        )
         write_json(
             attack_path,
             {
                 "novel_category": novel,
                 "selected_base_prompts": base_prompts,
+                "mutation_types": mutation_types,
                 "attack_prompts": attack_prompts,
             },
         )
@@ -504,6 +531,16 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--base-count", type=int, default=15)
     parser.add_argument("--base-review-rounds", type=int, default=2)
     parser.add_argument("--mutation-review-rounds", type=int, default=2)
+    parser.add_argument(
+        "--mutation-type",
+        action="append",
+        default=[],
+        choices=sorted(generate_prompts.MUTATION_INSTRUCTIONS),
+        help=(
+            "Mutation type to generate after each base prompt. Repeatable. "
+            f"Defaults to: {', '.join(generate_prompts.DEFAULT_MUTATION_TYPES)}."
+        ),
+    )
     parser.add_argument("--export", action="store_true", help="Export AIR-BENCH prompt and judge CSVs after updates.")
     parser.add_argument(
         "--export-prompts-out",
