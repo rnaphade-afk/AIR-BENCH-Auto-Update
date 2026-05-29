@@ -1,5 +1,6 @@
-import json
 import re
+import json
+from pathlib import Path
 from datasets import load_dataset
 from collections import defaultdict
 
@@ -22,6 +23,9 @@ L2_TO_L1_MAP = {
     "16": "Legal & Rights-Related Risks",
 }
 
+BASE_VARIANT = "base"
+MUTATION_VARIANT = "mutation"
+
 def slugify(value):
     normalized = re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")
     return normalized or "unknown"
@@ -40,7 +44,14 @@ def subtree_sort_key(data):
     ]
     return min(child_keys) if child_keys else (float("inf"),)
 
-def build_tree():
+def prompt_record(prompt, idx):
+    variant = BASE_VARIANT if idx % 3 == 0 else MUTATION_VARIANT
+    return {
+        "variant": variant,
+        "prompt": str(prompt).strip(),
+    }
+
+def build_tree(path='tree/semantic-tree.json'):
     #load data
     ds_prompts = load_dataset("stanford-crfm/air-bench-2024", "default", split="test")
     ds_judges = load_dataset("stanford-crfm/air-bench-2024", "judge_prompts", split="test")
@@ -72,7 +83,7 @@ def build_tree():
             node['policies'] = []
 
         #add prompt
-        node['prompts'].append(row['prompt'])
+        node['prompts'].append(prompt_record(row['prompt'], len(node['prompts'])))
     
    #convert to JSON structure
     def format(name, data, level, parent_id):
@@ -104,7 +115,9 @@ def build_tree():
     final_json = format("AIR-BENCH Root", root, 0, "")
 
     # 5. Save it
-    with open('tree/semantic-tree.json', 'w') as f:
+    output_path = Path(path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(output_path, 'w') as f:
         json.dump(final_json, f, indent=4, ensure_ascii=False)
 
 if __name__ == "__main__":

@@ -12,7 +12,6 @@ PROMPT_SUBSETS = ("default", "china", "eu", "us")
 
 PROMPT_COLUMNS = ["cate-idx", "l2-name", "l3-name", "l4-name", "prompt"]
 JUDGE_COLUMNS = ["cate-idx", "l2-name", "l3-name", "l4-name", "judge_prompt"]
-BASE_PROMPT_MARKER = "Base prompt:"
 
 
 def node_to_cate_id(l2_index: int, l3_index: int, l4_index: int) -> str:
@@ -32,9 +31,9 @@ def validate_node(node: Dict[str, Any], expected_level: int) -> None:
         )
 
 
-def validate_leaf(leaf: Dict[str, Any]) -> Tuple[List[str], str]:
+def validate_leaf(leaf: Dict[str, Any]) -> Tuple[List[Dict[str, str]], str]:
     validate_node(leaf, 4)
-    prompts = leaf.get("prompts", [])
+    prompts = normalize_prompt_records(leaf.get("prompts", []))
     judge = leaf.get("judge", "")
     if not isinstance(prompts, list) or not prompts:
         raise ValueError(f"Leaf {leaf.get('node_id') or leaf.get('name')} has no prompts.")
@@ -43,15 +42,20 @@ def validate_leaf(leaf: Dict[str, Any]) -> Tuple[List[str], str]:
     return prompts, judge
 
 
-def is_base_prompt(prompt: str) -> bool:
-    return str(prompt).lstrip().casefold().startswith(BASE_PROMPT_MARKER.casefold())
+def normalize_prompt_records(prompts: Any) -> List[Dict[str, str]]:
+    if not isinstance(prompts, list):
+        raise ValueError("prompts must be a list.")
 
-
-def strip_base_prompt_marker(prompt: str) -> str:
-    prompt = str(prompt).strip()
-    if not is_base_prompt(prompt):
-        return prompt
-    return prompt[len(BASE_PROMPT_MARKER) :].lstrip()
+    normalized = []
+    for idx, item in enumerate(prompts):
+        if not isinstance(item, dict):
+            raise ValueError(f"Prompt at index {idx} must be an object with variant and prompt.")
+        variant = str(item.get("variant", "")).strip()
+        text = str(item.get("prompt", "")).strip()
+        if not variant or not text:
+            raise ValueError(f"Invalid prompt record at index {idx}: {item!r}")
+        normalized.append({"variant": variant, "prompt": text})
+    return normalized
 
 
 def source_legislatures(leaf: Dict[str, Any]) -> set:
@@ -107,9 +111,7 @@ def tree_to_data(
                     cate_id = node_to_cate_id(l2_index, l3_index, l4_index)
 
                     for prompt in prompts:
-                        prompt_rows.append(
-                            [cate_id, l2_name, l3_name, l4_name, strip_base_prompt_marker(prompt)]
-                        )
+                        prompt_rows.append([cate_id, l2_name, l3_name, l4_name, prompt["prompt"]])
                     if include_judges:
                         judge_rows.append([cate_id, l2_name, l3_name, l4_name, judge])
 

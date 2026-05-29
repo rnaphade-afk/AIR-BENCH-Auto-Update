@@ -1,156 +1,178 @@
 # AIR-BENCH Auto Update
 
-This repo implements a pipeline for automatic maintenance of the AIR-BENCH dataset.
+A pipeline for automatic maintenance of the AIR-BENCH dataset. It contains functionality for scraping policy sources, filtering and classifying new clauses into a semantic tree, generating attack/judge prompts for novel cateogires, and exporting the updated dataset.
+
+---
 
 ## Setup
-
-Create and activate a virtual environment:
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-```
-
-Install Python dependencies:
-
-```bash
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-Create a `.env` file with:
+Create a `.env` file:
 
 ```bash
 OPENAI_API_KEY=...
-```
 
-If using Congress API discovery, also add:
-
-```bash
+# Optional: Congress API discovery
 CONGRESS_API_KEY=...
-```
 
-Prompt generation samples persona styles from `proj-persona/PersonaHub` via the `datasets` package. To use a local persona list instead, set:
-
-```bash
+# Optional: PersonaHub is sampled for persona-prompting. To use a local persona list instead:
 PERSONA_SOURCE_PATH=path/to/personas.txt
 ```
 
-Prompt mutation defaults to authority endorsement. The pipeline accepts repeatable mutation types, so additional generator-supported mutations can be enabled with:
+> All commands should be run from the repo root using the repo-local virtual environment (`venv/bin/python ...`).
+
+---
+
+## Quick Reference
+
+| Goal | Command |
+|---|---|
+| First-time tree initialization | `./setup.py` |
+| Rebuild tree with prompt generation (EXPENSIVE) | `./setup.py --generate-prompts` |
+| Scrape, update, and export | `venv/bin/python pipeline.py --scrape --export` |
+| Run on an existing policy JSON | `venv/bin/python pipeline.py "POLICY_JSON_PATH"` |
+| Export only | `venv/bin/python pipeline.py --export` |
+| Resume an interrupted run | `venv/bin/python pipeline.py --scrape --export --resume --run-dir pipeline-runs/<timestamp>` |
+| Proof-of-concept run | See [Proof of Concept](#proof-of-concept) |
+
+---
+
+## Commands
+
+### `setup.py` — Tree Initialization
+
+Use `setup.py` ONLY when initializing or fully rebuilding `tree/semantic-tree.json`. It rewrites the tree, so do not use it for routine updates.
 
 ```bash
-venv/bin/python pipeline.py POLICY_JSON_PATH --mutation-type authority_endorsement
+# Initialize tree and regenerate summaries
+./setup.py
+
+# Initialize tree, regenerate all leaf prompts, then regenerate summaries
+./setup.py --generate-prompts
+
+# Resume an interrupted setup run
+./setup.py --generate-prompts --resume --run-dir pipeline-runs/<timestamp>
 ```
 
-Run commands from the repo root with the repo-local virtual environment:
+### `pipeline.py` — Incremental Updates
+
+Use `pipeline.py` for all normal incremental policy updates.
 
 ```bash
-venv/bin/python ...
-```
-
-Optional system dependency: install `pdftotext` if you want a fallback PDF extractor. The scraper also installs `pypdf` from `requirements.txt`, so `pdftotext` is not required for the default path.
-
-## Main Pipeline
-
-The full update command is:
-
-```bash
+# Scrape, update, and export
 venv/bin/python pipeline.py --scrape --export
+
+# Run on an existing policy JSON (no scrape)
+venv/bin/python pipeline.py "POLICY_JSON_PATH"
+
+# Run on an existing policy JSON and export
+venv/bin/python pipeline.py "POLICY_JSON_PATH" --export
+
+# Export only (no scrape or update)
+venv/bin/python pipeline.py --export
+
+# Limit scraping to one or more specific sources
+venv/bin/python pipeline.py --scrape --export --scrape-source "SOURCE_NAME"
+
+# List available scraper sources
+venv/bin/python webscraper/multisource_lm_policy_scrape.py --list-sources
+
+# Apply a prompt mutation (currently only authority_endorsement is supported)
+venv/bin/python pipeline.py POLICY_JSON_PATH --mutation-type MUTATION_TYPE
 ```
 
-This runs:
+---
 
-1. Webscraping across configured policy sources.
-2. Filtering to policies not seen in previous JSON runs.
-3. Human review of the newly scraped policy list.
-4. Classification into the semantic tree.
-5. Review checkpoints for classifications and any novel leaves.
-6. Prompt and judge generation for novel leaves.
-7. Semantic tree updates.
-8. Dataset CSV export.
+## Pipeline Steps
 
-Review artifacts are written under `pipeline-runs/<timestamp>/` unless `--run-dir` is provided.
+Running `pipeline.py --scrape --export` executes the following steps:
 
-## Repeat Runs
+1. Webscraping across configured policy sources
+2. Filtering to policies not seen in previous runs
+3. Human review of newly scraped policies
+4. Classification into the semantic tree
+5. Review checkpoints for classifications and novel leaves
+6. Prompt and judge generation for novel leaves
+7. Semantic tree update
+8. Dataset CSV export
 
-Scrape runs write two policy files:
+Run artifacts are written to `pipeline-runs/<timestamp>/` by default. Override with `--run-dir`.
 
-```text
+---
+
+## Policy Review
+
+Each scrape run produces three files:
+
+```
 pipeline-runs/<timestamp>/webscraped-policies-all.json
 pipeline-runs/<timestamp>/webscraped-policies-new.json
 pipeline-runs/<timestamp>/webscraped-policies-new-review.json
 ```
 
-The review file is created after novelty filtering. Delete policies that should not enter classification, edit metadata if needed, and leave approved records in the `policies` list. The approved list is written back to `webscraped-policies-new.json`, and only that reviewed file is fed into classification and tree updates. Policy novelty is based on normalized clause text, so a previously seen clause from a new URL is skipped downstream.
+The review file is generated after novelty filtering. To review:
 
-By default, the pipeline checks previous JSON files under:
+- **Remove** any policies that should not enter classification.
+- **Edit** metadata as needed.
+- **Leave** approved records in the `policies` list.
 
-```text
+Approved policies are written back to `webscraped-policies-new.json` and fed into classification. Novelty is based on normalized clause text — a previously seen clause from a new URL will be skipped.
+
+---
+
+## Policy History
+
+By default, the pipeline checks for previously seen policies in:
+
+```
 pipeline-runs/
 webscraper/runs/
 webscraper/lm_policy_clauses_multisource.json
 ```
 
-Add extra history files or directories with:
-
 ```bash
+# Add extra history files or directories
 --previous-policies path/to/old.json
 --previous-policies-dir path/to/old-runs
-```
 
-Disable default history lookup with:
-
-```bash
+# Disable default history lookup
 --no-default-policy-history
 ```
 
-Resume an interrupted run with:
+---
 
-```bash
-venv/bin/python pipeline.py --scrape --export --resume --run-dir pipeline-runs/<timestamp>
+## Export Outputs
+
+The exporter computes category IDs from tree order. Default output paths:
+
+```
+tree/air_bench_prompts_default.csv
+tree/air_bench_prompts_china.csv
+tree/air_bench_prompts_eu.csv
+tree/air_bench_prompts_us.csv
+tree/air_bench_judge_prompts.csv
 ```
 
-## Common Commands
+China, EU, and US files are written as siblings using the same filename stem. The `policies[].source.legislature` field controls which subset a policy belongs to.
 
-Scrape, update, and export:
-
-```bash
-venv/bin/python pipeline.py --scrape --export
-```
-
-Run only on an existing policy JSON:
+Override output paths:
 
 ```bash
-venv/bin/python pipeline.py "POLICY_JSON_PATH"
+--export-prompts-out PATH
+--export-judges-out PATH
 ```
 
-Run on an existing policy JSON and export afterward:
+---
 
-```bash
-venv/bin/python pipeline.py "POLICY_JSON_PATH" --export
-```
+## Proof of Concept
 
-Export only:
-
-```bash
-venv/bin/python pipeline.py --export
-```
-
-Limit scraping to one or more sources:
-
-```bash
-venv/bin/python pipeline.py --scrape --export --scrape-source "SOURCE_NAME"
-```
-
-List available scraper sources:
-
-```bash
-venv/bin/python webscraper/multisource_lm_policy_scrape.py --list-sources
-```
-
-## Proof Of Concept Run
-
-Run the pipeline against a mock tree without touching the canonical tree. This displays the update and export functionality of the pipeline using a mock policy JSON.
+Run the pipeline against mock tree and policies without modifying the canonical tree:
 
 ```bash
 venv/bin/python pipeline.py test-fixtures/mini-policy-clauses.json \
@@ -161,31 +183,9 @@ venv/bin/python pipeline.py test-fixtures/mini-policy-clauses.json \
   --export-judges-out test-fixtures/test-run/air_bench_judge_prompts.csv
 ```
 
-## Export Outputs
-
-The exporter computes category IDs from tree order.
-
-Default exports are:
-
-```text
-tree/air_bench_prompts_default.csv
-tree/air_bench_prompts_china.csv
-tree/air_bench_prompts_eu.csv
-tree/air_bench_prompts_us.csv
-tree/air_bench_judge_prompts.csv
-```
-
-Override export paths with:
-
-```bash
---export-prompts-out PATH_NAME
---export-judges-out PATH_NAME
-```
-
-The China, EU, and US prompt files are written as sibling files using the same filename stem.
+---
 
 ## Notes
 
-- `tree/semantic-tree.json` is the canonical tree.
-- `policies[].source.legislature` controls China, EU, and US subset exports.
-- Generated run artifacts can be removed when no longer needed, but keep reviewed artifacts if you may need to resume or audit a run.
+- `tree/semantic-tree.json` is the canonical tree. Do not overwrite it with `setup.py` unless you intend a full rebuild.
+- Generated run artifacts can be deleted when no longer needed; retain reviewed artifacts if you may need to resume or audit a run.

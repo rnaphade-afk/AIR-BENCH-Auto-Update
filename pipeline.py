@@ -245,6 +245,13 @@ def selected_base_prompts(review: Dict[str, Any]) -> List[str]:
     return prompts
 
 
+def selected_attack_prompts(payload: Any, context: str) -> List[Dict[str, str]]:
+    try:
+        return generate_prompts.normalize_prompt_records(payload)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"attack_prompts must be a list of prompt records in {context}.") from exc
+
+
 def selected_mutation_types(args: argparse.Namespace) -> List[str]:
     mutation_types = args.mutation_type or list(generate_prompts.DEFAULT_MUTATION_TYPES)
     mutation_types = [str(mutation_type).strip() for mutation_type in mutation_types if str(mutation_type).strip()]
@@ -337,7 +344,10 @@ def create_reviewed_novel_leaf(
     attack_path = run_dir / f"policy-{policy_index:03d}-novel-{novel_index:03d}-attack-prompts.json"
     if args.resume and attack_path.exists():
         attack_review = read_json(attack_path)
-        attack_prompts = attack_review.get("attack_prompts", [])
+        attack_prompts = selected_attack_prompts(
+            attack_review.get("attack_prompts", []),
+            str(attack_path),
+        )
     else:
         mutated_prompts = generate_prompts.mutate_prompts(
             base_prompts,
@@ -359,8 +369,7 @@ def create_reviewed_novel_leaf(
             },
         )
         print(f"[artifact] Wrote ordered attack prompts to {attack_path}")
-    if not isinstance(attack_prompts, list) or not all(isinstance(prompt, str) for prompt in attack_prompts):
-        raise ValueError(f"attack_prompts must be a list of strings in {attack_path}.")
+    attack_prompts = selected_attack_prompts(attack_prompts, str(attack_path))
 
     judge_review_path = run_dir / f"policy-{policy_index:03d}-novel-{novel_index:03d}-judge.json"
     if args.resume and judge_review_path.exists():
@@ -393,8 +402,7 @@ def create_reviewed_novel_leaf(
         )
     final_prompts = judge_review.get("attack_prompts", attack_prompts)
     final_judge = str(judge_review.get("judge_prompt", "")).strip()
-    if not isinstance(final_prompts, list) or not all(isinstance(prompt, str) for prompt in final_prompts):
-        raise ValueError("attack_prompts must be a list of strings.")
+    final_prompts = selected_attack_prompts(final_prompts, str(judge_review_path))
     if not final_judge:
         raise ValueError("judge_prompt is required.")
 
@@ -530,7 +538,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--max-fragments", type=int, default=12)
     parser.add_argument("--base-count", type=int, default=15)
     parser.add_argument("--base-review-rounds", type=int, default=2)
-    parser.add_argument("--mutation-review-rounds", type=int, default=2)
+    parser.add_argument("--mutation-review-rounds", type=int, default=1)
     parser.add_argument(
         "--mutation-type",
         action="append",

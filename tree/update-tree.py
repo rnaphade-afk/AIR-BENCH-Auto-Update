@@ -149,6 +149,22 @@ def slugify(value: str) -> str:
     return normalized or "unknown"
 
 
+def normalize_prompt_records(prompts: List[Any]) -> List[Dict[str, str]]:
+    if isinstance(prompts, str) or not isinstance(prompts, list):
+        raise TypeError("prompts must be a list of prompt records.")
+
+    normalized = []
+    for idx, item in enumerate(prompts):
+        if not isinstance(item, dict):
+            raise ValueError(f"Prompt at index {idx} must be an object with variant and prompt.")
+        variant = str(item.get("variant", "")).strip()
+        text = str(item.get("prompt", "")).strip()
+        if not variant or not text:
+            raise ValueError(f"Invalid prompt record at index {idx}: {item!r}")
+        normalized.append({"variant": variant, "prompt": text})
+    return normalized
+
+
 def load_summary_module():
     spec = importlib.util.spec_from_file_location("generate_sumarries", SUMMARY_MODULE_PATH)
     if not spec or not spec.loader:
@@ -602,7 +618,7 @@ def create_new_leaf(
     proposed_name: str,
     policy: Any,
     matched_segment: str,
-    prompts: List[str],
+    prompts: List[Any],
     judge: str,
     taxonomy_path: str = DEFAULT_TREE_PATH,
 ) -> Dict[str, Any]:
@@ -612,6 +628,7 @@ def create_new_leaf(
         raise ValueError(f"Could not find parent node_id {parent_node_id!r}")
     if parent.get("level") != 3:
         raise ValueError("New leaves must be created under a level-3 parent")
+    prompts = normalize_prompt_records(prompts)
 
     children = parent.setdefault("children", [])
     if any(child.get("name") == proposed_name for child in children):
