@@ -8,7 +8,9 @@ from typing import Any, Dict, List, Optional, Tuple
 DEFAULT_TREE_PATH = Path(__file__).with_name("semantic-tree.json")
 DEFAULT_PROMPTS_PATH = Path(__file__).with_name("air_bench_prompts_default.csv")
 DEFAULT_JUDGES_PATH = Path(__file__).with_name("air_bench_judge_prompts.csv")
-PROMPT_SUBSETS = ("default", "china", "eu", "us")
+ENGLISH_LANGUAGE = "English"
+LEGISLATURE_PROMPT_SUBSETS = ("default", "china", "eu", "us")
+LANGUAGE_PROMPT_SUBSETS = (ENGLISH_LANGUAGE, "Spanish", "Japanese", "Portuguese")
 
 PROMPT_COLUMNS = ["cate-idx", "l2-name", "l3-name", "l4-name", "prompt"]
 JUDGE_COLUMNS = ["cate-idx", "l2-name", "l3-name", "l4-name", "judge_prompt"]
@@ -51,10 +53,11 @@ def normalize_prompt_records(prompts: Any) -> List[Dict[str, str]]:
         if not isinstance(item, dict):
             raise ValueError(f"Prompt at index {idx} must be an object with variant and prompt.")
         variant = str(item.get("variant", "")).strip()
+        language = str(item.get("language", ENGLISH_LANGUAGE)).strip()
         text = str(item.get("prompt", "")).strip()
-        if not variant or not text:
+        if not variant or not language or not text:
             raise ValueError(f"Invalid prompt record at index {idx}: {item!r}")
-        normalized.append({"variant": variant, "prompt": text})
+        normalized.append({"variant": variant, "language": language, "prompt": text})
     return normalized
 
 
@@ -79,9 +82,16 @@ def include_leaf(leaf: Dict[str, Any], legislature: Optional[str]) -> bool:
     return legislature in source_legislatures(leaf)
 
 
+def include_prompt(prompt: Dict[str, str], language: Optional[str]) -> bool:
+    if language is None:
+        return True
+    return prompt["language"].strip().lower() == language.strip().lower()
+
+
 def tree_to_data(
     root: Dict[str, Any],
     legislature: Optional[str] = None,
+    language: Optional[str] = None,
     include_judges: bool = True,
 ) -> Tuple[List[List[str]], List[List[str]]]:
     prompt_rows = []
@@ -111,6 +121,8 @@ def tree_to_data(
                     cate_id = node_to_cate_id(l2_index, l3_index, l4_index)
 
                     for prompt in prompts:
+                        if not include_prompt(prompt, language):
+                            continue
                         prompt_rows.append([cate_id, l2_name, l3_name, l4_name, prompt["prompt"]])
                     if include_judges:
                         judge_rows.append([cate_id, l2_name, l3_name, l4_name, judge])
@@ -129,15 +141,25 @@ def write_csv(path: Path, columns: List[str], rows: List[List[str]]) -> None:
 def prompt_subset_paths(default_path: Path = DEFAULT_PROMPTS_PATH) -> Dict[str, Path]:
     paths = {"default": default_path}
     stem = default_path.stem
-    for subset in PROMPT_SUBSETS:
+    for subset in LEGISLATURE_PROMPT_SUBSETS:
         if subset == "default":
             continue
-        if stem.endswith("_default"):
-            subset_stem = f"{stem[: -len('_default')]}_{subset}"
-        else:
-            subset_stem = f"{stem}_{subset}"
-        paths[subset] = default_path.with_name(f"{subset_stem}{default_path.suffix}")
+        paths[subset] = prompt_subset_path(default_path, stem, subset)
+    for language in LANGUAGE_PROMPT_SUBSETS:
+        paths[f"language_{language.lower()}"] = prompt_subset_path(
+            default_path,
+            stem,
+            language.lower(),
+        )
     return paths
+
+
+def prompt_subset_path(default_path: Path, stem: str, subset: str) -> Path:
+    if stem.endswith("_default"):
+        subset_stem = f"{stem[: -len('_default')]}_{subset}"
+    else:
+        subset_stem = f"{stem}_{subset}"
+    return default_path.with_name(f"{subset_stem}{default_path.suffix}")
 
 
 def data_to_csv(
@@ -149,7 +171,16 @@ def data_to_csv(
     prompt_rows_by_subset: Dict[str, List[List[str]]] = {}
     for subset, path in prompt_subset_paths(prompts_path).items():
         legislature = None if subset == "default" else subset
-        prompt_rows, _ = tree_to_data(root, legislature=legislature, include_judges=False)
+        language = None
+        if subset.startswith("language_"):
+            legislature = None
+            language = subset.removeprefix("language_")
+        prompt_rows, _ = tree_to_data(
+            root,
+            legislature=legislature,
+            language=language,
+            include_judges=False,
+        )
         prompt_rows_by_subset[subset] = prompt_rows
         write_csv(path, PROMPT_COLUMNS, prompt_rows)
 
@@ -166,8 +197,8 @@ def main() -> int:
         type=Path,
         default=DEFAULT_PROMPTS_PATH,
         help=(
-            "Default prompt CSV path. Legislature-specific prompt CSVs are written as sibling "
-            "files with _china, _eu, and _us suffixes."
+            "Default prompt CSV path. Legislature and language-specific prompt CSVs are written "
+            "as sibling files."
         ),
     )
     parser.add_argument("--judges-out", type=Path, default=DEFAULT_JUDGES_PATH)

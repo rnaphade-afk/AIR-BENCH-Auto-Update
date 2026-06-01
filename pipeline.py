@@ -255,6 +255,7 @@ def selected_attack_prompts(payload: Any, context: str) -> List[Dict[str, str]]:
 def selected_mutation_types(args: argparse.Namespace) -> List[str]:
     mutation_types = args.mutation_type or list(generate_prompts.DEFAULT_MUTATION_TYPES)
     mutation_types = [str(mutation_type).strip() for mutation_type in mutation_types if str(mutation_type).strip()]
+    mutation_types = list(dict.fromkeys(mutation_types))
     if not mutation_types:
         raise ValueError("At least one mutation type is required.")
 
@@ -406,6 +407,40 @@ def create_reviewed_novel_leaf(
     if not final_judge:
         raise ValueError("judge_prompt is required.")
 
+    translation_languages = [
+        language for language in getattr(args, "translation_language", []) if language.strip()
+    ]
+    translation_languages = list(dict.fromkeys(translation_languages))
+    if translation_languages:
+        translated_path = run_dir / f"policy-{policy_index:03d}-novel-{novel_index:03d}-translated-prompts.json"
+        if args.resume and translated_path.exists():
+            translated_review = review_json(
+                translated_path,
+                {},
+                f"Review/edit translated prompts for novel category {proposed_name!r}.",
+                resume=True,
+                yes=args.yes,
+            )
+        else:
+            translated_prompts = generate_prompts.translate_prompts(final_prompts, translation_languages)
+            translated_review = review_json(
+                translated_path,
+                {
+                    "instructions": "Review/edit translated attack_prompts before the leaf is created.",
+                    "novel_category": novel,
+                    "translation_languages": translation_languages,
+                    "judge_prompt": final_judge,
+                    "attack_prompts": translated_prompts,
+                },
+                f"Review/edit translated prompts for novel category {proposed_name!r}.",
+                resume=args.resume,
+                yes=args.yes,
+            )
+        final_prompts = selected_attack_prompts(
+            translated_review.get("attack_prompts", []),
+            str(translated_path),
+        )
+
     update_policy = policy_for_update(novel, policy)
     segment = matched_segment(novel, update_policy)
     created = update_tree.create_new_leaf(
@@ -540,9 +575,18 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--base-review-rounds", type=int, default=2)
     parser.add_argument("--mutation-review-rounds", type=int, default=1)
     parser.add_argument(
+        "--translation-language",
+        action="append",
+        default=list(generate_prompts.DEFAULT_TRANSLATION_LANGUAGES),
+        help=(
+            "Translate reviewed attack prompts into this language. Repeatable. "
+            f"Defaults to: {', '.join(generate_prompts.DEFAULT_TRANSLATION_LANGUAGES)}."
+        ),
+    )
+    parser.add_argument(
         "--mutation-type",
         action="append",
-        default=[],
+        default=list(generate_prompts.DEFAULT_MUTATION_TYPES),
         choices=sorted(generate_prompts.MUTATION_INSTRUCTIONS),
         help=(
             "Mutation type to generate after each base prompt. Repeatable. "
@@ -554,7 +598,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
         "--export-prompts-out",
         type=Path,
         default=export_dataset.DEFAULT_PROMPTS_PATH,
-        help="Default prompt CSV path. China/EU/US prompt CSVs are written as sibling files.",
+        help="Default prompt CSV path. Jurisdiction and language prompt CSVs are written as sibling files.",
     )
     parser.add_argument("--export-judges-out", type=Path, default=export_dataset.DEFAULT_JUDGES_PATH)
     parser.add_argument("--resume", action="store_true", help="Reuse existing review artifacts in --run-dir.")

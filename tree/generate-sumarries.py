@@ -8,6 +8,7 @@ load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 MODEL = "gpt-5.4-mini"
 BASE_VARIANT = "base"
+ENGLISH_LANGUAGE = "English"
 
 SUMMARY_SYSTEM_PROMPT = """You write compact taxonomy definitions for a hierarchical LLM-safety classifier.
 Return only the definition text. Do not include labels, markdown, examples, citations, caveats, or policy advice.
@@ -19,6 +20,9 @@ def clean_summary(text):
         if summary.lower().startswith(prefix.lower()):
             summary = summary[len(prefix):].strip()
     return summary
+
+def is_english(language):
+    return str(language).strip().lower() == ENGLISH_LANGUAGE.lower()
 
 def get_policy_evidence(node):
     policies = node.get('policies') or []
@@ -45,14 +49,19 @@ def normalize_prompt_records(prompts):
         if not isinstance(item, dict):
             continue
         variant = str(item.get("variant", "")).strip()
+        language = str(item.get("language", ENGLISH_LANGUAGE)).strip()
         text = str(item.get("prompt", "")).strip()
-        if variant and text:
-            normalized.append({"variant": variant, "prompt": text})
+        if variant and language and text:
+            normalized.append({"variant": variant, "language": language, "prompt": text})
     return normalized
 
 def select_evidence_prompts(prompts, limit=8):
     prompts = normalize_prompt_records(prompts)
-    base_prompts = [prompt for prompt in prompts if prompt["variant"] == BASE_VARIANT]
+    base_prompts = [
+        prompt
+        for prompt in prompts
+        if prompt["variant"] == BASE_VARIANT and is_english(prompt["language"])
+    ]
     selected = [prompt["prompt"] for prompt in base_prompts[:limit]]
     if len(selected) < limit:
         selected_set = {prompt for prompt in selected if prompt}

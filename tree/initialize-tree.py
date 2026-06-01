@@ -48,6 +48,7 @@ def prompt_record(prompt, idx):
     variant = BASE_VARIANT if idx % 3 == 0 else MUTATION_VARIANT
     return {
         "variant": variant,
+        "language": "English",
         "prompt": str(prompt).strip(),
     }
 

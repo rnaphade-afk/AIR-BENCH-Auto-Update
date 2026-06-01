@@ -130,7 +130,12 @@ def build_arg_parser():
     parser.add_argument("--base-count", type=int, default=10)
     parser.add_argument("--base-review-rounds", type=int, default=2)
     parser.add_argument("--mutation-review-rounds", type=int, default=1)
-    parser.add_argument("--mutation-type", action="append", default=[], choices=sorted(pipeline.generate_prompts.MUTATION_INSTRUCTIONS))
+    parser.add_argument(
+        "--mutation-type",
+        action="append",
+        default=list(pipeline.generate_prompts.DEFAULT_MUTATION_TYPES),
+        choices=sorted(pipeline.generate_prompts.MUTATION_INSTRUCTIONS),
+    )
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--yes", action="store_true")
     return parser

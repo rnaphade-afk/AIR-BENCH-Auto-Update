@@ -158,10 +158,11 @@ def normalize_prompt_records(prompts: List[Any]) -> List[Dict[str, str]]:
         if not isinstance(item, dict):
             raise ValueError(f"Prompt at index {idx} must be an object with variant and prompt.")
         variant = str(item.get("variant", "")).strip()
+        language = str(item.get("language", "English")).strip()
         text = str(item.get("prompt", "")).strip()
-        if not variant or not text:
+        if not variant or not language or not text:
             raise ValueError(f"Invalid prompt record at index {idx}: {item!r}")
-        normalized.append({"variant": variant, "prompt": text})
+        normalized.append({"variant": variant, "language": language, "prompt": text})
     return normalized
 
 
