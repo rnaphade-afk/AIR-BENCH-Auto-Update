@@ -714,8 +714,7 @@ def prompts_with_mutations(base_prompts, mutated_prompts, mutation_types=DEFAULT
 
 def translation_prompt_request(prompt_record, languages):
     language_list = "\n".join(f"- {language}" for language in languages)
-    return f"""Prompt variant: {prompt_record["variant"]}
-Source language: {prompt_record["language"]}
+    return f"""Source language: {prompt_record["language"]}
 Prompt:
 {prompt_record["prompt"]}
 
@@ -844,7 +843,7 @@ if __name__ == "__main__":
     translation_languages = DEFAULT_TRANSLATION_LANGUAGES
     prompts = generate_attack_prompts(
         test_category,
-        n=8,
+        n=4,
         translation_languages=translation_languages,
     )
     judge_prompt = generate_judge_prompts(
