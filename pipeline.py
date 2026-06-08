@@ -576,7 +576,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--max-leaf-matches", type=int, default=5)
     parser.add_argument("--max-fragments", type=int, default=12)
     parser.add_argument("--base-count", type=int, default=15)
-    parser.add_argument("--base-review-rounds", type=int, default=2)
+    parser.add_argument("--base-review-rounds", type=int, default=1)
     parser.add_argument("--mutation-review-rounds", type=int, default=1)
     parser.add_argument("--translation-review-rounds", type=int, default=1)
     parser.add_argument(

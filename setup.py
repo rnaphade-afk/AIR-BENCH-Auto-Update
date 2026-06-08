@@ -128,7 +128,7 @@ def build_arg_parser():
     parser.add_argument("--run-dir", type=Path, default=None)
     parser.add_argument("--generate-prompts", action="store_true")
     parser.add_argument("--base-count", type=int, default=10)
-    parser.add_argument("--base-review-rounds", type=int, default=2)
+    parser.add_argument("--base-review-rounds", type=int, default=1)
     parser.add_argument("--mutation-review-rounds", type=int, default=1)
     parser.add_argument("--translation-review-rounds", type=int, default=1)
     parser.add_argument(
