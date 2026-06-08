@@ -422,7 +422,11 @@ def create_reviewed_novel_leaf(
                 yes=args.yes,
             )
         else:
-            translated_prompts = generate_prompts.translate_prompts(final_prompts, translation_languages)
+            translated_prompts = generate_prompts.translate_prompts(
+                final_prompts,
+                translation_languages,
+                review_rounds=args.translation_review_rounds,
+            )
             translated_review = review_json(
                 translated_path,
                 {
@@ -574,6 +578,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--base-count", type=int, default=15)
     parser.add_argument("--base-review-rounds", type=int, default=2)
     parser.add_argument("--mutation-review-rounds", type=int, default=1)
+    parser.add_argument("--translation-review-rounds", type=int, default=1)
     parser.add_argument(
         "--translation-language",
         action="append",

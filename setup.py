@@ -130,6 +130,7 @@ def build_arg_parser():
     parser.add_argument("--base-count", type=int, default=10)
     parser.add_argument("--base-review-rounds", type=int, default=2)
     parser.add_argument("--mutation-review-rounds", type=int, default=1)
+    parser.add_argument("--translation-review-rounds", type=int, default=1)
     parser.add_argument(
         "--mutation-type",
         action="append",
