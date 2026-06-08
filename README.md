@@ -39,6 +39,7 @@ PERSONA_SOURCE_PATH=path/to/personas.txt
 | Run on an existing policy JSON | `venv/bin/python pipeline.py "POLICY_JSON_PATH"` |
 | Export only | `venv/bin/python pipeline.py --export` |
 | Resume an interrupted run | `venv/bin/python pipeline.py --scrape --export --resume --run-dir pipeline-runs/<timestamp>` |
+| Launch the web interface | `venv/bin/python webapp/server.py` |
 | Proof-of-concept run | See [Proof of Concept](#proof-of-concept) |
 
 ---
@@ -86,6 +87,34 @@ venv/bin/python webscraper/multisource_lm_policy_scrape.py --list-sources
 # Apply a prompt mutation (currently only authority_endorsement is supported)
 venv/bin/python pipeline.py POLICY_JSON_PATH --mutation-type MUTATION_TYPE
 ```
+
+---
+
+## Web Interface
+
+A browser front-end for orchestrating both `setup.py` and `pipeline.py`, with an integrated JSON editor for the human-in-the-loop review checkpoints. It is a thin driver around the existing CLIs — it spawns them as subprocesses and reuses the same review/resume flow, so behavior is identical to running them in a terminal.
+
+```bash
+# Install dependencies (adds flask) and launch the server
+venv/bin/pip install -r requirements.txt
+venv/bin/python webapp/server.py        # http://127.0.0.1:5000
+
+# Use a different port
+PORT=8080 venv/bin/python webapp/server.py
+```
+
+Then, in the browser:
+
+1. Pick a tool (`pipeline.py` or `setup.py`) and set flags (toggles cover the common ones; the text box accepts any CLI flag).
+2. **Start run.** Logs stream live in the bottom panel.
+3. When the run reaches a review checkpoint it pauses, opens the relevant JSON file in the editor, and shows a banner. Edit the file (it is validated as JSON), then **Save & Continue** to resume the run.
+4. Repeat until the run reports `done`. Other checkpoint files for the run are listed under "Run-dir checkpoints" and can be opened at any time.
+
+Notes:
+
+- The same review files documented in [Policy Review](#policy-review) and under `pipeline-runs/<timestamp>/` are what the editor opens — the web interface only changes *how* you edit them, not *what* gets reviewed.
+- One run at a time. File reads/writes are sandboxed to the repository root, so a `--run-dir` outside the repo will not be editable in the browser.
+- `--yes` is never injected; the pause is how the interface lets you edit. The editor (CodeMirror) loads from a CDN and needs internet for its assets. See [webapp/README.md](webapp/README.md) for details.
 
 ---
 

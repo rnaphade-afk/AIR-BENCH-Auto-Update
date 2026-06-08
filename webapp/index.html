@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIR-BENCH Pipeline</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<style>
+  :root { --bg:#0f1115; --panel:#181b22; --border:#2a2f3a; --fg:#d7dbe3; --muted:#8a93a6;
+          --accent:#4f8cff; --green:#3fb950; --amber:#d29922; --red:#f85149; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+         background:var(--bg); color:var(--fg); }
+  header { padding:10px 16px; border-bottom:1px solid var(--border); display:flex;
+           align-items:center; gap:12px; }
+  header h1 { font-size:15px; margin:0; font-weight:600; }
+  .badge { padding:2px 10px; border-radius:12px; font-size:12px; font-weight:600;
+           text-transform:uppercase; letter-spacing:.04em; }
+  .badge.idle{background:#30363d;color:var(--muted)} .badge.running{background:#1f3a5f;color:#79b8ff}
+  .badge.paused{background:#3a2f00;color:var(--amber)} .badge.done{background:#13311c;color:var(--green)}
+  .badge.error{background:#3a1413;color:var(--red)}
+  main { display:grid; grid-template-columns:340px 1fr; gap:0; height:calc(100vh - 49px); }
+  .col { padding:14px 16px; overflow:auto; }
+  .col.left { border-right:1px solid var(--border); }
+  .col.right { display:flex; flex-direction:column; gap:12px; }
+  fieldset { border:1px solid var(--border); border-radius:8px; margin:0 0 14px; padding:12px; }
+  legend { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.05em; padding:0 6px; }
+  label { display:block; font-size:12px; color:var(--muted); margin:8px 0 3px; }
+  input[type=text], select, textarea { width:100%; background:#0c0e13; color:var(--fg);
+           border:1px solid var(--border); border-radius:6px; padding:7px 9px; font-size:13px; font-family:inherit; }
+  textarea { resize:vertical; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .chk { display:inline-flex; align-items:center; gap:5px; font-size:12px; color:var(--fg); margin:4px 10px 4px 0; }
+  .chk input { width:auto; }
+  button { background:var(--accent); color:#fff; border:0; border-radius:6px; padding:8px 14px;
+           font-size:13px; font-weight:600; cursor:pointer; }
+  button.secondary { background:#21262d; color:var(--fg); border:1px solid var(--border); }
+  button:disabled { opacity:.45; cursor:not-allowed; }
+  .hint { font-size:11px; color:var(--muted); margin-top:6px; }
+  #log { background:#0a0c10; border:1px solid var(--border); border-radius:8px; padding:10px 12px;
+         font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; white-space:pre-wrap;
+         flex:0 0 32%; overflow:auto; }
+  .editor-wrap { flex:1; display:flex; flex-direction:column; border:1px solid var(--border);
+                 border-radius:8px; overflow:hidden; min-height:200px; }
+  .editor-head { display:flex; align-items:center; gap:10px; padding:8px 12px; background:var(--panel);
+                 border-bottom:1px solid var(--border); }
+  .editor-head .path { font-family:ui-monospace,monospace; font-size:12px; color:var(--muted);
+                       overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; }
+  .CodeMirror { height:100%; font-size:13px; }
+  .review-banner { background:#3a2f00; color:var(--amber); border:1px solid #5c4a00; border-radius:8px;
+                   padding:8px 12px; font-size:13px; }
+  .files { display:flex; flex-wrap:wrap; gap:6px; }
+  .files button { background:#0c0e13; border:1px solid var(--border); color:var(--muted);
+                  padding:3px 8px; font-size:11px; font-weight:400; }
+  .files button.active { color:var(--accent); border-color:var(--accent); }
+  .jsonok { font-size:12px; font-weight:600; } .jsonok.ok{color:var(--green)} .jsonok.bad{color:var(--red)}
+  .err { color:var(--red); font-size:12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>AIR-BENCH Pipeline</h1>
+  <span id="badge" class="badge idle">idle</span>
+  <span id="rundir" class="hint"></span>
+</header>
+<main>
+  <div class="col left">
+    <fieldset>
+      <legend>Launch</legend>
+      <label>Tool</label>
+      <select id="tool">
+        <option value="pipeline">pipeline.py (update)</option>
+        <option value="setup">setup.py (initialize)</option>
+      </select>
+
+      <div id="toggles"></div>
+
+      <label>Flags</label>
+      <textarea id="args" rows="3" spellcheck="false"></textarea>
+      <div class="hint">Space-separated CLI flags, passed straight through. Avoid paths with spaces.</div>
+
+      <div class="row" style="margin-top:12px">
+        <button id="startBtn">Start run</button>
+        <button id="stopBtn" class="secondary">Stop</button>
+      </div>
+      <div id="startErr" class="err"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Run-dir checkpoints</legend>
+      <div id="files" class="files"><span class="hint">None yet.</span></div>
+    </fieldset>
+  </div>
+
+  <div class="col right">
+    <div id="banner" class="review-banner" style="display:none"></div>
+    <div class="editor-wrap">
+      <div class="editor-head">
+        <span id="curPath" class="path">No file open</span>
+        <span id="jsonok" class="jsonok"></span>
+        <button id="saveBtn" class="secondary" disabled>Save</button>
+        <button id="continueBtn" disabled>Save &amp; Continue</button>
+      </div>
+      <textarea id="editor"></textarea>
+    </div>
+    <div id="log"></div>
+  </div>
+</main>
+
+<script>
+const TOGGLES = {
+  pipeline: [
+    {flag:"--scrape", label:"--scrape"},
+    {flag:"--export", label:"--export"},
+    {flag:"--resume", label:"--resume"},
+  ],
+  setup: [
+    {flag:"--generate-prompts", label:"--generate-prompts"},
+    {flag:"--resume", label:"--resume"},
+  ],
+};
+const DEFAULT_ARGS = {
+  pipeline: "--scrape --export",
+  setup: "--generate-prompts",
+};
+
+const $ = (id) => document.getElementById(id);
+let cm = CodeMirror.fromTextArea($("editor"), {
+  mode: {name:"javascript", json:true}, lineNumbers:true, matchBrackets:true,
+  theme:"default", lineWrapping:true,
+});
+cm.setSize("100%", "100%");
+
+let state = "idle";
+let curPath = null;     // file currently in editor
+let dirty = false;      // unsaved edits in editor
+let reviewPath = null;  // path the run is paused on
+
+cm.on("change", () => {
+  if (loadingDoc) return;
+  dirty = true;
+  refreshButtons();
+  validateJson();
+});
+let loadingDoc = false;
+
+function setBadge(s){ const b=$("badge"); b.className="badge "+s; b.textContent=s; }
+
+function validateJson(){
+  const el=$("jsonok");
+  if(!curPath){ el.textContent=""; return true; }
+  try { JSON.parse(cm.getValue()); el.textContent="JSON ✓"; el.className="jsonok ok"; return true; }
+  catch(e){ el.textContent="JSON ✗"; el.className="jsonok bad"; return false; }
+}
+
+function refreshButtons(){
+  const paused = state==="paused";
+  $("saveBtn").disabled = !curPath || !dirty;
+  $("continueBtn").disabled = !(paused && curPath && reviewPath && curPath===reviewPath);
+}
+
+async function loadFile(path, opts={}){
+  const r = await fetch("/api/file?path="+encodeURIComponent(path));
+  const j = await r.json();
+  if(!r.ok){ if(!opts.silent) alert(j.error||"Could not open file"); return; }
+  loadingDoc = true;
+  cm.setValue(j.content);
+  loadingDoc = false;
+  curPath = j.path; dirty = false;
+  $("curPath").textContent = j.path;
+  validateJson(); refreshButtons(); renderFiles();
+}
+
+async function saveFile(){
+  if(!validateJson()){ alert("Fix invalid JSON before saving."); return false; }
+  const r = await fetch("/api/file", {method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({path:curPath, content:cm.getValue()})});
+  const j = await r.json();
+  if(!r.ok){ alert(j.error||"Save failed"); return false; }
+  dirty=false; refreshButtons(); return true;
+}
+
+async function continueRun(){
+  if(!validateJson()){ alert("Fix invalid JSON before continuing."); return; }
+  const r = await fetch("/api/continue", {method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({path:curPath, content:cm.getValue()})});
+  const j = await r.json();
+  if(!r.ok){ alert(j.error||"Continue failed"); return; }
+  dirty=false; reviewPath=null;
+}
+
+let lastFiles = "";
+function renderFiles(files){
+  if(files) lastFiles = JSON.stringify(files); else files = JSON.parse(lastFiles||"[]");
+  const box=$("files");
+  if(!files.length){ box.innerHTML='<span class="hint">None yet.</span>'; return; }
+  const rd = $("rundir").dataset.dir || "";
+  box.innerHTML = "";
+  files.forEach(name => {
+    const full = rd ? rd + "/" + name : name;
+    const b=document.createElement("button");
+    b.textContent=name;
+    if(curPath===full) b.classList.add("active");
+    b.onclick=()=>{ if(dirty && !confirm("Discard unsaved edits?")) return; loadFile(full); };
+    box.appendChild(b);
+  });
+}
+
+async function poll(){
+  let j;
+  try { j = await (await fetch("/api/status")).json(); } catch(e){ return; }
+  state = j.state; setBadge(state);
+  $("log").textContent = j.logs.join("\n");
+  $("log").scrollTop = $("log").scrollHeight;
+  $("rundir").textContent = j.run_dir ? "run-dir: "+j.run_dir : "";
+  $("rundir").dataset.dir = j.run_dir || "";
+  renderFiles(j.files||[]);
+
+  if(j.review && j.review.path){
+    reviewPath = j.review.path;
+    $("banner").style.display="block";
+    $("banner").textContent = "⏸ Paused for review — "+(j.review.message||"edit the file, then Save & Continue");
+    // Auto-open the review file unless the user is mid-edit on it.
+    if(curPath !== reviewPath && !dirty) await loadFile(reviewPath, {silent:true});
+  } else {
+    reviewPath = null;
+    $("banner").style.display="none";
+  }
+  refreshButtons();
+}
+
+function applyToolDefaults(){
+  const tool=$("tool").value;
+  $("args").value = DEFAULT_ARGS[tool] || "";
+  const box=$("toggles"); box.innerHTML="";
+  (TOGGLES[tool]||[]).forEach(t=>{
+    const lbl=document.createElement("label"); lbl.className="chk";
+    const cb=document.createElement("input"); cb.type="checkbox"; cb.dataset.flag=t.flag;
+    cb.checked = $("args").value.includes(t.flag);
+    cb.onchange=()=>{
+      let parts=$("args").value.split(/\s+/).filter(Boolean);
+      parts=parts.filter(p=>p!==t.flag);
+      if(cb.checked) parts.push(t.flag);
+      $("args").value=parts.join(" ");
+    };
+    lbl.appendChild(cb); lbl.appendChild(document.createTextNode(" "+t.label));
+    box.appendChild(lbl);
+  });
+}
+
+$("tool").onchange = applyToolDefaults;
+$("startBtn").onclick = async ()=>{
+  $("startErr").textContent="";
+  const tool=$("tool").value;
+  const args=$("args").value.split(/\s+/).filter(Boolean);
+  const r=await fetch("/api/start",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({tool,args})});
+  const j=await r.json();
+  if(!r.ok){ $("startErr").textContent=j.error||"Start failed"; }
+};
+$("stopBtn").onclick = ()=> fetch("/api/stop",{method:"POST"});
+$("saveBtn").onclick = saveFile;
+$("continueBtn").onclick = continueRun;
+
+applyToolDefaults();
+poll(); setInterval(poll, 1000);
+</script>
+</body>
+</html>
