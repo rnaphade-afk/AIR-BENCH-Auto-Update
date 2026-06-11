@@ -1,6 +1,7 @@
 import argparse
 import importlib.util
 import json
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List
@@ -215,6 +216,18 @@ def run_export_stage(args: argparse.Namespace, taxonomy_path: Path) -> Dict[str,
     }
 
 
+def existing_leaf_node_id(taxonomy: Dict[str, Any], parent_node_id: str, name: str) -> str:
+    """Return the node_id of a level-4 leaf named `name` under `parent_node_id` in the given
+    in-memory taxonomy, or "" if none."""
+    parent, _ = update_tree.find_node_and_path(taxonomy, parent_node_id)
+    if not parent:
+        return ""
+    for child in parent.get("children", []) or []:
+        if child.get("name") == name and child.get("level") == 4:
+            return str(child.get("node_id", ""))
+    return ""
+
+
 def policy_for_update(item: Dict[str, Any], fallback_policy: Any) -> Any:
     return item.get("policy") or fallback_policy
 
@@ -252,6 +265,19 @@ def selected_attack_prompts(payload: Any, context: str) -> List[Dict[str, str]]:
         raise ValueError(f"attack_prompts must be a list of prompt records in {context}.") from exc
 
 
+def normalize_languages(values: Any) -> List[str]:
+    """Resolve --translation-language values (ISO 639-1 codes or names) to canonical language
+    names, deduped. Falls back to the defaults when none are provided."""
+    if not values:
+        values = list(generate_prompts.DEFAULT_TRANSLATION_LANGUAGES)
+    resolved: List[str] = []
+    for value in values:
+        name = generate_prompts.resolve_language(value)
+        if name and name not in resolved:
+            resolved.append(name)
+    return resolved
+
+
 def selected_mutation_types(args: argparse.Namespace) -> List[str]:
     mutation_types = args.mutation_type or list(generate_prompts.DEFAULT_MUTATION_TYPES)
     mutation_types = [str(mutation_type).strip() for mutation_type in mutation_types if str(mutation_type).strip()]
@@ -271,11 +297,14 @@ def selected_mutation_types(args: argparse.Namespace) -> List[str]:
 
 def apply_existing_matches(
     classification_review: Dict[str, Any],
-    taxonomy_path: Path,
-) -> List[Dict[str, str]]:
+    taxonomy: Dict[str, Any],
+):
+    """Apply each existing match to the in-memory taxonomy. Returns (applied, affected_paths);
+    summary regeneration and saving are batched by the caller."""
     policy = classification_review["policy"]
     classification = classification_review.get("classification", {})
     applied = []
+    affected_paths = []
     for match in classification.get("existing_matches", []):
         if not isinstance(match, dict):
             continue
@@ -284,10 +313,12 @@ def apply_existing_matches(
             raise ValueError(f"Existing match is missing node_id: {match}")
         update_policy = policy_for_update(match, policy)
         segment = matched_segment(match, update_policy)
-        update_tree.update_leaf_policy(node_id, update_policy, segment, taxonomy_path=str(taxonomy_path))
+        path = update_tree.apply_leaf_policy_in_place(taxonomy, node_id, update_policy, segment)
+        if path is not None:
+            affected_paths.append(path)
         applied.append({"type": "existing", "node_id": node_id, "matched_segment": segment})
         print(f"[apply] Added policy evidence to existing leaf: {node_id}")
-    return applied
+    return applied, affected_paths
 
 
 def create_reviewed_novel_leaf(
@@ -296,13 +327,34 @@ def create_reviewed_novel_leaf(
     policy_index: int,
     novel_index: int,
     run_dir: Path,
+    taxonomy: Dict[str, Any],
     taxonomy_path: Path,
     args: argparse.Namespace,
-) -> Dict[str, str]:
+):
+    """Generate/review prompts for a novel category and apply it to the in-memory taxonomy.
+    Returns (applied_record, affected_path); summary regeneration and saving are batched by the
+    caller. The new leaf's prompts/judge are generated as before."""
     parent_node_id = str(novel.get("parent_node_id", "")).strip()
     proposed_name = str(novel.get("proposed_name", "")).strip()
     if not parent_node_id or not proposed_name:
         raise ValueError(f"Novel category needs parent_node_id and proposed_name: {novel}")
+
+    # Guard: if a leaf with this name already exists under the parent (e.g. another policy in a
+    # --parallel-policies run already created it, since classification ran against a pre-run tree
+    # snapshot, or an earlier novel category in this same policy), attach the policy to that leaf
+    # instead of creating a duplicate (which would raise).
+    duplicate_node_id = existing_leaf_node_id(taxonomy, parent_node_id, proposed_name)
+    if duplicate_node_id:
+        update_policy = policy_for_update(novel, policy)
+        segment = matched_segment(novel, update_policy)
+        path = update_tree.apply_leaf_policy_in_place(taxonomy, duplicate_node_id, update_policy, segment)
+        print(f"[apply] Novel category {proposed_name!r} already exists as {duplicate_node_id}; attached policy evidence.")
+        return {
+            "type": "existing",
+            "node_id": duplicate_node_id,
+            "parent_node_id": parent_node_id,
+            "name": proposed_name,
+        }, path
 
     category = {
         "name": proposed_name,
@@ -328,12 +380,13 @@ def create_reviewed_novel_leaf(
             base_review_path,
             {
                 "instructions": (
-                    "Review persona-styled base_prompt_candidates. Put the 5-10 prompts you want to keep, "
-                    "with any manual edits, in selected_base_prompts."
+                    "Review persona-styled base_prompt_candidates. Keep the ones you want to carry "
+                    "forward (with any manual edits) in selected_base_prompts; defaults to the first "
+                    f"{args.base_select}."
                 ),
                 "novel_category": novel,
                 "base_prompt_candidates": base_candidates,
-                "selected_base_prompts": base_candidates[:10],
+                "selected_base_prompts": base_candidates[: args.base_select],
             },
             f"Choose/edit base prompts for novel category {proposed_name!r}.",
             resume=args.resume,
@@ -407,10 +460,7 @@ def create_reviewed_novel_leaf(
     if not final_judge:
         raise ValueError("judge_prompt is required.")
 
-    translation_languages = [
-        language for language in getattr(args, "translation_language", []) if language.strip()
-    ]
-    translation_languages = list(dict.fromkeys(translation_languages))
+    translation_languages = normalize_languages(getattr(args, "translation_language", None))
     if translation_languages:
         translated_path = run_dir / f"policy-{policy_index:03d}-novel-{novel_index:03d}-translated-prompts.json"
         if args.resume and translated_path.exists():
@@ -447,14 +497,14 @@ def create_reviewed_novel_leaf(
 
     update_policy = policy_for_update(novel, policy)
     segment = matched_segment(novel, update_policy)
-    created = update_tree.create_new_leaf(
+    created, path = update_tree.create_leaf_in_place(
+        taxonomy,
         parent_node_id,
         proposed_name,
         update_policy,
         segment,
         final_prompts,
         final_judge,
-        taxonomy_path=str(taxonomy_path),
     )
     print(f"[apply] Created novel leaf: {created.get('node_id')}")
     return {
@@ -462,7 +512,7 @@ def create_reviewed_novel_leaf(
         "node_id": created.get("node_id", ""),
         "parent_node_id": parent_node_id,
         "name": proposed_name,
-    }
+    }, path
 
 
 def run_pipeline(args: argparse.Namespace) -> Dict[str, Any]:
@@ -494,20 +544,44 @@ def run_pipeline(args: argparse.Namespace) -> Dict[str, Any]:
     }
     write_json(run_dir / "pipeline-result.json", result)
 
+    def classify_policy(policy: Any) -> Dict[str, Any]:
+        return update_tree.classify(
+            policy,
+            taxonomy_path=str(taxonomy_path),
+            model=args.classification_model,
+            max_children=args.max_children,
+            max_leaf_matches=args.max_leaf_matches,
+            max_fragments=args.max_fragments,
+        )
+
+    # Optional: classify every policy concurrently up front. classify() only reads the tree, so
+    # this is parallel-safe; all tree mutations remain in the sequential loop below. Policies whose
+    # classification artifact already exists (--resume) are skipped here and read in the loop.
+    precomputed = [None] * len(policies)
+    if args.parallel_policies and policies:
+        pending = [
+            (idx, policy)
+            for idx, policy in enumerate(policies, start=1)
+            if not (args.resume and (run_dir / f"policy-{idx:03d}-classification.json").exists())
+        ]
+        if pending:
+            print(f"[classify] Pre-classifying {len(pending)} policies concurrently...")
+            workers = max(1, min(update_tree.MAX_CONCURRENCY, len(pending)))
+            with ThreadPoolExecutor(max_workers=workers) as executor:
+                for (idx, _), classification in zip(
+                    pending, executor.map(lambda it: classify_policy(it[1]), pending)
+                ):
+                    precomputed[idx - 1] = classification
+
     for policy_index, policy in enumerate(policies, start=1):
         classification_path = run_dir / f"policy-{policy_index:03d}-classification.json"
         if args.resume and classification_path.exists():
             classification_review = read_json(classification_path)
         else:
-            print(f"\n[classify] Policy {policy_index}/{len(policies)}")
-            classification = update_tree.classify(
-                policy,
-                taxonomy_path=str(taxonomy_path),
-                model=args.classification_model,
-                max_children=args.max_children,
-                max_leaf_matches=args.max_leaf_matches,
-                max_fragments=args.max_fragments,
-            )
+            classification = precomputed[policy_index - 1]
+            if classification is None:
+                print(f"\n[classify] Policy {policy_index}/{len(policies)}")
+                classification = classify_policy(policy)
             classification_review = {
                 "instructions": (
                     "Review classification.existing_matches and classification.novel_categories. "
@@ -524,22 +598,31 @@ def run_pipeline(args: argparse.Namespace) -> Dict[str, Any]:
             yes=args.yes,
         )
 
-        applied = apply_existing_matches(classification_review, taxonomy_path)
+        # Load the tree once, apply all of this policy's matches/novels in memory, regenerate the
+        # affected branches' summaries a single time, and save once — instead of reloading,
+        # regenerating, and rewriting the whole tree per individual attachment.
+        taxonomy = update_tree.load_taxonomy(str(taxonomy_path))
+        applied, affected_paths = apply_existing_matches(classification_review, taxonomy)
         classification = classification_review.get("classification", {})
         for novel_index, novel in enumerate(classification.get("novel_categories", []), start=1):
             if not isinstance(novel, dict):
                 continue
-            applied.append(
-                create_reviewed_novel_leaf(
-                    novel,
-                    classification_review["policy"],
-                    policy_index,
-                    novel_index,
-                    run_dir,
-                    taxonomy_path,
-                    args,
-                )
+            result_item, path = create_reviewed_novel_leaf(
+                novel,
+                classification_review["policy"],
+                policy_index,
+                novel_index,
+                run_dir,
+                taxonomy,
+                taxonomy_path,
+                args,
             )
+            applied.append(result_item)
+            if path is not None:
+                affected_paths.append(path)
+        if affected_paths:
+            update_tree.load_summary_module().branch_update_many(taxonomy, affected_paths)
+            update_tree.save_taxonomy(taxonomy, str(taxonomy_path))
         result["applied"].extend(applied)
         write_json(run_dir / "pipeline-result.json", result)
 
@@ -575,16 +658,18 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--max-children", type=int, default=4)
     parser.add_argument("--max-leaf-matches", type=int, default=5)
     parser.add_argument("--max-fragments", type=int, default=12)
-    parser.add_argument("--base-count", type=int, default=15)
+    parser.add_argument("--base-count", type=int, default=8, help="How many base prompt candidates to generate per category.")
+    parser.add_argument("--base-select", type=int, default=5, help="How many of the generated base prompts to carry forward (mutate/translate/store).")
     parser.add_argument("--base-review-rounds", type=int, default=1)
     parser.add_argument("--mutation-review-rounds", type=int, default=1)
     parser.add_argument("--translation-review-rounds", type=int, default=1)
     parser.add_argument(
         "--translation-language",
         action="append",
-        default=list(generate_prompts.DEFAULT_TRANSLATION_LANGUAGES),
+        default=None,
         help=(
-            "Translate reviewed attack prompts into this language. Repeatable. "
+            "Language to translate reviewed attack prompts into. Accepts an ISO 639-1 code "
+            "(e.g. es, ja, pt) or a language name (e.g. Spanish). Repeatable. "
             f"Defaults to: {', '.join(generate_prompts.DEFAULT_TRANSLATION_LANGUAGES)}."
         ),
     )
@@ -608,6 +693,17 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--export-judges-out", type=Path, default=export_dataset.DEFAULT_JUDGES_PATH)
     parser.add_argument("--resume", action="store_true", help="Reuse existing review artifacts in --run-dir.")
     parser.add_argument("--yes", action="store_true", help="Do not pause for edits after writing review files.")
+    parser.add_argument(
+        "--parallel-policies",
+        action="store_true",
+        help=(
+            "Classify all policies concurrently up front (read-only against the current tree "
+            "snapshot) before the sequential review/apply loop. Faster for large automated runs; "
+            "tree mutations stay sequential. Note: cross-policy novel-category de-duplication then "
+            "relies on the review step / the apply-time guard rather than on later policies seeing "
+            "earlier policies' new leaves."
+        ),
+    )
     return parser
 
 

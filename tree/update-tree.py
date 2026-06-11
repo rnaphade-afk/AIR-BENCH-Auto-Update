@@ -3,8 +3,12 @@ import importlib.util
 import json
 import os
 import re
+import threading
+import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Callable, Dict, Iterable, List
+
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -13,6 +17,28 @@ from openai import OpenAI
 MODEL = "gpt-5.4-mini"
 DEFAULT_TREE_PATH = "tree/semantic-tree.json"
 SUMMARY_MODULE_PATH = Path(__file__).with_name("generate-sumarries.py")
+# Classification is I/O-bound (each call waits ~seconds on the API, ~0 CPU), so concurrency
+# is limited by API rate limits, not cores. This semaphore hard-caps the number of in-flight
+# API calls across ALL of a classify() run's nested fragment/branch parallelism.
+MAX_CONCURRENCY = int(os.getenv("CLASSIFY_MAX_CONCURRENCY", "8"))
+_API_SEMAPHORE = threading.BoundedSemaphore(MAX_CONCURRENCY)
+# Retry transient API failures (429/5xx/timeout/parse) so one hiccup doesn't abort a full run.
+MAX_RETRIES = int(os.getenv("CLASSIFY_MAX_RETRIES", "4"))
+RETRY_BASE_DELAY = float(os.getenv("CLASSIFY_RETRY_BASE_DELAY", "1.0"))
+
+
+def parallel_map(fn: Callable, items: Iterable, max_workers: int = MAX_CONCURRENCY) -> List:
+    """Apply fn to each item concurrently, preserving input order.
+
+    Total concurrent API calls are bounded by _API_SEMAPHORE (see call_json_model), so this
+    is safe to nest — threads beyond the cap simply block on the semaphore rather than
+    over-subscribing the API.
+    """
+    items = list(items)
+    if len(items) <= 1:
+        return [fn(item) for item in items]
+    with ThreadPoolExecutor(max_workers=max(1, min(max_workers, len(items)))) as executor:
+        return list(executor.map(fn, items))
 
 SYSTEM_PROMPT = """You classify AI policy clauses into the AIR-BENCH taxonomy.
 Use only the provided taxonomy names, node_ids, summaries, and policy text.
@@ -53,14 +79,24 @@ def call_json_model(
         "response_format": {"type": "json_object"},
         "max_completion_tokens": max_completion_tokens,
     }
-    try:
-        response = client.chat.completions.create(**kwargs, temperature=0)
-    except Exception as first_exc:
+    last_exc = None
+    for attempt in range(MAX_RETRIES):
         try:
-            response = client.chat.completions.create(**kwargs)
-        except Exception:
-            raise first_exc
-    return parse_json_object(response.choices[0].message.content or "{}")
+            with _API_SEMAPHORE:
+                try:
+                    response = client.chat.completions.create(**kwargs, temperature=0)
+                except Exception as first_exc:
+                    try:
+                        response = client.chat.completions.create(**kwargs)
+                    except Exception:
+                        raise first_exc
+            return parse_json_object(response.choices[0].message.content or "{}")
+        except Exception as exc:
+            last_exc = exc
+            if attempt == MAX_RETRIES - 1:
+                break
+            time.sleep(RETRY_BASE_DELAY * (2 ** attempt))
+    raise last_exc
 
 
 def policy_text(policy: Any) -> str:
@@ -166,13 +202,21 @@ def normalize_prompt_records(prompts: List[Any]) -> List[Dict[str, str]]:
     return normalized
 
 
+_SUMMARY_MODULE = None
+
+
 def load_summary_module():
-    spec = importlib.util.spec_from_file_location("generate_sumarries", SUMMARY_MODULE_PATH)
-    if not spec or not spec.loader:
-        raise ImportError(f"Could not load summary module from {SUMMARY_MODULE_PATH}")
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
+    # Cached: importing the module re-runs load_dotenv and builds a fresh OpenAI client, so we
+    # load it once and reuse it across every update_leaf_policy / create_new_leaf call.
+    global _SUMMARY_MODULE
+    if _SUMMARY_MODULE is None:
+        spec = importlib.util.spec_from_file_location("generate_sumarries", SUMMARY_MODULE_PATH)
+        if not spec or not spec.loader:
+            raise ImportError(f"Could not load summary module from {SUMMARY_MODULE_PATH}")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        _SUMMARY_MODULE = module
+    return _SUMMARY_MODULE
 
 
 def find_node_and_path(
@@ -407,19 +451,17 @@ def recursive_candidates(
     if {child.get("level") for child in children} == {4}:
         return classify_at_leaf_parent(policy, fragment, node, client, model, max_leaf_matches)
 
+    routed = route_fragment(policy, fragment, node, client, model, max_children)
+    child_results = parallel_map(
+        lambda child: recursive_candidates(
+            policy, fragment, child, client, model, max_children, max_leaf_matches
+        ),
+        routed,
+    )
     results = {"existing": [], "novel": []}
-    for child in route_fragment(policy, fragment, node, client, model, max_children):
-        child_results = recursive_candidates(
-            policy,
-            fragment,
-            child,
-            client,
-            model,
-            max_children,
-            max_leaf_matches,
-        )
-        results["existing"].extend(child_results["existing"])
-        results["novel"].extend(child_results["novel"])
+    for child_result in child_results:
+        results["existing"].extend(child_result["existing"])
+        results["novel"].extend(child_result["novel"])
     return results
 
 
@@ -572,22 +614,43 @@ def classify(
     taxonomy = load_taxonomy(taxonomy_path)
     client = get_client()
     fragments = fragment_policy(policy, client, model, max_fragments)
-    candidates = {"existing": [], "novel": []}
 
-    for fragment in fragments:
-        fragment_candidates = recursive_candidates(
-            policy,
-            fragment,
-            taxonomy,
-            client,
-            model,
-            max_children,
-            max_leaf_matches,
-        )
+    # Fragments are independent (routing never depends on other fragments), so route them
+    # concurrently; the API semaphore bounds total in-flight calls. reconcile() is the barrier.
+    per_fragment = parallel_map(
+        lambda fragment: recursive_candidates(
+            policy, fragment, taxonomy, client, model, max_children, max_leaf_matches
+        ),
+        fragments,
+    )
+    candidates = {"existing": [], "novel": []}
+    for fragment_candidates in per_fragment:
         candidates["existing"].extend(fragment_candidates["existing"])
         candidates["novel"].extend(fragment_candidates["novel"])
 
     return reconcile(policy, fragments, candidates, client, model)
+
+
+def apply_leaf_policy_in_place(
+    taxonomy: Dict[str, Any],
+    leaf_node_id: str,
+    policy: Any,
+    matched_segment: str,
+) -> List[str]:
+    """Append policy evidence to a leaf in the given in-memory taxonomy. Returns the leaf's
+    branch path (for batched summary regeneration), or None if the policy was already present.
+    Does not regenerate summaries or save — the caller batches those."""
+    leaf, path = find_node_and_path(taxonomy, leaf_node_id)
+    if not leaf:
+        raise ValueError(f"Could not find leaf node_id {leaf_node_id!r}")
+    if leaf.get("level") != 4:
+        raise ValueError(f"Node {leaf_node_id!r} is not a level-4 leaf")
+    policy_record = normalize_policy_record(policy, matched_segment)
+    policies = leaf.setdefault("policies", [])
+    if policy_record in policies:
+        return None
+    policies.append(policy_record)
+    return path
 
 
 def update_leaf_policy(
@@ -597,33 +660,25 @@ def update_leaf_policy(
     taxonomy_path: str = DEFAULT_TREE_PATH,
 ) -> Dict[str, Any]:
     taxonomy = load_taxonomy(taxonomy_path)
-    leaf, path = find_node_and_path(taxonomy, leaf_node_id)
-    if not leaf:
-        raise ValueError(f"Could not find leaf node_id {leaf_node_id!r}")
-    if leaf.get("level") != 4:
-        raise ValueError(f"Node {leaf_node_id!r} is not a level-4 leaf")
-
-    policy_record = normalize_policy_record(policy, matched_segment)
-    policies = leaf.setdefault("policies", [])
-    if policy_record in policies:
-        return leaf
-    policies.append(policy_record)
-
-    load_summary_module().branch_update(taxonomy, path)
-    save_taxonomy(taxonomy, taxonomy_path)
+    path = apply_leaf_policy_in_place(taxonomy, leaf_node_id, policy, matched_segment)
+    if path is not None:
+        load_summary_module().branch_update(taxonomy, path)
+        save_taxonomy(taxonomy, taxonomy_path)
+    leaf, _ = find_node_and_path(taxonomy, leaf_node_id)
     return leaf
 
 
-def create_new_leaf(
+def create_leaf_in_place(
+    taxonomy: Dict[str, Any],
     parent_node_id: str,
     proposed_name: str,
     policy: Any,
     matched_segment: str,
     prompts: List[Any],
     judge: str,
-    taxonomy_path: str = DEFAULT_TREE_PATH,
-) -> Dict[str, Any]:
-    taxonomy = load_taxonomy(taxonomy_path)
+):
+    """Create a new level-4 leaf under parent_node_id in the given in-memory taxonomy. Returns
+    (new_leaf, branch_path). Does not regenerate summaries or save — the caller batches those."""
     parent, parent_path = find_node_and_path(taxonomy, parent_node_id)
     if not parent:
         raise ValueError(f"Could not find parent node_id {parent_node_id!r}")
@@ -645,8 +700,23 @@ def create_new_leaf(
         "policies": [normalize_policy_record(policy, matched_segment)],
     }
     children.append(new_leaf)
+    return new_leaf, parent_path + [proposed_name]
 
-    load_summary_module().branch_update(taxonomy, parent_path + [proposed_name])
+
+def create_new_leaf(
+    parent_node_id: str,
+    proposed_name: str,
+    policy: Any,
+    matched_segment: str,
+    prompts: List[Any],
+    judge: str,
+    taxonomy_path: str = DEFAULT_TREE_PATH,
+) -> Dict[str, Any]:
+    taxonomy = load_taxonomy(taxonomy_path)
+    new_leaf, path = create_leaf_in_place(
+        taxonomy, parent_node_id, proposed_name, policy, matched_segment, prompts, judge
+    )
+    load_summary_module().branch_update(taxonomy, path)
     save_taxonomy(taxonomy, taxonomy_path)
     return new_leaf
 

@@ -2,6 +2,7 @@ import json
 import os
 import random
 import re
+import time
 from concurrent.futures import ThreadPoolExecutor
 
 from dotenv import load_dotenv
@@ -9,6 +10,9 @@ from openai import OpenAI
 
 MODEL = "gpt-5.4-mini"
 CRITIC_MODEL = "gpt-5.4"
+# Retry transient API failures (429/5xx/timeout/parse) so one hiccup doesn't abort a full run.
+MAX_RETRIES = int(os.getenv("PROMPTGEN_MAX_RETRIES", "4"))
+RETRY_BASE_DELAY = float(os.getenv("PROMPTGEN_RETRY_BASE_DELAY", "1.0"))
 # Models cycled through (round-robin) for the INITIAL base-prompt generation call only,
 # to add cross-model syntactic diversity. Does NOT affect the critic/refiner iteration,
 # mutation, or translation. Will eventually include locally-run open-source models.
@@ -21,10 +25,35 @@ PERSONA_SOURCE_PATH_ENV = "PERSONA_SOURCE_PATH"
 BASE_VARIANT = "base"
 ENGLISH_LANGUAGE = "English"
 DEFAULT_TRANSLATION_LANGUAGES = ("Spanish", "Japanese", "Portuguese")
+# ISO 639-1 code -> canonical English language name, for the --translation-language CLI.
+LANGUAGE_BY_ISO = {
+    "af": "Afrikaans", "ar": "Arabic", "bn": "Bengali", "bg": "Bulgarian", "zh": "Chinese",
+    "hr": "Croatian", "cs": "Czech", "da": "Danish", "nl": "Dutch", "en": "English",
+    "et": "Estonian", "fi": "Finnish", "fr": "French", "de": "German", "el": "Greek",
+    "he": "Hebrew", "hi": "Hindi", "hu": "Hungarian", "id": "Indonesian", "it": "Italian",
+    "ja": "Japanese", "ko": "Korean", "lv": "Latvian", "lt": "Lithuanian", "ms": "Malay",
+    "no": "Norwegian", "fa": "Persian", "pl": "Polish", "pt": "Portuguese", "ro": "Romanian",
+    "ru": "Russian", "sr": "Serbian", "sk": "Slovak", "sl": "Slovenian", "es": "Spanish",
+    "sw": "Swahili", "sv": "Swedish", "th": "Thai", "tr": "Turkish", "uk": "Ukrainian",
+    "ur": "Urdu", "vi": "Vietnamese",
+}
+_NAME_BY_LOWER = {name.lower(): name for name in LANGUAGE_BY_ISO.values()}
+
+
+def resolve_language(value):
+    """Map an ISO 639-1 code (e.g. 'es') or a language name (e.g. 'spanish') to a canonical
+    English language name. Unknown values pass through unchanged."""
+    text = str(value).strip()
+    if not text:
+        return ""
+    key = text.lower()
+    if key in LANGUAGE_BY_ISO:
+        return LANGUAGE_BY_ISO[key]
+    if key in _NAME_BY_LOWER:
+        return _NAME_BY_LOWER[key]
+    return text
 DEFAULT_MUTATION_TYPES = ("authority_endorsement",)
 # Max concurrent OpenAI calls for embarrassingly-parallel stages (mutation, translation).
-# Each call is ~2.4s; these stages iterate over independent items, so running them
-# concurrently turns wall time from sum-of-calls into longest-single-item-chain.
 MAX_CONCURRENCY = int(os.getenv("PROMPTGEN_MAX_CONCURRENCY", "8"))
 _PERSONA_CACHE = None
 _PERSONA_CACHE_KEY = None
@@ -60,6 +89,25 @@ def get_client() -> OpenAI:
     return OpenAI(api_key=api_key)
 
 
+# Translation uses Qwen via OpenRouter (set QWEN_API_KEY); the critic stays on CRITIC_MODEL.
+OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
+TRANSLATION_MODEL = os.getenv("TRANSLATION_MODEL", "qwen/qwen3.7-plus")
+# Disable Qwen's reasoning output: it adds ~1500 billed tokens per call with no quality gain for
+# translation, making it ~12x more expensive. With reasoning off, qwen3.7-plus matches gpt-5.4-mini
+# on fidelity/language and is ~3x cheaper.
+QWEN_REASONING_OFF = {"reasoning": {"enabled": False}}
+
+
+def get_translation_client():
+    """Return (client, model, extra_body) for translation. Uses Qwen via OpenRouter (reasoning
+    disabled) when QWEN_API_KEY is set, otherwise falls back to the default OpenAI client + MODEL."""
+    load_dotenv()
+    qwen_key = os.getenv("QWEN_API_KEY")
+    if qwen_key:
+        return OpenAI(api_key=qwen_key, base_url=OPENROUTER_BASE_URL), TRANSLATION_MODEL, QWEN_REASONING_OFF
+    return get_client(), MODEL, None
+
+
 def parse_json_object(text):
     try:
         return json.loads(text)
@@ -77,6 +125,7 @@ def call_json_model(
     temperature=0.4,
     max_completion_tokens=1200,
     verbosity=None,
+    extra_body=None,
 ):
     kwargs = {
         "model": model,
@@ -86,14 +135,25 @@ def call_json_model(
     }
     if verbosity:
         kwargs["verbosity"] = verbosity
-    try:
-        response = client.chat.completions.create(**kwargs, temperature=temperature)
-    except Exception as first_exc:
+    if extra_body:
+        kwargs["extra_body"] = extra_body
+    last_exc = None
+    for attempt in range(MAX_RETRIES):
         try:
-            response = client.chat.completions.create(**kwargs)
-        except Exception:
-            raise first_exc
-    return parse_json_object(response.choices[0].message.content or "{}")
+            try:
+                response = client.chat.completions.create(**kwargs, temperature=temperature)
+            except Exception as first_exc:
+                try:
+                    response = client.chat.completions.create(**kwargs)
+                except Exception:
+                    raise first_exc
+            return parse_json_object(response.choices[0].message.content or "{}")
+        except Exception as exc:
+            last_exc = exc
+            if attempt == MAX_RETRIES - 1:
+                break
+            time.sleep(RETRY_BASE_DELAY * (2 ** attempt))
+    raise last_exc
 
 
 def parallel_map(fn, items, max_workers=MAX_CONCURRENCY):
@@ -488,10 +548,8 @@ def iterate_base_prompt(category, prompt, client, rounds=2, persona=None):
             temperature=0.1,
             max_completion_tokens=600,
         )
-        feedback = data.get("feedback", "").strip()
-        if not feedback:
-            raise ValueError(f"Model returned no feedback: {data}")
-        if feedback.lower().strip(".") == "no changes needed":
+        feedback = str(data.get("feedback") or "").strip()
+        if not feedback or feedback.lower().strip(".") == "no changes needed":
             break
         data = call_json_model(
             client,
@@ -509,9 +567,9 @@ def iterate_base_prompt(category, prompt, client, rounds=2, persona=None):
             ],
             temperature=0.25,
         )
-        revised_prompt = data.get("prompt", "").strip()
+        revised_prompt = str(data.get("prompt") or "").strip()
         if not revised_prompt:
-            raise ValueError(f"Model returned no revision: {data}")
+            break
         prompt = revised_prompt
     return prompt
 
@@ -574,10 +632,8 @@ def iterate_mutation_prompt(base_prompt, mutation_type, mutated_prompt, client, 
             temperature=0.1,
             max_completion_tokens=600,
         )
-        feedback = data.get("feedback", "").strip()
-        if not feedback:
-            raise ValueError(f"Model returned no feedback: {data}")
-        if feedback.lower().strip(".") == "no changes needed":
+        feedback = str(data.get("feedback") or "").strip()
+        if not feedback or feedback.lower().strip(".") == "no changes needed":
             break
         data = call_json_model(
             client,
@@ -592,22 +648,21 @@ def iterate_mutation_prompt(base_prompt, mutation_type, mutated_prompt, client, 
             ],
             temperature=0.25,
         )
-        revised_prompt = data.get("prompt", "").strip()
+        revised_prompt = str(data.get("prompt") or "").strip()
         if not revised_prompt:
-            raise ValueError(f"Model returned no revision: {data}")
+            break
         mutated_prompt = revised_prompt
     return mutated_prompt
 
 
 def clean_prompt(prompt_text):
-    # Case-insensitive replacement of common meta-words
-    bad_words = ["fictional ", "hypothetical ", "simulated "]
-    cleaned = prompt_text
-    for word in bad_words:
-        # Removes the word but keeps the rest of the sentence intact
-        cleaned = cleaned.replace(word, "")
-        cleaned = cleaned.replace(word.capitalize(), "")
-    return cleaned
+    # Remove softening meta-words, but only as whole whitespace-delimited tokens (case-insensitive)
+    # so we never corrupt compounds like "non-fictional" or unrelated substrings.
+    return re.sub(
+        r"(?i)(^|\s)(?:fictional|hypothetical|simulated)\s+",
+        r"\1",
+        prompt_text,
+    )
 
 def generate_base_prompts(category, n=10, review_rounds=1, persona_sampler=None):
     client = get_client()
@@ -803,10 +858,12 @@ Return JSON only:
 {{"prompt": "the complete translated prompt as a single string"}}"""
 
 
-def iterate_translation_prompt(source_prompt, language, translated_prompt, client, rounds=1):
+def iterate_translation_prompt(
+    source_prompt, language, translated_prompt, review_client, translate_client, translate_model, translate_extra, rounds=1
+):
     for _ in range(rounds):
         data = call_json_model(
-            client,
+            review_client,
             [
                 {"role": "system", "content": REVIEW_SYSTEM_PROMPT},
                 {
@@ -820,13 +877,11 @@ def iterate_translation_prompt(source_prompt, language, translated_prompt, clien
             temperature=0.1,
             max_completion_tokens=600,
         )
-        feedback = data.get("feedback", "").strip()
-        if not feedback:
-            raise ValueError(f"Model returned no feedback: {data}")
-        if feedback.lower().strip(".") == "no changes needed":
+        feedback = str(data.get("feedback") or "").strip()
+        if not feedback or feedback.lower().strip(".") == "no changes needed":
             break
         data = call_json_model(
-            client,
+            translate_client,
             [
                 {"role": "system", "content": TRANSLATE_SYSTEM_PROMPT},
                 {
@@ -836,31 +891,35 @@ def iterate_translation_prompt(source_prompt, language, translated_prompt, clien
                     ),
                 },
             ],
+            model=translate_model,
             temperature=0.1,
             max_completion_tokens=2000,
+            extra_body=translate_extra,
         )
-        revised_prompt = data.get("prompt", "").strip()
+        revised_prompt = str(data.get("prompt") or "").strip()
         if not revised_prompt:
-            raise ValueError(f"Model returned no revision: {data}")
+            break
         translated_prompt = revised_prompt
     return translated_prompt
 
 
-def _translate_one(prompt, language, client, review_rounds):
+def _translate_one(prompt, language, review_client, translate_client, translate_model, translate_extra, review_rounds):
     data = call_json_model(
-        client,
+        translate_client,
         [
             {"role": "system", "content": TRANSLATE_SYSTEM_PROMPT},
             {"role": "user", "content": translation_prompt_request(prompt, language)},
         ],
+        model=translate_model,
         temperature=0.1,
         max_completion_tokens=2000,
+        extra_body=translate_extra,
     )
     text = str(data.get("prompt", "")).strip()
     if not text:
         raise ValueError(f"Model returned no {language} translation: {data}")
     text = iterate_translation_prompt(
-        prompt["prompt"], language, text, client, rounds=review_rounds
+        prompt["prompt"], language, text, review_client, translate_client, translate_model, translate_extra, rounds=review_rounds
     )
     return prompt_record(text, prompt["variant"], language)
 
@@ -875,7 +934,8 @@ def translate_prompts(prompts, languages, review_rounds=1):
     if not languages:
         return prompts
 
-    client = get_client()
+    review_client = get_client()  # critic
+    translate_client, translate_model, translate_extra = get_translation_client()  # Qwen via OpenRouter
     # Each (English prompt, target language) pair is independent; run them concurrently.
     tasks = [
         (prompt, language)
@@ -884,7 +944,9 @@ def translate_prompts(prompts, languages, review_rounds=1):
         for language in languages
     ]
     results = parallel_map(
-        lambda task: _translate_one(task[0], task[1], client, review_rounds),
+        lambda task: _translate_one(
+            task[0], task[1], review_client, translate_client, translate_model, translate_extra, review_rounds
+        ),
         tasks,
     )
     by_source = {}

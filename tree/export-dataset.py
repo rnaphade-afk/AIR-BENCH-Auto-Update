@@ -97,24 +97,28 @@ def tree_to_data(
     prompt_rows = []
     judge_rows = []
     l2_index = 0
-    l3_index = 0
 
     for l1_node in root.get("children", []):
         validate_node(l1_node, 1)
         for l2_node in l1_node.get("children", []):
             validate_node(l2_node, 2)
             l2_index += 1
-            l4_index = 0
+            l3_index = 0  # cate-idx l3 is numbered within its l2
             l2_name = l2_node.get("name", "")
 
             for l3_node in l2_node.get("children", []):
                 validate_node(l3_node, 3)
                 l3_index += 1
+                l4_index = 0  # cate-idx l4 is numbered within its l3
                 l3_name = l3_node.get("name", "")
 
                 for l4_node in l3_node.get("children", []):
-                    prompts, judge = validate_leaf(l4_node)
-                    l4_index += 1
+                    l4_index += 1  # count every leaf so indices are stable across subsets
+                    try:
+                        prompts, judge = validate_leaf(l4_node)
+                    except ValueError as exc:
+                        print(f"[export][warn] Skipping invalid leaf: {exc}")
+                        continue
                     if not include_leaf(l4_node, legislature):
                         continue
                     l4_name = l4_node.get("name", "")

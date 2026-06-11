@@ -1,5 +1,6 @@
 import json
 import os
+import time
 from dotenv import load_dotenv
 from openai import OpenAI
 
@@ -7,6 +8,11 @@ load_dotenv()
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 MODEL = "gpt-5.4-mini"
+# Summaries are regenerated up a branch on every policy attachment, so a single transient
+# API error (429/5xx/431/network) would otherwise abort an unattended run mid-apply. Retry
+# with exponential backoff before giving up.
+SUMMARY_MAX_RETRIES = int(os.getenv("SUMMARY_MAX_RETRIES", "4"))
+SUMMARY_RETRY_BASE_DELAY = float(os.getenv("SUMMARY_RETRY_BASE_DELAY", "1.0"))
 BASE_VARIANT = "base"
 ENGLISH_LANGUAGE = "English"
 
@@ -75,16 +81,25 @@ def select_evidence_prompts(prompts, limit=8):
     return selected[:limit]
 
 def generate_summary(prompt, temperature=0.1):
-    response = client.chat.completions.create(
-        model=MODEL,
-        messages=[
-            {"role": "system", "content": SUMMARY_SYSTEM_PROMPT},
-            {"role": "user", "content": prompt},
-        ],
-        temperature=temperature,
-        max_completion_tokens=120,
-    )
-    return clean_summary(response.choices[0].message.content)
+    last_exc = None
+    for attempt in range(SUMMARY_MAX_RETRIES):
+        try:
+            response = client.chat.completions.create(
+                model=MODEL,
+                messages=[
+                    {"role": "system", "content": SUMMARY_SYSTEM_PROMPT},
+                    {"role": "user", "content": prompt},
+                ],
+                temperature=temperature,
+                max_completion_tokens=120,
+            )
+            return clean_summary(response.choices[0].message.content)
+        except Exception as exc:
+            last_exc = exc
+            if attempt == SUMMARY_MAX_RETRIES - 1:
+                break
+            time.sleep(SUMMARY_RETRY_BASE_DELAY * (2 ** attempt))
+    raise last_exc
 
 def generate_leaf_summary(node):
     #case 1: leaf with policy evidence
@@ -163,28 +178,13 @@ Include the main kinds of actions, targets, or rights implicated, and exclude un
     node['summary'] = summary
     return summary
 
-def branch_update(node, path):
-    #base case
-    if not path:
-        if 'children' not in node or not node['children']:
-            return generate_leaf_summary(node)
-        return generate_recursive_summary(node)
-    
-    cur = path[0]
-    remaining_path = path[1:]
-
+def update_parent_summary(node):
+    #regenerate a single non-leaf node's summary from its (already-updated) children
     children = node.get('children', [])
-    target_child = next((child for child in children if child['name'] == cur), None)
-    if not target_child:
-        raise ValueError(f"Could not find child {cur!r} under {node.get('name')!r}")
-
-    #recurse
-    branch_update(target_child, remaining_path)
-
     child_summaries = [f"- {c['name']}: {c['summary']}" for c in children]
     context_str = "\n".join(child_summaries)
     old_summary = node.get('summary', "No existing summary.")
-    
+
     prompt = f"""Parent category: {node['name']}
 
 Previous parent definition:
@@ -197,9 +197,50 @@ Write exactly one sentence, no more than 45 words, updating the shared classific
 Use the child definitions as coverage constraints, but do not list every child.
 Include the main kinds of actions, targets, or rights implicated, and exclude unrelated safety domains."""
 
-    summary = generate_summary(prompt, temperature=0.1)
-    node['summary'] = summary
-    return summary
+    node['summary'] = generate_summary(prompt, temperature=0.1)
+    return node['summary']
+
+def branch_update(node, path):
+    #base case
+    if not path:
+        if 'children' not in node or not node['children']:
+            return generate_leaf_summary(node)
+        return generate_recursive_summary(node)
+
+    cur = path[0]
+    remaining_path = path[1:]
+
+    children = node.get('children', [])
+    target_child = next((child for child in children if child['name'] == cur), None)
+    if not target_child:
+        raise ValueError(f"Could not find child {cur!r} under {node.get('name')!r}")
+
+    #recurse, then update this node from its refreshed children
+    branch_update(target_child, remaining_path)
+    return update_parent_summary(node)
+
+def branch_update_many(root, paths):
+    """Regenerate summaries for the union of nodes on every branch path, each exactly once,
+    bottom-up. Shared ancestors (e.g. the root) are regenerated a single time instead of once
+    per path. Equivalent to calling branch_update for each path, but without redundant work."""
+    if not paths:
+        return
+    by_depth = {}  # depth -> {id(node): node}, preserving first-seen order within a depth
+    for path in paths:
+        node = root
+        by_depth.setdefault(0, {})[id(node)] = node
+        for depth, name in enumerate(path, start=1):
+            child = next((c for c in node.get('children', []) if c.get('name') == name), None)
+            if child is None:
+                raise ValueError(f"Could not find child {name!r} under {node.get('name')!r}")
+            node = child
+            by_depth.setdefault(depth, {})[id(node)] = node
+    for depth in sorted(by_depth, reverse=True):
+        for node in by_depth[depth].values():
+            if node.get('children'):
+                update_parent_summary(node)
+            else:
+                generate_leaf_summary(node)
 
 def rebuild_tree_summaries(path='tree/semantic-tree.json'):
     with open(path, 'r') as f:

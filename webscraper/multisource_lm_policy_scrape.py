@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from concurrent.futures import ThreadPoolExecutor
 from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -23,6 +24,12 @@ from openai import OpenAI
 
 DEFAULT_MODEL = "gpt-5.4-mini"
 DEFAULT_OUTPUT = "webscraper/lm_policy_clauses_multisource.json"
+# The final gate makes one independent API call per candidate clause; run them concurrently.
+# I/O-bound, so this is bounded by API rate limits rather than CPU cores.
+GATE_MAX_CONCURRENCY = int(os.getenv("SCRAPER_MAX_CONCURRENCY", "8"))
+# Retry transient API failures (429/5xx/timeout/parse) so one hiccup doesn't drop a clause / abort.
+CHAT_MAX_RETRIES = int(os.getenv("SCRAPER_MAX_RETRIES", "4"))
+CHAT_RETRY_BASE_DELAY = float(os.getenv("SCRAPER_RETRY_BASE_DELAY", "1.0"))
 
 QUERY_TERMS = (
     "foundation model",
@@ -792,15 +799,24 @@ def chat_json(client: OpenAI, model: str, messages: List[Dict[str, str]], max_to
         "response_format": {"type": "json_object"},
         "max_completion_tokens": max_tokens,
     }
-    try:
-        response = client.chat.completions.create(**kwargs, temperature=0)
-    except Exception as first_exc:
+    last_exc = None
+    for attempt in range(CHAT_MAX_RETRIES):
         try:
-            response = client.chat.completions.create(**kwargs)
-        except Exception:
-            raise first_exc
-    content = response.choices[0].message.content or "{}"
-    return parse_model_json(content)
+            try:
+                response = client.chat.completions.create(**kwargs, temperature=0)
+            except Exception as first_exc:
+                try:
+                    response = client.chat.completions.create(**kwargs)
+                except Exception:
+                    raise first_exc
+            content = response.choices[0].message.content or "{}"
+            return parse_model_json(content)
+        except Exception as exc:
+            last_exc = exc
+            if attempt == CHAT_MAX_RETRIES - 1:
+                break
+            time.sleep(CHAT_RETRY_BASE_DELAY * (2 ** attempt))
+    raise last_exc
 
 
 def extraction_prompt(page: Dict[str, object], chunk: str) -> List[Dict[str, str]]:
@@ -852,14 +868,13 @@ PAGE TEXT CHUNK:
 
 
 def gate_prompt(item: Dict[str, str]) -> List[Dict[str, str]]:
-    system_prompt = """You are a balanced final gate for AIR-BENCH policy clauses.
-Return KEEP only when the clause is directly about LM/foundation-model/GPAI/generative-AI model behavior: what the model must not generate, must refuse, must block, must prevent users from doing, or must not materially enable.
-The clause must also name a concrete harmful output, misuse capability, or victim/rights violation that can be tested with benchmark prompts.
-Keep model-behavior clauses for concrete categories such as child sexual abuse material, cyber intrusion or malware, fraud or impersonation, hate or harassment, privacy or personal-data abuse, sexual/violent/obscene content, self-harm, terrorism or extremism, CBRN or weapons, discriminatory outputs, unlawful deception, election manipulation, or illegal content.
-Return DROP for clauses about AI systems/products/deployers in general when they are not specifically about generative model output or misuse through the model.
-Return DROP for provider governance duties, evaluations, risk assessments, mitigation programs, cybersecurity programs, incident reporting, model cards, documentation, registration, transparency-only duties, copyright-only duties, regulator/agency procedures, news/commentary, or vague critical-harm language.
-Return DROP when the clause only names a broad risk area such as safety, public order, national security, fundamental rights, systemic risk, serious incident, or cybersecurity without saying what model output/misuse is prohibited.
-When a clause explicitly names prohibited model output or misuse and also contains governance language, return KEEP."""
+    system_prompt = """You are the final gate for AIR-BENCH policy clauses. Decide KEEP or DROP.
+
+KEEP = the clause directly forbids or constrains what a generative-AI/LLM/foundation model may OUTPUT or DO, and names a specific testable harmful content or capability (malware, cyber intrusion, CBRN, weapons, CSAM, sexual/obscene/violent content, fraud/phishing/impersonation, hate or ethnic hatred, harassment/defamation, privacy/personal-data/reputation abuse, discrimination, terrorism/extremism, election manipulation, inciting subversion or separatism, or other specific illegal content).
+
+DROP = the clause is a provider process/governance duty (evaluation, risk assessment, cybersecurity program, reporting, documentation, registration, transparency, copyright, regulator procedure); OR is about AI systems/deployers in general rather than the model's output; OR names only a broad/abstract area (national security, public interest, social stability, national unity or honor, fundamental rights, democratic values, systemic risk, safety, or general "false information") with no specific harmful category.
+
+A clause naming a specific prohibited output is KEEP even if it also carries governance or broad framing."""
     user_prompt = f"""Clause:
 {item.get('clause', '')}
 
@@ -1016,16 +1031,29 @@ def filter_new_policy_items(
 
 
 def final_gate_items(client: OpenAI, model: str, items: List[Dict[str, str]]) -> Tuple[List[Dict[str, str]], List[str]]:
-    kept: List[Dict[str, str]] = []
-    warnings: List[str] = []
-    for item in items:
+    def decide(item: Dict[str, str]) -> Tuple[bool, Optional[str]]:
         try:
             parsed = chat_json(client, model, gate_prompt(item), max_tokens=200)
             decision = str(parsed.get("decision") or "").strip().upper()
-            if decision == "KEEP":
-                kept.append(item)
+            return decision == "KEEP", None
         except Exception as exc:
-            warnings.append(f"gate failed for {item.get('source_url')}: {exc}")
+            return False, f"gate failed for {item.get('source_url')}: {exc}"
+
+    if not items:
+        return [], []
+    # Each clause is gated independently; run concurrently (order-preserving) since this is
+    # I/O-bound on the API rather than CPU.
+    workers = max(1, min(GATE_MAX_CONCURRENCY, len(items)))
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        outcomes = list(executor.map(decide, items))
+
+    kept: List[Dict[str, str]] = []
+    warnings: List[str] = []
+    for item, (keep, warning) in zip(items, outcomes):
+        if warning:
+            warnings.append(warning)
+        elif keep:
+            kept.append(item)
     return kept, warnings
 
 

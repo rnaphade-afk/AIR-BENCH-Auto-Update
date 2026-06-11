@@ -61,10 +61,13 @@ def rebuild_prompts(taxonomy, args, run_dir):
             base_review = pipeline.review_json(
                 base_path,
                 {
-                    "instructions": "Review candidates and leave final prompts in selected_base_prompts.",
+                    "instructions": (
+                        "Review candidates and leave the prompts to carry forward in "
+                        f"selected_base_prompts; defaults to the first {args.base_select}."
+                    ),
                     "leaf": category,
                     "base_prompt_candidates": candidates,
-                    "selected_base_prompts": candidates[:10],
+                    "selected_base_prompts": candidates[: args.base_select],
                 },
                 f"Review base prompts for {leaf['name']!r}.",
                 args.resume,
@@ -97,7 +100,38 @@ def rebuild_prompts(taxonomy, args, run_dir):
                 args.resume,
                 args.yes,
             )
-        leaf["prompts"] = pipeline.selected_attack_prompts(attack_review.get("attack_prompts", []), str(attack_path))
+        attack_prompts = pipeline.selected_attack_prompts(attack_review.get("attack_prompts", []), str(attack_path))
+
+        translation_languages = pipeline.normalize_languages(getattr(args, "translation_language", None))
+        if translation_languages:
+            translated_path = run_dir / f"{stem}-translated-prompts.json"
+            if args.resume and translated_path.exists():
+                translated_review = pipeline.review_json(
+                    translated_path, {}, f"Review translated prompts for {leaf['name']!r}.", True, args.yes
+                )
+            else:
+                translated_prompts = pipeline.generate_prompts.translate_prompts(
+                    attack_prompts,
+                    translation_languages,
+                    review_rounds=args.translation_review_rounds,
+                )
+                translated_review = pipeline.review_json(
+                    translated_path,
+                    {
+                        "instructions": "Review/edit translated attack_prompts before they replace this leaf's prompts.",
+                        "leaf": category,
+                        "translation_languages": translation_languages,
+                        "attack_prompts": translated_prompts,
+                    },
+                    f"Review translated prompts for {leaf['name']!r}.",
+                    args.resume,
+                    args.yes,
+                )
+            attack_prompts = pipeline.selected_attack_prompts(
+                translated_review.get("attack_prompts", []), str(translated_path)
+            )
+
+        leaf["prompts"] = attack_prompts
         print(f"[prompts] Rebuilt {len(leaf['prompts'])} prompt(s) for {leaf['name']}")
     return len(leaves)
 
@@ -112,12 +146,16 @@ def run(args):
     result = {"taxonomy_path": str(args.tree), "run_dir": str(run_dir), "prompt_leaf_count": 0}
     pipeline.write_json(run_dir / "setup-result.json", result)
 
+    # Generate summaries FIRST, from the original AIR-BENCH prompts (build_tree only sets
+    # placeholder summaries). This way prompt regeneration is informed by real leaf/parent
+    # definitions instead of placeholders, rather than the reverse.
+    generate_summaries.generate_recursive_summary(taxonomy)
+    pipeline.write_json(args.tree, taxonomy)
+
     if args.generate_prompts:
         result["prompt_leaf_count"] = rebuild_prompts(taxonomy, args, run_dir)
         pipeline.write_json(args.tree, taxonomy)
 
-    generate_summaries.generate_recursive_summary(taxonomy)
-    pipeline.write_json(args.tree, taxonomy)
     pipeline.write_json(run_dir / "setup-result.json", result)
     return result
 
@@ -127,10 +165,21 @@ def build_arg_parser():
     parser.add_argument("--tree", type=Path, default=TREE_PATH)
     parser.add_argument("--run-dir", type=Path, default=None)
     parser.add_argument("--generate-prompts", action="store_true")
-    parser.add_argument("--base-count", type=int, default=10)
+    parser.add_argument("--base-count", type=int, default=8, help="How many base prompt candidates to generate per leaf.")
+    parser.add_argument("--base-select", type=int, default=5, help="How many of the generated base prompts to carry forward (mutate/translate/store).")
     parser.add_argument("--base-review-rounds", type=int, default=1)
     parser.add_argument("--mutation-review-rounds", type=int, default=1)
     parser.add_argument("--translation-review-rounds", type=int, default=1)
+    parser.add_argument(
+        "--translation-language",
+        action="append",
+        default=None,
+        help=(
+            "Language to translate reviewed attack prompts into. Accepts an ISO 639-1 code "
+            "(e.g. es, ja, pt) or a language name (e.g. Spanish). Repeatable. "
+            f"Defaults to: {', '.join(pipeline.generate_prompts.DEFAULT_TRANSLATION_LANGUAGES)}."
+        ),
+    )
     parser.add_argument(
         "--mutation-type",
         action="append",
