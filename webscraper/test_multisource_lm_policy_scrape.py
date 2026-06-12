@@ -105,9 +105,10 @@ class ClauseFilterTests(unittest.TestCase):
                 "Korea Law Information Center",
                 "Parliament of Canada LegisINFO",
                 "ISED Canada AI",
+                "OECD AI Policy Observatory",
             ],
         )
-        removed_sources = {"OECD AI Observatory", "AI Incident Database"}
+        removed_sources = {"AI Incident Database"}
         self.assertTrue(removed_sources.isdisjoint({source.name for source in scraper.SOURCES}))
 
 

@@ -9,7 +9,7 @@ import sys
 import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor
-from collections import deque
+from collections import defaultdict, deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from html import unescape
@@ -87,21 +87,16 @@ HARD_EXCLUDE_PATTERNS = (
     "notify the commission",
     "provide to the ai office",
     "market surveillance",
-    "competent authority",
-    "member state",
-    "secretary shall",
-    "commission shall",
-    "office shall",
-    "institute shall",
     "perform model evaluations",
     "standardized protocols",
     "state of the art",
-    "risk assessment",
-    "risk mitigation",
-    "manage systemic risks",
     "make a covered model available",
     "commercial, public, or foreseeably public use",
 )
+# NOTE: regulator-duty phrasings ("commission shall", "member state", "risk assessment", etc.) were
+# removed from the hard-exclude list — they were dropping clauses that DO name a specific testable
+# harm but happen to sit in a regulatory sentence. The semantic final gate (final_gate_items) now
+# rejects pure governance/regulator-duty clauses instead, which is more precise than substring bans.
 
 ATTACKABLE_RISK_KEYWORDS = (
     "biological weapon",
@@ -128,6 +123,10 @@ ATTACKABLE_RISK_KEYWORDS = (
     "deception",
     "impersonation",
     "deepfake",
+    "election",
+    "manipulation",
+    "defamation",
+    "incitement",
     "privacy",
     "personal data",
     "sensitive personal",
@@ -218,6 +217,53 @@ MODEL_BEHAVIOR_KEYWORDS = (
 )
 
 
+# EUR-Lex is fetched through LexAPI (https://lex-api.com), a REST wrapper over EUR-Lex, because
+# the eur-lex.europa.eu HTML endpoints sit behind a bot wall (they return an HTTP 202 placeholder
+# with no extractable text). Auth is an x-api-key header read from LEX_API_KEY.
+# Metering note: only POST /v1/documentContent counts against the free tier (50 calls/day); search
+# is unmetered. We therefore search freely and hard-cap the metered content fetches well under 50
+# so repeat runs in a day cannot exhaust the quota.
+LEXAPI_BASE = "https://lex-api.com/api"
+LEXAPI_SEARCH_PATH = "/v1/search"
+LEXAPI_CONTENT_PATH = "/v1/documentContent"
+LEXAPI_MAX_CONTENT_CALLS = int(os.getenv("LEXAPI_MAX_CONTENT_CALLS", "15"))
+LEXAPI_MAX_SEARCHES = int(os.getenv("LEXAPI_MAX_SEARCHES", "5"))
+LEXAPI_SEARCH_MAX_PAGES = int(os.getenv("LEXAPI_SEARCH_MAX_PAGES", "2"))
+
+EURLEX_QUERY_TERMS = (
+    "general-purpose AI model obligations",
+    "prohibited artificial intelligence practices",
+    "foundation model safety requirements",
+    "generative AI illegal or harmful content",
+    "AI system deepfake disinformation manipulation",
+)
+
+# Guaranteed-coverage anchors fetched via documentContent. LexAPI's /search drives a live EUR-Lex
+# navigation (and currently times out intermittently), whereas documentContent is served from their
+# cached corpus and is reliable. Seeding the AI Act CELEX ensures the core EU instrument is captured
+# even when search is down; search-discovered CELEX numbers augment it best-effort.
+EURLEX_SEED_CELEX = ("32024R1689",)  # Regulation (EU) 2024/1689 — Artificial Intelligence Act
+
+# Congress.gov blocks this environment's IP on every path (403), including the bill-text URLs its API
+# returns. The same bill text is mirrored on govinfo.gov (not blocked), so we resolve each bill's
+# canonical text package via the Congress API and fetch it from govinfo. The /v3/bill keyword
+# "discovery" was removed: that endpoint has no real full-text search and returned irrelevant 1990s
+# bills, so we rely on a curated list of AI bills (extend as needed).
+CONGRESS_SEED_BILLS = (
+    (119, "s", 146),    # TAKE IT DOWN Act — non-consensual intimate AI deepfakes
+    (118, "s", 3696),   # DEFIANCE Act of 2024 — NCII deepfakes
+    (118, "s", 4875),   # NO FAKES Act of 2024 — voice/likeness replicas
+    (118, "s", 2770),   # Protect Elections from Deceptive AI Act
+    (118, "hr", 5586),  # DEEPFAKES Accountability Act
+    (118, "hr", 6943),  # No AI FRAUD Act — likeness/fraud
+)
+GOVINFO_BILL_HTML = "https://www.govinfo.gov/content/pkg/{pkg}/html/{pkg}.htm"
+
+# Federal Register document HTML pages are thin JS shells; the API exposes the full rule text via a
+# raw_text_url field per result, which we request and fetch directly.
+FEDERAL_REGISTER_FIELDS = ("title", "raw_text_url", "html_url", "publication_date", "document_number", "abstract")
+
+
 @dataclass(frozen=True)
 class SourceConfig:
     name: str
@@ -231,22 +277,22 @@ SOURCES: Tuple[SourceConfig, ...] = (
     SourceConfig(
         name="Congress.gov",
         legislature="us",
-        seed_urls=(
-            "https://www.congress.gov/bill/118th-congress/house-bill/6881/text?format=txt",
-            "https://www.congress.gov/bill/119th-congress/house-bill/6461/text/ih?format=txt",
-            "https://www.congress.gov/bill/118th-congress/senate-bill/4178/text/is?format=txt",
-            "https://www.congress.gov/search?q=%7B%22source%22%3A%22legislation%22%2C%22search%22%3A%22foundation%20model%20artificial%20intelligence%22%7D",
-        ),
-        allowed_domains=("www.congress.gov", "congress.gov", "api.congress.gov"),
+        # No seed_urls: congress.gov 403s this IP, so crawl_congress_source resolves the curated
+        # CONGRESS_SEED_BILLS via the API and fetches their text from govinfo.gov instead.
+        seed_urls=(),
+        allowed_domains=("www.congress.gov", "congress.gov", "api.congress.gov", "www.govinfo.gov", "govinfo.gov"),
         api_kind="congress",
     ),
     SourceConfig(
         name="Federal Register",
         legislature="us",
+        # Relevance-ordered (default), content-targeted queries. The previous &order=newest queries
+        # surfaced unrelated recent notices; these aim at the AI-output harms AIR-BENCH tests.
         seed_urls=(
-            "https://www.federalregister.gov/api/v1/documents.json?conditions%5Bterm%5D=foundation%20model%20artificial%20intelligence&per_page=20&order=newest",
-            "https://www.federalregister.gov/api/v1/documents.json?conditions%5Bterm%5D=dual-use%20foundation%20model&per_page=20&order=newest",
-            "https://www.federalregister.gov/api/v1/documents.json?conditions%5Bterm%5D=generative%20artificial%20intelligence%20model%20safety&per_page=20&order=newest",
+            "https://www.federalregister.gov/api/v1/documents.json?conditions%5Bterm%5D=artificial%20intelligence%20deepfake&per_page=20",
+            "https://www.federalregister.gov/api/v1/documents.json?conditions%5Bterm%5D=generative%20artificial%20intelligence%20child%20sexual%20abuse%20material&per_page=20",
+            "https://www.federalregister.gov/api/v1/documents.json?conditions%5Bterm%5D=deceptive%20artificial%20intelligence%20election%20communication&per_page=20",
+            "https://www.federalregister.gov/api/v1/documents.json?conditions%5Bterm%5D=artificial%20intelligence%20generated%20fraud%20impersonation&per_page=20",
         ),
         allowed_domains=("www.federalregister.gov", "federalregister.gov"),
         api_kind="federal_register",
@@ -265,12 +311,13 @@ SOURCES: Tuple[SourceConfig, ...] = (
     SourceConfig(
         name="EUR-Lex",
         legislature="eu",
+        # Seeds are unused for api_kind="eurlex" (discovery is via LexAPI full-text search); kept
+        # for reference. allowed_domains is retained so any EUR-Lex urls we surface validate.
         seed_urls=(
             "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1689",
-            "https://eur-lex.europa.eu/search.html?scope=EURLEX&text=general-purpose%20AI%20model",
-            "https://eur-lex.europa.eu/search.html?scope=EURLEX&text=foundation%20model%20artificial%20intelligence",
         ),
         allowed_domains=("eur-lex.europa.eu",),
+        api_kind="eurlex",
     ),
     SourceConfig(
         name="EU AI Office",
@@ -362,11 +409,13 @@ SOURCES: Tuple[SourceConfig, ...] = (
     SourceConfig(
         name="Korea Law Information Center",
         legislature="korea",
+        # Law seeds identified by lsiSeq; crawl_korea_law_source rewrites each to engLsInfoR.do to get
+        # the article body. Add more enacted laws here by their lsiSeq.
         seed_urls=(
             "https://www.law.go.kr/lsInfoP.do?chrClsCd=&efYd=20260122&lsId=014820&lsiSeq=268543&urlMode=engLsInfoR&viewCls=engLsInfoR",
-            "https://www.law.go.kr/eng/engMain.do",
         ),
         allowed_domains=("www.law.go.kr", "law.go.kr"),
+        api_kind="korea_law",
     ),
     SourceConfig(
         name="Parliament of Canada LegisINFO",
@@ -389,6 +438,29 @@ SOURCES: Tuple[SourceConfig, ...] = (
             "https://ised-isde.canada.ca/site/innovation-better-canada/en/artificial-intelligence-and-data-act-aida-companion-document",
         ),
         allowed_domains=("ised-isde.canada.ca",),
+    ),
+    SourceConfig(
+        # OECD AI Policy Observatory — catalogue of national AI policies in the "Regulations,
+        # guidelines and standards" category. crawl_oecd_source emits each entry's summary AND fetches
+        # the official/related government PDFs it links (the real statute text), which routes around
+        # METI's geo-block since Japan's AI docs are also hosted on reachable cao.go.jp/soumu.go.jp.
+        # Add more entry detail-page URLs here to broaden coverage (incl. other jurisdictions).
+        name="OECD AI Policy Observatory",
+        legislature="oecd",
+        seed_urls=(
+            # Japan (METI/Cabinet Office) — the original geo-blocked gap
+            "https://oecd.ai/en/dashboards/policy-initiatives/ai-guidelines-for-business",
+            "https://oecd.ai/en/dashboards/policy-initiatives/ai-governance-in-japan-11-6288",
+            "https://oecd.ai/en/dashboards/policy-initiatives/ai-governance-guidelines-for-implementation-of-ai-principles-ver-11-4153",
+            "https://oecd.ai/en/dashboards/policy-initiatives/ai-strategy-of-japan-7714",
+            # Other jurisdictions (all verified to expose reachable PDFs)
+            "https://oecd.ai/en/dashboards/policy-initiatives/voluntary-ai-safety-standard-2400",  # Australia
+            "https://oecd.ai/en/dashboards/policy-initiatives/australian-framework-for-generative-ai-in-schools-6294",  # Australia
+            "https://oecd.ai/en/dashboards/policy-initiatives/guidance-on-ai-and-data-protection-9521",  # UK ICO
+            "https://oecd.ai/en/dashboards/policy-initiatives/guide-on-the-use-of-generative-ai-2027",  # Canada
+        ),
+        allowed_domains=("oecd.ai",),
+        api_kind="oecd",
     ),
 )
 
@@ -693,6 +765,404 @@ def expand_api_page_links(page: Dict[str, object], source: SourceConfig) -> List
     return out
 
 
+def lexapi_call(session: requests.Session, path: str, payload: Dict[str, object], retries: int = 3) -> Dict[str, object]:
+    """POST to a LexAPI endpoint with the x-api-key header, retrying transient failures (timeouts
+    and 5xx — LexAPI's live search backend times out intermittently). Raises on missing key or after
+    the final attempt. Only 200 responses are charged against quota, so retrying 5xx is quota-safe."""
+    key = os.getenv("LEX_API_KEY", "").strip()
+    if not key:
+        raise RuntimeError("LEX_API_KEY is not set. Add it to .env or the environment.")
+    headers = {"x-api-key": key, "Content-Type": "application/json", "Accept": "application/json"}
+    last_exc: Optional[Exception] = None
+    for attempt in range(retries):
+        try:
+            resp = session.post(LEXAPI_BASE + path, headers=headers, json=payload, timeout=60)
+            if resp.status_code >= 500:
+                raise requests.HTTPError(f"{resp.status_code} server error: {resp.text[:160]}")
+            resp.raise_for_status()
+            return resp.json()
+        except Exception as exc:
+            last_exc = exc
+            if attempt == retries - 1:
+                break
+            time.sleep(1.5 * (2 ** attempt))
+    raise last_exc
+
+
+def eurlex_page_text(document: Dict[str, object]) -> str:
+    """Build extraction text from a LexAPI document. Prefer the operative articles (which carry the
+    'what the model must not do' clauses AIR-BENCH targets) over the full text, which is dominated by
+    non-binding recitals and OJ boilerplate that would crowd out articles within the chunk budget."""
+    content = document.get("content") or {}
+    parts: List[str] = []
+    for article in content.get("articles") or []:
+        if not isinstance(article, dict):
+            continue
+        body = normalize_ws(str(article.get("content") or ""))
+        if not body:
+            continue
+        header = " — ".join(p for p in (str(article.get("number") or "").strip(),
+                                        str(article.get("title") or "").strip()) if p)
+        parts.append((header + "\n" + body).strip() if header else body)
+    text = "\n\n".join(parts)
+    return text or str(content.get("fullText") or "")
+
+
+def crawl_eurlex_source(
+    session: requests.Session,
+    source: SourceConfig,
+    pages_per_source: int,
+    max_page_chars: int,
+) -> Tuple[List[Dict[str, object]], List[str]]:
+    """Discover CELEX numbers via LexAPI full-text search (unmetered), then fetch full document
+    content (metered, hard-capped) and return pages in the same shape as the HTML crawler."""
+    warnings: List[str] = []
+    if not os.getenv("LEX_API_KEY", "").strip():
+        warnings.append(f"{source.name}: LEX_API_KEY not set; skipping LexAPI crawl.")
+        return [], warnings
+
+    # Seed guaranteed-coverage anchors first (reliable cached path), then augment via search.
+    discovered: Dict[str, Dict[str, object]] = {celex: {} for celex in EURLEX_SEED_CELEX}
+    for term in EURLEX_QUERY_TERMS[:LEXAPI_MAX_SEARCHES]:
+        try:
+            data = lexapi_call(session, LEXAPI_SEARCH_PATH,
+                               {"query": term, "language": "en", "maxPages": LEXAPI_SEARCH_MAX_PAGES})
+        except Exception as exc:
+            warnings.append(f"{source.name}: LexAPI search failed for {term!r}: {exc}")
+            continue
+        for result in data.get("results") or []:
+            if not isinstance(result, dict):
+                continue
+            celex = str(result.get("celexNumber") or result.get("celex") or "").strip()
+            if celex and celex not in discovered:
+                discovered[celex] = result
+    if not discovered:
+        warnings.append(f"{source.name}: no documents to fetch (seed list empty and search failed).")
+        return [], warnings
+
+    budget = min(LEXAPI_MAX_CONTENT_CALLS, pages_per_source)
+    pages: List[Dict[str, object]] = []
+    for celex, meta in list(discovered.items())[:budget]:
+        try:
+            data = lexapi_call(session, LEXAPI_CONTENT_PATH, {"celexNumber": celex, "format": "text"})
+        except Exception as exc:
+            warnings.append(f"{source.name}: LexAPI documentContent failed for {celex}: {exc}")
+            continue
+        document = data.get("document") or {}
+        text = eurlex_page_text(document)[:max_page_chars]
+        if not text:
+            warnings.append(f"{source.name}: empty content for {celex}")
+            continue
+        urls = document.get("urls") or {}
+        pages.append({
+            "source_name": source.name,
+            "legislature": source.legislature,
+            "url": str(urls.get("html") or meta.get("url") or f"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:{celex}"),
+            "title": str(document.get("title") or meta.get("title") or celex),
+            "published_date": str(document.get("dateOfDocumentISO") or meta.get("dateOfDocumentISO") or ""),
+            "text": text,
+            "links": [],
+            "warning": "",
+            "content_type": "application/json",
+            "extractable": True,
+        })
+        remaining = (data.get("usage") or {}).get("remaining")
+        if isinstance(remaining, int) and remaining <= 0:
+            warnings.append(f"{source.name}: LexAPI daily quota exhausted; stopped after {len(pages)} document(s).")
+            break
+    return pages, warnings
+
+
+def congress_text_url_to_govinfo(url: str) -> str:
+    """Rewrite a congress.gov text URL to its govinfo mirror (not IP-blocked). Handles both bill
+    versions (BILLS-118hr6881ih) and enacted public laws (PLAW-119publ12). Returns "" if no
+    recognizable package id is present."""
+    match = re.search(r"/(BILLS-[0-9a-z]+|PLAW-[0-9a-z]+)\.(?:htm|xml|pdf)$", url)
+    if not match:
+        return ""
+    return GOVINFO_BILL_HTML.format(pkg=match.group(1))
+
+
+# Prefer the most authoritative text version available (final enacted law first, then the latest
+# chamber version, down to the introduced text).
+_CONGRESS_VERSION_PREFERENCE = ("public law", "enrolled", "engrossed", "reported", "introduced")
+
+
+def crawl_congress_source(
+    session: requests.Session,
+    source: SourceConfig,
+    pages_per_source: int,
+    max_page_chars: int,
+) -> Tuple[List[Dict[str, object]], List[str]]:
+    """For each curated bill, resolve its canonical text package via the Congress API, then fetch the
+    text from govinfo (congress.gov itself 403s this environment). Returns pages like the HTML crawler."""
+    warnings: List[str] = []
+    pages: List[Dict[str, object]] = []
+    api_key = os.getenv("CONGRESS_API_KEY", "").strip()
+    if not api_key:
+        warnings.append(f"{source.name}: CONGRESS_API_KEY not set; skipping.")
+        return pages, warnings
+    for congress, bill_type, number in CONGRESS_SEED_BILLS[:pages_per_source]:
+        try:
+            resp = session.get(
+                f"https://api.congress.gov/v3/bill/{congress}/{bill_type}/{number}/text"
+                f"?format=json&api_key={api_key}",
+                timeout=40,
+            )
+            resp.raise_for_status()
+            text_versions = resp.json().get("textVersions", []) or []
+        except Exception as exc:
+            warnings.append(f"{source.name}: text API failed for {congress}/{bill_type}/{number}: {exc}")
+            continue
+        # Pick the highest-preference version whose .htm maps to a govinfo package (skips e.g. the
+        # USLM-only Public Law variant, which has no plain .htm mirror).
+        format_url = ""
+        best_rank = len(_CONGRESS_VERSION_PREFERENCE) + 1
+        for version in text_versions:
+            vtype = str(version.get("type") or "").lower()
+            rank = next((i for i, p in enumerate(_CONGRESS_VERSION_PREFERENCE) if p in vtype),
+                        len(_CONGRESS_VERSION_PREFERENCE))
+            for fmt in version.get("formats", []) or []:
+                candidate = str(fmt.get("url") or "")
+                if candidate.endswith(".htm") and congress_text_url_to_govinfo(candidate) and rank < best_rank:
+                    format_url, best_rank = candidate, rank
+                    break
+        if not format_url:
+            warnings.append(f"{source.name}: no mappable .htm text for {congress}/{bill_type}/{number}")
+            continue
+        govinfo_url = congress_text_url_to_govinfo(format_url)
+        if not govinfo_url:
+            warnings.append(f"{source.name}: could not map {format_url} to govinfo")
+            continue
+        try:
+            page_resp = session.get(govinfo_url, timeout=40)
+            page_resp.raise_for_status()
+            parser = PageParser(govinfo_url)
+            parser.feed(page_resp.text)
+            text = parser.text[:max_page_chars]
+        except Exception as exc:
+            warnings.append(f"{source.name}: govinfo fetch failed for {govinfo_url}: {exc}")
+            continue
+        if not text:
+            continue
+        pages.append({
+            "source_name": source.name,
+            "legislature": source.legislature,
+            "url": govinfo_url,
+            "title": parser.title or f"{bill_type.upper()} {number} ({congress}th Congress)",
+            "published_date": infer_date(page_resp.text, govinfo_url),
+            "text": text,
+            "links": [],
+            "warning": "",
+            "content_type": "text/html",
+            "extractable": True,
+        })
+    return pages, warnings
+
+
+def crawl_federal_register_source(
+    session: requests.Session,
+    source: SourceConfig,
+    pages_per_source: int,
+    max_page_chars: int,
+) -> Tuple[List[Dict[str, object]], List[str]]:
+    """Query the FR documents.json search seeds requesting the raw_text_url field, then fetch each
+    document's full plain text directly (the HTML document pages are thin JS shells)."""
+    warnings: List[str] = []
+    pages: List[Dict[str, object]] = []
+    fields_qs = "".join(f"&fields[]={f}" for f in FEDERAL_REGISTER_FIELDS)
+    seen: Set[str] = set()
+    for seed in source.seed_urls:
+        try:
+            resp = session.get(seed + fields_qs, timeout=40)
+            resp.raise_for_status()
+            results = resp.json().get("results", []) or []
+        except Exception as exc:
+            warnings.append(f"{source.name}: search failed for {seed}: {exc}")
+            continue
+        for result in results:
+            if len(pages) >= pages_per_source:
+                break
+            raw_text_url = str(result.get("raw_text_url") or "")
+            if not raw_text_url or raw_text_url in seen:
+                continue
+            seen.add(raw_text_url)
+            try:
+                text_resp = session.get(raw_text_url, timeout=40)
+                text_resp.raise_for_status()
+                text = text_resp.text[:max_page_chars]
+            except Exception as exc:
+                warnings.append(f"{source.name}: raw_text fetch failed for {raw_text_url}: {exc}")
+                continue
+            if len(text) < 200:
+                continue
+            pages.append({
+                "source_name": source.name,
+                "legislature": source.legislature,
+                "url": str(result.get("html_url") or raw_text_url),
+                "title": normalize_ws(str(result.get("title") or "")),
+                "published_date": str(result.get("publication_date") or ""),
+                "text": text,
+                "links": [],
+                "warning": "",
+                "content_type": "text/plain",
+                "extractable": True,
+            })
+        if len(pages) >= pages_per_source:
+            break
+    return pages, warnings
+
+
+_BROWSER_UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+               "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
+# Hosts that geo-block this environment (accept the connection then hang). OECD links many docs on
+# such hosts; we skip them rather than stall on a 40s timeout per PDF.
+OECD_BLOCKED_PDF_HOSTS = ("meti.go.jp",)
+
+
+def extract_oecd_pdf_urls(html: str) -> List[str]:
+    """Pull official/related document PDF URLs out of an OECD.ai entry page. The links live in the
+    Angular state-transfer JSON with escaped slashes, so we normalize and dedupe."""
+    urls: List[str] = []
+    for raw in re.findall(r'https?:(?:\\?/){2}[^"\'\\ <>]+\.pdf', html):
+        url = raw.replace("\\/", "/")
+        if url not in urls:
+            urls.append(url)
+    return urls
+
+
+def crawl_oecd_source(
+    session: requests.Session,
+    source: SourceConfig,
+    pages_per_source: int,
+    max_page_chars: int,
+) -> Tuple[List[Dict[str, object]], List[str]]:
+    """For each OECD.ai entry seed, emit the entry summary AND fetch the official/related government
+    PDFs it links (the real statute/guideline text), skipping geo-blocked hosts (e.g. meti.go.jp,
+    whose docs are often also mirrored on reachable hosts like cao.go.jp/soumu.go.jp)."""
+    warnings: List[str] = []
+    pages: List[Dict[str, object]] = []
+    seen_pdf: Set[str] = set()
+    headers = {"User-Agent": _BROWSER_UA, "Accept-Language": "en;q=0.9"}
+    for seed in source.seed_urls:
+        if len(pages) >= pages_per_source:
+            break
+        try:
+            resp = session.get(seed, headers=headers, timeout=40)
+            resp.raise_for_status()
+            html = resp.text
+        except Exception as exc:
+            warnings.append(f"{source.name}: failed to fetch {seed}: {exc}")
+            continue
+        parser = PageParser(seed)
+        parser.feed(html)
+        summary = parser.text[:max_page_chars]
+        if summary:
+            pages.append({
+                "source_name": source.name, "legislature": source.legislature, "url": seed,
+                "title": parser.title or "OECD AI policy initiative", "published_date": "",
+                "text": summary, "links": [], "warning": "", "content_type": "text/html",
+                "extractable": True,
+            })
+        for pdf_url in extract_oecd_pdf_urls(html):
+            if len(pages) >= pages_per_source:
+                break
+            if pdf_url in seen_pdf:
+                continue
+            seen_pdf.add(pdf_url)
+            host = urlparse(pdf_url).netloc.lower()
+            if any(blocked in host for blocked in OECD_BLOCKED_PDF_HOSTS):
+                warnings.append(f"{source.name}: skipping geo-blocked PDF host {host}: {pdf_url}")
+                continue
+            try:
+                pdf_resp = session.get(pdf_url, headers=headers, timeout=45)
+                pdf_resp.raise_for_status()
+                pdf_text, warn = extract_pdf_text(pdf_resp.content, pdf_url)
+            except Exception as exc:
+                warnings.append(f"{source.name}: PDF fetch failed for {pdf_url}: {exc}")
+                continue
+            if warn:
+                warnings.append(f"{source.name}: {warn}")
+            pdf_text = pdf_text[:max_page_chars]
+            if len(pdf_text) < 200:
+                continue
+            pages.append({
+                "source_name": source.name, "legislature": source.legislature, "url": pdf_url,
+                "title": os.path.basename(urlparse(pdf_url).path) or "OECD-linked document",
+                "published_date": "", "text": pdf_text, "links": [], "warning": "",
+                "content_type": "application/pdf", "extractable": True,
+            })
+    return pages, warnings
+
+
+def korea_law_content_url(seed_url: str) -> str:
+    """law.go.kr's lsInfoP.do page is a shell; the English law body is loaded by AJAX from
+    engLsInfoR.do. Rewrite a law seed (identified by its lsiSeq) to that content endpoint. Returns ""
+    for nav/home seeds that carry no lsiSeq."""
+    query = parse_qs(urlparse(seed_url).query)
+    lsi_seq = (query.get("lsiSeq") or [""])[0]
+    if not lsi_seq:
+        return ""
+    params = {"lsiSeq": lsi_seq}
+    ef_yd = (query.get("efYd") or [""])[0]
+    if ef_yd:
+        params["efYd"] = ef_yd
+    return "https://www.law.go.kr/engLsInfoR.do?" + urlencode(params)
+
+
+def crawl_korea_law_source(
+    session: requests.Session,
+    source: SourceConfig,
+    pages_per_source: int,
+    max_page_chars: int,
+) -> Tuple[List[Dict[str, object]], List[str]]:
+    """Fetch each law's article body from engLsInfoR.do (the lsInfoP.do shell seed has none)."""
+    warnings: List[str] = []
+    pages: List[Dict[str, object]] = []
+    for seed in source.seed_urls[:pages_per_source]:
+        content_url = korea_law_content_url(seed)
+        if not content_url:
+            continue
+        try:
+            resp = session.get(content_url, headers={"Referer": seed}, timeout=40)
+            resp.raise_for_status()
+            parser = PageParser(content_url)
+            parser.feed(resp.text)
+            text = parser.text[:max_page_chars]
+        except Exception as exc:
+            warnings.append(f"{source.name}: content fetch failed for {content_url}: {exc}")
+            continue
+        if len(text) < 200:
+            warnings.append(f"{source.name}: empty law body for {content_url}")
+            continue
+        pages.append({
+            "source_name": source.name,
+            "legislature": source.legislature,
+            "url": seed,
+            "title": parser.title or "Korea law",
+            "published_date": "",
+            "text": text,
+            "links": [],
+            "warning": "",
+            "content_type": "text/html",
+            "extractable": True,
+        })
+    return pages, warnings
+
+
+def is_topical_link(link: Dict[str, str]) -> bool:
+    """True only if the link looks specifically AI/model-related. Used to stop the crawler from
+    wandering into unrelated legislation (e.g. customs decrees, effluent limits) that match generic
+    hints like 'law', 'act', or 'model' but have nothing to do with foundation-model safety."""
+    haystack = f"{link.get('url', '')} {link.get('text', '')}".lower()
+    topical = (
+        "foundation model", "frontier", "general-purpose ai", "gpai", "large language", "llm",
+        "generative", "artificial intelligence", "artificial-intelligence", "ai-", "/ai", "ai ",
+        "deepfake", "生成式", "人工智能", "인공지능",
+    )
+    return any(token in haystack for token in topical) or any(term.lower() in haystack for term in QUERY_TERMS)
+
+
 def crawl_source(
     session: requests.Session,
     source: SourceConfig,
@@ -702,12 +1172,19 @@ def crawl_source(
     delay_seconds: float,
     max_page_chars: int,
 ) -> Tuple[List[Dict[str, object]], List[str]]:
+    if source.api_kind == "eurlex":
+        return crawl_eurlex_source(session, source, pages_per_source, max_page_chars)
+    if source.api_kind == "congress":
+        return crawl_congress_source(session, source, pages_per_source, max_page_chars)
+    if source.api_kind == "federal_register":
+        return crawl_federal_register_source(session, source, pages_per_source, max_page_chars)
+    if source.api_kind == "korea_law":
+        return crawl_korea_law_source(session, source, pages_per_source, max_page_chars)
+    if source.api_kind == "oecd":
+        return crawl_oecd_source(session, source, pages_per_source, max_page_chars)
+
     queue: deque[Tuple[str, int]] = deque((url, 0) for url in source.seed_urls)
     warnings: List[str] = []
-
-    if source.api_kind == "congress":
-        for url in discover_congress_api_urls(session):
-            queue.append((url, 0))
 
     pages: List[Dict[str, object]] = []
     visited = set()
@@ -743,6 +1220,10 @@ def crawl_source(
             for link in links
             if is_http_url(link.get("url", "")) and domain_allowed(link["url"], source.allowed_domains)
         ]
+        # Only follow links that are specifically AI/model-topical. Generic legal hints ("act",
+        # "law", "model") otherwise dragged the crawler into unrelated legislation (customs decrees,
+        # effluent limits), burning the per-source page budget on irrelevant documents.
+        links = [link for link in links if is_topical_link(link)]
         links.sort(key=score_link, reverse=True)
         for link in links[:max_links_per_page]:
             if score_link(link) > 0:
@@ -894,16 +1375,14 @@ def normalize_clause_record(raw: Dict[str, object], page: Dict[str, object]) -> 
     if len(clause.split()) < 8:
         return None
     lowered = clause.lower()
-    has_attackable_risk = any(keyword in lowered for keyword in ATTACKABLE_RISK_KEYWORDS)
-    has_model_behavior = any(keyword in lowered for keyword in MODEL_BEHAVIOR_KEYWORDS)
-    has_broad_governance = any(keyword in lowered for keyword in BROAD_GOVERNANCE_KEYWORDS)
-    if not has_attackable_risk:
-        return None
-    if not has_model_behavior:
+    # Recall-first pre-filter: require a concrete risk/harm category and reject purely administrative
+    # text, but do NOT also require an explicit model-behavior phrase. That requirement silently
+    # dropped statutes phrased around "AI systems" rather than "the model" (e.g. Canada's AIDA) before
+    # the semantic final gate (final_gate_items) could ever judge them — the gate now does the
+    # precision work of separating model-output prohibitions from system/provider duties.
+    if not any(keyword in lowered for keyword in ATTACKABLE_RISK_KEYWORDS):
         return None
     if any(pattern in lowered for pattern in HARD_EXCLUDE_PATTERNS):
-        return None
-    if has_broad_governance and not has_model_behavior:
         return None
     return {
         "clause": clause,
@@ -921,9 +1400,12 @@ def extract_page_items(
     page: Dict[str, object],
     chunk_chars: int,
     max_chunks_per_page: int,
-) -> Tuple[List[Dict[str, str]], List[str]]:
+) -> Tuple[List[Dict[str, str]], List[str], int]:
+    """Returns (kept_records, warnings, raw_candidate_count). raw_candidate_count is how many clauses
+    the model proposed before the keyword pre-filter, so the funnel can show pre-filter vs post-filter."""
     items: List[Dict[str, str]] = []
     warnings: List[str] = []
+    raw_count = 0
     text = str(page.get("text") or "")
     for chunk_idx, chunk in enumerate(chunk_text(text, chunk_chars)[:max_chunks_per_page], start=1):
         try:
@@ -933,10 +1415,11 @@ def extract_page_items(
             continue
         for raw in parsed.get("items", []) if isinstance(parsed.get("items"), list) else []:
             if isinstance(raw, dict):
+                raw_count += 1
                 record = normalize_clause_record(raw, page)
                 if record:
                     items.append(record)
-    return items, warnings
+    return items, warnings, raw_count
 
 
 def dedupe_items(items: Iterable[Dict[str, str]]) -> List[Dict[str, str]]:
@@ -1098,19 +1581,33 @@ def scrape_policy_clauses(
         all_pages.extend(pages)
         all_warnings.extend(warnings)
 
+    # Per-source funnel so the report shows exactly where clauses are lost:
+    # pages -> extractable_pages -> raw_candidates (model proposals) -> post_keyword_filter -> final.
+    funnel: Dict[str, Dict[str, int]] = defaultdict(
+        lambda: {"pages": 0, "extractable_pages": 0, "raw_candidates": 0, "post_keyword_filter": 0, "final": 0}
+    )
+    for page in all_pages:
+        src = str(page.get("source_name") or "?")
+        funnel[src]["pages"] += 1
+        if page.get("extractable", True):
+            funnel[src]["extractable_pages"] += 1
+
     raw_items: List[Dict[str, str]] = []
     for page in all_pages:
         if not page.get("extractable", True):
             print(f"[skip] discovery-only {page.get('source_name')} - {page.get('url')}", file=sys.stderr)
             continue
         print(f"[extract] {page.get('source_name')} - {page.get('url')}", file=sys.stderr)
-        items, warnings = extract_page_items(
+        items, warnings, raw_count = extract_page_items(
             client=client,
             model=model,
             page=page,
             chunk_chars=chunk_chars,
             max_chunks_per_page=max_chunks_per_page,
         )
+        src = str(page.get("source_name") or "?")
+        funnel[src]["raw_candidates"] += raw_count
+        funnel[src]["post_keyword_filter"] += len(items)
         raw_items.extend(items)
         all_warnings.extend(warnings)
 
@@ -1120,6 +1617,8 @@ def scrape_policy_clauses(
         all_warnings.extend(gate_warnings)
 
     items = dedupe_items(items)
+    for item in items:
+        funnel[str(item.get("source_name") or "?")]["final"] += 1
     items.sort(key=lambda item: (item.get("legislature", ""), item["source_name"], item["source_title"], item["clause"]))
     report = {
         "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
@@ -1128,6 +1627,14 @@ def scrape_policy_clauses(
         "pages_crawled": len(all_pages),
         "raw_candidate_count": len(raw_items),
         "final_count": len(items),
+        "funnel_by_source": {name: funnel[name] for name in sorted(funnel)},
+        "stage_totals": {
+            "pages": sum(f["pages"] for f in funnel.values()),
+            "extractable_pages": sum(f["extractable_pages"] for f in funnel.values()),
+            "raw_candidates": sum(f["raw_candidates"] for f in funnel.values()),
+            "post_keyword_filter": sum(f["post_keyword_filter"] for f in funnel.values()),
+            "final": len(items),
+        },
         "warnings": all_warnings,
         "pages": [
             {

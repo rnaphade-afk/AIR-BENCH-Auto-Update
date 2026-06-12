@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List
 
 from dotenv import load_dotenv
+from tqdm import tqdm
 
 
 ROOT = Path(__file__).resolve().parent
@@ -573,6 +574,7 @@ def run_pipeline(args: argparse.Namespace) -> Dict[str, Any]:
                 ):
                     precomputed[idx - 1] = classification
 
+    policy_bar = tqdm(total=len(policies), desc="Policies", unit="policy")
     for policy_index, policy in enumerate(policies, start=1):
         classification_path = run_dir / f"policy-{policy_index:03d}-classification.json"
         if args.resume and classification_path.exists():
@@ -580,7 +582,7 @@ def run_pipeline(args: argparse.Namespace) -> Dict[str, Any]:
         else:
             classification = precomputed[policy_index - 1]
             if classification is None:
-                print(f"\n[classify] Policy {policy_index}/{len(policies)}")
+                tqdm.write(f"[classify] Policy {policy_index}/{len(policies)}")
                 classification = classify_policy(policy)
             classification_review = {
                 "instructions": (
@@ -625,6 +627,10 @@ def run_pipeline(args: argparse.Namespace) -> Dict[str, Any]:
             update_tree.save_taxonomy(taxonomy, str(taxonomy_path))
         result["applied"].extend(applied)
         write_json(run_dir / "pipeline-result.json", result)
+        tqdm.write(f"[policy {policy_index}/{len(policies)}] applied {len(applied)} update(s); {len(result['applied'])} total")
+        policy_bar.update(1)
+        policy_bar.set_postfix_str(f"{len(result['applied'])} updates")
+    policy_bar.close()
 
     if args.export:
         result["export"] = run_export_stage(args, taxonomy_path)
