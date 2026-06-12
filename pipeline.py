@@ -574,6 +574,33 @@ def run_pipeline(args: argparse.Namespace) -> Dict[str, Any]:
                 ):
                     precomputed[idx - 1] = classification
 
+    # Classify-only: persist every policy's classification JSON and stop before the apply loop, so the
+    # classifications can be reviewed/edited and then applied later with --resume. This is the clean
+    # "review classifications before anything mutates the tree / generates prompts" checkpoint.
+    if args.classify_only:
+        written = 0
+        for policy_index, policy in enumerate(policies, start=1):
+            classification_path = run_dir / f"policy-{policy_index:03d}-classification.json"
+            if classification_path.exists():
+                continue
+            classification = precomputed[policy_index - 1]
+            if classification is None:
+                classification = classify_policy(policy)
+            write_json(
+                classification_path,
+                {
+                    "instructions": (
+                        "Review classification.existing_matches and classification.novel_categories. "
+                        "Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply."
+                    ),
+                    "policy": policy,
+                    "classification": classification,
+                },
+            )
+            written += 1
+        print(f"[classify-only] Wrote {written} new classification JSON(s) ({len(policies)} total) to {run_dir}; skipping apply.")
+        return result
+
     policy_bar = tqdm(total=len(policies), desc="Policies", unit="policy")
     for policy_index, policy in enumerate(policies, start=1):
         classification_path = run_dir / f"policy-{policy_index:03d}-classification.json"
@@ -699,6 +726,14 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--export-judges-out", type=Path, default=export_dataset.DEFAULT_JUDGES_PATH)
     parser.add_argument("--resume", action="store_true", help="Reuse existing review artifacts in --run-dir.")
     parser.add_argument("--yes", action="store_true", help="Do not pause for edits after writing review files.")
+    parser.add_argument(
+        "--classify-only",
+        action="store_true",
+        help=(
+            "Classify all policies and write their classification JSONs, then stop before applying "
+            "anything to the tree. Lets you review/edit classifications, then apply with --resume."
+        ),
+    )
     parser.add_argument(
         "--parallel-policies",
         action="store_true",
