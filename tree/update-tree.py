@@ -43,8 +43,8 @@ def parallel_map(fn: Callable, items: Iterable, max_workers: int = MAX_CONCURREN
 SYSTEM_PROMPT = """You classify AI policy clauses into the AIR-BENCH taxonomy.
 Use only the provided taxonomy names, node_ids, summaries, and policy text.
 Policies may map to multiple categories.
-The taxonomy's categories are comprehensive: a suitable existing leaf almost always exists somewhere in the tree. Strongly prefer existing leaves.
-Propose a novel leaf only as a last resort, when a fragment names a SPECIFIC, concrete, attack-prompt-testable unsafe model behavior that no existing leaf in ANY branch covers.
+Prefer an existing leaf when one genuinely covers the same concrete unsafe behavior (same mechanism, victim, and harm) — not merely an adjacent or loosely related leaf.
+When a fragment names a SPECIFIC, concrete, attack-prompt-testable unsafe model behavior that no existing leaf in ANY branch genuinely covers, propose a novel leaf rather than forcing it into a loose match or dropping it. A wrong or loose match is worse than a justified novel leaf.
 Never propose "general", "other", "miscellaneous", or catch-all categories, and never propose categories for defensive measures, security hardening, governance, reporting, registration, or process duties.
 Return JSON only."""
 
@@ -386,8 +386,8 @@ Existing leaves under this parent:
 
 Classify this fragment only within this level-3 parent.
 If the fragment does not belong under this parent, return no existing matches and no novel categories.
-Choose an existing leaf whenever one covers the same concrete unsafe behavior; prefer this strongly.
-Propose a novel category only as a last resort: only when the fragment names a SPECIFIC, concrete unsafe model behavior that genuinely belongs under this parent and that none of the existing leaves above cover. Propose at most one.
+Choose an existing leaf when one genuinely covers the same concrete unsafe behavior. A merely adjacent or loosely-related leaf does not count — do not force the fragment into a poor match.
+If the fragment names a SPECIFIC, concrete unsafe model behavior that belongs under this parent and that none of the existing leaves above genuinely cover, propose one novel category (do not drop it or force a loose existing leaf).
 Do NOT propose a novel category that merely generalizes the existing leaves ("General X", "Other X", catch-alls); if the fragment is broad, match the relevant existing leaf/leaves instead.
 Do NOT propose categories for defensive measures, security hardening, governance, reporting, or process duties — only for harmful model outputs/behaviors.
 Do not propose novel categories for other branches.
@@ -510,18 +510,21 @@ A novel category is justified ONLY if NO leaf in this catalog covers the fragmen
 {json.dumps(leaf_catalog, indent=2, ensure_ascii=False)}
 
 For each fragment, choose exactly one outcome:
-- "existing": some existing leaf covers the fragment's concrete unsafe behavior. You MAY use any leaf
-  node_id from the full catalog above, not only the candidate list — if routing missed the right leaf
-  in another branch (non-consensual intimate imagery, deepfakes, malware, intrusion, fraud,
-  impersonation, CBRN, hate, violence, CSAM, self-harm, discrimination are all already in the
-  catalog), select it here.
-- "novel": the fragment names a specific, concrete, attack-prompt-testable harm that NO leaf in the
-  full catalog covers, captured by a candidate novel category.
-- "none": the fragment is vague, a catch-all, a generalization of existing leaves, a
-  defensive/security-hardening/governance/reporting/process duty, or otherwise not a useful new category.
+- "existing": some existing leaf GENUINELY covers the fragment's concrete unsafe behavior (same
+  mechanism, victim, and harm — not merely adjacent or loosely related). You MAY use any leaf node_id
+  from the full catalog above, not only the candidate list — if routing missed the right leaf in
+  another branch (non-consensual intimate imagery, deepfakes, malware, intrusion, fraud,
+  impersonation, CBRN, hate, violence, CSAM, self-harm, discrimination, model-inference/privacy
+  attacks are all already in the catalog), select it here.
+- "novel": the fragment names a specific, concrete, attack-prompt-testable harm that no leaf in the
+  full catalog genuinely covers, captured by a candidate novel category. Use this rather than forcing
+  a loosely-related existing leaf or dropping the fragment.
+- "none": ONLY for fragments that are vague, procedural, defensive/security-hardening/governance/
+  reporting, or not attack-prompt-testable. Do NOT use "none" for a concrete harm that merely lacks a
+  good existing leaf — that is "novel".
 
 Rules:
-- Strongly prefer "existing". The taxonomy is comprehensive, so genuinely novel harms are rare; when in doubt, do not propose novel.
+- Prefer "existing" only when the fit is genuine. A wrong or loose match is worse than a justified novel — do not force a concrete harm into a loosely-related leaf, and do not drop it to "none"; propose "novel" instead.
 - For "existing", every node_id must be a real leaf from the candidate list or the full catalog.
 - For "novel", use only a candidate novel category (its parent_node_id and proposed_name), and only after confirming no catalog leaf covers it.
 - Never accept a "general", "other", "miscellaneous", or catch-all novel category. If a fragment is broader than any single leaf, map it to the existing leaf(s) it most directly implies (outcome "existing"); never create a category for breadth alone.
