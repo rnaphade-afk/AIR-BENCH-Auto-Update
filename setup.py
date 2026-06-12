@@ -11,6 +11,7 @@ if VENV_PYTHON.exists() and Path(sys.prefix).resolve() != (ROOT / "venv").resolv
     os.execv(str(VENV_PYTHON), [str(VENV_PYTHON), __file__, *sys.argv[1:]])
 
 import pipeline
+from tqdm import tqdm
 
 
 TREE_PATH = ROOT / "tree" / "semantic-tree.json"
@@ -40,99 +41,116 @@ def artifact_stem(index, leaf):
 def rebuild_prompts(taxonomy, args, run_dir):
     mutation_types = pipeline.selected_mutation_types(args)
     leaves = list(iter_leaves(taxonomy))
+    progress = tqdm(total=len(leaves), desc="Rebuilding prompts", unit="leaf")
+    skipped = []
     for index, (leaf, parent) in enumerate(leaves, start=1):
-        category = {
-            "name": leaf["name"],
-            "summary": leaf.get("summary", ""),
-            "parent_node_id": (parent or {}).get("node_id", ""),
-        }
-        stem = artifact_stem(index, leaf)
-        base_path = run_dir / f"{stem}-base-prompts.json"
-        attack_path = run_dir / f"{stem}-attack-prompts.json"
+        try:
+            category = {
+                "name": leaf["name"],
+                "summary": leaf.get("summary", ""),
+                "parent_node_id": (parent or {}).get("node_id", ""),
+            }
+            stem = artifact_stem(index, leaf)
+            base_path = run_dir / f"{stem}-base-prompts.json"
+            attack_path = run_dir / f"{stem}-attack-prompts.json"
 
-        if args.resume and base_path.exists():
-            base_review = pipeline.review_json(base_path, {}, f"Review base prompts for {leaf['name']!r}.", True, args.yes)
-        else:
-            candidates = pipeline.generate_prompts.generate_base_prompts(
-                category,
-                n=args.base_count,
-                review_rounds=args.base_review_rounds,
-            )
-            base_review = pipeline.review_json(
-                base_path,
-                {
-                    "instructions": (
-                        "Review candidates and leave the prompts to carry forward in "
-                        f"selected_base_prompts; defaults to the first {args.base_select}."
-                    ),
-                    "leaf": category,
-                    "base_prompt_candidates": candidates,
-                    "selected_base_prompts": candidates[: args.base_select],
-                },
-                f"Review base prompts for {leaf['name']!r}.",
-                args.resume,
-                args.yes,
-            )
-
-        base_prompts = pipeline.selected_base_prompts(base_review)
-        if args.resume and attack_path.exists():
-            attack_review = pipeline.review_json(attack_path, {}, f"Review attack prompts for {leaf['name']!r}.", True, args.yes)
-        else:
-            mutations = pipeline.generate_prompts.mutate_prompts(
-                base_prompts,
-                review_rounds=args.mutation_review_rounds,
-                mutation_types=mutation_types,
-            )
-            attack_review = pipeline.review_json(
-                attack_path,
-                {
-                    "instructions": "Review/edit attack_prompts before they replace this leaf's prompts.",
-                    "leaf": category,
-                    "selected_base_prompts": base_prompts,
-                    "mutation_types": mutation_types,
-                    "attack_prompts": pipeline.generate_prompts.prompts_with_mutations(
-                        base_prompts,
-                        mutations,
-                        mutation_types=mutation_types,
-                    ),
-                },
-                f"Review attack prompts for {leaf['name']!r}.",
-                args.resume,
-                args.yes,
-            )
-        attack_prompts = pipeline.selected_attack_prompts(attack_review.get("attack_prompts", []), str(attack_path))
-
-        translation_languages = pipeline.normalize_languages(getattr(args, "translation_language", None))
-        if translation_languages:
-            translated_path = run_dir / f"{stem}-translated-prompts.json"
-            if args.resume and translated_path.exists():
-                translated_review = pipeline.review_json(
-                    translated_path, {}, f"Review translated prompts for {leaf['name']!r}.", True, args.yes
-                )
+            if args.resume and base_path.exists():
+                base_review = pipeline.review_json(base_path, {}, f"Review base prompts for {leaf['name']!r}.", True, args.yes)
             else:
-                translated_prompts = pipeline.generate_prompts.translate_prompts(
-                    attack_prompts,
-                    translation_languages,
-                    review_rounds=args.translation_review_rounds,
+                candidates = pipeline.generate_prompts.generate_base_prompts(
+                    category,
+                    n=args.base_count,
+                    review_rounds=args.base_review_rounds,
                 )
-                translated_review = pipeline.review_json(
-                    translated_path,
+                base_review = pipeline.review_json(
+                    base_path,
                     {
-                        "instructions": "Review/edit translated attack_prompts before they replace this leaf's prompts.",
+                        "instructions": (
+                            "Review candidates and leave the prompts to carry forward in "
+                            f"selected_base_prompts; defaults to the first {args.base_select}."
+                        ),
                         "leaf": category,
-                        "translation_languages": translation_languages,
-                        "attack_prompts": translated_prompts,
+                        "base_prompt_candidates": candidates,
+                        "selected_base_prompts": candidates[: args.base_select],
                     },
-                    f"Review translated prompts for {leaf['name']!r}.",
+                    f"Review base prompts for {leaf['name']!r}.",
                     args.resume,
                     args.yes,
                 )
-            attack_prompts = pipeline.selected_attack_prompts(
-                translated_review.get("attack_prompts", []), str(translated_path)
-            )
 
-        leaf["prompts"] = attack_prompts
-        print(f"[prompts] Rebuilt {len(leaf['prompts'])} prompt(s) for {leaf['name']}")
+            base_prompts = pipeline.selected_base_prompts(base_review)
+            if args.resume and attack_path.exists():
+                attack_review = pipeline.review_json(attack_path, {}, f"Review attack prompts for {leaf['name']!r}.", True, args.yes)
+            else:
+                mutations = pipeline.generate_prompts.mutate_prompts(
+                    base_prompts,
+                    review_rounds=args.mutation_review_rounds,
+                    mutation_types=mutation_types,
+                )
+                attack_review = pipeline.review_json(
+                    attack_path,
+                    {
+                        "instructions": "Review/edit attack_prompts before they replace this leaf's prompts.",
+                        "leaf": category,
+                        "selected_base_prompts": base_prompts,
+                        "mutation_types": mutation_types,
+                        "attack_prompts": pipeline.generate_prompts.prompts_with_mutations(
+                            base_prompts,
+                            mutations,
+                            mutation_types=mutation_types,
+                        ),
+                    },
+                    f"Review attack prompts for {leaf['name']!r}.",
+                    args.resume,
+                    args.yes,
+                )
+            attack_prompts = pipeline.selected_attack_prompts(attack_review.get("attack_prompts", []), str(attack_path))
+
+            translation_languages = pipeline.normalize_languages(getattr(args, "translation_language", None))
+            if translation_languages:
+                translated_path = run_dir / f"{stem}-translated-prompts.json"
+                if args.resume and translated_path.exists():
+                    translated_review = pipeline.review_json(
+                        translated_path, {}, f"Review translated prompts for {leaf['name']!r}.", True, args.yes
+                    )
+                else:
+                    translated_prompts = pipeline.generate_prompts.translate_prompts(
+                        attack_prompts,
+                        translation_languages,
+                        review_rounds=args.translation_review_rounds,
+                    )
+                    translated_review = pipeline.review_json(
+                        translated_path,
+                        {
+                            "instructions": "Review/edit translated attack_prompts before they replace this leaf's prompts.",
+                            "leaf": category,
+                            "translation_languages": translation_languages,
+                            "attack_prompts": translated_prompts,
+                        },
+                        f"Review translated prompts for {leaf['name']!r}.",
+                        args.resume,
+                        args.yes,
+                    )
+                attack_prompts = pipeline.selected_attack_prompts(
+                    translated_review.get("attack_prompts", []), str(translated_path)
+                )
+
+            leaf["prompts"] = attack_prompts
+            tqdm.write(f"[prompts] Rebuilt {len(leaf['prompts'])} prompt(s) for {leaf['name']} ({index}/{len(leaves)})")
+        except Exception as exc:
+            # Best-effort: any per-leaf failure (content-policy refusal, truncated/invalid model
+            # output, transient error that exhausted retries, etc.) keeps the leaf's original
+            # prompts, is recorded, and the run continues rather than aborting the whole job.
+            reason = "content-policy" if pipeline.generate_prompts.is_content_policy_error(exc) else type(exc).__name__
+            skipped.append({"leaf": leaf["name"], "index": index, "reason": reason, "detail": str(exc)[:200]})
+            tqdm.write(f"[skip] {reason}; kept original prompts for {leaf['name']} ({index}/{len(leaves)}): {str(exc)[:120]}")
+        finally:
+            progress.update(1)
+            progress.set_postfix_str(leaf["name"][:32])
+    progress.close()
+    if skipped:
+        print(f"[prompts] Skipped {len(skipped)} leaf(ies) (kept original prompts): {[s['leaf'] for s in skipped]}", flush=True)
+        pipeline.write_json(run_dir / "skipped-leaves.json", skipped)
     return len(leaves)
 
 
@@ -141,16 +159,28 @@ def run(args):
     run_dir = args.run_dir or pipeline.DEFAULT_RUNS_DIR / datetime.now().strftime("setup-%Y%m%d-%H%M%S")
     run_dir.mkdir(parents=True, exist_ok=True)
 
-    initialize_tree.build_tree(args.tree)
-    taxonomy = pipeline.read_json(args.tree)
-    result = {"taxonomy_path": str(args.tree), "run_dir": str(run_dir), "prompt_leaf_count": 0}
-    pipeline.write_json(run_dir / "setup-result.json", result)
+    if args.resume and Path(args.tree).exists():
+        # Resume: the tree + summaries already exist from the prior run; reuse them and go straight
+        # to prompt rebuilding (which reuses per-leaf artifacts). Rebuilding the tree or regenerating
+        # all summaries on every resume would be wasted work.
+        print("[setup] Resume: reusing existing tree + summaries; skipping build_tree and summary regeneration.", flush=True)
+        taxonomy = pipeline.read_json(args.tree)
+        result = {"taxonomy_path": str(args.tree), "run_dir": str(run_dir), "prompt_leaf_count": 0}
+        pipeline.write_json(run_dir / "setup-result.json", result)
+    else:
+        print("[setup] Building tree from AIR-BENCH-2024 ...", flush=True)
+        initialize_tree.build_tree(args.tree)
+        taxonomy = pipeline.read_json(args.tree)
+        result = {"taxonomy_path": str(args.tree), "run_dir": str(run_dir), "prompt_leaf_count": 0}
+        pipeline.write_json(run_dir / "setup-result.json", result)
 
-    # Generate summaries FIRST, from the original AIR-BENCH prompts (build_tree only sets
-    # placeholder summaries). This way prompt regeneration is informed by real leaf/parent
-    # definitions instead of placeholders, rather than the reverse.
-    generate_summaries.generate_recursive_summary(taxonomy)
-    pipeline.write_json(args.tree, taxonomy)
+        # Generate summaries FIRST, from the original AIR-BENCH prompts (build_tree only sets
+        # placeholder summaries). This way prompt regeneration is informed by real leaf/parent
+        # definitions instead of placeholders, rather than the reverse.
+        print("[setup] Generating node summaries for the full tree ...", flush=True)
+        generate_summaries.generate_recursive_summary(taxonomy)
+        pipeline.write_json(args.tree, taxonomy)
+        print("[setup] Summaries done; regenerating prompts ...", flush=True)
 
     if args.generate_prompts:
         result["prompt_leaf_count"] = rebuild_prompts(taxonomy, args, run_dir)

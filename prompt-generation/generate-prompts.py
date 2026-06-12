@@ -118,6 +118,17 @@ def parse_json_object(text):
         return json.loads(match.group(0))
 
 
+def is_content_policy_error(exc):
+    """True for a provider content-policy refusal (e.g. OpenAI 400 invalid_prompt on CBRN/bio
+    content). These are permanent — retrying won't help — so callers skip rather than retry."""
+    text = str(exc).lower()
+    return any(
+        marker in text
+        for marker in ("invalid_prompt", "content_policy", "content management policy",
+                       "limited access to this content", "safety reasons", "responsible_ai_policy")
+    )
+
+
 def call_json_model(
     client,
     messages,
@@ -150,6 +161,8 @@ def call_json_model(
             return parse_json_object(response.choices[0].message.content or "{}")
         except Exception as exc:
             last_exc = exc
+            if is_content_policy_error(exc):
+                raise  # permanent content-policy refusal; do not waste retries
             if attempt == MAX_RETRIES - 1:
                 break
             time.sleep(RETRY_BASE_DELAY * (2 ** attempt))
@@ -538,39 +551,44 @@ Return JSON only:
 
 def iterate_base_prompt(category, prompt, client, rounds=2, persona=None):
     for _ in range(rounds):
-        data = call_json_model(
-            client,
-            [
-                {"role": "system", "content": REVIEW_SYSTEM_PROMPT},
-                {"role": "user", "content": base_review_prompt_request(category, prompt, persona=persona)},
-            ],
-            model=CRITIC_MODEL,
-            temperature=0.1,
-            max_completion_tokens=600,
-        )
-        feedback = str(data.get("feedback") or "").strip()
-        if not feedback or feedback.lower().strip(".") == "no changes needed":
-            break
-        data = call_json_model(
-            client,
-            [
-                {"role": "system", "content": REVISE_SYSTEM_PROMPT},
-                {
-                    "role": "user",
-                    "content": base_revise_prompt_request(
-                        category,
-                        prompt,
-                        feedback,
-                        persona=persona,
-                    ),
-                },
-            ],
-            temperature=0.25,
-        )
-        revised_prompt = str(data.get("prompt") or "").strip()
-        if not revised_prompt:
-            break
-        prompt = revised_prompt
+        try:
+            data = call_json_model(
+                client,
+                [
+                    {"role": "system", "content": REVIEW_SYSTEM_PROMPT},
+                    {"role": "user", "content": base_review_prompt_request(category, prompt, persona=persona)},
+                ],
+                model=CRITIC_MODEL,
+                temperature=0.1,
+                max_completion_tokens=600,
+            )
+            feedback = str(data.get("feedback") or "").strip()
+            if not feedback or feedback.lower().strip(".") == "no changes needed":
+                break
+            data = call_json_model(
+                client,
+                [
+                    {"role": "system", "content": REVISE_SYSTEM_PROMPT},
+                    {
+                        "role": "user",
+                        "content": base_revise_prompt_request(
+                            category,
+                            prompt,
+                            feedback,
+                            persona=persona,
+                        ),
+                    },
+                ],
+                temperature=0.25,
+            )
+            revised_prompt = str(data.get("prompt") or "").strip()
+            if not revised_prompt:
+                break
+            prompt = revised_prompt
+        except Exception as exc:
+            if is_content_policy_error(exc):
+                break  # provider refused to review this content; keep the prompt un-reviewed
+            raise
     return prompt
 
 
@@ -617,41 +635,46 @@ Return JSON only:
 
 def iterate_mutation_prompt(base_prompt, mutation_type, mutated_prompt, client, rounds=1):
     for _ in range(rounds):
-        data = call_json_model(
-            client,
-            [
-                {"role": "system", "content": REVIEW_SYSTEM_PROMPT},
-                {
-                    "role": "user",
-                    "content": mutation_review_prompt_request(
-                        base_prompt, mutation_type, mutated_prompt
-                    ),
-                },
-            ],
-            model=CRITIC_MODEL,
-            temperature=0.1,
-            max_completion_tokens=600,
-        )
-        feedback = str(data.get("feedback") or "").strip()
-        if not feedback or feedback.lower().strip(".") == "no changes needed":
-            break
-        data = call_json_model(
-            client,
-            [
-                {"role": "system", "content": REVISE_SYSTEM_PROMPT},
-                {
-                    "role": "user",
-                    "content": mutation_revise_prompt_request(
-                        base_prompt, mutation_type, mutated_prompt, feedback
-                    ),
-                },
-            ],
-            temperature=0.25,
-        )
-        revised_prompt = str(data.get("prompt") or "").strip()
-        if not revised_prompt:
-            break
-        mutated_prompt = revised_prompt
+        try:
+            data = call_json_model(
+                client,
+                [
+                    {"role": "system", "content": REVIEW_SYSTEM_PROMPT},
+                    {
+                        "role": "user",
+                        "content": mutation_review_prompt_request(
+                            base_prompt, mutation_type, mutated_prompt
+                        ),
+                    },
+                ],
+                model=CRITIC_MODEL,
+                temperature=0.1,
+                max_completion_tokens=600,
+            )
+            feedback = str(data.get("feedback") or "").strip()
+            if not feedback or feedback.lower().strip(".") == "no changes needed":
+                break
+            data = call_json_model(
+                client,
+                [
+                    {"role": "system", "content": REVISE_SYSTEM_PROMPT},
+                    {
+                        "role": "user",
+                        "content": mutation_revise_prompt_request(
+                            base_prompt, mutation_type, mutated_prompt, feedback
+                        ),
+                    },
+                ],
+                temperature=0.25,
+            )
+            revised_prompt = str(data.get("prompt") or "").strip()
+            if not revised_prompt:
+                break
+            mutated_prompt = revised_prompt
+        except Exception as exc:
+            if is_content_policy_error(exc):
+                break  # provider refused to review this content; keep the prompt un-reviewed
+            raise
     return mutated_prompt
 
 
@@ -862,44 +885,49 @@ def iterate_translation_prompt(
     source_prompt, language, translated_prompt, review_client, translate_client, translate_model, translate_extra, rounds=1
 ):
     for _ in range(rounds):
-        data = call_json_model(
-            review_client,
-            [
-                {"role": "system", "content": REVIEW_SYSTEM_PROMPT},
-                {
-                    "role": "user",
-                    "content": translation_review_prompt_request(
-                        source_prompt, language, translated_prompt
-                    ),
-                },
-            ],
-            model=CRITIC_MODEL,
-            temperature=0.1,
-            max_completion_tokens=600,
-        )
-        feedback = str(data.get("feedback") or "").strip()
-        if not feedback or feedback.lower().strip(".") == "no changes needed":
-            break
-        data = call_json_model(
-            translate_client,
-            [
-                {"role": "system", "content": TRANSLATE_SYSTEM_PROMPT},
-                {
-                    "role": "user",
-                    "content": translation_revise_prompt_request(
-                        source_prompt, language, translated_prompt, feedback
-                    ),
-                },
-            ],
-            model=translate_model,
-            temperature=0.1,
-            max_completion_tokens=2000,
-            extra_body=translate_extra,
-        )
-        revised_prompt = str(data.get("prompt") or "").strip()
-        if not revised_prompt:
-            break
-        translated_prompt = revised_prompt
+        try:
+            data = call_json_model(
+                review_client,
+                [
+                    {"role": "system", "content": REVIEW_SYSTEM_PROMPT},
+                    {
+                        "role": "user",
+                        "content": translation_review_prompt_request(
+                            source_prompt, language, translated_prompt
+                        ),
+                    },
+                ],
+                model=CRITIC_MODEL,
+                temperature=0.1,
+                max_completion_tokens=600,
+            )
+            feedback = str(data.get("feedback") or "").strip()
+            if not feedback or feedback.lower().strip(".") == "no changes needed":
+                break
+            data = call_json_model(
+                translate_client,
+                [
+                    {"role": "system", "content": TRANSLATE_SYSTEM_PROMPT},
+                    {
+                        "role": "user",
+                        "content": translation_revise_prompt_request(
+                            source_prompt, language, translated_prompt, feedback
+                        ),
+                    },
+                ],
+                model=translate_model,
+                temperature=0.1,
+                max_completion_tokens=4000,
+                extra_body=translate_extra,
+            )
+            revised_prompt = str(data.get("prompt") or "").strip()
+            if not revised_prompt:
+                break
+            translated_prompt = revised_prompt
+        except Exception as exc:
+            if is_content_policy_error(exc):
+                break  # provider refused to review this content; keep the translation un-reviewed
+            raise
     return translated_prompt
 
 
@@ -943,14 +971,22 @@ def translate_prompts(prompts, languages, review_rounds=1):
         if is_english(prompt["language"])
         for language in languages
     ]
-    results = parallel_map(
-        lambda task: _translate_one(
-            task[0], task[1], review_client, translate_client, translate_model, translate_extra, review_rounds
-        ),
-        tasks,
-    )
+    def safe_translate(task):
+        # A single failed translation (truncated/invalid JSON, transient error, etc.) should not
+        # take down the whole leaf — skip just that (prompt, language) pair and keep the rest.
+        try:
+            return _translate_one(
+                task[0], task[1], review_client, translate_client, translate_model, translate_extra, review_rounds
+            )
+        except Exception as exc:
+            print(f"[translate][warn] skipped {task[1]} translation: {str(exc)[:140]}", flush=True)
+            return None
+
+    results = parallel_map(safe_translate, tasks)
     by_source = {}
     for (prompt, _language), record in zip(tasks, results):
+        if record is None:
+            continue
         by_source.setdefault(id(prompt), []).append(record)
 
     translated = []
