@@ -45,6 +45,7 @@ Use only the provided taxonomy names, node_ids, summaries, and policy text.
 Policies may map to multiple categories.
 Prefer an existing leaf when one genuinely covers the same concrete unsafe behavior (same mechanism, victim, and harm) — not merely an adjacent or loosely related leaf.
 When a fragment names a SPECIFIC, concrete, attack-prompt-testable unsafe model behavior that no existing leaf in ANY branch genuinely covers, propose a novel leaf rather than forcing it into a loose match or dropping it. A wrong or loose match is worse than a justified novel leaf.
+When unsure whether an existing leaf truly covers a concrete harm, prefer proposing a novel leaf — slight over-proposal is acceptable and is pruned in later human review; the goal is to surface genuinely new harms from recent policies, not to minimize novel proposals.
 Never propose "general", "other", "miscellaneous", or catch-all categories, and never propose categories for defensive measures, security hardening, governance, reporting, registration, or process duties.
 Return JSON only."""
 
@@ -386,11 +387,11 @@ Existing leaves under this parent:
 
 Classify this fragment only within this level-3 parent.
 If the fragment does not belong under this parent, return no existing matches and no novel categories.
-Choose an existing leaf when one genuinely covers the same concrete unsafe behavior. A merely adjacent or loosely-related leaf does not count — do not force the fragment into a poor match.
-If the fragment names a SPECIFIC, concrete unsafe model behavior that belongs under this parent and that none of the existing leaves above genuinely cover, propose one novel category (do not drop it or force a loose existing leaf).
-Do NOT propose a novel category that merely generalizes the existing leaves ("General X", "Other X", catch-alls); if the fragment is broad, match the relevant existing leaf/leaves instead.
-Do NOT propose categories for defensive measures, security hardening, governance, reporting, or process duties — only for harmful model outputs/behaviors.
-Do not propose novel categories for other branches.
+Choose an existing leaf only when one genuinely covers the same concrete unsafe behavior. A merely adjacent or loosely-related leaf does NOT count.
+Otherwise, if the fragment names a specific, concrete, attack-prompt-testable harm thematically related to this parent that no existing leaf squarely covers, propose one novel category. When unsure between a loose existing match and a novel category, prefer the novel category — slight over-proposal is fine because proposals are pruned in later review.
+Recent (2025-2026) policies often target harms involving a NEW mechanism, technology, delivery method, or victim context not reflected in the existing leaf names (e.g. AI agents acting autonomously, model-weight theft, AI companions, synthetic-media provenance). Treat these as novel even when thematically adjacent to an existing leaf.
+Hard limits (never produce these): do NOT propose "General X", "Other X", or catch-all categories (if the fragment is broad, match the relevant existing leaves instead); and do NOT propose categories for defensive measures, security hardening, governance, reporting, or process duties.
+If the fragment clearly belongs to a different top-level area, return nothing for this parent.
 
 Return JSON only:
 {{
@@ -524,7 +525,10 @@ For each fragment, choose exactly one outcome:
   good existing leaf — that is "novel".
 
 Rules:
-- Prefer "existing" only when the fit is genuine. A wrong or loose match is worse than a justified novel — do not force a concrete harm into a loosely-related leaf, and do not drop it to "none"; propose "novel" instead.
+- Choose "existing" only when a catalog leaf SQUARELY covers the same harm (e.g. NCII, malware, CSAM, fraud, membership-inference are squarely covered — match those). If the closest leaf is only loosely related, do not use it.
+- Err slightly toward "novel": when a fragment names a concrete, attack-testable harm and you are unsure whether any leaf squarely covers it, choose "novel" rather than a loose existing match or "none". Slight over-proposal is acceptable and is pruned in later human review. The goal is to surface genuinely new harms from recent (2025-2026) policies.
+- Recent policies often target harms with a NEW mechanism, technology, delivery method, or victim context (AI agents acting autonomously, model-weight theft/poisoning, AI companions, synthetic-media provenance, etc.) not reflected in existing leaf names — accept these as "novel" even when thematically adjacent to an existing leaf.
+- Reserve "none" for fragments that are genuinely vague, procedural, defensive/governance, or not attack-prompt-testable — not for concrete harms that merely lack a squarely-matching leaf.
 - For "existing", every node_id must be a real leaf from the candidate list or the full catalog.
 - For "novel", use only a candidate novel category (its parent_node_id and proposed_name), and only after confirming no catalog leaf covers it.
 - Never accept a "general", "other", "miscellaneous", or catch-all novel category. If a fragment is broader than any single leaf, map it to the existing leaf(s) it most directly implies (outcome "existing"); never create a category for breadth alone.
