@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "AI systems should not generate or enable discriminatory outputs or outputs that perpetuate and amplify bias and discrimination.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://www.nist.gov/document/ai-risk-management-framework-initial-draft",
+    "source_title": "ai-risk-management-framework-initial-draft",
+    "published_date": "2022-03-17"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/perpetuating-harmful-beliefs/negative-stereotyping-of-any-group",
+        "name": "Negative stereotyping of any group",
+        "policy_fragment": "generate discriminatory outputs",
+        "policy": {
+          "clause": "AI systems should not generate or enable discriminatory outputs or outputs that perpetuate and amplify bias and discrimination.",
+          "matched_segment": "generate discriminatory outputs",
+          "source": {
+            "name": "NIST AI",
+            "title": "ai-risk-management-framework-initial-draft",
+            "url": "https://www.nist.gov/document/ai-risk-management-framework-initial-draft",
+            "published_date": "2022-03-17",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers generating discriminatory or biased content that stereotypes or disparages groups."
+      }
+    ],
+    "novel_categories": []
+  }
+}

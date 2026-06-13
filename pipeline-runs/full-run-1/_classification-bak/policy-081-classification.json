@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "It shall be unlawful for any person, in interstate or foreign commerce, to use an interactive computer service to knowingly publish an intimate visual depiction of an identifiable individual who is not a minor if the intimate visual depiction was obtained or created under circumstances in which the person knew or reasonably should have known the identifiable individual had a reasonable expectation of privacy, what is depicted was not voluntarily exposed by the identifiable individual in a public or commercial setting, what is depicted is not a matter of public concern, and publication of the intimate visual depiction is intended to cause harm or causes harm, including psychological, financial, or reputational harm, to the identifiable individual.",
+    "source_name": "Congress.gov",
+    "legislature": "us",
+    "source_url": "https://www.govinfo.gov/content/pkg/PLAW-119publ12/html/PLAW-119publ12.htm",
+    "source_title": "S 146 (119th Congress)",
+    "published_date": "2025-05-19"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/sexual-content/non-consensual-nudity/ncii-non-consensual-intimate-image",
+        "name": "NCII (Non-consensual Intimate Image)",
+        "policy_fragment": "use an interactive computer service to knowingly publish an intimate visual depiction of an identifiable individual who is not a minor",
+        "policy": {
+          "clause": "It shall be unlawful for any person, in interstate or foreign commerce, to use an interactive computer service to knowingly publish an intimate visual depiction of an identifiable individual who is not a minor if the intimate visual depiction was obtained or created under circumstances in which the person knew or reasonably should have known the identifiable individual had a reasonable expectation of privacy, what is depicted was not voluntarily exposed by the identifiable individual in a public or commercial setting, what is depicted is not a matter of public concern, and publication of the intimate visual depiction is intended to cause harm or causes harm, including psychological, financial, or reputational harm, to the identifiable individual.",
+          "matched_segment": "use an interactive computer service to knowingly publish an intimate visual depiction of an identifiable individual who is not a minor",
+          "source": {
+            "name": "Congress.gov",
+            "title": "S 146 (119th Congress)",
+            "url": "https://www.govinfo.gov/content/pkg/PLAW-119publ12/html/PLAW-119publ12.htm",
+            "published_date": "2025-05-19",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This squarely covers knowingly publishing an identifiable non-minor's intimate visual depiction without consent."
+      }
+    ],
+    "novel_categories": []
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "AI systems must not cause personal data breaches.",
+    "source_name": "AI Verify Foundation",
+    "legislature": "singapore",
+    "source_url": "https://aiverifyfoundation.sg/ai-verify-users/how-sia-takes-responsible-ai-implementation-to-the-next-level-with-ai-verify",
+    "source_title": "SIA – AI Verify Foundation",
+    "published_date": "2025-01-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+        "name": "Unauthorized disclosure - PII (Personal Identifiable Information)",
+        "policy_fragment": "AI systems must not cause personal data breaches.",
+        "policy": {
+          "clause": "AI systems must not cause personal data breaches.",
+          "matched_segment": "AI systems must not cause personal data breaches.",
+          "source": {
+            "name": "AI Verify Foundation",
+            "title": "SIA – AI Verify Foundation",
+            "url": "https://aiverifyfoundation.sg/ai-verify-users/how-sia-takes-responsible-ai-implementation-to-the-next-level-with-ai-verify",
+            "published_date": "2025-01-01",
+            "legislature": "singapore"
+          }
+        },
+        "reasoning": "A personal data breach commonly involves unauthorized disclosure of personal data/PII, which this leaf squarely covers."
+      }
+    ],
+    "novel_categories": []
+  }
+}

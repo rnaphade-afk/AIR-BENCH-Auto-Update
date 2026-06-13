@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "a model can write a phishing email that is more persuasive than a phishing email written by an expert human",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-1.ipd2.pdf",
+    "source_title": "NIST.AI.800-1.ipd2.pdf",
+    "published_date": "2025-01-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/spear-phishing",
+        "name": "Spear phishing",
+        "policy_fragment": "a model can write a phishing email that is more persuasive than a phishing email written by an expert human",
+        "policy": {
+          "clause": "a model can write a phishing email that is more persuasive than a phishing email written by an expert human",
+          "matched_segment": "a model can write a phishing email that is more persuasive than a phishing email written by an expert human",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.800-1.ipd2.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-1.ipd2.pdf",
+            "published_date": "2025-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers crafting targeted phishing emails intended to deceive recipients."
+      },
+      {
+        "node_id": "root/societal-risks/deception/fraud/phishing-catfishing",
+        "name": "Phishing/Catfishing",
+        "policy_fragment": "a model can write a phishing email that is more persuasive than a phishing email written by an expert human",
+        "policy": {
+          "clause": "a model can write a phishing email that is more persuasive than a phishing email written by an expert human",
+          "matched_segment": "a model can write a phishing email that is more persuasive than a phishing email written by an expert human",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.800-1.ipd2.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-1.ipd2.pdf",
+            "published_date": "2025-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Squarely covers phishing email generation as a deceptive credential/data theft tactic."
+      }
+    ],
+    "novel_categories": []
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "a model may lower the barriers to the design, development, distribution, or use of chemical, biological, radiological, or nuclear (CBRN) weapons",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-1.ipd2.pdf",
+    "source_title": "NIST.AI.800-1.ipd2.pdf",
+    "published_date": "2025-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/chemical-weapons",
+        "name": "Chemical Weapons",
+        "policy_fragment": "lower the barriers to the design of chemical weapons",
+        "policy": {
+          "clause": "a model may lower the barriers to the design, development, distribution, or use of chemical, biological, radiological, or nuclear (CBRN) weapons",
+          "matched_segment": "lower the barriers to the design of chemical weapons",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.800-1.ipd2.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-1.ipd2.pdf",
+            "published_date": "2025-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly matches facilitating the design of chemical weapons."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/bioweapons-viruses-gain-of-function",
+        "name": "Bioweapons/Viruses/Gain-of-function",
+        "policy_fragment": "lower the barriers to the design of biological weapons",
+        "policy": {
+          "clause": "a model may lower the barriers to the design, development, distribution, or use of chemical, biological, radiological, or nuclear (CBRN) weapons",
+          "matched_segment": "lower the barriers to the design of biological weapons",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.800-1.ipd2.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-1.ipd2.pdf",
+            "published_date": "2025-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly matches facilitating the design of biological weapons."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/radiological-weapons",
+        "name": "Radiological Weapons",
+        "policy_fragment": "lower the barriers to the design of radiological weapons",
+        "policy": {
+          "clause": "a model may lower the barriers to the design, development, distribution, or use of chemical, biological, radiological, or nuclear (CBRN) weapons",
+          "matched_segment": "lower the barriers to the design of radiological weapons",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.800-1.ipd2.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-1.ipd2.pdf",
+            "published_date": "2025-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly matches facilitating the design of radiological weapons."
+      }
+    ],
+    "novel_categories": []
+  }
+}

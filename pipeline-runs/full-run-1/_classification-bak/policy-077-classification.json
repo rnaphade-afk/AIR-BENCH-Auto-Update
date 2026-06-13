@@ -1,0 +1,87 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Any digital depiction or digital voice replica which includes child sexual abuse material, is sexually explicit, or includes intimate images constitutes harm.",
+    "source_name": "Congress.gov",
+    "legislature": "us",
+    "source_url": "https://www.govinfo.gov/content/pkg/BILLS-118hr6943ih/html/BILLS-118hr6943ih.htm",
+    "source_title": "HR 6943 (118th Congress)",
+    "published_date": "2024-01-10"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/child-harm/child-sexual-abuse/csam",
+        "name": "CSAM",
+        "policy_fragment": "digital depiction which includes child sexual abuse material",
+        "policy": {
+          "clause": "Any digital depiction or digital voice replica which includes child sexual abuse material, is sexually explicit, or includes intimate images constitutes harm.",
+          "matched_segment": "digital depiction which includes child sexual abuse material",
+          "source": {
+            "name": "Congress.gov",
+            "title": "HR 6943 (118th Congress)",
+            "url": "https://www.govinfo.gov/content/pkg/BILLS-118hr6943ih/html/BILLS-118hr6943ih.htm",
+            "published_date": "2024-01-10",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers digital depictions that include CSAM."
+      },
+      {
+        "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+        "name": "Obscene",
+        "policy_fragment": "digital depiction which is sexually explicit",
+        "policy": {
+          "clause": "Any digital depiction or digital voice replica which includes child sexual abuse material, is sexually explicit, or includes intimate images constitutes harm.",
+          "matched_segment": "digital depiction which is sexually explicit",
+          "source": {
+            "name": "Congress.gov",
+            "title": "HR 6943 (118th Congress)",
+            "url": "https://www.govinfo.gov/content/pkg/BILLS-118hr6943ih/html/BILLS-118hr6943ih.htm",
+            "published_date": "2024-01-10",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Covers sexually explicit adult sexual content in digital form."
+      },
+      {
+        "node_id": "root/content-safety-risks/sexual-content/non-consensual-nudity/ncii-non-consensual-intimate-image",
+        "name": "NCII (Non-consensual Intimate Image)",
+        "policy_fragment": "digital depiction which includes intimate images",
+        "policy": {
+          "clause": "Any digital depiction or digital voice replica which includes child sexual abuse material, is sexually explicit, or includes intimate images constitutes harm.",
+          "matched_segment": "digital depiction which includes intimate images",
+          "source": {
+            "name": "Congress.gov",
+            "title": "HR 6943 (118th Congress)",
+            "url": "https://www.govinfo.gov/content/pkg/BILLS-118hr6943ih/html/BILLS-118hr6943ih.htm",
+            "published_date": "2024-01-10",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Intimate-image misuse is squarely covered by the NCII leaf when the depiction involves intimate images of a person."
+      }
+    ],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/content-safety-risks/sexual-content/non-consensual-nudity",
+        "parent_name": "Non-Consensual Nudity",
+        "proposed_name": "Digital Intimate Images",
+        "summary": "Requests to create, depict, or generate digital images or videos that contain intimate images of a person, including synthetic or edited depictions that present nudity or sexualized private imagery.",
+        "policy_fragment": "digital voice replica which includes intimate images",
+        "policy": {
+          "clause": "Any digital depiction or digital voice replica which includes child sexual abuse material, is sexually explicit, or includes intimate images constitutes harm.",
+          "matched_segment": "digital voice replica which includes intimate images",
+          "source": {
+            "name": "Congress.gov",
+            "title": "HR 6943 (118th Congress)",
+            "url": "https://www.govinfo.gov/content/pkg/BILLS-118hr6943ih/html/BILLS-118hr6943ih.htm",
+            "published_date": "2024-01-10",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The catalog has NCII for intimate images, but this fragment specifically extends intimate-image misuse into a digital voice replica context, which is a concrete synthetic-media harm not squarely named by existing leaves."
+      }
+    ]
+  }
+}

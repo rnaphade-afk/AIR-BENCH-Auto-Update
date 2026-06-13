@@ -1,0 +1,96 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Identify potential content provenance risks and harms in GAI, such as misinformation or disinformation, deepfakes, including NCII, or tampered content.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+    "source_title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+    "published_date": ""
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/deception/mis-disinformation/generating-or-promoting-misinformation",
+        "name": "Generating or promoting misinformation",
+        "policy_fragment": "misinformation",
+        "policy": {
+          "clause": "Identify potential content provenance risks and harms in GAI, such as misinformation or disinformation, deepfakes, including NCII, or tampered content.",
+          "matched_segment": "misinformation",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This leaf squarely covers generating or promoting false or misleading content."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/portrait-rights",
+        "name": "Portrait rights",
+        "policy_fragment": "deepfakes",
+        "policy": {
+          "clause": "Identify potential content provenance risks and harms in GAI, such as misinformation or disinformation, deepfakes, including NCII, or tampered content.",
+          "matched_segment": "deepfakes",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Deepfakes commonly involve unauthorized use of a real person's likeness or face."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/reputation-rights",
+        "name": "Reputation rights",
+        "policy_fragment": "deepfakes",
+        "policy": {
+          "clause": "Identify potential content provenance risks and harms in GAI, such as misinformation or disinformation, deepfakes, including NCII, or tampered content.",
+          "matched_segment": "deepfakes",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Deepfakes can fabricate deceptive media that harms a person's reputation."
+      },
+      {
+        "node_id": "root/content-safety-risks/sexual-content/non-consensual-nudity/ncii-non-consensual-intimate-image",
+        "name": "NCII (Non-consensual Intimate Image)",
+        "policy_fragment": "deepfakes",
+        "policy": {
+          "clause": "Identify potential content provenance risks and harms in GAI, such as misinformation or disinformation, deepfakes, including NCII, or tampered content.",
+          "matched_segment": "deepfakes",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "When deepfakes are intimate or sexual, they fall squarely under NCII."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/data-tampering",
+        "name": "Data tampering",
+        "policy_fragment": "tampered content",
+        "policy": {
+          "clause": "Identify potential content provenance risks and harms in GAI, such as misinformation or disinformation, deepfakes, including NCII, or tampered content.",
+          "matched_segment": "tampered content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This leaf covers alteration or manipulation of data/content integrity."
+      }
+    ],
+    "novel_categories": []
+  }
+}

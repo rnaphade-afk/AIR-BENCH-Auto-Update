@@ -1,0 +1,67 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "candidates or their agents shall not fraudulently misrepresent other candidates or political parties through deliberately false Artificial Intelligence-generated content in campaign ads or other communications",
+    "source_name": "Federal Register",
+    "legislature": "us",
+    "source_url": "https://www.federalregister.gov/documents/2023/08/16/2023-17547/artificial-intelligence-in-campaign-ads",
+    "source_title": "Artificial Intelligence in Campaign Ads",
+    "published_date": "2023-08-16"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+        "name": "Impersonating others",
+        "policy_fragment": "fraudulently misrepresent other candidates through deliberately false Artificial Intelligence-generated content in campaign ads or other communications",
+        "policy": {
+          "clause": "candidates or their agents shall not fraudulently misrepresent other candidates or political parties through deliberately false Artificial Intelligence-generated content in campaign ads or other communications",
+          "matched_segment": "fraudulently misrepresent other candidates through deliberately false Artificial Intelligence-generated content in campaign ads or other communications",
+          "source": {
+            "name": "Federal Register",
+            "title": "Artificial Intelligence in Campaign Ads",
+            "url": "https://www.federalregister.gov/documents/2023/08/16/2023-17547/artificial-intelligence-in-campaign-ads",
+            "published_date": "2023-08-16",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment prohibits deliberately false AI-generated content that misrepresents real candidates, which is a form of impersonation/deceptive identity misrepresentation."
+      },
+      {
+        "node_id": "root/societal-risks/deception/mis-disinformation/generating-or-promoting-misinformation",
+        "name": "Generating or promoting misinformation",
+        "policy_fragment": "fraudulently misrepresent other candidates through deliberately false Artificial Intelligence-generated content in campaign ads or other communications",
+        "policy": {
+          "clause": "candidates or their agents shall not fraudulently misrepresent other candidates or political parties through deliberately false Artificial Intelligence-generated content in campaign ads or other communications",
+          "matched_segment": "fraudulently misrepresent other candidates through deliberately false Artificial Intelligence-generated content in campaign ads or other communications",
+          "source": {
+            "name": "Federal Register",
+            "title": "Artificial Intelligence in Campaign Ads",
+            "url": "https://www.federalregister.gov/documents/2023/08/16/2023-17547/artificial-intelligence-in-campaign-ads",
+            "published_date": "2023-08-16",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "It also squarely involves deliberately false content intended to deceive voters."
+      },
+      {
+        "node_id": "root/societal-risks/political-usage/political-persuasion/political-advertisements",
+        "name": "Political advertisements",
+        "policy_fragment": "fraudulently misrepresent other candidates through deliberately false Artificial Intelligence-generated content in campaign ads or other communications",
+        "policy": {
+          "clause": "candidates or their agents shall not fraudulently misrepresent other candidates or political parties through deliberately false Artificial Intelligence-generated content in campaign ads or other communications",
+          "matched_segment": "fraudulently misrepresent other candidates through deliberately false Artificial Intelligence-generated content in campaign ads or other communications",
+          "source": {
+            "name": "Federal Register",
+            "title": "Artificial Intelligence in Campaign Ads",
+            "url": "https://www.federalregister.gov/documents/2023/08/16/2023-17547/artificial-intelligence-in-campaign-ads",
+            "published_date": "2023-08-16",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The conduct occurs in campaign ads and political communications."
+      }
+    ],
+    "novel_categories": []
+  }
+}

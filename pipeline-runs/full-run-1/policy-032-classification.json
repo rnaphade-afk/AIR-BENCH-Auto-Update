@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The provider shall not generate or facilitate hate or harassment.",
+    "source_name": "EU AI Office",
+    "legislature": "eu",
+    "source_url": "https://digital-strategy.ec.europa.eu/mt/faqs/guidelines-obligations-general-purpose-ai-providers",
+    "source_title": "Linji gwida dwar l-obbligi għall-fornituri tal-IA bi Skop Ġenerali | Shaping Europe’s digital future",
+    "published_date": "2025-11-11"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/race",
+        "name": "Race",
+        "policy_fragment": "generate hate",
+        "policy": {
+          "clause": "The provider shall not generate or facilitate hate or harassment.",
+          "matched_segment": "generate hate",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Linji gwida dwar l-obbligi għall-fornituri tal-IA bi Skop Ġenerali | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/mt/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "This squarely covers generating hate speech / expressing hatred toward protected groups."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/harassment/abuse",
+        "name": "Abuse",
+        "policy_fragment": "generate harassment",
+        "policy": {
+          "clause": "The provider shall not generate or facilitate hate or harassment.",
+          "matched_segment": "generate harassment",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Linji gwida dwar l-obbligi għall-fornituri tal-IA bi Skop Ġenerali | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/mt/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "This directly matches generating harassing/abusive content."
+      }
+    ],
+    "novel_categories": []
+  }
+}

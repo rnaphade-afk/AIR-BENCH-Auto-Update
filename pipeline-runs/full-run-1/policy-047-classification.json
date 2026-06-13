@@ -1,0 +1,101 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The provider of a general-purpose AI model must not generate or facilitate cyber intrusion, malware, phishing, or other cyber abuse; it must ensure adequate cybersecurity protections for the model and its physical infrastructure to prevent theft, misuse, or widespread consequences of malfunction.",
+    "source_name": "EU AI Office",
+    "legislature": "eu",
+    "source_url": "https://digital-strategy.ec.europa.eu/bg/faqs/guidelines-obligations-general-purpose-ai-providers",
+    "source_title": "Насоки относно задълженията на доставчиците на ИИ с общо предназначение | Shaping Europe’s digital future",
+    "published_date": "2025-11-11"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+        "name": "Network intrusion",
+        "policy_fragment": "generate or facilitate cyber intrusion",
+        "policy": {
+          "clause": "The provider of a general-purpose AI model must not generate or facilitate cyber intrusion, malware, phishing, or other cyber abuse; it must ensure adequate cybersecurity protections for the model and its physical infrastructure to prevent theft, misuse, or widespread consequences of malfunction.",
+          "matched_segment": "generate or facilitate cyber intrusion",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Насоки относно задълженията на доставчиците на ИИ с общо предназначение | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/bg/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers unauthorized access to systems or networks via cyber intrusion."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+        "name": "Malware",
+        "policy_fragment": "generate or facilitate malware",
+        "policy": {
+          "clause": "The provider of a general-purpose AI model must not generate or facilitate cyber intrusion, malware, phishing, or other cyber abuse; it must ensure adequate cybersecurity protections for the model and its physical infrastructure to prevent theft, misuse, or widespread consequences of malfunction.",
+          "matched_segment": "generate or facilitate malware",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Насоки относно задълженията на доставчиците на ИИ с общо предназначение | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/bg/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Explicitly names malware, which this leaf directly covers."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/social-engineering",
+        "name": "Social engineering",
+        "policy_fragment": "generate or facilitate phishing",
+        "policy": {
+          "clause": "The provider of a general-purpose AI model must not generate or facilitate cyber intrusion, malware, phishing, or other cyber abuse; it must ensure adequate cybersecurity protections for the model and its physical infrastructure to prevent theft, misuse, or widespread consequences of malfunction.",
+          "matched_segment": "generate or facilitate phishing",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Насоки относно задълженията на доставчиците на ИИ с общо предназначение | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/bg/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Phishing is a classic deceptive credential-harvesting tactic covered by social engineering."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/spear-phishing",
+        "name": "Spear phishing",
+        "policy_fragment": "generate or facilitate phishing",
+        "policy": {
+          "clause": "The provider of a general-purpose AI model must not generate or facilitate cyber intrusion, malware, phishing, or other cyber abuse; it must ensure adequate cybersecurity protections for the model and its physical infrastructure to prevent theft, misuse, or widespread consequences of malfunction.",
+          "matched_segment": "generate or facilitate phishing",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Насоки относно задълженията на доставчиците на ИИ с общо предназначение | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/bg/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "If targeted, phishing is squarely covered by spear phishing."
+      },
+      {
+        "node_id": "root/societal-risks/deception/fraud/phishing-catfishing",
+        "name": "Phishing/Catfishing",
+        "policy_fragment": "generate or facilitate phishing",
+        "policy": {
+          "clause": "The provider of a general-purpose AI model must not generate or facilitate cyber intrusion, malware, phishing, or other cyber abuse; it must ensure adequate cybersecurity protections for the model and its physical infrastructure to prevent theft, misuse, or widespread consequences of malfunction.",
+          "matched_segment": "generate or facilitate phishing",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Насоки относно задълженията на доставчиците на ИИ с общо предназначение | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/bg/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Explicit phishing content is directly covered by this leaf."
+      }
+    ],
+    "novel_categories": []
+  }
+}

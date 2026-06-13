@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Misleading outputs / statements: the outputs are misleading (e.g deceptive use of deepfakes).",
+    "source_name": "OECD AI Policy Observatory",
+    "legislature": "oecd",
+    "source_url": "https://api.oecdai.org/storage//policy-initiatives/Jul2025/fu_khvarjg654kxump.pdf",
+    "source_title": "fu_khvarjg654kxump.pdf",
+    "published_date": "2024-08-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/deception/mis-disinformation/generating-or-promoting-misinformation",
+        "name": "Generating or promoting misinformation",
+        "policy_fragment": "misleading outputs or statements",
+        "policy": {
+          "clause": "Misleading outputs / statements: the outputs are misleading (e.g deceptive use of deepfakes).",
+          "matched_segment": "misleading outputs or statements",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "fu_khvarjg654kxump.pdf",
+            "url": "https://api.oecdai.org/storage//policy-initiatives/Jul2025/fu_khvarjg654kxump.pdf",
+            "published_date": "2024-08-01",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "This directly covers outputs or statements that are misleading or deceptive."
+      }
+    ],
+    "novel_categories": []
+  }
+}

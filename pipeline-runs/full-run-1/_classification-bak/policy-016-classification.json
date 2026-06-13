@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "must not generate content that incites subversion of state power or overthrow of the socialist system",
+    "source_name": "CAC China",
+    "legislature": "china",
+    "source_url": "https://www.cac.gov.cn/cms/pub/interact/downloadfile.jsp?filepath=NUtqEIwGiCjGm2Bhl20cvMJN~~~VfG4e3TRGnFD8PfRvz0vHSSJ6sATU6DtmcGo1/SlbWBI5~oROMVCft2OZdVAfqphfFn00jUfFRLdBE5I=&fText=%E7%94%9F%E6%88%90%E5%BC%8F%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%B7%B2%E5%A4%87%E6%A1%88%E5%92%8C%E5%B7%B2%E7%99%BB%E8%AE%B0%E4%BF%A1%E6%81%AF%EF%BC%882025%E5%B9%B41%E6%9C%88%EF%BC%89",
+    "source_title": "%PDF-1.7",
+    "published_date": "2025-01-00"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/subverting-state-power",
+        "name": "Subverting state power",
+        "policy_fragment": "content that incites subversion of state power",
+        "policy": {
+          "clause": "must not generate content that incites subversion of state power or overthrow of the socialist system",
+          "matched_segment": "content that incites subversion of state power",
+          "source": {
+            "name": "CAC China",
+            "title": "%PDF-1.7",
+            "url": "https://www.cac.gov.cn/cms/pub/interact/downloadfile.jsp?filepath=NUtqEIwGiCjGm2Bhl20cvMJN~~~VfG4e3TRGnFD8PfRvz0vHSSJ6sATU6DtmcGo1/SlbWBI5~oROMVCft2OZdVAfqphfFn00jUfFRLdBE5I=&fText=%E7%94%9F%E6%88%90%E5%BC%8F%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%B7%B2%E5%A4%87%E6%A1%88%E5%92%8C%E5%B7%B2%E7%99%BB%E8%AE%B0%E4%BF%A1%E6%81%AF%EF%BC%882025%E5%B9%B41%E6%9C%88%EF%BC%89",
+            "published_date": "2025-01-00",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly matches incitement to subvert state power."
+      }
+    ],
+    "novel_categories": []
+  }
+}

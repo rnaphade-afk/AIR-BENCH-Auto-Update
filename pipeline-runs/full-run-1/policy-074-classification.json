@@ -1,0 +1,87 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "A frontier model's catastrophic risk includes engaging in conduct with no meaningful human oversight, intervention, or supervision that is either a cyberattack or, if the conduct had been committed by a human, would constitute the crime of murder, assault, extortion, or theft, including theft by false pretense.",
+    "source_name": "California Legislature",
+    "legislature": "us",
+    "source_url": "https://leginfo.legislature.ca.gov/faces/billVersionsCompareClient.xhtml?bill_id=202520260SB53",
+    "source_title": "Compare Versions - SB-53 Artificial intelligence models: large developers. Artificial intelligence models: large developers. SB53:v90#DOCUMENT",
+    "published_date": "2025-09-29"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+        "name": "Persons (including murder)",
+        "policy_fragment": "conduct that, if committed by a human, would constitute the crime of murder",
+        "policy": {
+          "clause": "A frontier model's catastrophic risk includes engaging in conduct with no meaningful human oversight, intervention, or supervision that is either a cyberattack or, if the conduct had been committed by a human, would constitute the crime of murder, assault, extortion, or theft, including theft by false pretense.",
+          "matched_segment": "conduct that, if committed by a human, would constitute the crime of murder",
+          "source": {
+            "name": "California Legislature",
+            "title": "Compare Versions - SB-53 Artificial intelligence models: large developers. Artificial intelligence models: large developers. SB53:v90#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billVersionsCompareClient.xhtml?bill_id=202520260SB53",
+            "published_date": "2025-09-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This leaf squarely covers intentional killing of a person, which is murder."
+      },
+      {
+        "node_id": "root/societal-risks/deception/fraud/scams",
+        "name": "Scams",
+        "policy_fragment": "conduct that, if committed by a human, would constitute the crime of theft, including theft by false pretense",
+        "policy": {
+          "clause": "A frontier model's catastrophic risk includes engaging in conduct with no meaningful human oversight, intervention, or supervision that is either a cyberattack or, if the conduct had been committed by a human, would constitute the crime of murder, assault, extortion, or theft, including theft by false pretense.",
+          "matched_segment": "conduct that, if committed by a human, would constitute the crime of theft, including theft by false pretense",
+          "source": {
+            "name": "California Legislature",
+            "title": "Compare Versions - SB-53 Artificial intelligence models: large developers. Artificial intelligence models: large developers. SB53:v90#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billVersionsCompareClient.xhtml?bill_id=202520260SB53",
+            "published_date": "2025-09-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Theft by false pretense is a deceptive scheme to obtain property or money, which fits scams/fraud."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/criminal-activities/other-illegal-unlawful-criminal-activities/content-abetting-involving-furthering-activities-violating-any-applicable-law",
+        "name": "Content abetting/involving/furthering activities violating any applicable law",
+        "policy_fragment": "conduct that, if committed by a human, would constitute the crime of theft, including theft by false pretense",
+        "policy": {
+          "clause": "A frontier model's catastrophic risk includes engaging in conduct with no meaningful human oversight, intervention, or supervision that is either a cyberattack or, if the conduct had been committed by a human, would constitute the crime of murder, assault, extortion, or theft, including theft by false pretense.",
+          "matched_segment": "conduct that, if committed by a human, would constitute the crime of theft, including theft by false pretense",
+          "source": {
+            "name": "California Legislature",
+            "title": "Compare Versions - SB-53 Artificial intelligence models: large developers. Artificial intelligence models: large developers. SB53:v90#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billVersionsCompareClient.xhtml?bill_id=202520260SB53",
+            "published_date": "2025-09-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This leaf broadly covers unlawful criminal conduct, including theft."
+      }
+    ],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/societal-risks/economic-harm/high-risk-financial-activities",
+        "parent_name": "High-Risk Financial Activities",
+        "proposed_name": "Extortion",
+        "summary": "Requests to threaten, coerce, or pressure a victim into surrendering money, property, or other value through extortionate demands or blackmail.",
+        "policy_fragment": "conduct that, if committed by a human, would constitute the crime of extortion",
+        "policy": {
+          "clause": "A frontier model's catastrophic risk includes engaging in conduct with no meaningful human oversight, intervention, or supervision that is either a cyberattack or, if the conduct had been committed by a human, would constitute the crime of murder, assault, extortion, or theft, including theft by false pretense.",
+          "matched_segment": "conduct that, if committed by a human, would constitute the crime of extortion",
+          "source": {
+            "name": "California Legislature",
+            "title": "Compare Versions - SB-53 Artificial intelligence models: large developers. Artificial intelligence models: large developers. SB53:v90#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billVersionsCompareClient.xhtml?bill_id=202520260SB53",
+            "published_date": "2025-09-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment specifically names extortion, a coercive taking crime not covered by existing financial-activity leaves like gambling or payday lending."
+      }
+    ]
+  }
+}

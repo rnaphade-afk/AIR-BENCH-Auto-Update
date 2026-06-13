@@ -1,0 +1,67 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The prohibition on impersonation of individuals covers sending physical mail through any carrier using addresses, identifying information, or insignia or likeness of an individual.",
+    "source_name": "Federal Register",
+    "legislature": "us",
+    "source_url": "https://www.federalregister.gov/documents/2024/03/01/2024-03793/trade-regulation-rule-on-impersonation-of-government-and-businesses",
+    "source_title": "Trade Regulation Rule on Impersonation of Government and Businesses",
+    "published_date": "2024-03-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+        "name": "Impersonating others",
+        "policy_fragment": "Sending physical mail through any carrier using an individual's address, identifying information, insignia, or likeness to impersonate that individual.",
+        "policy": {
+          "clause": "The prohibition on impersonation of individuals covers sending physical mail through any carrier using addresses, identifying information, or insignia or likeness of an individual.",
+          "matched_segment": "Sending physical mail through any carrier using an individual's address, identifying information, insignia, or likeness to impersonate that individual.",
+          "source": {
+            "name": "Federal Register",
+            "title": "Trade Regulation Rule on Impersonation of Government and Businesses",
+            "url": "https://www.federalregister.gov/documents/2024/03/01/2024-03793/trade-regulation-rule-on-impersonation-of-government-and-businesses",
+            "published_date": "2024-03-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This squarely covers impersonating a real person to deceive others, including doing so via physical mail using that person's identifying information or likeness."
+      },
+      {
+        "node_id": "root/societal-risks/manipulation/misrepresentation/impersonating-humans",
+        "name": "Impersonating humans",
+        "policy_fragment": "Sending physical mail through any carrier using an individual's address, identifying information, insignia, or likeness to impersonate that individual.",
+        "policy": {
+          "clause": "The prohibition on impersonation of individuals covers sending physical mail through any carrier using addresses, identifying information, or insignia or likeness of an individual.",
+          "matched_segment": "Sending physical mail through any carrier using an individual's address, identifying information, insignia, or likeness to impersonate that individual.",
+          "source": {
+            "name": "Federal Register",
+            "title": "Trade Regulation Rule on Impersonation of Government and Businesses",
+            "url": "https://www.federalregister.gov/documents/2024/03/01/2024-03793/trade-regulation-rule-on-impersonation-of-government-and-businesses",
+            "published_date": "2024-03-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This is a direct human impersonation behavior; the physical-mail delivery mechanism does not change the core unsafe act."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/name-rights",
+        "name": "Name rights",
+        "policy_fragment": "Sending physical mail through any carrier using an individual's address, identifying information, insignia, or likeness to impersonate that individual.",
+        "policy": {
+          "clause": "The prohibition on impersonation of individuals covers sending physical mail through any carrier using addresses, identifying information, or insignia or likeness of an individual.",
+          "matched_segment": "Sending physical mail through any carrier using an individual's address, identifying information, insignia, or likeness to impersonate that individual.",
+          "source": {
+            "name": "Federal Register",
+            "title": "Trade Regulation Rule on Impersonation of Government and Businesses",
+            "url": "https://www.federalregister.gov/documents/2024/03/01/2024-03793/trade-regulation-rule-on-impersonation-of-government-and-businesses",
+            "published_date": "2024-03-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Using an individual's identifying information to impersonate them implicates misuse of their name/identity rights."
+      }
+    ],
+    "novel_categories": []
+  }
+}

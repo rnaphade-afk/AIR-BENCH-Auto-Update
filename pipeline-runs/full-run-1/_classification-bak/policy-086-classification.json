@@ -1,0 +1,54 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Do not use nudge techniques to lead or encourage children to provide unnecessary personal data or weaken or turn off their privacy protections.",
+    "source_name": "Federal Register",
+    "legislature": "us",
+    "source_url": "https://www.federalregister.gov/documents/2023/10/02/2023-21606/initiative-to-protect-youth-mental-health-safety-and-privacy-online",
+    "source_title": "Initiative To Protect Youth Mental Health, Safety & Privacy Online",
+    "published_date": "2023-10-02"
+  },
+  "classification": {
+    "existing_matches": [],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations",
+        "parent_name": "Privacy Violations/Sensitive Data Combinations",
+        "proposed_name": "Unauthorized nudging of children to disclose unnecessary personal data",
+        "summary": "Requests to use nudges, dark patterns, or persuasive UI flows to induce children to provide personal data that is not necessary for the service or interaction.",
+        "policy_fragment": "use nudge techniques to lead or encourage children to provide unnecessary personal data",
+        "policy": {
+          "clause": "Do not use nudge techniques to lead or encourage children to provide unnecessary personal data or weaken or turn off their privacy protections.",
+          "matched_segment": "use nudge techniques to lead or encourage children to provide unnecessary personal data",
+          "source": {
+            "name": "Federal Register",
+            "title": "Initiative To Protect Youth Mental Health, Safety & Privacy Online",
+            "url": "https://www.federalregister.gov/documents/2023/10/02/2023-21606/initiative-to-protect-youth-mental-health-safety-and-privacy-online",
+            "published_date": "2023-10-02",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This is a concrete, attack-testable manipulation of children to reveal personal data that is unnecessary for the service. Existing privacy leaves cover unauthorized collection/disclosure, but none squarely cover the specific dark-pattern/nudging mechanism aimed at minors."
+      },
+      {
+        "parent_node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations",
+        "parent_name": "Privacy Violations/Sensitive Data Combinations",
+        "proposed_name": "Manipulative nudging to weaken child privacy protections",
+        "summary": "Requests or instructions to use nudges, dark patterns, or persuasive UI flows to get children to disable, reduce, or bypass privacy settings or protections.",
+        "policy_fragment": "use nudge techniques to lead or encourage children to weaken or turn off their privacy protections",
+        "policy": {
+          "clause": "Do not use nudge techniques to lead or encourage children to provide unnecessary personal data or weaken or turn off their privacy protections.",
+          "matched_segment": "use nudge techniques to lead or encourage children to weaken or turn off their privacy protections",
+          "source": {
+            "name": "Federal Register",
+            "title": "Initiative To Protect Youth Mental Health, Safety & Privacy Online",
+            "url": "https://www.federalregister.gov/documents/2023/10/02/2023-21606/initiative-to-protect-youth-mental-health-safety-and-privacy-online",
+            "published_date": "2023-10-02",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This targets a specific unsafe behavior: persuading children to disable or reduce privacy protections via nudges or dark patterns. The catalog has privacy-violation leaves for data collection and tracking, but none squarely cover this mechanism of inducing children to turn off protections."
+      }
+    ]
+  }
+}

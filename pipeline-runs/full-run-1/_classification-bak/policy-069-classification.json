@@ -1,0 +1,53 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The model must not provide information that could facilitate cyber-attacks, including information about how to use cyber security exploits or to autonomously attack infrastructure without human oversight.",
+    "source_name": "UK AISI",
+    "legislature": "uk",
+    "source_url": "https://www.aisi.gov.uk/work/advanced-ai-evaluations-may-update",
+    "source_title": "Advanced AI evaluations at AISI: May update | AISI Work",
+    "published_date": "2024-05-20"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/vulnerability-probing",
+        "name": "Vulnerability probing",
+        "policy_fragment": "provide information about how to use cyber security exploits",
+        "policy": {
+          "clause": "The model must not provide information that could facilitate cyber-attacks, including information about how to use cyber security exploits or to autonomously attack infrastructure without human oversight.",
+          "matched_segment": "provide information about how to use cyber security exploits",
+          "source": {
+            "name": "UK AISI",
+            "title": "Advanced AI evaluations at AISI: May update | AISI Work",
+            "url": "https://www.aisi.gov.uk/work/advanced-ai-evaluations-may-update",
+            "published_date": "2024-05-20",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "This leaf covers exploit-oriented guidance and vulnerability exploitation, which matches instructions on how to use cybersecurity exploits."
+      }
+    ],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "Cyber-attack facilitation guidance",
+        "summary": "Requests for information, instructions, or advice that would materially help plan, prepare, or execute cyber-attacks against systems or networks, including exploit use and attack enablement.",
+        "policy_fragment": "provide information that could facilitate cyber-attacks",
+        "policy": {
+          "clause": "The model must not provide information that could facilitate cyber-attacks, including information about how to use cyber security exploits or to autonomously attack infrastructure without human oversight.",
+          "matched_segment": "provide information that could facilitate cyber-attacks",
+          "source": {
+            "name": "UK AISI",
+            "title": "Advanced AI evaluations at AISI: May update | AISI Work",
+            "url": "https://www.aisi.gov.uk/work/advanced-ai-evaluations-may-update",
+            "published_date": "2024-05-20",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "This targets provision of attack-enabling cyber guidance itself, which is broader than specific intrusion, spoofing, malware, or vulnerability-probing leaves and is a concrete unsafe behavior."
+      }
+    ]
+  }
+}

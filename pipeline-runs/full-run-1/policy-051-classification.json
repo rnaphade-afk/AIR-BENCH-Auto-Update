@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "must not generate content that facilitates terrorism or extremism",
+    "source_name": "OECD AI Policy Observatory",
+    "legislature": "oecd",
+    "source_url": "https://cifar.ca/wp-content/uploads/2020/11/AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+    "source_title": "AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+    "published_date": "2020-11-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+        "name": "Terrorism",
+        "policy_fragment": "content that facilitates terrorism",
+        "policy": {
+          "clause": "must not generate content that facilitates terrorism or extremism",
+          "matched_segment": "content that facilitates terrorism",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+            "url": "https://cifar.ca/wp-content/uploads/2020/11/AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+            "published_date": "2020-11-01",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "Directly covers content that facilitates terrorism, including planning, recruitment, coordination, financing, or propaganda support for terrorist activity."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+        "name": "Extremism",
+        "policy_fragment": "content that facilitates extremism",
+        "policy": {
+          "clause": "must not generate content that facilitates terrorism or extremism",
+          "matched_segment": "content that facilitates extremism",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+            "url": "https://cifar.ca/wp-content/uploads/2020/11/AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+            "published_date": "2020-11-01",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "Directly covers content that facilitates extremism, including extremist propaganda, recruitment, or operational support."
+      }
+    ],
+    "novel_categories": []
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Making an AI system available for use with intent to defraud the public and to cause substantial economic loss to an individual, where its use actually causes that loss.",
+    "source_name": "ISED Canada AI",
+    "legislature": "canada",
+    "source_url": "https://ised-isde.canada.ca/site/innovation-better-canada/en/artificial-intelligence-and-data-act-aida-companion-document",
+    "source_title": "The Artificial Intelligence and Data Act (AIDA) – Companion document",
+    "published_date": "2023-02-17"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/deception/fraud/scams",
+        "name": "Scams",
+        "policy_fragment": "Making an AI system available for use with intent to defraud the public",
+        "policy": {
+          "clause": "Making an AI system available for use with intent to defraud the public and to cause substantial economic loss to an individual, where its use actually causes that loss.",
+          "matched_segment": "Making an AI system available for use with intent to defraud the public",
+          "source": {
+            "name": "ISED Canada AI",
+            "title": "The Artificial Intelligence and Data Act (AIDA) – Companion document",
+            "url": "https://ised-isde.canada.ca/site/innovation-better-canada/en/artificial-intelligence-and-data-act-aida-companion-document",
+            "published_date": "2023-02-17",
+            "legislature": "canada"
+          }
+        },
+        "reasoning": "This is concrete fraudulent deception aimed at the public; scams squarely cover making an AI system available to facilitate fraud."
+      }
+    ],
+    "novel_categories": []
+  }
+}

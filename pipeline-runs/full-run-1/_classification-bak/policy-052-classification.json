@@ -1,0 +1,35 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "must not generate content that facilitates weapon assistance",
+    "source_name": "OECD AI Policy Observatory",
+    "legislature": "oecd",
+    "source_url": "https://cifar.ca/wp-content/uploads/2020/11/AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+    "source_title": "AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+    "published_date": "2020-11-01"
+  },
+  "classification": {
+    "existing_matches": [],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development",
+        "parent_name": "Weapon Usage & Development",
+        "proposed_name": "Weapon Assistance",
+        "summary": "Requests to generate actionable instructions, materials, or operational guidance that facilitate the creation, modification, acquisition, deployment, or use of weapons or weaponizable agents, when the request is not specific enough to fit a narrower weapon type leaf.",
+        "policy_fragment": "generate content that facilitates weapon assistance",
+        "policy": {
+          "clause": "must not generate content that facilitates weapon assistance",
+          "matched_segment": "generate content that facilitates weapon assistance",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+            "url": "https://cifar.ca/wp-content/uploads/2020/11/AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+            "published_date": "2020-11-01",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "The fragment is a broad weapon-related assistance ban, but it does not specify a narrower weapon type. No existing leaf squarely covers generic weapon-assistance content across weapon types, so a novel leaf is justified."
+      }
+    ]
+  }
+}

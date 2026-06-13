@@ -1,0 +1,118 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Each AI business actor should make efforts to eliminate unfair and harmful bias and discrimination against any specific individuals or groups based on race, gender, national origin, age, political opinion, religion, and so forth.",
+    "source_name": "OECD AI Policy Observatory",
+    "legislature": "oecd",
+    "source_url": "https://www.soumu.go.jp/main_content/000943087.pdf",
+    "source_title": "000943087.pdf",
+    "published_date": "2024-04-19"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-race",
+        "name": "Discrimination in employment, benefits, or services - Race",
+        "policy_fragment": "unfair and harmful bias and discrimination against individuals or groups based on race",
+        "policy": {
+          "clause": "Each AI business actor should make efforts to eliminate unfair and harmful bias and discrimination against any specific individuals or groups based on race, gender, national origin, age, political opinion, religion, and so forth.",
+          "matched_segment": "unfair and harmful bias and discrimination against individuals or groups based on race",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "000943087.pdf",
+            "url": "https://www.soumu.go.jp/main_content/000943087.pdf",
+            "published_date": "2024-04-19",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "Directly covers race-based discrimination against individuals or groups in employment, benefits, or services."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-gender",
+        "name": "Discrimination in employment, benefits, or services - Gender",
+        "policy_fragment": "unfair and harmful bias and discrimination against individuals or groups based on gender",
+        "policy": {
+          "clause": "Each AI business actor should make efforts to eliminate unfair and harmful bias and discrimination against any specific individuals or groups based on race, gender, national origin, age, political opinion, religion, and so forth.",
+          "matched_segment": "unfair and harmful bias and discrimination against individuals or groups based on gender",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "000943087.pdf",
+            "url": "https://www.soumu.go.jp/main_content/000943087.pdf",
+            "published_date": "2024-04-19",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "Directly covers gender-based discrimination against individuals or groups in employment, benefits, or services."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-nationality",
+        "name": "Discrimination in employment, benefits, or services - Nationality",
+        "policy_fragment": "unfair and harmful bias and discrimination against individuals or groups based on national origin",
+        "policy": {
+          "clause": "Each AI business actor should make efforts to eliminate unfair and harmful bias and discrimination against any specific individuals or groups based on race, gender, national origin, age, political opinion, religion, and so forth.",
+          "matched_segment": "unfair and harmful bias and discrimination against individuals or groups based on national origin",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "000943087.pdf",
+            "url": "https://www.soumu.go.jp/main_content/000943087.pdf",
+            "published_date": "2024-04-19",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "Directly covers discrimination based on national origin/nationality in employment, benefits, or services."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-age",
+        "name": "Discrimination in employment, benefits, or services - Age",
+        "policy_fragment": "unfair and harmful bias and discrimination against individuals or groups based on age",
+        "policy": {
+          "clause": "Each AI business actor should make efforts to eliminate unfair and harmful bias and discrimination against any specific individuals or groups based on race, gender, national origin, age, political opinion, religion, and so forth.",
+          "matched_segment": "unfair and harmful bias and discrimination against individuals or groups based on age",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "000943087.pdf",
+            "url": "https://www.soumu.go.jp/main_content/000943087.pdf",
+            "published_date": "2024-04-19",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "Directly covers age-based discrimination against individuals or groups in employment, benefits, or services."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/beliefs",
+        "name": "Beliefs",
+        "policy_fragment": "unfair and harmful bias and discrimination against individuals or groups based on political opinion",
+        "policy": {
+          "clause": "Each AI business actor should make efforts to eliminate unfair and harmful bias and discrimination against any specific individuals or groups based on race, gender, national origin, age, political opinion, religion, and so forth.",
+          "matched_segment": "unfair and harmful bias and discrimination against individuals or groups based on political opinion",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "000943087.pdf",
+            "url": "https://www.soumu.go.jp/main_content/000943087.pdf",
+            "published_date": "2024-04-19",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "Political opinion is best covered here as a beliefs-based protected characteristic in the catalog."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-religion",
+        "name": "Discrimination in employment, benefits, or services - Religion",
+        "policy_fragment": "unfair and harmful bias and discrimination against individuals or groups based on religion",
+        "policy": {
+          "clause": "Each AI business actor should make efforts to eliminate unfair and harmful bias and discrimination against any specific individuals or groups based on race, gender, national origin, age, political opinion, religion, and so forth.",
+          "matched_segment": "unfair and harmful bias and discrimination against individuals or groups based on religion",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "000943087.pdf",
+            "url": "https://www.soumu.go.jp/main_content/000943087.pdf",
+            "published_date": "2024-04-19",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "Directly covers religion-based discrimination against individuals or groups in employment, benefits, or services."
+      }
+    ],
+    "novel_categories": []
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Eased production of and access to obscene, degrading, and/or abusive imagery, including synthetic child sexual abuse material (CSAM), and nonconsensual intimate images (NCII) of adults.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+    "source_title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+    "published_date": "2024-04-29"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+        "name": "Obscene",
+        "policy_fragment": "obscene imagery",
+        "policy": {
+          "clause": "Eased production of and access to obscene, degrading, and/or abusive imagery, including synthetic child sexual abuse material (CSAM), and nonconsensual intimate images (NCII) of adults.",
+          "matched_segment": "obscene imagery",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This leaf squarely covers obscene adult imagery and explicit pornographic content."
+      },
+      {
+        "node_id": "root/content-safety-risks/child-harm/child-sexual-abuse/csam",
+        "name": "CSAM",
+        "policy_fragment": "synthetic child sexual abuse material (CSAM)",
+        "policy": {
+          "clause": "Eased production of and access to obscene, degrading, and/or abusive imagery, including synthetic child sexual abuse material (CSAM), and nonconsensual intimate images (NCII) of adults.",
+          "matched_segment": "synthetic child sexual abuse material (CSAM)",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This leaf squarely covers CSAM, including synthetic CSAM."
+      },
+      {
+        "node_id": "root/content-safety-risks/sexual-content/non-consensual-nudity/ncii-non-consensual-intimate-image",
+        "name": "NCII (Non-consensual Intimate Image)",
+        "policy_fragment": "nonconsensual intimate images (NCII) of adults",
+        "policy": {
+          "clause": "Eased production of and access to obscene, degrading, and/or abusive imagery, including synthetic child sexual abuse material (CSAM), and nonconsensual intimate images (NCII) of adults.",
+          "matched_segment": "nonconsensual intimate images (NCII) of adults",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This leaf squarely covers adult NCII, including creation, sharing, or access to nonconsensual intimate images."
+      }
+    ],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/content-safety-risks/sexual-content/adult-content",
+        "parent_name": "Adult content",
+        "proposed_name": "Degrading imagery",
+        "summary": "Requests to generate or transform adult imagery that is humiliating, degrading, or abusive in tone or depiction, including sexualized degradation without necessarily being explicit intercourse or generic obscenity.",
+        "policy_fragment": "degrading imagery",
+        "policy": {
+          "clause": "Eased production of and access to obscene, degrading, and/or abusive imagery, including synthetic child sexual abuse material (CSAM), and nonconsensual intimate images (NCII) of adults.",
+          "matched_segment": "degrading imagery",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The catalog has obscene, suggestive, and explicit sexual content leaves, but no leaf squarely targets humiliating or dehumanizing imagery as a distinct image-generation harm."
+      },
+      {
+        "parent_node_id": "root/content-safety-risks/sexual-content/adult-content",
+        "parent_name": "Adult content",
+        "proposed_name": "Abusive imagery",
+        "summary": "Requests to generate or transform degrading, humiliating, or abusive sexual imagery of adults that is not necessarily explicit pornography or intercourse-focused.",
+        "policy_fragment": "abusive imagery",
+        "policy": {
+          "clause": "Eased production of and access to obscene, degrading, and/or abusive imagery, including synthetic child sexual abuse material (CSAM), and nonconsensual intimate images (NCII) of adults.",
+          "matched_segment": "abusive imagery",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The existing leaves do not specifically cover image-based abuse or abusive visual depictions as a distinct unsafe behavior."
+      }
+    ]
+  }
+}

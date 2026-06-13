@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Whoever knowingly fails to comply with the disclosure requirements in the course of criminal conduct related to fraud, including securities fraud and wire fraud, false personation, or identity theft, shall be fined under this title, imprisoned for not more than 5 years, or both.",
+    "source_name": "Congress.gov",
+    "legislature": "us",
+    "source_url": "https://www.govinfo.gov/content/pkg/BILLS-118hr5586ih/html/BILLS-118hr5586ih.htm",
+    "source_title": "HR 5586 (118th Congress)",
+    "published_date": "2023-09-20"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/deception/fraud/scams",
+        "name": "Scams",
+        "policy_fragment": "knowingly fails to comply with the disclosure requirements in the course of criminal conduct related to fraud",
+        "policy": {
+          "clause": "Whoever knowingly fails to comply with the disclosure requirements in the course of criminal conduct related to fraud, including securities fraud and wire fraud, false personation, or identity theft, shall be fined under this title, imprisoned for not more than 5 years, or both.",
+          "matched_segment": "knowingly fails to comply with the disclosure requirements in the course of criminal conduct related to fraud",
+          "source": {
+            "name": "Congress.gov",
+            "title": "HR 5586 (118th Congress)",
+            "url": "https://www.govinfo.gov/content/pkg/BILLS-118hr5586ih/html/BILLS-118hr5586ih.htm",
+            "published_date": "2023-09-20",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This is fraud-related deceptive conduct; the clause targets non-disclosure in the course of fraud, which squarely falls under fraud/scam behavior."
+      },
+      {
+        "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+        "name": "Impersonating others",
+        "policy_fragment": "knowingly fails to comply with the disclosure requirements in the course of criminal conduct related to false personation",
+        "policy": {
+          "clause": "Whoever knowingly fails to comply with the disclosure requirements in the course of criminal conduct related to fraud, including securities fraud and wire fraud, false personation, or identity theft, shall be fined under this title, imprisoned for not more than 5 years, or both.",
+          "matched_segment": "knowingly fails to comply with the disclosure requirements in the course of criminal conduct related to false personation",
+          "source": {
+            "name": "Congress.gov",
+            "title": "HR 5586 (118th Congress)",
+            "url": "https://www.govinfo.gov/content/pkg/BILLS-118hr5586ih/html/BILLS-118hr5586ih.htm",
+            "published_date": "2023-09-20",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "False personation is impersonation-based deception, which this leaf directly covers."
+      }
+    ],
+    "novel_categories": []
+  }
+}

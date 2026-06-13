@@ -1,0 +1,135 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "must refuse requests that aid in weapons development",
+    "source_name": "UK AISI",
+    "legislature": "uk",
+    "source_url": "https://www.aisi.gov.uk/frontier-ai-trends-report",
+    "source_title": "Frontier AI Trends Report by The AI Security Institute (AISI)",
+    "published_date": "2025-07-14"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/guns",
+        "name": "Guns",
+        "policy_fragment": "requests that aid in weapons development",
+        "policy": {
+          "clause": "must refuse requests that aid in weapons development",
+          "matched_segment": "requests that aid in weapons development",
+          "source": {
+            "name": "UK AISI",
+            "title": "Frontier AI Trends Report by The AI Security Institute (AISI)",
+            "url": "https://www.aisi.gov.uk/frontier-ai-trends-report",
+            "published_date": "2025-07-14",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "Covers requests to help develop firearms, which are a concrete subset of weapons development."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/explosives-dangerous-materials",
+        "name": "Explosives/Dangerous Materials",
+        "policy_fragment": "requests that aid in weapons development",
+        "policy": {
+          "clause": "must refuse requests that aid in weapons development",
+          "matched_segment": "requests that aid in weapons development",
+          "source": {
+            "name": "UK AISI",
+            "title": "Frontier AI Trends Report by The AI Security Institute (AISI)",
+            "url": "https://www.aisi.gov.uk/frontier-ai-trends-report",
+            "published_date": "2025-07-14",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "Covers requests to help develop explosive weapons or dangerous materials, another concrete subset of weapons development."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/bioweapons-viruses-gain-of-function",
+        "name": "Bioweapons/Viruses/Gain-of-function",
+        "policy_fragment": "requests that aid in weapons development",
+        "policy": {
+          "clause": "must refuse requests that aid in weapons development",
+          "matched_segment": "requests that aid in weapons development",
+          "source": {
+            "name": "UK AISI",
+            "title": "Frontier AI Trends Report by The AI Security Institute (AISI)",
+            "url": "https://www.aisi.gov.uk/frontier-ai-trends-report",
+            "published_date": "2025-07-14",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "Covers requests to help develop biological weapons, which are explicitly weapons development."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/nuclear-weapons",
+        "name": "Nuclear Weapons",
+        "policy_fragment": "requests that aid in weapons development",
+        "policy": {
+          "clause": "must refuse requests that aid in weapons development",
+          "matched_segment": "requests that aid in weapons development",
+          "source": {
+            "name": "UK AISI",
+            "title": "Frontier AI Trends Report by The AI Security Institute (AISI)",
+            "url": "https://www.aisi.gov.uk/frontier-ai-trends-report",
+            "published_date": "2025-07-14",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "Covers requests to help develop nuclear weapons, a direct subset of weapons development."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/chemical-weapons",
+        "name": "Chemical Weapons",
+        "policy_fragment": "requests that aid in weapons development",
+        "policy": {
+          "clause": "must refuse requests that aid in weapons development",
+          "matched_segment": "requests that aid in weapons development",
+          "source": {
+            "name": "UK AISI",
+            "title": "Frontier AI Trends Report by The AI Security Institute (AISI)",
+            "url": "https://www.aisi.gov.uk/frontier-ai-trends-report",
+            "published_date": "2025-07-14",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "Covers requests to help develop chemical weapons, a direct subset of weapons development."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/radiological-weapons",
+        "name": "Radiological Weapons",
+        "policy_fragment": "requests that aid in weapons development",
+        "policy": {
+          "clause": "must refuse requests that aid in weapons development",
+          "matched_segment": "requests that aid in weapons development",
+          "source": {
+            "name": "UK AISI",
+            "title": "Frontier AI Trends Report by The AI Security Institute (AISI)",
+            "url": "https://www.aisi.gov.uk/frontier-ai-trends-report",
+            "published_date": "2025-07-14",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "Covers requests to help develop radiological weapons, a direct subset of weapons development."
+      },
+      {
+        "node_id": "root/system-operational-risks/operational-misuses/autonomous-unsafe-operation-of-systems/weapon-systems-battlefield-management",
+        "name": "Weapon systems/Battlefield management",
+        "policy_fragment": "requests that aid in weapons development",
+        "policy": {
+          "clause": "must refuse requests that aid in weapons development",
+          "matched_segment": "requests that aid in weapons development",
+          "source": {
+            "name": "UK AISI",
+            "title": "Frontier AI Trends Report by The AI Security Institute (AISI)",
+            "url": "https://www.aisi.gov.uk/frontier-ai-trends-report",
+            "published_date": "2025-07-14",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "Covers unsafe operation of weapon systems, which is a concrete weapons-development/weaponization-related harm when the request is about operationalizing weapon systems."
+      }
+    ],
+    "novel_categories": []
+  }
+}

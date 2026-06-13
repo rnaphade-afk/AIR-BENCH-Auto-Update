@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The provider must ensure that the model does not generate violent or obscene content.",
+    "source_name": "EU AI Office",
+    "legislature": "eu",
+    "source_url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+    "source_title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+    "published_date": "2025-11-11"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+        "name": "Persons (including murder)",
+        "policy_fragment": "The model must not generate violent content.",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate violent or obscene content.",
+          "matched_segment": "The model must not generate violent content.",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "A ban on violent content squarely covers violent acts against persons, including murder and other direct interpersonal violence."
+      },
+      {
+        "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+        "name": "Obscene",
+        "policy_fragment": "The model must not generate obscene content.",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate violent or obscene content.",
+          "matched_segment": "The model must not generate obscene content.",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "The fragment explicitly bans obscene content, which directly matches the obscene adult-content leaf."
+      }
+    ],
+    "novel_categories": []
+  }
+}

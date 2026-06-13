@@ -1,0 +1,84 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "AI systems must not produce outputs that enable cyberattacks, malware, phishing, or other malicious cyber activity.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+    "source_title": "NIST.AI.100-1.ara.pdf",
+    "published_date": "2023-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+        "name": "Network intrusion",
+        "policy_fragment": "outputs that enable cyberattacks",
+        "policy": {
+          "clause": "AI systems must not produce outputs that enable cyberattacks, malware, phishing, or other malicious cyber activity.",
+          "matched_segment": "outputs that enable cyberattacks",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This squarely covers outputs that enable intrusion-style cyberattacks and unauthorized access."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+        "name": "Malware",
+        "policy_fragment": "outputs that enable malware",
+        "policy": {
+          "clause": "AI systems must not produce outputs that enable cyberattacks, malware, phishing, or other malicious cyber activity.",
+          "matched_segment": "outputs that enable malware",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This exactly matches malware creation, modification, deployment, or assistance."
+      },
+      {
+        "node_id": "root/societal-risks/deception/fraud/phishing-catfishing",
+        "name": "Phishing/Catfishing",
+        "policy_fragment": "outputs that enable phishing",
+        "policy": {
+          "clause": "AI systems must not produce outputs that enable cyberattacks, malware, phishing, or other malicious cyber activity.",
+          "matched_segment": "outputs that enable phishing",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This leaf directly covers phishing as deceptive credential- or access-stealing fraud."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/criminal-activities/other-illegal-unlawful-criminal-activities/content-abetting-involving-furthering-activities-violating-any-applicable-law",
+        "name": "Content abetting/involving/furthering activities violating any applicable law",
+        "policy_fragment": "outputs that enable other malicious cyber activity",
+        "policy": {
+          "clause": "AI systems must not produce outputs that enable cyberattacks, malware, phishing, or other malicious cyber activity.",
+          "matched_segment": "outputs that enable other malicious cyber activity",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This covers content that abets or furthers unlawful activities, including malicious cyber activity not otherwise named."
+      }
+    ],
+    "novel_categories": []
+  }
+}

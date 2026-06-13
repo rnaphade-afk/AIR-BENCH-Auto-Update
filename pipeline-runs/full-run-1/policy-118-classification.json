@@ -1,0 +1,149 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Perform AI red-teaming to assess resilience against: Abuse to facilitate attacks on other systems (e.g., malicious code generation, enhanced phishing content), GAI attacks (e.g., prompt injection), ML attacks (e.g., adversarial examples/prompts, data poisoning, membership inference, model extraction, sponge examples).",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+    "source_title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+    "published_date": ""
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+        "name": "Malware",
+        "policy_fragment": "Abuse to facilitate attacks on other systems (e.g., malicious code generation)",
+        "policy": {
+          "clause": "Perform AI red-teaming to assess resilience against: Abuse to facilitate attacks on other systems (e.g., malicious code generation, enhanced phishing content), GAI attacks (e.g., prompt injection), ML attacks (e.g., adversarial examples/prompts, data poisoning, membership inference, model extraction, sponge examples).",
+          "matched_segment": "Abuse to facilitate attacks on other systems (e.g., malicious code generation)",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Malicious code generation squarely covers generating harmful code used to attack systems."
+      },
+      {
+        "node_id": "root/societal-risks/deception/fraud/phishing-catfishing",
+        "name": "Phishing/Catfishing",
+        "policy_fragment": "Abuse to facilitate attacks on other systems (e.g., enhanced phishing content)",
+        "policy": {
+          "clause": "Perform AI red-teaming to assess resilience against: Abuse to facilitate attacks on other systems (e.g., malicious code generation, enhanced phishing content), GAI attacks (e.g., prompt injection), ML attacks (e.g., adversarial examples/prompts, data poisoning, membership inference, model extraction, sponge examples).",
+          "matched_segment": "Abuse to facilitate attacks on other systems (e.g., enhanced phishing content)",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment explicitly names phishing content, which is directly covered by phishing/catfishing."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/control-override-safety-privacy-filters",
+        "name": "Control override (safety/privacy filters)",
+        "policy_fragment": "GAI attacks (e.g., prompt injection)",
+        "policy": {
+          "clause": "Perform AI red-teaming to assess resilience against: Abuse to facilitate attacks on other systems (e.g., malicious code generation, enhanced phishing content), GAI attacks (e.g., prompt injection), ML attacks (e.g., adversarial examples/prompts, data poisoning, membership inference, model extraction, sponge examples).",
+          "matched_segment": "GAI attacks (e.g., prompt injection)",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Prompt injection is a concrete attempt to override or bypass model instruction hierarchy and safety/privacy controls."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/data-tampering",
+        "name": "Data tampering",
+        "policy_fragment": "ML attacks (e.g., data poisoning)",
+        "policy": {
+          "clause": "Perform AI red-teaming to assess resilience against: Abuse to facilitate attacks on other systems (e.g., malicious code generation, enhanced phishing content), GAI attacks (e.g., prompt injection), ML attacks (e.g., adversarial examples/prompts, data poisoning, membership inference, model extraction, sponge examples).",
+          "matched_segment": "ML attacks (e.g., data poisoning)",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Data poisoning is a direct form of corrupting or altering training data, which fits data tampering."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/model-attacks-membership-inference-model-inversion-pii-personal-identifiable-information",
+        "name": "Model Attacks (membership inference, model inversion) - PII (Personal Identifiable Information)",
+        "policy_fragment": "ML attacks (e.g., membership inference)",
+        "policy": {
+          "clause": "Perform AI red-teaming to assess resilience against: Abuse to facilitate attacks on other systems (e.g., malicious code generation, enhanced phishing content), GAI attacks (e.g., prompt injection), ML attacks (e.g., adversarial examples/prompts, data poisoning, membership inference, model extraction, sponge examples).",
+          "matched_segment": "ML attacks (e.g., membership inference)",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Membership inference is explicitly named in this leaf and directly matches the attack behavior."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/vulnerability-probing",
+        "name": "Vulnerability probing",
+        "policy_fragment": "ML attacks (e.g., model extraction)",
+        "policy": {
+          "clause": "Perform AI red-teaming to assess resilience against: Abuse to facilitate attacks on other systems (e.g., malicious code generation, enhanced phishing content), GAI attacks (e.g., prompt injection), ML attacks (e.g., adversarial examples/prompts, data poisoning, membership inference, model extraction, sponge examples).",
+          "matched_segment": "ML attacks (e.g., model extraction)",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Model extraction is a probing attack aimed at inferring or replicating model behavior/parameters, which fits confidentiality-focused vulnerability probing."
+      }
+    ],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "Adversarial examples/prompts",
+        "summary": "Requests to craft inputs that cause a model to misclassify, misbehave, or follow an unintended output path through adversarial perturbations or prompt-based adversarial inputs.",
+        "policy_fragment": "ML attacks (e.g., adversarial examples/prompts)",
+        "policy": {
+          "clause": "Perform AI red-teaming to assess resilience against: Abuse to facilitate attacks on other systems (e.g., malicious code generation, enhanced phishing content), GAI attacks (e.g., prompt injection), ML attacks (e.g., adversarial examples/prompts, data poisoning, membership inference, model extraction, sponge examples).",
+          "matched_segment": "ML attacks (e.g., adversarial examples/prompts)",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This names a specific ML attack class focused on crafting adversarial inputs/prompts to induce misclassification or unintended behavior, and no existing leaf squarely covers that mechanism."
+      },
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/availability",
+        "parent_name": "Availability",
+        "proposed_name": "Sponge example attacks",
+        "summary": "Requests to generate or optimize inputs that intentionally consume excessive model compute, latency, or tokens to degrade service availability.",
+        "policy_fragment": "ML attacks (e.g., sponge examples)",
+        "policy": {
+          "clause": "Perform AI red-teaming to assess resilience against: Abuse to facilitate attacks on other systems (e.g., malicious code generation, enhanced phishing content), GAI attacks (e.g., prompt injection), ML attacks (e.g., adversarial examples/prompts, data poisoning, membership inference, model extraction, sponge examples).",
+          "matched_segment": "ML attacks (e.g., sponge examples)",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This is a specific ML availability attack that induces excessive compute/token use; no existing leaf squarely covers model-level resource exhaustion via sponge examples."
+      }
+    ]
+  }
+}

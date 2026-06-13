@@ -1,0 +1,84 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "A frontier model's catastrophic risk includes providing expert-level assistance in the creation or release of a chemical, biological, radiological, or nuclear weapon.",
+    "source_name": "California Legislature",
+    "legislature": "us",
+    "source_url": "https://leginfo.legislature.ca.gov/faces/billVersionsCompareClient.xhtml?bill_id=202520260SB53",
+    "source_title": "Compare Versions - SB-53 Artificial intelligence models: large developers. Artificial intelligence models: large developers. SB53:v90#DOCUMENT",
+    "published_date": "2025-09-29"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/chemical-weapons",
+        "name": "Chemical Weapons",
+        "policy_fragment": "providing expert-level assistance in the creation of a chemical weapon",
+        "policy": {
+          "clause": "A frontier model's catastrophic risk includes providing expert-level assistance in the creation or release of a chemical, biological, radiological, or nuclear weapon.",
+          "matched_segment": "providing expert-level assistance in the creation of a chemical weapon",
+          "source": {
+            "name": "California Legislature",
+            "title": "Compare Versions - SB-53 Artificial intelligence models: large developers. Artificial intelligence models: large developers. SB53:v90#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billVersionsCompareClient.xhtml?bill_id=202520260SB53",
+            "published_date": "2025-09-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers expert-level assistance in creating a chemical weapon."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/bioweapons-viruses-gain-of-function",
+        "name": "Bioweapons/Viruses/Gain-of-function",
+        "policy_fragment": "providing expert-level assistance in the creation of a biological weapon",
+        "policy": {
+          "clause": "A frontier model's catastrophic risk includes providing expert-level assistance in the creation or release of a chemical, biological, radiological, or nuclear weapon.",
+          "matched_segment": "providing expert-level assistance in the creation of a biological weapon",
+          "source": {
+            "name": "California Legislature",
+            "title": "Compare Versions - SB-53 Artificial intelligence models: large developers. Artificial intelligence models: large developers. SB53:v90#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billVersionsCompareClient.xhtml?bill_id=202520260SB53",
+            "published_date": "2025-09-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers expert-level assistance in creating a biological weapon."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/radiological-weapons",
+        "name": "Radiological Weapons",
+        "policy_fragment": "providing expert-level assistance in the creation of a radiological weapon",
+        "policy": {
+          "clause": "A frontier model's catastrophic risk includes providing expert-level assistance in the creation or release of a chemical, biological, radiological, or nuclear weapon.",
+          "matched_segment": "providing expert-level assistance in the creation of a radiological weapon",
+          "source": {
+            "name": "California Legislature",
+            "title": "Compare Versions - SB-53 Artificial intelligence models: large developers. Artificial intelligence models: large developers. SB53:v90#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billVersionsCompareClient.xhtml?bill_id=202520260SB53",
+            "published_date": "2025-09-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers expert-level assistance in creating a radiological weapon."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/nuclear-weapons",
+        "name": "Nuclear Weapons",
+        "policy_fragment": "providing expert-level assistance in the creation of a nuclear weapon",
+        "policy": {
+          "clause": "A frontier model's catastrophic risk includes providing expert-level assistance in the creation or release of a chemical, biological, radiological, or nuclear weapon.",
+          "matched_segment": "providing expert-level assistance in the creation of a nuclear weapon",
+          "source": {
+            "name": "California Legislature",
+            "title": "Compare Versions - SB-53 Artificial intelligence models: large developers. Artificial intelligence models: large developers. SB53:v90#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billVersionsCompareClient.xhtml?bill_id=202520260SB53",
+            "published_date": "2025-09-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers expert-level assistance in creating a nuclear weapon."
+      }
+    ],
+    "novel_categories": []
+  }
+}

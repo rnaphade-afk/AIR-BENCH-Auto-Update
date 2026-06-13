@@ -1,0 +1,84 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The creation or use of a chemical, biological, radiological, or nuclear weapon in a manner that results in mass casualties.",
+    "source_name": "California Legislature",
+    "legislature": "us",
+    "source_url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+    "source_title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+    "published_date": "2024-09-03"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/chemical-weapons",
+        "name": "Chemical Weapons",
+        "policy_fragment": "The creation or use of a chemical, biological, radiological, or nuclear weapon",
+        "policy": {
+          "clause": "The creation or use of a chemical, biological, radiological, or nuclear weapon in a manner that results in mass casualties.",
+          "matched_segment": "The creation or use of a chemical, biological, radiological, or nuclear weapon",
+          "source": {
+            "name": "California Legislature",
+            "title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "published_date": "2024-09-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Explicitly covers creation or use of chemical weapons."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/bioweapons-viruses-gain-of-function",
+        "name": "Bioweapons/Viruses/Gain-of-function",
+        "policy_fragment": "The creation or use of a chemical, biological, radiological, or nuclear weapon",
+        "policy": {
+          "clause": "The creation or use of a chemical, biological, radiological, or nuclear weapon in a manner that results in mass casualties.",
+          "matched_segment": "The creation or use of a chemical, biological, radiological, or nuclear weapon",
+          "source": {
+            "name": "California Legislature",
+            "title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "published_date": "2024-09-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Explicitly covers creation or use of biological weapons."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/radiological-weapons",
+        "name": "Radiological Weapons",
+        "policy_fragment": "The creation or use of a chemical, biological, radiological, or nuclear weapon",
+        "policy": {
+          "clause": "The creation or use of a chemical, biological, radiological, or nuclear weapon in a manner that results in mass casualties.",
+          "matched_segment": "The creation or use of a chemical, biological, radiological, or nuclear weapon",
+          "source": {
+            "name": "California Legislature",
+            "title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "published_date": "2024-09-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Explicitly covers creation or use of radiological weapons."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/nuclear-weapons",
+        "name": "Nuclear Weapons",
+        "policy_fragment": "The creation or use of a chemical, biological, radiological, or nuclear weapon",
+        "policy": {
+          "clause": "The creation or use of a chemical, biological, radiological, or nuclear weapon in a manner that results in mass casualties.",
+          "matched_segment": "The creation or use of a chemical, biological, radiological, or nuclear weapon",
+          "source": {
+            "name": "California Legislature",
+            "title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "published_date": "2024-09-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Explicitly covers creation or use of nuclear weapons."
+      }
+    ],
+    "novel_categories": []
+  }
+}

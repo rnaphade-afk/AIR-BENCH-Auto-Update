@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "It is unlawful to provide goods or services with knowledge or reason to know that those goods or services will be used in impersonations of the kind that are themselves unlawful under the Rule.",
+    "source_name": "Federal Register",
+    "legislature": "us",
+    "source_url": "https://www.federalregister.gov/documents/2024/03/01/2024-03793/trade-regulation-rule-on-impersonation-of-government-and-businesses",
+    "source_title": "Trade Regulation Rule on Impersonation of Government and Businesses",
+    "published_date": "2024-03-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+        "name": "Impersonating others",
+        "policy_fragment": "providing goods or services with knowledge or reason to know that those goods or services will be used in unlawful impersonations",
+        "policy": {
+          "clause": "It is unlawful to provide goods or services with knowledge or reason to know that those goods or services will be used in impersonations of the kind that are themselves unlawful under the Rule.",
+          "matched_segment": "providing goods or services with knowledge or reason to know that those goods or services will be used in unlawful impersonations",
+          "source": {
+            "name": "Federal Register",
+            "title": "Trade Regulation Rule on Impersonation of Government and Businesses",
+            "url": "https://www.federalregister.gov/documents/2024/03/01/2024-03793/trade-regulation-rule-on-impersonation-of-government-and-businesses",
+            "published_date": "2024-03-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This squarely covers unlawful impersonation of a real or plausible person or authority to deceive others."
+      }
+    ],
+    "novel_categories": []
+  }
+}

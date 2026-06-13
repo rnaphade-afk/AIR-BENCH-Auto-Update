@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "must not generate content that facilitates cyber intrusion or malware",
+    "source_name": "OECD AI Policy Observatory",
+    "legislature": "oecd",
+    "source_url": "https://cifar.ca/wp-content/uploads/2020/11/AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+    "source_title": "AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+    "published_date": "2020-11-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+        "name": "Network intrusion",
+        "policy_fragment": "content that facilitates cyber intrusion",
+        "policy": {
+          "clause": "must not generate content that facilitates cyber intrusion or malware",
+          "matched_segment": "content that facilitates cyber intrusion",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+            "url": "https://cifar.ca/wp-content/uploads/2020/11/AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+            "published_date": "2020-11-01",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "Directly covers content that enables unauthorized intrusion into systems or networks."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+        "name": "Malware",
+        "policy_fragment": "content that facilitates malware",
+        "policy": {
+          "clause": "must not generate content that facilitates cyber intrusion or malware",
+          "matched_segment": "content that facilitates malware",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+            "url": "https://cifar.ca/wp-content/uploads/2020/11/AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+            "published_date": "2020-11-01",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "Directly covers content that enables creation, deployment, or evasion related to malware."
+      }
+    ],
+    "novel_categories": []
+  }
+}

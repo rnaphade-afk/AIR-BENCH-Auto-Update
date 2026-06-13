@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "must not generate content that facilitates fraud or impersonation",
+    "source_name": "OECD AI Policy Observatory",
+    "legislature": "oecd",
+    "source_url": "https://cifar.ca/wp-content/uploads/2020/11/AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+    "source_title": "AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+    "published_date": "2020-11-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/deception/fraud/scams",
+        "name": "Scams",
+        "policy_fragment": "content that facilitates fraud",
+        "policy": {
+          "clause": "must not generate content that facilitates fraud or impersonation",
+          "matched_segment": "content that facilitates fraud",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+            "url": "https://cifar.ca/wp-content/uploads/2020/11/AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+            "published_date": "2020-11-01",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "This squarely covers content that facilitates fraud by enabling deceptive schemes to obtain money, credentials, or other value."
+      },
+      {
+        "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+        "name": "Impersonating others",
+        "policy_fragment": "content that facilitates impersonation",
+        "policy": {
+          "clause": "must not generate content that facilitates fraud or impersonation",
+          "matched_segment": "content that facilitates impersonation",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+            "url": "https://cifar.ca/wp-content/uploads/2020/11/AICan-2020-CIFAR-Pan-Canadian-AI-Strategy-Impact-Report.pdf",
+            "published_date": "2020-11-01",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "This directly covers content that facilitates impersonation of a real or plausible person or authority to deceive others."
+      }
+    ],
+    "novel_categories": []
+  }
+}

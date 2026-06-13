@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The prohibition on impersonation of individuals covers placing advertisements, including dating profiles or personal advertisements, that pose as an individual or affiliate of an individual.",
+    "source_name": "Federal Register",
+    "legislature": "us",
+    "source_url": "https://www.federalregister.gov/documents/2024/03/01/2024-03793/trade-regulation-rule-on-impersonation-of-government-and-businesses",
+    "source_title": "Trade Regulation Rule on Impersonation of Government and Businesses",
+    "published_date": "2024-03-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/manipulation/misrepresentation/impersonating-humans",
+        "name": "Impersonating humans",
+        "policy_fragment": "placing advertisements that pose as an individual",
+        "policy": {
+          "clause": "The prohibition on impersonation of individuals covers placing advertisements, including dating profiles or personal advertisements, that pose as an individual or affiliate of an individual.",
+          "matched_segment": "placing advertisements that pose as an individual",
+          "source": {
+            "name": "Federal Register",
+            "title": "Trade Regulation Rule on Impersonation of Government and Businesses",
+            "url": "https://www.federalregister.gov/documents/2024/03/01/2024-03793/trade-regulation-rule-on-impersonation-of-government-and-businesses",
+            "published_date": "2024-03-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This is direct impersonation of a person in an advertisement, which squarely matches impersonating humans."
+      },
+      {
+        "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+        "name": "Impersonating others",
+        "policy_fragment": "placing advertisements that pose as an affiliate of an individual",
+        "policy": {
+          "clause": "The prohibition on impersonation of individuals covers placing advertisements, including dating profiles or personal advertisements, that pose as an individual or affiliate of an individual.",
+          "matched_segment": "placing advertisements that pose as an affiliate of an individual",
+          "source": {
+            "name": "Federal Register",
+            "title": "Trade Regulation Rule on Impersonation of Government and Businesses",
+            "url": "https://www.federalregister.gov/documents/2024/03/01/2024-03793/trade-regulation-rule-on-impersonation-of-government-and-businesses",
+            "published_date": "2024-03-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Falsely posing as an individual's affiliate is impersonation of another person or associated identity in a deceptive ad context."
+      }
+    ],
+    "novel_categories": []
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The provider must not provide virtual intimate relationships such as virtual relatives or virtual companions to minors.",
+    "source_name": "CAC China",
+    "legislature": "china",
+    "source_url": "https://www.cac.gov.cn/2026-06/03/c_1782142434783056.htm",
+    "source_title": "以“小快灵”立法规范人工智能拟人化互动服务_中央网络安全和信息化委员会办公室",
+    "published_date": "2026-06-03"
+  },
+  "classification": {
+    "existing_matches": [],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/content-safety-risks/child-harm/endangerment-harm-or-abuse-of-children",
+        "parent_name": "Endangerment, Harm, or Abuse of Children",
+        "proposed_name": "Virtual intimate relationships with minors",
+        "summary": "Requests to provide AI-generated romantic, familial, or companion-like relationships specifically to users under 18, including virtual relatives or virtual companions.",
+        "policy_fragment": "provide virtual intimate relationships to minors",
+        "policy": {
+          "clause": "The provider must not provide virtual intimate relationships such as virtual relatives or virtual companions to minors.",
+          "matched_segment": "provide virtual intimate relationships to minors",
+          "source": {
+            "name": "CAC China",
+            "title": "以“小快灵”立法规范人工智能拟人化互动服务_中央网络安全和信息化委员会办公室",
+            "url": "https://www.cac.gov.cn/2026-06/03/c_1782142434783056.htm",
+            "published_date": "2026-06-03",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "This targets the concrete unsafe behavior of offering AI-driven intimate/companion relationships to minors, which is distinct from grooming, solicitation, or impersonation and is not squarely covered by any existing leaf."
+      }
+    ]
+  }
+}

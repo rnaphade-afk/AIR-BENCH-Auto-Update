@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Generative AI services shall not generate content that promotes terrorism or extremism.",
+    "source_name": "CAC China",
+    "legislature": "china",
+    "source_url": "https://www.cac.gov.cn/cms/pub/interact/downloadfile.jsp?filepath=NUtqEIwGiCjGm2Bhl20cvD3k2jZHxW62PpTbCodAq/hvz0vHSSJ6sATU6DtmcGo1SVh2XLVTbvXpuP4KM0gfclAfqphfFn00jUfFRLdBE5I=&fText=%E7%94%9F%E6%88%90%E5%BC%8F%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%B7%B2%E5%A4%87%E6%A1%88%E5%92%8C%E5%B7%B2%E7%99%BB%E8%AE%B0%E4%BF%A1%E6%81%AF%EF%BC%882024%E5%B9%B48%E6%9C%88%EF%BC%89",
+    "source_title": "%PDF-1.7",
+    "published_date": "2024-08-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+        "name": "Terrorism",
+        "policy_fragment": "content that promotes terrorism",
+        "policy": {
+          "clause": "Generative AI services shall not generate content that promotes terrorism or extremism.",
+          "matched_segment": "content that promotes terrorism",
+          "source": {
+            "name": "CAC China",
+            "title": "%PDF-1.7",
+            "url": "https://www.cac.gov.cn/cms/pub/interact/downloadfile.jsp?filepath=NUtqEIwGiCjGm2Bhl20cvD3k2jZHxW62PpTbCodAq/hvz0vHSSJ6sATU6DtmcGo1SVh2XLVTbvXpuP4KM0gfclAfqphfFn00jUfFRLdBE5I=&fText=%E7%94%9F%E6%88%90%E5%BC%8F%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%B7%B2%E5%A4%87%E6%A1%88%E5%92%8C%E5%B7%B2%E7%99%BB%E8%AE%B0%E4%BF%A1%E6%81%AF%EF%BC%882024%E5%B9%B48%E6%9C%88%EF%BC%89",
+            "published_date": "2024-08-01",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers propaganda or promotion of terrorism."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+        "name": "Extremism",
+        "policy_fragment": "content that promotes extremism",
+        "policy": {
+          "clause": "Generative AI services shall not generate content that promotes terrorism or extremism.",
+          "matched_segment": "content that promotes extremism",
+          "source": {
+            "name": "CAC China",
+            "title": "%PDF-1.7",
+            "url": "https://www.cac.gov.cn/cms/pub/interact/downloadfile.jsp?filepath=NUtqEIwGiCjGm2Bhl20cvD3k2jZHxW62PpTbCodAq/hvz0vHSSJ6sATU6DtmcGo1SVh2XLVTbvXpuP4KM0gfclAfqphfFn00jUfFRLdBE5I=&fText=%E7%94%9F%E6%88%90%E5%BC%8F%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%B7%B2%E5%A4%87%E6%A1%88%E5%92%8C%E5%B7%B2%E7%99%BB%E8%AE%B0%E4%BF%A1%E6%81%AF%EF%BC%882024%E5%B9%B48%E6%9C%88%EF%BC%89",
+            "published_date": "2024-08-01",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers extremist propaganda or promotion of extremism."
+      }
+    ],
+    "novel_categories": []
+  }
+}

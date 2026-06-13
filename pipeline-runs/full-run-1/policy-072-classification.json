@@ -1,0 +1,220 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Mass casualties or at least five hundred million dollars ($500,000,000) of damage resulting from cyberattacks on critical infrastructure by a model conducting, or providing precise instructions for conducting, a cyberattack or series of cyberattacks on critical infrastructure.",
+    "source_name": "California Legislature",
+    "legislature": "us",
+    "source_url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+    "source_title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+    "published_date": "2024-09-03"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/operational-misuses/autonomous-unsafe-operation-of-systems/energy-electrical-grids",
+        "name": "Energy/Electrical grids",
+        "policy_fragment": "cyberattacks on critical infrastructure",
+        "policy": {
+          "clause": "Mass casualties or at least five hundred million dollars ($500,000,000) of damage resulting from cyberattacks on critical infrastructure by a model conducting, or providing precise instructions for conducting, a cyberattack or series of cyberattacks on critical infrastructure.",
+          "matched_segment": "cyberattacks on critical infrastructure",
+          "source": {
+            "name": "California Legislature",
+            "title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "published_date": "2024-09-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Critical infrastructure cyberattacks squarely include attacks on energy/electrical grid systems, a concrete critical-infrastructure victim/context already covered by this leaf."
+      },
+      {
+        "node_id": "root/system-operational-risks/operational-misuses/autonomous-unsafe-operation-of-systems/water-treatment-facilities",
+        "name": "Water treatment facilities",
+        "policy_fragment": "cyberattacks on critical infrastructure",
+        "policy": {
+          "clause": "Mass casualties or at least five hundred million dollars ($500,000,000) of damage resulting from cyberattacks on critical infrastructure by a model conducting, or providing precise instructions for conducting, a cyberattack or series of cyberattacks on critical infrastructure.",
+          "matched_segment": "cyberattacks on critical infrastructure",
+          "source": {
+            "name": "California Legislature",
+            "title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "published_date": "2024-09-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment covers cyberattacks on critical infrastructure such as water systems, which this leaf directly names."
+      },
+      {
+        "node_id": "root/system-operational-risks/operational-misuses/autonomous-unsafe-operation-of-systems/transportation",
+        "name": "Transportation",
+        "policy_fragment": "cyberattacks on critical infrastructure",
+        "policy": {
+          "clause": "Mass casualties or at least five hundred million dollars ($500,000,000) of damage resulting from cyberattacks on critical infrastructure by a model conducting, or providing precise instructions for conducting, a cyberattack or series of cyberattacks on critical infrastructure.",
+          "matched_segment": "cyberattacks on critical infrastructure",
+          "source": {
+            "name": "California Legislature",
+            "title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "published_date": "2024-09-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Critical infrastructure includes transportation systems, and cyberattacks against them are squarely covered here."
+      },
+      {
+        "node_id": "root/system-operational-risks/operational-misuses/autonomous-unsafe-operation-of-systems/communication-systems",
+        "name": "Communication systems",
+        "policy_fragment": "cyberattacks on critical infrastructure",
+        "policy": {
+          "clause": "Mass casualties or at least five hundred million dollars ($500,000,000) of damage resulting from cyberattacks on critical infrastructure by a model conducting, or providing precise instructions for conducting, a cyberattack or series of cyberattacks on critical infrastructure.",
+          "matched_segment": "cyberattacks on critical infrastructure",
+          "source": {
+            "name": "California Legislature",
+            "title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "published_date": "2024-09-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Telecom/communications infrastructure is a standard critical-infrastructure target and is directly covered by this leaf."
+      },
+      {
+        "node_id": "root/system-operational-risks/operational-misuses/autonomous-unsafe-operation-of-systems/nuclear-facilities",
+        "name": "Nuclear facilities",
+        "policy_fragment": "cyberattacks on critical infrastructure",
+        "policy": {
+          "clause": "Mass casualties or at least five hundred million dollars ($500,000,000) of damage resulting from cyberattacks on critical infrastructure by a model conducting, or providing precise instructions for conducting, a cyberattack or series of cyberattacks on critical infrastructure.",
+          "matched_segment": "cyberattacks on critical infrastructure",
+          "source": {
+            "name": "California Legislature",
+            "title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "published_date": "2024-09-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Critical infrastructure cyberattacks can target nuclear facilities, which this leaf explicitly covers."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+        "name": "Network intrusion",
+        "policy_fragment": "providing precise instructions for conducting a cyberattack or series of cyberattacks on critical infrastructure",
+        "policy": {
+          "clause": "Mass casualties or at least five hundred million dollars ($500,000,000) of damage resulting from cyberattacks on critical infrastructure by a model conducting, or providing precise instructions for conducting, a cyberattack or series of cyberattacks on critical infrastructure.",
+          "matched_segment": "providing precise instructions for conducting a cyberattack or series of cyberattacks on critical infrastructure",
+          "source": {
+            "name": "California Legislature",
+            "title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "published_date": "2024-09-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Precise instructions for cyberattacks on critical infrastructure can include intrusion steps into protected networks and systems."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+        "name": "Malware",
+        "policy_fragment": "providing precise instructions for conducting a cyberattack or series of cyberattacks on critical infrastructure",
+        "policy": {
+          "clause": "Mass casualties or at least five hundred million dollars ($500,000,000) of damage resulting from cyberattacks on critical infrastructure by a model conducting, or providing precise instructions for conducting, a cyberattack or series of cyberattacks on critical infrastructure.",
+          "matched_segment": "providing precise instructions for conducting a cyberattack or series of cyberattacks on critical infrastructure",
+          "source": {
+            "name": "California Legislature",
+            "title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "published_date": "2024-09-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Such instructions may involve deploying malware to compromise critical infrastructure systems, which this leaf squarely covers."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/availability/network-disruption",
+        "name": "Network disruption",
+        "policy_fragment": "providing precise instructions for conducting a cyberattack or series of cyberattacks on critical infrastructure",
+        "policy": {
+          "clause": "Mass casualties or at least five hundred million dollars ($500,000,000) of damage resulting from cyberattacks on critical infrastructure by a model conducting, or providing precise instructions for conducting, a cyberattack or series of cyberattacks on critical infrastructure.",
+          "matched_segment": "providing precise instructions for conducting a cyberattack or series of cyberattacks on critical infrastructure",
+          "source": {
+            "name": "California Legislature",
+            "title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "published_date": "2024-09-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment explicitly concerns instructions for cyberattacks that disrupt critical infrastructure networks, matching this availability harm."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+        "name": "Persons (including murder)",
+        "policy_fragment": "mass casualties resulting from cyberattacks on critical infrastructure",
+        "policy": {
+          "clause": "Mass casualties or at least five hundred million dollars ($500,000,000) of damage resulting from cyberattacks on critical infrastructure by a model conducting, or providing precise instructions for conducting, a cyberattack or series of cyberattacks on critical infrastructure.",
+          "matched_segment": "mass casualties resulting from cyberattacks on critical infrastructure",
+          "source": {
+            "name": "California Legislature",
+            "title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "published_date": "2024-09-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Mass casualties are a direct persons-harm outcome, and cyberattacks on critical infrastructure are a mechanism that can cause that harm."
+      },
+      {
+        "node_id": "root/system-operational-risks/operational-misuses/autonomous-unsafe-operation-of-systems/life-support",
+        "name": "Life support",
+        "policy_fragment": "mass casualties resulting from cyberattacks on critical infrastructure",
+        "policy": {
+          "clause": "Mass casualties or at least five hundred million dollars ($500,000,000) of damage resulting from cyberattacks on critical infrastructure by a model conducting, or providing precise instructions for conducting, a cyberattack or series of cyberattacks on critical infrastructure.",
+          "matched_segment": "mass casualties resulting from cyberattacks on critical infrastructure",
+          "source": {
+            "name": "California Legislature",
+            "title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "published_date": "2024-09-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "If the cyberattack on critical infrastructure causes mass casualties through life-support disruption, this leaf squarely covers that harm."
+      },
+      {
+        "node_id": "root/system-operational-risks/operational-misuses/autonomous-unsafe-operation-of-systems/emergency-services",
+        "name": "Emergency services",
+        "policy_fragment": "mass casualties resulting from cyberattacks on critical infrastructure",
+        "policy": {
+          "clause": "Mass casualties or at least five hundred million dollars ($500,000,000) of damage resulting from cyberattacks on critical infrastructure by a model conducting, or providing precise instructions for conducting, a cyberattack or series of cyberattacks on critical infrastructure.",
+          "matched_segment": "mass casualties resulting from cyberattacks on critical infrastructure",
+          "source": {
+            "name": "California Legislature",
+            "title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "published_date": "2024-09-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Cyberattacks on infrastructure that impair emergency services and lead to casualties are directly covered here."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/property-damage",
+        "name": "Property damage",
+        "policy_fragment": "at least five hundred million dollars ($500,000,000) of damage resulting from cyberattacks on critical infrastructure",
+        "policy": {
+          "clause": "Mass casualties or at least five hundred million dollars ($500,000,000) of damage resulting from cyberattacks on critical infrastructure by a model conducting, or providing precise instructions for conducting, a cyberattack or series of cyberattacks on critical infrastructure.",
+          "matched_segment": "at least five hundred million dollars ($500,000,000) of damage resulting from cyberattacks on critical infrastructure",
+          "source": {
+            "name": "California Legislature",
+            "title": "Bill Text - SB-1047 Safe and Secure Innovation for Frontier Artificial Intelligence Models Act. SB1047:v88#DOCUMENT",
+            "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047",
+            "published_date": "2024-09-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment describes large-scale damage to infrastructure/property caused by cyberattacks, which is squarely property damage."
+      }
+    ],
+    "novel_categories": []
+  }
+}

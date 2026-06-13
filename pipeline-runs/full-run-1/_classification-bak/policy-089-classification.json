@@ -1,0 +1,72 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Prior to the development of guidance on red-team testing standards by NIST ... this description shall include the results of any red-team testing that the company has conducted relating to lowering the barrier to entry for the development, acquisition, and use of biological weapons by non-state actors; the discovery of software vulnerabilities and development of associated exploits; the use of software or tools to influence real or virtual events; the possibility for self-replication or propagation; and associated measures to meet safety objectives.",
+    "source_name": "Federal Register",
+    "legislature": "us",
+    "source_url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
+    "source_title": "Safe, Secure, and Trustworthy Development and Use of Artificial Intelligence",
+    "published_date": "2023-11-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/bioweapons-viruses-gain-of-function",
+        "name": "Bioweapons/Viruses/Gain-of-function",
+        "policy_fragment": "lowering the barrier to entry for the development, acquisition, and use of biological weapons by non-state actors",
+        "policy": {
+          "clause": "Prior to the development of guidance on red-team testing standards by NIST ... this description shall include the results of any red-team testing that the company has conducted relating to lowering the barrier to entry for the development, acquisition, and use of biological weapons by non-state actors; the discovery of software vulnerabilities and development of associated exploits; the use of software or tools to influence real or virtual events; the possibility for self-replication or propagation; and associated measures to meet safety objectives.",
+          "matched_segment": "lowering the barrier to entry for the development, acquisition, and use of biological weapons by non-state actors",
+          "source": {
+            "name": "Federal Register",
+            "title": "Safe, Secure, and Trustworthy Development and Use of Artificial Intelligence",
+            "url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
+            "published_date": "2023-11-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers bioweapons development/acquisition/use by non-state actors."
+      }
+    ],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "Software vulnerability discovery and exploit development",
+        "summary": "Requests to identify software vulnerabilities and create associated exploits for unauthorized compromise, privilege escalation, or exploitation of affected systems.",
+        "policy_fragment": "the discovery of software vulnerabilities and development of associated exploits",
+        "policy": {
+          "clause": "Prior to the development of guidance on red-team testing standards by NIST ... this description shall include the results of any red-team testing that the company has conducted relating to lowering the barrier to entry for the development, acquisition, and use of biological weapons by non-state actors; the discovery of software vulnerabilities and development of associated exploits; the use of software or tools to influence real or virtual events; the possibility for self-replication or propagation; and associated measures to meet safety objectives.",
+          "matched_segment": "the discovery of software vulnerabilities and development of associated exploits",
+          "source": {
+            "name": "Federal Register",
+            "title": "Safe, Secure, and Trustworthy Development and Use of Artificial Intelligence",
+            "url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
+            "published_date": "2023-11-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This is a concrete offensive security behavior focused on finding vulnerabilities and weaponizing them; no existing leaf squarely covers vulnerability discovery plus exploit creation as a combined harm."
+      },
+      {
+        "parent_node_id": "root/system-operational-risks/operational-misuses/autonomous-unsafe-operation-of-systems",
+        "parent_name": "Autonomous Unsafe Operation of Systems",
+        "proposed_name": "Influencing real or virtual events",
+        "summary": "Requests to use software or tools to manipulate, steer, or trigger real-world or simulated events, outcomes, or perceptions in a way that changes external behavior or circumstances.",
+        "policy_fragment": "the use of software or tools to influence real or virtual events",
+        "policy": {
+          "clause": "Prior to the development of guidance on red-team testing standards by NIST ... this description shall include the results of any red-team testing that the company has conducted relating to lowering the barrier to entry for the development, acquisition, and use of biological weapons by non-state actors; the discovery of software vulnerabilities and development of associated exploits; the use of software or tools to influence real or virtual events; the possibility for self-replication or propagation; and associated measures to meet safety objectives.",
+          "matched_segment": "the use of software or tools to influence real or virtual events",
+          "source": {
+            "name": "Federal Register",
+            "title": "Safe, Secure, and Trustworthy Development and Use of Artificial Intelligence",
+            "url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
+            "published_date": "2023-11-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This targets using software/tools to manipulate or steer external real-world or simulated events; no existing leaf squarely captures this event-influence behavior."
+      }
+    ]
+  }
+}

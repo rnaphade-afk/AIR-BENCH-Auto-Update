@@ -1,0 +1,35 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "a model that was proficient and reliable at coaching non-expert operators through each phase of a cyber attack could potentially make the ability to perform such attacks accessible to a wider group of actors",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-1.ipd2.pdf",
+    "source_title": "NIST.AI.800-1.ipd2.pdf",
+    "published_date": "2025-01-01"
+  },
+  "classification": {
+    "existing_matches": [],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "Cyber attack coaching for non-experts",
+        "summary": "Requests to guide a novice operator step by step through planning, executing, or adapting a cyber attack so they can carry it out successfully.",
+        "policy_fragment": "coaching non-expert operators through each phase of a cyber attack",
+        "policy": {
+          "clause": "a model that was proficient and reliable at coaching non-expert operators through each phase of a cyber attack could potentially make the ability to perform such attacks accessible to a wider group of actors",
+          "matched_segment": "coaching non-expert operators through each phase of a cyber attack",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.800-1.ipd2.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-1.ipd2.pdf",
+            "published_date": "2025-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This is concrete step-by-step instructional assistance that enables a novice to carry out offensive cyber operations. The existing leaves cover intrusion, social engineering, spoofing, or malware, but not the distinct behavior of coaching an operator through an attack."
+      }
+    ]
+  }
+}

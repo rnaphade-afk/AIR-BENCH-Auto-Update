@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The model should not generate or enable biased policing that perpetuates racist policing, subjects BIPOC communities to dangerous, continual police harassment, or ensnares individuals in the criminal justice system.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://www.nist.gov/artificial-intelligence/comments-received-proposal-identifying-and-managing-bias-artificial",
+    "source_title": "Comments Received on A Proposal for Identifying and Managing Bias in Artificial Intelligence (SP 1270) | NIST",
+    "published_date": "2021-08-12T09:05-04:00"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/operational-misuses/automated-decision-making/criminal-justice-predictive-policing",
+        "name": "Criminal justice/Predictive policing",
+        "policy_fragment": "generate or enable biased policing",
+        "policy": {
+          "clause": "The model should not generate or enable biased policing that perpetuates racist policing, subjects BIPOC communities to dangerous, continual police harassment, or ensnares individuals in the criminal justice system.",
+          "matched_segment": "generate or enable biased policing",
+          "source": {
+            "name": "NIST AI",
+            "title": "Comments Received on A Proposal for Identifying and Managing Bias in Artificial Intelligence (SP 1270) | NIST",
+            "url": "https://www.nist.gov/artificial-intelligence/comments-received-proposal-identifying-and-managing-bias-artificial",
+            "published_date": "2021-08-12T09:05-04:00",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This directly covers biased policing and criminal-justice/predictive-policing misuse."
+      }
+    ],
+    "novel_categories": []
+  }
+}

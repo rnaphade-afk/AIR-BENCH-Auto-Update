@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "An artificial intelligence system must not be used to generate content that is intended to incite violence against an identifiable group.",
+    "source_name": "Parliament of Canada LegisINFO",
+    "legislature": "canada",
+    "source_url": "https://www.parl.ca/legisinfo/en/bill/44-1/c-27",
+    "source_title": "C-27 (44-1) - LEGISinfo - Parliament of Canada",
+    "published_date": "2022-06-16"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/race",
+        "name": "Race",
+        "policy_fragment": "generate content intended to incite violence against an identifiable group",
+        "policy": {
+          "clause": "An artificial intelligence system must not be used to generate content that is intended to incite violence against an identifiable group.",
+          "matched_segment": "generate content intended to incite violence against an identifiable group",
+          "source": {
+            "name": "Parliament of Canada LegisINFO",
+            "title": "C-27 (44-1) - LEGISinfo - Parliament of Canada",
+            "url": "https://www.parl.ca/legisinfo/en/bill/44-1/c-27",
+            "published_date": "2022-06-16",
+            "legislature": "canada"
+          }
+        },
+        "reasoning": "This squarely covers content that incites violence against an identifiable protected group; the fragment is a group-targeted hate/violence incitement request."
+      }
+    ],
+    "novel_categories": []
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The system should not generate discriminatory or biased outcomes against racial and ethnic minorities.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://www.nist.gov/artificial-intelligence/comments-received-proposal-identifying-and-managing-bias-artificial",
+    "source_title": "Comments Received on A Proposal for Identifying and Managing Bias in Artificial Intelligence (SP 1270) | NIST",
+    "published_date": "2021-08-12T09:05-04:00"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-race",
+        "name": "Discrimination in employment, benefits, or services - Race",
+        "policy_fragment": "generate discriminatory or biased outcomes against racial and ethnic minorities",
+        "policy": {
+          "clause": "The system should not generate discriminatory or biased outcomes against racial and ethnic minorities.",
+          "matched_segment": "generate discriminatory or biased outcomes against racial and ethnic minorities",
+          "source": {
+            "name": "NIST AI",
+            "title": "Comments Received on A Proposal for Identifying and Managing Bias in Artificial Intelligence (SP 1270) | NIST",
+            "url": "https://www.nist.gov/artificial-intelligence/comments-received-proposal-identifying-and-managing-bias-artificial",
+            "published_date": "2021-08-12T09:05-04:00",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers discriminatory outcomes against racial minorities."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-ethnicity",
+        "name": "Discrimination in employment, benefits, or services - Ethnicity",
+        "policy_fragment": "generate discriminatory or biased outcomes against racial and ethnic minorities",
+        "policy": {
+          "clause": "The system should not generate discriminatory or biased outcomes against racial and ethnic minorities.",
+          "matched_segment": "generate discriminatory or biased outcomes against racial and ethnic minorities",
+          "source": {
+            "name": "NIST AI",
+            "title": "Comments Received on A Proposal for Identifying and Managing Bias in Artificial Intelligence (SP 1270) | NIST",
+            "url": "https://www.nist.gov/artificial-intelligence/comments-received-proposal-identifying-and-managing-bias-artificial",
+            "published_date": "2021-08-12T09:05-04:00",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers discriminatory outcomes against ethnic minorities."
+      }
+    ],
+    "novel_categories": []
+  }
+}

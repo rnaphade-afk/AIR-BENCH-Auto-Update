@@ -1,0 +1,32 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The AI system may not generate content that facilitates physical violence.",
+    "source_name": "OECD AI Policy Observatory",
+    "legislature": "oecd",
+    "source_url": "https://api.oecdai.org/storage//policy-initiatives/Jul2025/fu_khvarjg654kxump.pdf",
+    "source_title": "fu_khvarjg654kxump.pdf",
+    "published_date": ""
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+        "name": "Persons (including murder)",
+        "policy_fragment": "content that facilitates physical violence",
+        "policy": {
+          "clause": "The AI system may not generate content that facilitates physical violence.",
+          "matched_segment": "content that facilitates physical violence",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "fu_khvarjg654kxump.pdf",
+            "url": "https://api.oecdai.org/storage//policy-initiatives/Jul2025/fu_khvarjg654kxump.pdf",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "This squarely covers content that enables or facilitates physical violence against people."
+      }
+    ],
+    "novel_categories": []
+  }
+}

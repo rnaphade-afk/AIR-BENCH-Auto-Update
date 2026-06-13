@@ -1,0 +1,80 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The AI system may not generate content that facilitates cyber intrusion, malware, phishing, or other cyber vulnerabilities.",
+    "source_name": "OECD AI Policy Observatory",
+    "legislature": "oecd",
+    "source_url": "https://api.oecdai.org/storage//policy-initiatives/Jul2025/fu_khvarjg654kxump.pdf",
+    "source_title": "fu_khvarjg654kxump.pdf",
+    "published_date": ""
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+        "name": "Network intrusion",
+        "policy_fragment": "content that facilitates cyber intrusion",
+        "policy": {
+          "clause": "The AI system may not generate content that facilitates cyber intrusion, malware, phishing, or other cyber vulnerabilities.",
+          "matched_segment": "content that facilitates cyber intrusion",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "fu_khvarjg654kxump.pdf",
+            "url": "https://api.oecdai.org/storage//policy-initiatives/Jul2025/fu_khvarjg654kxump.pdf",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "Directly covers content that helps unauthorized intrusion into networks or systems."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+        "name": "Malware",
+        "policy_fragment": "content that facilitates malware",
+        "policy": {
+          "clause": "The AI system may not generate content that facilitates cyber intrusion, malware, phishing, or other cyber vulnerabilities.",
+          "matched_segment": "content that facilitates malware",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "fu_khvarjg654kxump.pdf",
+            "url": "https://api.oecdai.org/storage//policy-initiatives/Jul2025/fu_khvarjg654kxump.pdf",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "Explicitly covers content facilitating malware creation, deployment, or evasion."
+      },
+      {
+        "node_id": "root/societal-risks/deception/fraud/phishing-catfishing",
+        "name": "Phishing/Catfishing",
+        "policy_fragment": "content that facilitates phishing",
+        "policy": {
+          "clause": "The AI system may not generate content that facilitates cyber intrusion, malware, phishing, or other cyber vulnerabilities.",
+          "matched_segment": "content that facilitates phishing",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "fu_khvarjg654kxump.pdf",
+            "url": "https://api.oecdai.org/storage//policy-initiatives/Jul2025/fu_khvarjg654kxump.pdf",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "Phishing is explicitly covered by this fraud leaf."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/vulnerability-probing",
+        "name": "Vulnerability probing",
+        "policy_fragment": "content that facilitates other cyber vulnerabilities",
+        "policy": {
+          "clause": "The AI system may not generate content that facilitates cyber intrusion, malware, phishing, or other cyber vulnerabilities.",
+          "matched_segment": "content that facilitates other cyber vulnerabilities",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "fu_khvarjg654kxump.pdf",
+            "url": "https://api.oecdai.org/storage//policy-initiatives/Jul2025/fu_khvarjg654kxump.pdf",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "Covers content that analyzes or exploits software, firmware, protocol, or network vulnerabilities, which is the closest square match for facilitating cyber vulnerabilities."
+      }
+    ],
+    "novel_categories": []
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "It shall be unlawful for any person, in interstate or foreign commerce, to use an interactive computer service to knowingly publish a digital forgery of an identifiable individual who is not a minor if the digital forgery was published without the consent of the identifiable individual, what is depicted was not voluntarily exposed by the identifiable individual in a public or commercial setting, what is depicted is not a matter of public concern, and publication of the digital forgery is intended to cause harm or causes harm, including psychological, financial, or reputational harm, to the identifiable individual.",
+    "source_name": "Congress.gov",
+    "legislature": "us",
+    "source_url": "https://www.govinfo.gov/content/pkg/PLAW-119publ12/html/PLAW-119publ12.htm",
+    "source_title": "S 146 (119th Congress)",
+    "published_date": "2025-05-19"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/sexual-content/non-consensual-nudity/ncii-non-consensual-intimate-image",
+        "name": "NCII (Non-consensual Intimate Image)",
+        "policy_fragment": "use an interactive computer service to knowingly publish a digital forgery of an identifiable individual who is not a minor",
+        "policy": {
+          "clause": "It shall be unlawful for any person, in interstate or foreign commerce, to use an interactive computer service to knowingly publish a digital forgery of an identifiable individual who is not a minor if the digital forgery was published without the consent of the identifiable individual, what is depicted was not voluntarily exposed by the identifiable individual in a public or commercial setting, what is depicted is not a matter of public concern, and publication of the digital forgery is intended to cause harm or causes harm, including psychological, financial, or reputational harm, to the identifiable individual.",
+          "matched_segment": "use an interactive computer service to knowingly publish a digital forgery of an identifiable individual who is not a minor",
+          "source": {
+            "name": "Congress.gov",
+            "title": "S 146 (119th Congress)",
+            "url": "https://www.govinfo.gov/content/pkg/PLAW-119publ12/html/PLAW-119publ12.htm",
+            "published_date": "2025-05-19",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "If the digital forgery is an intimate or sexually explicit depiction, NCII squarely covers non-consensual synthetic intimate imagery of a real person."
+      },
+      {
+        "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+        "name": "Impersonating others",
+        "policy_fragment": "use an interactive computer service to knowingly publish a digital forgery of an identifiable individual who is not a minor",
+        "policy": {
+          "clause": "It shall be unlawful for any person, in interstate or foreign commerce, to use an interactive computer service to knowingly publish a digital forgery of an identifiable individual who is not a minor if the digital forgery was published without the consent of the identifiable individual, what is depicted was not voluntarily exposed by the identifiable individual in a public or commercial setting, what is depicted is not a matter of public concern, and publication of the digital forgery is intended to cause harm or causes harm, including psychological, financial, or reputational harm, to the identifiable individual.",
+          "matched_segment": "use an interactive computer service to knowingly publish a digital forgery of an identifiable individual who is not a minor",
+          "source": {
+            "name": "Congress.gov",
+            "title": "S 146 (119th Congress)",
+            "url": "https://www.govinfo.gov/content/pkg/PLAW-119publ12/html/PLAW-119publ12.htm",
+            "published_date": "2025-05-19",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Publishing a forged depiction of an identifiable person is a form of impersonation/deceptive identity misuse."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/portrait-rights",
+        "name": "Portrait rights",
+        "policy_fragment": "use an interactive computer service to knowingly publish a digital forgery of an identifiable individual who is not a minor",
+        "policy": {
+          "clause": "It shall be unlawful for any person, in interstate or foreign commerce, to use an interactive computer service to knowingly publish a digital forgery of an identifiable individual who is not a minor if the digital forgery was published without the consent of the identifiable individual, what is depicted was not voluntarily exposed by the identifiable individual in a public or commercial setting, what is depicted is not a matter of public concern, and publication of the digital forgery is intended to cause harm or causes harm, including psychological, financial, or reputational harm, to the identifiable individual.",
+          "matched_segment": "use an interactive computer service to knowingly publish a digital forgery of an identifiable individual who is not a minor",
+          "source": {
+            "name": "Congress.gov",
+            "title": "S 146 (119th Congress)",
+            "url": "https://www.govinfo.gov/content/pkg/PLAW-119publ12/html/PLAW-119publ12.htm",
+            "published_date": "2025-05-19",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This is unauthorized publication of a person's likeness/image without consent."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/reputation-rights",
+        "name": "Reputation rights",
+        "policy_fragment": "use an interactive computer service to knowingly publish a digital forgery of an identifiable individual who is not a minor",
+        "policy": {
+          "clause": "It shall be unlawful for any person, in interstate or foreign commerce, to use an interactive computer service to knowingly publish a digital forgery of an identifiable individual who is not a minor if the digital forgery was published without the consent of the identifiable individual, what is depicted was not voluntarily exposed by the identifiable individual in a public or commercial setting, what is depicted is not a matter of public concern, and publication of the digital forgery is intended to cause harm or causes harm, including psychological, financial, or reputational harm, to the identifiable individual.",
+          "matched_segment": "use an interactive computer service to knowingly publish a digital forgery of an identifiable individual who is not a minor",
+          "source": {
+            "name": "Congress.gov",
+            "title": "S 146 (119th Congress)",
+            "url": "https://www.govinfo.gov/content/pkg/PLAW-119publ12/html/PLAW-119publ12.htm",
+            "published_date": "2025-05-19",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The clause targets publication of a forged depiction of a real person that can cause reputational harm."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/honor-rights",
+        "name": "Honor rights",
+        "policy_fragment": "publish a digital forgery depicting what is not a matter of public concern",
+        "policy": {
+          "clause": "It shall be unlawful for any person, in interstate or foreign commerce, to use an interactive computer service to knowingly publish a digital forgery of an identifiable individual who is not a minor if the digital forgery was published without the consent of the identifiable individual, what is depicted was not voluntarily exposed by the identifiable individual in a public or commercial setting, what is depicted is not a matter of public concern, and publication of the digital forgery is intended to cause harm or causes harm, including psychological, financial, or reputational harm, to the identifiable individual.",
+          "matched_segment": "publish a digital forgery depicting what is not a matter of public concern",
+          "source": {
+            "name": "Congress.gov",
+            "title": "S 146 (119th Congress)",
+            "url": "https://www.govinfo.gov/content/pkg/PLAW-119publ12/html/PLAW-119publ12.htm",
+            "published_date": "2025-05-19",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "It also targets dignity/honor harms from publishing a forged depiction of a person outside public-interest context."
+      },
+      {
+        "node_id": "root/societal-risks/defamation/types-of-defamation/libel",
+        "name": "Libel",
+        "policy_fragment": "publish a digital forgery that causes reputational harm to the identifiable individual",
+        "policy": {
+          "clause": "It shall be unlawful for any person, in interstate or foreign commerce, to use an interactive computer service to knowingly publish a digital forgery of an identifiable individual who is not a minor if the digital forgery was published without the consent of the identifiable individual, what is depicted was not voluntarily exposed by the identifiable individual in a public or commercial setting, what is depicted is not a matter of public concern, and publication of the digital forgery is intended to cause harm or causes harm, including psychological, financial, or reputational harm, to the identifiable individual.",
+          "matched_segment": "publish a digital forgery that causes reputational harm to the identifiable individual",
+          "source": {
+            "name": "Congress.gov",
+            "title": "S 146 (119th Congress)",
+            "url": "https://www.govinfo.gov/content/pkg/PLAW-119publ12/html/PLAW-119publ12.htm",
+            "published_date": "2025-05-19",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Publishing a false digital forgery that harms a real person's reputation is libel-like publication harm."
+      }
+    ],
+    "novel_categories": []
+  }
+}

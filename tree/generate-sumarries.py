@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 import time
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -80,6 +81,16 @@ def select_evidence_prompts(prompts, limit=8):
                 break
     return selected[:limit]
 
+def _is_content_policy_error(exc):
+    """A provider content-safety refusal (HTTP 400 invalid_prompt) — e.g. a CBRN/biosecurity leaf
+    whose accumulated evidence trips the model provider's safety filter. Deterministic, so retrying
+    it is pointless and it must not abort the run."""
+    text = str(exc).lower()
+    return ("invalid_prompt" in text
+            or "limited access to this content" in text
+            or "we've limited access" in text)
+
+
 def generate_summary(prompt, temperature=0.1):
     last_exc = None
     for attempt in range(SUMMARY_MAX_RETRIES):
@@ -96,10 +107,26 @@ def generate_summary(prompt, temperature=0.1):
             return clean_summary(response.choices[0].message.content)
         except Exception as exc:
             last_exc = exc
-            if attempt == SUMMARY_MAX_RETRIES - 1:
+            # Content-policy refusals are deterministic; do not waste retries on them.
+            if _is_content_policy_error(exc) or attempt == SUMMARY_MAX_RETRIES - 1:
                 break
             time.sleep(SUMMARY_RETRY_BASE_DELAY * (2 ** attempt))
     raise last_exc
+
+
+def safe_generate_summary(prompt, node, temperature=0.1):
+    """Regenerate a node's summary without ever aborting the branch update. On a provider
+    content-policy refusal (common for CBRN/biosecurity leaves whose evidence the provider blocks)
+    or any other persistent error, retain the node's existing summary, falling back to a neutral
+    name-based definition only if the node has none."""
+    try:
+        return generate_summary(prompt, temperature=temperature)
+    except Exception as exc:
+        existing = (node.get('summary') or "").strip()
+        fallback = existing or f"Model assistance, content, or capability related to {node.get('name', 'this category')}."
+        reason = "content-policy refusal" if _is_content_policy_error(exc) else f"{type(exc).__name__}: {exc}"
+        print(f"[summary] retained existing summary for {node.get('node_id') or node.get('name')!r} ({reason})", file=sys.stderr)
+        return fallback
 
 def generate_leaf_summary(node):
     #case 1: leaf with policy evidence
@@ -131,7 +158,7 @@ Use matched policy fragments as the main regulatory signal, full clauses only to
 The sentence must identify the regulated model behavior, protected target or domain, and distinguishing boundary from adjacent risk categories.
 Do not restate the category name unless needed for clarity."""
 
-        node['summary'] = generate_summary(prompt, temperature=0.1)
+        node['summary'] = safe_generate_summary(prompt, node, temperature=0.1)
         return node['summary']
     #case 2: leaf without policy clauses
     else:
@@ -148,7 +175,7 @@ Infer the tested safety boundary from the evidence while ignoring prompt wrapper
 Write exactly one sentence, no more than 35 words, defining what model assistance should be classified into this leaf.
 The sentence must name the concrete unsafe capability or decision, target/domain, and distinguishing boundary from nearby categories."""
         
-        summary = generate_summary(prompt, temperature=0.1)
+        summary = safe_generate_summary(prompt, node, temperature=0.1)
         node['summary'] = summary
         return summary
 
@@ -174,7 +201,7 @@ Write exactly one sentence, no more than 45 words, defining the shared classific
 Use the child definitions as coverage constraints, but do not list every child.
 Include the main kinds of actions, targets, or rights implicated, and exclude unrelated safety domains."""
     
-    summary = generate_summary(prompt, temperature=0.1)
+    summary = safe_generate_summary(prompt, node, temperature=0.1)
     node['summary'] = summary
     return summary
 
@@ -197,7 +224,7 @@ Write exactly one sentence, no more than 45 words, updating the shared classific
 Use the child definitions as coverage constraints, but do not list every child.
 Include the main kinds of actions, targets, or rights implicated, and exclude unrelated safety domains."""
 
-    node['summary'] = generate_summary(prompt, temperature=0.1)
+    node['summary'] = safe_generate_summary(prompt, node, temperature=0.1)
     return node['summary']
 
 def branch_update(node, path):

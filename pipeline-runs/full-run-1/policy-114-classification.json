@@ -1,0 +1,96 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Implement content filters to prevent the generation of inappropriate, harmful, toxic, false, illegal, or violent content related to the GAI application, including for CSAM and NCII.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+    "source_title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+    "published_date": ""
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/deception/mis-disinformation/generating-or-promoting-misinformation",
+        "name": "Generating or promoting misinformation",
+        "policy_fragment": "generation of false content",
+        "policy": {
+          "clause": "Implement content filters to prevent the generation of inappropriate, harmful, toxic, false, illegal, or violent content related to the GAI application, including for CSAM and NCII.",
+          "matched_segment": "generation of false content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Generating false content is squarely covered by misinformation generation."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/criminal-activities/other-illegal-unlawful-criminal-activities/content-abetting-involving-furthering-activities-violating-any-applicable-law",
+        "name": "Content abetting/involving/furthering activities violating any applicable law",
+        "policy_fragment": "generation of illegal content",
+        "policy": {
+          "clause": "Implement content filters to prevent the generation of inappropriate, harmful, toxic, false, illegal, or violent content related to the GAI application, including for CSAM and NCII.",
+          "matched_segment": "generation of illegal content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "A ban on generating illegal content fits content that furthers activities violating applicable law."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+        "name": "Persons (including murder)",
+        "policy_fragment": "generation of violent content",
+        "policy": {
+          "clause": "Implement content filters to prevent the generation of inappropriate, harmful, toxic, false, illegal, or violent content related to the GAI application, including for CSAM and NCII.",
+          "matched_segment": "generation of violent content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Violent content generation is directly covered by violent acts against persons, including murder."
+      },
+      {
+        "node_id": "root/content-safety-risks/child-harm/child-sexual-abuse/csam",
+        "name": "CSAM",
+        "policy_fragment": "generation of CSAM",
+        "policy": {
+          "clause": "Implement content filters to prevent the generation of inappropriate, harmful, toxic, false, illegal, or violent content related to the GAI application, including for CSAM and NCII.",
+          "matched_segment": "generation of CSAM",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "CSAM generation is explicitly covered by the CSAM leaf."
+      },
+      {
+        "node_id": "root/content-safety-risks/sexual-content/non-consensual-nudity/ncii-non-consensual-intimate-image",
+        "name": "NCII (Non-consensual Intimate Image)",
+        "policy_fragment": "generation of NCII",
+        "policy": {
+          "clause": "Implement content filters to prevent the generation of inappropriate, harmful, toxic, false, illegal, or violent content related to the GAI application, including for CSAM and NCII.",
+          "matched_segment": "generation of NCII",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "NCII generation is explicitly covered by the NCII leaf."
+      }
+    ],
+    "novel_categories": []
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "AI systems must not produce outputs that enable self-harm.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+    "source_title": "NIST.AI.100-1.ara.pdf",
+    "published_date": "2023-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+        "name": "Suicide",
+        "policy_fragment": "produce outputs that enable self-harm",
+        "policy": {
+          "clause": "AI systems must not produce outputs that enable self-harm.",
+          "matched_segment": "produce outputs that enable self-harm",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This squarely covers outputs that facilitate suicide/self-harm by providing actionable assistance enabling the user to harm themselves."
+      },
+      {
+        "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/cutting",
+        "name": "Cutting",
+        "policy_fragment": "produce outputs that enable self-harm",
+        "policy": {
+          "clause": "AI systems must not produce outputs that enable self-harm.",
+          "matched_segment": "produce outputs that enable self-harm",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This covers outputs that facilitate non-suicidal self-injury such as cutting, which is a concrete form of self-harm."
+      },
+      {
+        "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/eating-disorders-anorexia-bulimia",
+        "name": "Eating Disorders (anorexia/ bulimia)",
+        "policy_fragment": "produce outputs that enable self-harm",
+        "policy": {
+          "clause": "AI systems must not produce outputs that enable self-harm.",
+          "matched_segment": "produce outputs that enable self-harm",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This covers outputs that facilitate self-harm via eating-disorder behaviors, which are explicitly included in the self-harm branch."
+      }
+    ],
+    "novel_categories": []
+  }
+}

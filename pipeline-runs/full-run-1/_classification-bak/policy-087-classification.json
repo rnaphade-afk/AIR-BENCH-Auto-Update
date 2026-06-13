@@ -1,0 +1,89 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Enhancing or otherwise affecting malign cyber actors' capabilities, such as by aiding vulnerability discovery, exploitation, or operational use.",
+    "source_name": "Federal Register",
+    "legislature": "us",
+    "source_url": "https://www.federalregister.gov/documents/2023/12/21/2023-28232/request-for-information-rfi-related-to-nists-assignments-under-sections-41-45-and-11-of-the",
+    "source_title": "Request for Information (RFI) Related to NIST's Assignments Under Sections 4.1, 4.5 and 11 of the Executive Order Concerning Artificial Intelligence (Sections 4.1, 4.5, and 11)",
+    "published_date": "2023-12-21"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+        "name": "Malware",
+        "policy_fragment": "enhancing malign cyber actors' capabilities",
+        "policy": {
+          "clause": "Enhancing or otherwise affecting malign cyber actors' capabilities, such as by aiding vulnerability discovery, exploitation, or operational use.",
+          "matched_segment": "enhancing malign cyber actors' capabilities",
+          "source": {
+            "name": "Federal Register",
+            "title": "Request for Information (RFI) Related to NIST's Assignments Under Sections 4.1, 4.5 and 11 of the Executive Order Concerning Artificial Intelligence (Sections 4.1, 4.5, and 11)",
+            "url": "https://www.federalregister.gov/documents/2023/12/21/2023-28232/request-for-information-rfi-related-to-nists-assignments-under-sections-41-45-and-11-of-the",
+            "published_date": "2023-12-21",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This is a concrete cyber-abuse capability enhancement tied to malicious actors; the catalog's malware leaf is the closest squarely relevant cyber-offense leaf available."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/vulnerability-probing",
+        "name": "Vulnerability probing",
+        "policy_fragment": "aiding vulnerability discovery",
+        "policy": {
+          "clause": "Enhancing or otherwise affecting malign cyber actors' capabilities, such as by aiding vulnerability discovery, exploitation, or operational use.",
+          "matched_segment": "aiding vulnerability discovery",
+          "source": {
+            "name": "Federal Register",
+            "title": "Request for Information (RFI) Related to NIST's Assignments Under Sections 4.1, 4.5 and 11 of the Executive Order Concerning Artificial Intelligence (Sections 4.1, 4.5, and 11)",
+            "url": "https://www.federalregister.gov/documents/2023/12/21/2023-28232/request-for-information-rfi-related-to-nists-assignments-under-sections-41-45-and-11-of-the",
+            "published_date": "2023-12-21",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This directly covers discovering vulnerabilities in a target system, which is the concrete unsafe behavior named here."
+      }
+    ],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "Exploit assistance",
+        "summary": "Requests to help identify, weaponize, or execute a vulnerability exploit against a target system, including exploit chaining, payload construction, or exploitation steps that do not primarily involve malware creation or filter bypass.",
+        "policy_fragment": "aiding exploitation",
+        "policy": {
+          "clause": "Enhancing or otherwise affecting malign cyber actors' capabilities, such as by aiding vulnerability discovery, exploitation, or operational use.",
+          "matched_segment": "aiding exploitation",
+          "source": {
+            "name": "Federal Register",
+            "title": "Request for Information (RFI) Related to NIST's Assignments Under Sections 4.1, 4.5 and 11 of the Executive Order Concerning Artificial Intelligence (Sections 4.1, 4.5, and 11)",
+            "url": "https://www.federalregister.gov/documents/2023/12/21/2023-28232/request-for-information-rfi-related-to-nists-assignments-under-sections-41-45-and-11-of-the",
+            "published_date": "2023-12-21",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment specifically targets helping carry out exploitation steps. No existing leaf in the catalog squarely captures exploit-weaponization or exploitation assistance as such without stretching malware or intrusion leaves."
+      },
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "Operational use assistance for cyber abuse",
+        "summary": "Requests to help malign cyber actors carry out the operational use of tools, infrastructure, or procedures for unauthorized attacks, including deployment, execution, coordination, or post-exploitation use.",
+        "policy_fragment": "aiding operational use",
+        "policy": {
+          "clause": "Enhancing or otherwise affecting malign cyber actors' capabilities, such as by aiding vulnerability discovery, exploitation, or operational use.",
+          "matched_segment": "aiding operational use",
+          "source": {
+            "name": "Federal Register",
+            "title": "Request for Information (RFI) Related to NIST's Assignments Under Sections 4.1, 4.5 and 11 of the Executive Order Concerning Artificial Intelligence (Sections 4.1, 4.5, and 11)",
+            "url": "https://www.federalregister.gov/documents/2023/12/21/2023-28232/request-for-information-rfi-related-to-nists-assignments-under-sections-41-45-and-11-of-the",
+            "published_date": "2023-12-21",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment specifically names helping malign actors operationalize cyber capabilities. No existing leaf squarely covers operational deployment/use support for cyber abuse."
+      }
+    ]
+  }
+}

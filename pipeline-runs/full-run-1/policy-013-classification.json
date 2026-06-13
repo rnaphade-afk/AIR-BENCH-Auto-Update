@@ -1,0 +1,67 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The service shall not generate content that promotes violence, obscenity, or pornography.",
+    "source_name": "CAC China",
+    "legislature": "china",
+    "source_url": "https://www.cac.gov.cn/cms/pub/interact/downloadfile.jsp?filepath=NUtqEIwGiCjGm2Bhl20cvCnMpu55tdMNqr3ITiKrl4lvz0vHSSJ6sATU6DtmcGo1DMDlVi4eDu3YppkngQSWT1AfqphfFn00jUfFRLdBE5I=&fText=%E7%94%9F%E6%88%90%E5%BC%8F%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%B7%B2%E5%A4%87%E6%A1%88%E5%92%8C%E5%B7%B2%E7%99%BB%E8%AE%B0%E4%BF%A1%E6%81%AF%EF%BC%882024%E5%B9%B411%E6%9C%88%EF%BC%89",
+    "source_title": "%PDF-1.7",
+    "published_date": "2024-11-00"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/celebrating-suffering/glorifying-violence-abuse-or-the-suffering-of-others",
+        "name": "Glorifying violence, abuse, or the suffering of others",
+        "policy_fragment": "content that promotes violence",
+        "policy": {
+          "clause": "The service shall not generate content that promotes violence, obscenity, or pornography.",
+          "matched_segment": "content that promotes violence",
+          "source": {
+            "name": "CAC China",
+            "title": "%PDF-1.7",
+            "url": "https://www.cac.gov.cn/cms/pub/interact/downloadfile.jsp?filepath=NUtqEIwGiCjGm2Bhl20cvCnMpu55tdMNqr3ITiKrl4lvz0vHSSJ6sATU6DtmcGo1DMDlVi4eDu3YppkngQSWT1AfqphfFn00jUfFRLdBE5I=&fText=%E7%94%9F%E6%88%90%E5%BC%8F%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%B7%B2%E5%A4%87%E6%A1%88%E5%92%8C%E5%B7%B2%E7%99%BB%E8%AE%B0%E4%BF%A1%E6%81%AF%EF%BC%882024%E5%B9%B411%E6%9C%88%EF%BC%89",
+            "published_date": "2024-11-00",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "This squarely covers content that promotes or glorifies violence."
+      },
+      {
+        "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+        "name": "Obscene",
+        "policy_fragment": "content that promotes obscenity",
+        "policy": {
+          "clause": "The service shall not generate content that promotes violence, obscenity, or pornography.",
+          "matched_segment": "content that promotes obscenity",
+          "source": {
+            "name": "CAC China",
+            "title": "%PDF-1.7",
+            "url": "https://www.cac.gov.cn/cms/pub/interact/downloadfile.jsp?filepath=NUtqEIwGiCjGm2Bhl20cvCnMpu55tdMNqr3ITiKrl4lvz0vHSSJ6sATU6DtmcGo1DMDlVi4eDu3YppkngQSWT1AfqphfFn00jUfFRLdBE5I=&fText=%E7%94%9F%E6%88%90%E5%BC%8F%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%B7%B2%E5%A4%87%E6%A1%88%E5%92%8C%E5%B7%B2%E7%99%BB%E8%AE%B0%E4%BF%A1%E6%81%AF%EF%BC%882024%E5%B9%B411%E6%9C%88%EF%BC%89",
+            "published_date": "2024-11-00",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "This leaf directly covers obscene content."
+      },
+      {
+        "node_id": "root/content-safety-risks/sexual-content/monetized/pornography",
+        "name": "Pornography",
+        "policy_fragment": "content that promotes pornography",
+        "policy": {
+          "clause": "The service shall not generate content that promotes violence, obscenity, or pornography.",
+          "matched_segment": "content that promotes pornography",
+          "source": {
+            "name": "CAC China",
+            "title": "%PDF-1.7",
+            "url": "https://www.cac.gov.cn/cms/pub/interact/downloadfile.jsp?filepath=NUtqEIwGiCjGm2Bhl20cvCnMpu55tdMNqr3ITiKrl4lvz0vHSSJ6sATU6DtmcGo1DMDlVi4eDu3YppkngQSWT1AfqphfFn00jUfFRLdBE5I=&fText=%E7%94%9F%E6%88%90%E5%BC%8F%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%B7%B2%E5%A4%87%E6%A1%88%E5%92%8C%E5%B7%B2%E7%99%BB%E8%AE%B0%E4%BF%A1%E6%81%AF%EF%BC%882024%E5%B9%B411%E6%9C%88%EF%BC%89",
+            "published_date": "2024-11-00",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "This leaf directly covers pornography."
+      }
+    ],
+    "novel_categories": []
+  }
+}

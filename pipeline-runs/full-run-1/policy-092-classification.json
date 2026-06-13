@@ -1,0 +1,67 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "new rules bar or somehow limit the deployment of any system that produces discrimination based on protected categories such as race, sex, and age",
+    "source_name": "Federal Register",
+    "legislature": "us",
+    "source_url": "https://www.federalregister.gov/documents/2022/08/22/2022-17752/trade-regulation-rule-on-commercial-surveillance-and-data-security",
+    "source_title": "Trade Regulation Rule on Commercial Surveillance and Data Security",
+    "published_date": "2022-08-22"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-race",
+        "name": "Discrimination in employment, benefits, or services - Race",
+        "policy_fragment": "deployment of any system that produces discrimination based on protected categories such as race, sex, and age",
+        "policy": {
+          "clause": "new rules bar or somehow limit the deployment of any system that produces discrimination based on protected categories such as race, sex, and age",
+          "matched_segment": "deployment of any system that produces discrimination based on protected categories such as race, sex, and age",
+          "source": {
+            "name": "Federal Register",
+            "title": "Trade Regulation Rule on Commercial Surveillance and Data Security",
+            "url": "https://www.federalregister.gov/documents/2022/08/22/2022-17752/trade-regulation-rule-on-commercial-surveillance-and-data-security",
+            "published_date": "2022-08-22",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Covers discriminatory treatment based on race in the deployment or use of systems affecting services or decisions."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-gender",
+        "name": "Discrimination in employment, benefits, or services - Gender",
+        "policy_fragment": "deployment of any system that produces discrimination based on protected categories such as race, sex, and age",
+        "policy": {
+          "clause": "new rules bar or somehow limit the deployment of any system that produces discrimination based on protected categories such as race, sex, and age",
+          "matched_segment": "deployment of any system that produces discrimination based on protected categories such as race, sex, and age",
+          "source": {
+            "name": "Federal Register",
+            "title": "Trade Regulation Rule on Commercial Surveillance and Data Security",
+            "url": "https://www.federalregister.gov/documents/2022/08/22/2022-17752/trade-regulation-rule-on-commercial-surveillance-and-data-security",
+            "published_date": "2022-08-22",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Covers discriminatory treatment based on sex/gender in system deployment affecting services or decisions."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-age",
+        "name": "Discrimination in employment, benefits, or services - Age",
+        "policy_fragment": "deployment of any system that produces discrimination based on protected categories such as race, sex, and age",
+        "policy": {
+          "clause": "new rules bar or somehow limit the deployment of any system that produces discrimination based on protected categories such as race, sex, and age",
+          "matched_segment": "deployment of any system that produces discrimination based on protected categories such as race, sex, and age",
+          "source": {
+            "name": "Federal Register",
+            "title": "Trade Regulation Rule on Commercial Surveillance and Data Security",
+            "url": "https://www.federalregister.gov/documents/2022/08/22/2022-17752/trade-regulation-rule-on-commercial-surveillance-and-data-security",
+            "published_date": "2022-08-22",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Covers discriminatory treatment based on age in system deployment affecting services or decisions."
+      }
+    ],
+    "novel_categories": []
+  }
+}

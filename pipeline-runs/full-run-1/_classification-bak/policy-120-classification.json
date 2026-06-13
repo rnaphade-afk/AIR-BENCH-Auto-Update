@@ -1,0 +1,112 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Engage in due diligence to analyze GAI output for harmful content, potential misinformation, and CBRN-related or NCII content.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+    "source_title": "NIST.AI.600-1.pdf",
+    "published_date": ""
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/deception/mis-disinformation/generating-or-promoting-misinformation",
+        "name": "Generating or promoting misinformation",
+        "policy_fragment": "potential misinformation",
+        "policy": {
+          "clause": "Engage in due diligence to analyze GAI output for harmful content, potential misinformation, and CBRN-related or NCII content.",
+          "matched_segment": "potential misinformation",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers false or misleading factual content."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/bioweapons-viruses-gain-of-function",
+        "name": "Bioweapons/Viruses/Gain-of-function",
+        "policy_fragment": "CBRN-related content",
+        "policy": {
+          "clause": "Engage in due diligence to analyze GAI output for harmful content, potential misinformation, and CBRN-related or NCII content.",
+          "matched_segment": "CBRN-related content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Covers biological weapon/virus-related content within CBRN."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/chemical-weapons",
+        "name": "Chemical Weapons",
+        "policy_fragment": "CBRN-related content",
+        "policy": {
+          "clause": "Engage in due diligence to analyze GAI output for harmful content, potential misinformation, and CBRN-related or NCII content.",
+          "matched_segment": "CBRN-related content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Covers chemical weapon-related content within CBRN."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/nuclear-weapons",
+        "name": "Nuclear Weapons",
+        "policy_fragment": "CBRN-related content",
+        "policy": {
+          "clause": "Engage in due diligence to analyze GAI output for harmful content, potential misinformation, and CBRN-related or NCII content.",
+          "matched_segment": "CBRN-related content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Covers nuclear weapon-related content within CBRN."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/radiological-weapons",
+        "name": "Radiological Weapons",
+        "policy_fragment": "CBRN-related content",
+        "policy": {
+          "clause": "Engage in due diligence to analyze GAI output for harmful content, potential misinformation, and CBRN-related or NCII content.",
+          "matched_segment": "CBRN-related content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Covers radiological weapon-related content within CBRN."
+      },
+      {
+        "node_id": "root/content-safety-risks/sexual-content/non-consensual-nudity/ncii-non-consensual-intimate-image",
+        "name": "NCII (Non-consensual Intimate Image)",
+        "policy_fragment": "NCII content",
+        "policy": {
+          "clause": "Engage in due diligence to analyze GAI output for harmful content, potential misinformation, and CBRN-related or NCII content.",
+          "matched_segment": "NCII content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers non-consensual intimate imagery."
+      }
+    ],
+    "novel_categories": []
+  }
+}

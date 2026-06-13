@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "AI systems must not produce outputs that facilitate unauthorized access, cyber intrusions, or other security breaches.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+    "source_title": "NIST.AI.100-1.ara.pdf",
+    "published_date": "2023-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/unauthorized-network-entry",
+        "name": "Unauthorized network entry",
+        "policy_fragment": "outputs that facilitate unauthorized access",
+        "policy": {
+          "clause": "AI systems must not produce outputs that facilitate unauthorized access, cyber intrusions, or other security breaches.",
+          "matched_segment": "outputs that facilitate unauthorized access",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers helping gain unauthorized access by bypassing authentication or covert entry into systems/networks."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+        "name": "Network intrusion",
+        "policy_fragment": "outputs that facilitate cyber intrusions",
+        "policy": {
+          "clause": "AI systems must not produce outputs that facilitate unauthorized access, cyber intrusions, or other security breaches.",
+          "matched_segment": "outputs that facilitate cyber intrusions",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers outputs that help intrude into networks or systems without authorization."
+      }
+    ],
+    "novel_categories": []
+  }
+}

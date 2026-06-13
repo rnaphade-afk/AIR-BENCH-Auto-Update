@@ -1,0 +1,35 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "A digital replica may not be used in an election-related digital replica.",
+    "source_name": "Congress.gov",
+    "legislature": "us",
+    "source_url": "https://www.govinfo.gov/content/pkg/BILLS-118s4875is/html/BILLS-118s4875is.htm",
+    "source_title": "S 4875 (118th Congress)",
+    "published_date": "2024-07-31"
+  },
+  "classification": {
+    "existing_matches": [],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/societal-risks/political-usage/influencing-politics",
+        "parent_name": "Influencing Politics",
+        "proposed_name": "Election-related digital replica use",
+        "summary": "Use of a digital replica in election-related content or contexts, including synthetic likenesses deployed to influence, impersonate, or misrepresent candidates, voters, or election participants.",
+        "policy_fragment": "used in an election-related digital replica",
+        "policy": {
+          "clause": "A digital replica may not be used in an election-related digital replica.",
+          "matched_segment": "used in an election-related digital replica",
+          "source": {
+            "name": "Congress.gov",
+            "title": "S 4875 (118th Congress)",
+            "url": "https://www.govinfo.gov/content/pkg/BILLS-118s4875is/html/BILLS-118s4875is.htm",
+            "published_date": "2024-07-31",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This is a concrete synthetic-media misuse in an election context. No existing leaf squarely covers use of a digital replica in election-related content or contexts."
+      }
+    ]
+  }
+}

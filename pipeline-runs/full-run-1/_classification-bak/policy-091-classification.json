@@ -1,0 +1,101 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "testing and safeguards against discriminatory, misleading, inflammatory, unsafe, or deceptive outputs, as well as against producing child sexual abuse material and against producing non-consensual intimate imagery of real individuals (including intimate digital depictions of the body or body parts of an identifiable individual), for generative AI",
+    "source_name": "Federal Register",
+    "legislature": "us",
+    "source_url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
+    "source_title": "Safe, Secure, and Trustworthy Development and Use of Artificial Intelligence",
+    "published_date": "2023-11-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/perpetuating-harmful-beliefs/negative-stereotyping-of-any-group",
+        "name": "Negative stereotyping of any group",
+        "policy_fragment": "discriminatory outputs",
+        "policy": {
+          "clause": "testing and safeguards against discriminatory, misleading, inflammatory, unsafe, or deceptive outputs, as well as against producing child sexual abuse material and against producing non-consensual intimate imagery of real individuals (including intimate digital depictions of the body or body parts of an identifiable individual), for generative AI",
+          "matched_segment": "discriminatory outputs",
+          "source": {
+            "name": "Federal Register",
+            "title": "Safe, Secure, and Trustworthy Development and Use of Artificial Intelligence",
+            "url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
+            "published_date": "2023-11-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This directly covers discriminatory content that stereotypes or demeans groups in generated outputs."
+      },
+      {
+        "node_id": "root/societal-risks/deception/mis-disinformation/generating-or-promoting-misinformation",
+        "name": "Generating or promoting misinformation",
+        "policy_fragment": "misleading outputs",
+        "policy": {
+          "clause": "testing and safeguards against discriminatory, misleading, inflammatory, unsafe, or deceptive outputs, as well as against producing child sexual abuse material and against producing non-consensual intimate imagery of real individuals (including intimate digital depictions of the body or body parts of an identifiable individual), for generative AI",
+          "matched_segment": "misleading outputs",
+          "source": {
+            "name": "Federal Register",
+            "title": "Safe, Secure, and Trustworthy Development and Use of Artificial Intelligence",
+            "url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
+            "published_date": "2023-11-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Generating misleading outputs is a direct match for misinformation/misleading factual content."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/harassment/provoking",
+        "name": "Provoking",
+        "policy_fragment": "inflammatory outputs",
+        "policy": {
+          "clause": "testing and safeguards against discriminatory, misleading, inflammatory, unsafe, or deceptive outputs, as well as against producing child sexual abuse material and against producing non-consensual intimate imagery of real individuals (including intimate digital depictions of the body or body parts of an identifiable individual), for generative AI",
+          "matched_segment": "inflammatory outputs",
+          "source": {
+            "name": "Federal Register",
+            "title": "Safe, Secure, and Trustworthy Development and Use of Artificial Intelligence",
+            "url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
+            "published_date": "2023-11-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Inflammatory outputs are provocative/incendiary content intended to inflame or provoke conflict."
+      },
+      {
+        "node_id": "root/content-safety-risks/child-harm/child-sexual-abuse/csam",
+        "name": "CSAM",
+        "policy_fragment": "producing child sexual abuse material",
+        "policy": {
+          "clause": "testing and safeguards against discriminatory, misleading, inflammatory, unsafe, or deceptive outputs, as well as against producing child sexual abuse material and against producing non-consensual intimate imagery of real individuals (including intimate digital depictions of the body or body parts of an identifiable individual), for generative AI",
+          "matched_segment": "producing child sexual abuse material",
+          "source": {
+            "name": "Federal Register",
+            "title": "Safe, Secure, and Trustworthy Development and Use of Artificial Intelligence",
+            "url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
+            "published_date": "2023-11-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This explicitly names CSAM production."
+      },
+      {
+        "node_id": "root/content-safety-risks/sexual-content/non-consensual-nudity/ncii-non-consensual-intimate-image",
+        "name": "NCII (Non-consensual Intimate Image)",
+        "policy_fragment": "producing non-consensual intimate imagery of real individuals (including intimate digital depictions of the body or body parts of an identifiable individual)",
+        "policy": {
+          "clause": "testing and safeguards against discriminatory, misleading, inflammatory, unsafe, or deceptive outputs, as well as against producing child sexual abuse material and against producing non-consensual intimate imagery of real individuals (including intimate digital depictions of the body or body parts of an identifiable individual), for generative AI",
+          "matched_segment": "producing non-consensual intimate imagery of real individuals (including intimate digital depictions of the body or body parts of an identifiable individual)",
+          "source": {
+            "name": "Federal Register",
+            "title": "Safe, Secure, and Trustworthy Development and Use of Artificial Intelligence",
+            "url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
+            "published_date": "2023-11-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This directly covers creating non-consensual intimate imagery of real identifiable people, including synthetic or edited intimate depictions."
+      }
+    ],
+    "novel_categories": []
+  }
+}

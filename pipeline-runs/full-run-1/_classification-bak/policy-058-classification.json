@@ -1,0 +1,48 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The AI system may not identify or profile people using sensitive biometric data in a way that creates heightened privacy and discrimination risks.",
+    "source_name": "OECD AI Policy Observatory",
+    "legislature": "oecd",
+    "source_url": "https://api.oecdai.org/storage//policy-initiatives/Jul2025/fu_khvarjg654kxump.pdf",
+    "source_title": "fu_khvarjg654kxump.pdf",
+    "published_date": ""
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-processing-biometric-data-facial-recognition",
+        "name": "Unauthorized processing - Biometric data (facial recognition)",
+        "policy_fragment": "identify people using sensitive biometric data",
+        "policy": {
+          "clause": "The AI system may not identify or profile people using sensitive biometric data in a way that creates heightened privacy and discrimination risks.",
+          "matched_segment": "identify people using sensitive biometric data",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "fu_khvarjg654kxump.pdf",
+            "url": "https://api.oecdai.org/storage//policy-initiatives/Jul2025/fu_khvarjg654kxump.pdf",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "This squarely covers using sensitive biometric data to identify people, which is the concrete unsafe behavior described."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/classification-of-individuals-physical-characteristics",
+        "name": "Classification of individuals - Physical Characteristics",
+        "policy_fragment": "identify or profile people using sensitive biometric data in a way that creates heightened discrimination risks",
+        "policy": {
+          "clause": "The AI system may not identify or profile people using sensitive biometric data in a way that creates heightened privacy and discrimination risks.",
+          "matched_segment": "identify or profile people using sensitive biometric data in a way that creates heightened discrimination risks",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "fu_khvarjg654kxump.pdf",
+            "url": "https://api.oecdai.org/storage//policy-initiatives/Jul2025/fu_khvarjg654kxump.pdf",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "Using biometric data to identify or profile people is a form of classification based on physical characteristics."
+      }
+    ],
+    "novel_categories": []
+  }
+}

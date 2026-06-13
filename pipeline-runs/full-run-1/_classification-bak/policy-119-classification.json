@@ -1,0 +1,291 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+    "source_title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+    "published_date": ""
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/manipulation/sowing-division/contents-aim-to-turn-a-community-against-itself",
+        "name": "Contents aim to turn a community against itself.",
+        "policy_fragment": "facilitating manipulation",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "facilitating manipulation",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This directly covers manipulative content intended to influence people against each other or a community."
+      },
+      {
+        "node_id": "root/societal-risks/manipulation/misrepresentation/impersonating-humans",
+        "name": "Impersonating humans",
+        "policy_fragment": "facilitating manipulation",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "facilitating manipulation",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "If the manipulation is achieved by posing as a human to deceive targets, this leaf squarely covers that mechanism."
+      },
+      {
+        "node_id": "root/societal-risks/deception/mis-disinformation/generating-or-promoting-misinformation",
+        "name": "Generating or promoting misinformation",
+        "policy_fragment": "facilitating manipulation",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "facilitating manipulation",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Manipulation via false or misleading content is covered by misinformation generation/promotion."
+      },
+      {
+        "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+        "name": "Impersonating others",
+        "policy_fragment": "targeted impersonation",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "targeted impersonation",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This leaf squarely covers impersonating another person to mislead or deceive a target."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+        "name": "Network intrusion",
+        "policy_fragment": "cyber-attacks",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "cyber-attacks",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Unauthorized intrusion is a core cyber-attack behavior."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/unauthorized-network-entry",
+        "name": "Unauthorized network entry",
+        "policy_fragment": "cyber-attacks",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "cyber-attacks",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Breaking into systems or networks is a direct cyber-attack form."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/vulnerability-probing",
+        "name": "Vulnerability probing",
+        "policy_fragment": "cyber-attacks",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "cyber-attacks",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Attack-oriented probing and exploitation of weaknesses is squarely covered here."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/availability/system-website-impairment",
+        "name": "System/Website impairment",
+        "policy_fragment": "cyber-attacks",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "cyber-attacks",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Cyber-attacks that disrupt or take down services are covered by this leaf."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/availability/network-disruption",
+        "name": "Network disruption",
+        "policy_fragment": "cyber-attacks",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "cyber-attacks",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Network-level disruption attacks are directly covered."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+        "name": "Malware",
+        "policy_fragment": "cyber-attacks",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "cyber-attacks",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Malware-based attacks are a standard cyber-attack mechanism."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/guns",
+        "name": "Guns",
+        "policy_fragment": "weapons creation",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "weapons creation",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Weapon creation involving firearms is directly covered."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/explosives-dangerous-materials",
+        "name": "Explosives/Dangerous Materials",
+        "policy_fragment": "weapons creation",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "weapons creation",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Creation of explosive or dangerous weapons/materials is squarely covered."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/bioweapons-viruses-gain-of-function",
+        "name": "Bioweapons/Viruses/Gain-of-function",
+        "policy_fragment": "weapons creation",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "weapons creation",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Creation of biological weapons is directly covered."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/nuclear-weapons",
+        "name": "Nuclear Weapons",
+        "policy_fragment": "weapons creation",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "weapons creation",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Nuclear weapon creation is explicitly covered."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/chemical-weapons",
+        "name": "Chemical Weapons",
+        "policy_fragment": "weapons creation",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "weapons creation",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Chemical weapon creation is explicitly covered."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/radiological-weapons",
+        "name": "Radiological Weapons",
+        "policy_fragment": "weapons creation",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "weapons creation",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Radiological weapon creation is explicitly covered."
+      }
+    ],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/legal-rights-related-risks/criminal-activities/other-illegal-unlawful-criminal-activities",
+        "parent_name": "Other Illegal/Unlawful/Criminal Activities",
+        "proposed_name": "Extortion facilitation",
+        "summary": "Requests to plan, draft, or optimize threats, coercion, or leverage used to extract money, property, services, or concessions from a victim through extortion or blackmail.",
+        "policy_fragment": "extortion",
+        "policy": {
+          "clause": "Verify that systems properly handle queries that may give rise to inappropriate, malicious, or illegal usage, including facilitating manipulation, extortion, targeted impersonation, cyber-attacks, and weapons creation.",
+          "matched_segment": "extortion",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment names extortion directly, and the catalog lacks a leaf specifically for coercive threats/blackmail to extract money, property, services, or concessions."
+      }
+    ]
+  }
+}

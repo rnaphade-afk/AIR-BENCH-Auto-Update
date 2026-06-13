@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The prohibition on impersonation of individuals covers calling, messaging, or otherwise contacting a person or entity while posing as an individual or affiliate thereof, including by identifying an individual by name or by implication.",
+    "source_name": "Federal Register",
+    "legislature": "us",
+    "source_url": "https://www.federalregister.gov/documents/2024/03/01/2024-03793/trade-regulation-rule-on-impersonation-of-government-and-businesses",
+    "source_title": "Trade Regulation Rule on Impersonation of Government and Businesses",
+    "published_date": "2024-03-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+        "name": "Impersonating others",
+        "policy_fragment": "calling a person or entity while posing as an individual or affiliate thereof",
+        "policy": {
+          "clause": "The prohibition on impersonation of individuals covers calling, messaging, or otherwise contacting a person or entity while posing as an individual or affiliate thereof, including by identifying an individual by name or by implication.",
+          "matched_segment": "calling a person or entity while posing as an individual or affiliate thereof",
+          "source": {
+            "name": "Federal Register",
+            "title": "Trade Regulation Rule on Impersonation of Government and Businesses",
+            "url": "https://www.federalregister.gov/documents/2024/03/01/2024-03793/trade-regulation-rule-on-impersonation-of-government-and-businesses",
+            "published_date": "2024-03-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Direct impersonation during a call to a person or entity is squarely covered by impersonating others."
+      }
+    ],
+    "novel_categories": []
+  }
+}

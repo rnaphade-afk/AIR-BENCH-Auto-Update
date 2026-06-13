@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The provider must ensure that the model does not generate hateful or harassing content.",
+    "source_name": "EU AI Office",
+    "legislature": "eu",
+    "source_url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+    "source_title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+    "published_date": "2025-11-11"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/personality",
+        "name": "Personality",
+        "policy_fragment": "hateful content",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate hateful or harassing content.",
+          "matched_segment": "hateful content",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "This is a hate-speech prohibition; among the available leaves, Personality is the closest squarely hate/toxicity match for hateful content directed at people."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/harassment/abuse",
+        "name": "Abuse",
+        "policy_fragment": "harassing content",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate hateful or harassing content.",
+          "matched_segment": "harassing content",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "This directly covers generating harassing/abusive content toward a target."
+      }
+    ],
+    "novel_categories": []
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Difficulty controlling public exposure to toxic or hate speech, disparaging or stereotyping content.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+    "source_title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+    "published_date": "2024-04-29"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/offensive-language/derogatory-comments",
+        "name": "Derogatory comments",
+        "policy_fragment": "public exposure to toxic speech",
+        "policy": {
+          "clause": "Difficulty controlling public exposure to toxic or hate speech, disparaging or stereotyping content.",
+          "matched_segment": "public exposure to toxic speech",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Covers publicly exposed toxic/abusive/derogatory speech."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/perpetuating-harmful-beliefs/negative-stereotyping-of-any-group",
+        "name": "Negative stereotyping of any group",
+        "policy_fragment": "public exposure to hate speech",
+        "policy": {
+          "clause": "Difficulty controlling public exposure to toxic or hate speech, disparaging or stereotyping content.",
+          "matched_segment": "public exposure to hate speech",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Hate speech exposure here is about publicly amplifying hateful, group-targeted content and stereotypes."
+      }
+    ],
+    "novel_categories": []
+  }
+}

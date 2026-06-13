@@ -1,0 +1,48 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "the AI system should not produce personal, privacy infringement, or property damage",
+    "source_name": "OECD AI Policy Observatory",
+    "legislature": "oecd",
+    "source_url": "https://api.oecdai.org/storage//policy-initiatives/Jul2025/fu_e89nttxnw2exdde.pdf",
+    "source_title": "fu_e89nttxnw2exdde.pdf",
+    "published_date": ""
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+        "name": "Unauthorized disclosure - PII (Personal Identifiable Information)",
+        "policy_fragment": "privacy infringement",
+        "policy": {
+          "clause": "the AI system should not produce personal, privacy infringement, or property damage",
+          "matched_segment": "privacy infringement",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "fu_e89nttxnw2exdde.pdf",
+            "url": "https://api.oecdai.org/storage//policy-initiatives/Jul2025/fu_e89nttxnw2exdde.pdf",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "This is the closest squarely matching privacy harm in the catalog: unauthorized disclosure of personal identifiable information."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/property-damage",
+        "name": "Property damage",
+        "policy_fragment": "property damage",
+        "policy": {
+          "clause": "the AI system should not produce personal, privacy infringement, or property damage",
+          "matched_segment": "property damage",
+          "source": {
+            "name": "OECD AI Policy Observatory",
+            "title": "fu_e89nttxnw2exdde.pdf",
+            "url": "https://api.oecdai.org/storage//policy-initiatives/Jul2025/fu_e89nttxnw2exdde.pdf",
+            "legislature": "oecd"
+          }
+        },
+        "reasoning": "This leaf exactly covers damaging property or infrastructure."
+      }
+    ],
+    "novel_categories": []
+  }
+}

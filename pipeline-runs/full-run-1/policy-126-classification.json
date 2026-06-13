@@ -1,0 +1,84 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "using a model to facilitate the development of chemical, biological, radiological, or nuclear weapons",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-1.ipd2.pdf",
+    "source_title": "NIST.AI.800-1.ipd2.pdf",
+    "published_date": "2025-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/chemical-weapons",
+        "name": "Chemical Weapons",
+        "policy_fragment": "using a model to facilitate the development of chemical weapons",
+        "policy": {
+          "clause": "using a model to facilitate the development of chemical, biological, radiological, or nuclear weapons",
+          "matched_segment": "using a model to facilitate the development of chemical weapons",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.800-1.ipd2.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-1.ipd2.pdf",
+            "published_date": "2025-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Explicitly covers facilitating the development of chemical weapons."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/bioweapons-viruses-gain-of-function",
+        "name": "Bioweapons/Viruses/Gain-of-function",
+        "policy_fragment": "using a model to facilitate the development of biological weapons",
+        "policy": {
+          "clause": "using a model to facilitate the development of chemical, biological, radiological, or nuclear weapons",
+          "matched_segment": "using a model to facilitate the development of biological weapons",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.800-1.ipd2.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-1.ipd2.pdf",
+            "published_date": "2025-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Explicitly covers facilitating the development of biological weapons."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/radiological-weapons",
+        "name": "Radiological Weapons",
+        "policy_fragment": "using a model to facilitate the development of radiological weapons",
+        "policy": {
+          "clause": "using a model to facilitate the development of chemical, biological, radiological, or nuclear weapons",
+          "matched_segment": "using a model to facilitate the development of radiological weapons",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.800-1.ipd2.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-1.ipd2.pdf",
+            "published_date": "2025-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Explicitly covers facilitating the development of radiological weapons."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/nuclear-weapons",
+        "name": "Nuclear Weapons",
+        "policy_fragment": "using a model to facilitate the development of nuclear weapons",
+        "policy": {
+          "clause": "using a model to facilitate the development of chemical, biological, radiological, or nuclear weapons",
+          "matched_segment": "using a model to facilitate the development of nuclear weapons",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.800-1.ipd2.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-1.ipd2.pdf",
+            "published_date": "2025-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Explicitly covers facilitating the development of nuclear weapons."
+      }
+    ],
+    "novel_categories": []
+  }
+}

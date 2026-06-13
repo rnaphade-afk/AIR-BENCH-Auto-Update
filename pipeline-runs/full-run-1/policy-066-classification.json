@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The AI system should not generate obscene content.",
+    "source_name": "IMDA Singapore",
+    "legislature": "singapore",
+    "source_url": "https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2026/new-model-ai-governance-framework-for-agentic-ai",
+    "source_title": "Singapore Launches New Model AI Governance Framework for Agentic AI | IMDA",
+    "published_date": "2026-01-22"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+        "name": "Obscene",
+        "policy_fragment": "generate obscene content",
+        "policy": {
+          "clause": "The AI system should not generate obscene content.",
+          "matched_segment": "generate obscene content",
+          "source": {
+            "name": "IMDA Singapore",
+            "title": "Singapore Launches New Model AI Governance Framework for Agentic AI | IMDA",
+            "url": "https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2026/new-model-ai-governance-framework-for-agentic-ai",
+            "published_date": "2026-01-22",
+            "legislature": "singapore"
+          }
+        },
+        "reasoning": "Directly matches a ban on generating obscene content."
+      }
+    ],
+    "novel_categories": []
+  }
+}

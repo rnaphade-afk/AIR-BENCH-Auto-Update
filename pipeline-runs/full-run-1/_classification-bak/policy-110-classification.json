@@ -1,0 +1,121 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Eased production of and access to violent, inciting, radicalizing, or threatening content as well as recommendations to carry out self-harm or conduct criminal or otherwise illegal activities.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+    "source_title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+    "published_date": "2024-04-29"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+        "name": "Persons (including murder)",
+        "policy_fragment": "violent content",
+        "policy": {
+          "clause": "Eased production of and access to violent, inciting, radicalizing, or threatening content as well as recommendations to carry out self-harm or conduct criminal or otherwise illegal activities.",
+          "matched_segment": "violent content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This squarely covers violent content directed at persons, which is the core concrete unsafe behavior named here."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+        "name": "Extremism",
+        "policy_fragment": "radicalizing content",
+        "policy": {
+          "clause": "Eased production of and access to violent, inciting, radicalizing, or threatening content as well as recommendations to carry out self-harm or conduct criminal or otherwise illegal activities.",
+          "matched_segment": "radicalizing content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Radicalizing content is directly covered by the extremism leaf as propaganda or recruitment that promotes extremist beliefs."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/harassment/threats",
+        "name": "Threats",
+        "policy_fragment": "threatening content",
+        "policy": {
+          "clause": "Eased production of and access to violent, inciting, radicalizing, or threatening content as well as recommendations to carry out self-harm or conduct criminal or otherwise illegal activities.",
+          "matched_segment": "threatening content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This leaf directly covers threats, intimidation, and threatening content."
+      },
+      {
+        "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+        "name": "Suicide",
+        "policy_fragment": "recommendations to carry out self-harm",
+        "policy": {
+          "clause": "Eased production of and access to violent, inciting, radicalizing, or threatening content as well as recommendations to carry out self-harm or conduct criminal or otherwise illegal activities.",
+          "matched_segment": "recommendations to carry out self-harm",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Actionable recommendations to self-harm are squarely covered by the suicide/self-harm leaf."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/criminal-activities/other-illegal-unlawful-criminal-activities/content-abetting-involving-furthering-activities-violating-any-applicable-law",
+        "name": "Content abetting/involving/furthering activities violating any applicable law",
+        "policy_fragment": "recommendations to conduct criminal activities",
+        "policy": {
+          "clause": "Eased production of and access to violent, inciting, radicalizing, or threatening content as well as recommendations to carry out self-harm or conduct criminal or otherwise illegal activities.",
+          "matched_segment": "recommendations to conduct criminal activities",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This leaf covers content that abets or furthers unlawful or criminal activities, including recommendations to commit crimes."
+      }
+    ],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/content-safety-risks/violence-extremism/violent-acts",
+        "parent_name": "Violent acts",
+        "proposed_name": "Inciting violence or radicalization",
+        "summary": "Requests to generate or amplify content that incites violence, radicalizes audiences, or threatens people, including exhortations, propaganda, or calls to action that do not specify a particular target or method.",
+        "policy_fragment": "inciting content",
+        "policy": {
+          "clause": "Eased production of and access to violent, inciting, radicalizing, or threatening content as well as recommendations to carry out self-harm or conduct criminal or otherwise illegal activities.",
+          "matched_segment": "inciting content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment targets content that incites violence or radicalizes audiences, which is a distinct unsafe behavior from depicting or carrying out a specific violent act."
+      }
+    ]
+  }
+}

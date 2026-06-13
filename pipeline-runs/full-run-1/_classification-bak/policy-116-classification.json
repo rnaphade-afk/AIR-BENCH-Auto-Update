@@ -1,0 +1,271 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Lowered barriers for offensive cyber capabilities, including ease of security attacks, hacking, malware, phishing, and offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities; increased available attack surface for targeted cyber attacks, which may compromise the confidentiality and integrity of model weights, code, training data, and outputs.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+    "source_title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+    "published_date": "2024-04-29"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+        "name": "Network intrusion",
+        "policy_fragment": "Hacking",
+        "policy": {
+          "clause": "Lowered barriers for offensive cyber capabilities, including ease of security attacks, hacking, malware, phishing, and offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities; increased available attack surface for targeted cyber attacks, which may compromise the confidentiality and integrity of model weights, code, training data, and outputs.",
+          "matched_segment": "Hacking",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Hacking is direct unauthorized access/intrusion into systems or networks."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/unauthorized-network-entry",
+        "name": "Unauthorized network entry",
+        "policy_fragment": "Hacking",
+        "policy": {
+          "clause": "Lowered barriers for offensive cyber capabilities, including ease of security attacks, hacking, malware, phishing, and offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities; increased available attack surface for targeted cyber attacks, which may compromise the confidentiality and integrity of model weights, code, training data, and outputs.",
+          "matched_segment": "Hacking",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Hacking commonly entails breaking into a network or account without authorization."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+        "name": "Malware",
+        "policy_fragment": "Malware",
+        "policy": {
+          "clause": "Lowered barriers for offensive cyber capabilities, including ease of security attacks, hacking, malware, phishing, and offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities; increased available attack surface for targeted cyber attacks, which may compromise the confidentiality and integrity of model weights, code, training data, and outputs.",
+          "matched_segment": "Malware",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment explicitly names malware."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/social-engineering",
+        "name": "Social engineering",
+        "policy_fragment": "Phishing",
+        "policy": {
+          "clause": "Lowered barriers for offensive cyber capabilities, including ease of security attacks, hacking, malware, phishing, and offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities; increased available attack surface for targeted cyber attacks, which may compromise the confidentiality and integrity of model weights, code, training data, and outputs.",
+          "matched_segment": "Phishing",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Phishing is a classic social-engineering credential theft tactic."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/spear-phishing",
+        "name": "Spear phishing",
+        "policy_fragment": "Phishing",
+        "policy": {
+          "clause": "Lowered barriers for offensive cyber capabilities, including ease of security attacks, hacking, malware, phishing, and offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities; increased available attack surface for targeted cyber attacks, which may compromise the confidentiality and integrity of model weights, code, training data, and outputs.",
+          "matched_segment": "Phishing",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "If targeted, phishing is specifically spear phishing."
+      },
+      {
+        "node_id": "root/societal-risks/deception/fraud/phishing-catfishing",
+        "name": "Phishing/Catfishing",
+        "policy_fragment": "Phishing",
+        "policy": {
+          "clause": "Lowered barriers for offensive cyber capabilities, including ease of security attacks, hacking, malware, phishing, and offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities; increased available attack surface for targeted cyber attacks, which may compromise the confidentiality and integrity of model weights, code, training data, and outputs.",
+          "matched_segment": "Phishing",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Phishing is also explicitly covered as a deception/fraud behavior."
+      }
+    ],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "Offensive cyber operations",
+        "summary": "Requests to plan or carry out offensive cyber operations such as intrusion, lateral movement, persistence, or exfiltration against targets.",
+        "policy_fragment": "Lowered barriers for offensive cyber capabilities",
+        "policy": {
+          "clause": "Lowered barriers for offensive cyber capabilities, including ease of security attacks, hacking, malware, phishing, and offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities; increased available attack surface for targeted cyber attacks, which may compromise the confidentiality and integrity of model weights, code, training data, and outputs.",
+          "matched_segment": "Lowered barriers for offensive cyber capabilities",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This names the concrete unsafe behavior of enabling offensive cyber operations as such; existing leaves cover intrusion, malware, phishing, and vulnerability probing, but not the broader operation-level offensive capability."
+      },
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "Vulnerability exploitation",
+        "summary": "Requests to discover, weaponize, or automate exploitation of software or system vulnerabilities to gain unauthorized access or execute attacks.",
+        "policy_fragment": "Ease of security attacks",
+        "policy": {
+          "clause": "Lowered barriers for offensive cyber capabilities, including ease of security attacks, hacking, malware, phishing, and offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities; increased available attack surface for targeted cyber attacks, which may compromise the confidentiality and integrity of model weights, code, training data, and outputs.",
+          "matched_segment": "Ease of security attacks",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This specifically refers to making attacks easier via exploitation of security weaknesses; existing leaves cover probing or intrusion, but not the concrete exploit-focused behavior itself."
+      },
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "Automated vulnerability discovery and exploitation",
+        "summary": "Requests to use automated scanning, discovery, or exploitation of software or system vulnerabilities to gain unauthorized access or conduct offensive cyber operations.",
+        "policy_fragment": "Offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities",
+        "policy": {
+          "clause": "Lowered barriers for offensive cyber capabilities, including ease of security attacks, hacking, malware, phishing, and offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities; increased available attack surface for targeted cyber attacks, which may compromise the confidentiality and integrity of model weights, code, training data, and outputs.",
+          "matched_segment": "Offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This is a specific attack mechanism involving automated discovery and weaponization of vulnerabilities for offensive use; existing leaves do not squarely capture this concrete behavior."
+      },
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "Expanded attack surface for targeted cyber attacks",
+        "summary": "Requests or claims about increasing the number or reachability of exploitable entry points that make targeted cyber intrusion easier, including exposed services, interfaces, or misconfigurations that enable compromise.",
+        "policy_fragment": "Increased available attack surface for targeted cyber attacks",
+        "policy": {
+          "clause": "Lowered barriers for offensive cyber capabilities, including ease of security attacks, hacking, malware, phishing, and offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities; increased available attack surface for targeted cyber attacks, which may compromise the confidentiality and integrity of model weights, code, training data, and outputs.",
+          "matched_segment": "Increased available attack surface for targeted cyber attacks",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This is a concrete cyber-risk condition about enlarging exploitable entry points for targeted attacks, distinct from intrusion or malware itself."
+      },
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "Model weight theft or compromise",
+        "summary": "Requests to steal, exfiltrate, corrupt, or otherwise compromise the confidentiality or integrity of model weights or checkpoints.",
+        "policy_fragment": "Compromise the confidentiality and integrity of model weights",
+        "policy": {
+          "clause": "Lowered barriers for offensive cyber capabilities, including ease of security attacks, hacking, malware, phishing, and offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities; increased available attack surface for targeted cyber attacks, which may compromise the confidentiality and integrity of model weights, code, training data, and outputs.",
+          "matched_segment": "Compromise the confidentiality and integrity of model weights",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This specifically targets model weights/checkpoints as the victim asset, including theft, exfiltration, or corruption."
+      },
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "Code compromise",
+        "summary": "Requests to steal, alter, or corrupt source code or repository contents, including unauthorized access that undermines the confidentiality or integrity of code.",
+        "policy_fragment": "Compromise the confidentiality and integrity of code",
+        "policy": {
+          "clause": "Lowered barriers for offensive cyber capabilities, including ease of security attacks, hacking, malware, phishing, and offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities; increased available attack surface for targeted cyber attacks, which may compromise the confidentiality and integrity of model weights, code, training data, and outputs.",
+          "matched_segment": "Compromise the confidentiality and integrity of code",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This specifically targets source code or repository contents as the victim asset, including unauthorized access or alteration."
+      },
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/confidentiality",
+        "parent_name": "Confidentiality",
+        "proposed_name": "Training data exfiltration",
+        "summary": "Requests to steal, leak, or copy training datasets or corpus contents from a model provider or training pipeline without authorization.",
+        "policy_fragment": "Compromise the confidentiality and integrity of training data",
+        "policy": {
+          "clause": "Lowered barriers for offensive cyber capabilities, including ease of security attacks, hacking, malware, phishing, and offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities; increased available attack surface for targeted cyber attacks, which may compromise the confidentiality and integrity of model weights, code, training data, and outputs.",
+          "matched_segment": "Compromise the confidentiality and integrity of training data",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This specifically targets training datasets as the victim asset, including unauthorized access, theft, or disclosure."
+      },
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/confidentiality",
+        "parent_name": "Confidentiality",
+        "proposed_name": "Output confidentiality and integrity compromise",
+        "summary": "Requests to access, alter, or exfiltrate model outputs without authorization, including tampering with generated outputs or leaking protected output content.",
+        "policy_fragment": "Compromise the confidentiality and integrity of outputs",
+        "policy": {
+          "clause": "Lowered barriers for offensive cyber capabilities, including ease of security attacks, hacking, malware, phishing, and offensive cyber operations through accelerated automated discovery and exploitation of vulnerabilities; increased available attack surface for targeted cyber attacks, which may compromise the confidentiality and integrity of model weights, code, training data, and outputs.",
+          "matched_segment": "Compromise the confidentiality and integrity of outputs",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "url": "https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf",
+            "published_date": "2024-04-29",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This specifically targets model outputs as the victim asset, including unauthorized disclosure or tampering with outputs."
+      }
+    ]
+  }
+}

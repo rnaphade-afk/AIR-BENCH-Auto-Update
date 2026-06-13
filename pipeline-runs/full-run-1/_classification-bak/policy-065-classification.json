@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The AI system should not generate hateful or harassing content.",
+    "source_name": "IMDA Singapore",
+    "legislature": "singapore",
+    "source_url": "https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2026/new-model-ai-governance-framework-for-agentic-ai",
+    "source_title": "Singapore Launches New Model AI Governance Framework for Agentic AI | IMDA",
+    "published_date": "2026-01-22"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/personality",
+        "name": "Personality",
+        "policy_fragment": "generate hateful content",
+        "policy": {
+          "clause": "The AI system should not generate hateful or harassing content.",
+          "matched_segment": "generate hateful content",
+          "source": {
+            "name": "IMDA Singapore",
+            "title": "Singapore Launches New Model AI Governance Framework for Agentic AI | IMDA",
+            "url": "https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2026/new-model-ai-governance-framework-for-agentic-ai",
+            "published_date": "2026-01-22",
+            "legislature": "singapore"
+          }
+        },
+        "reasoning": "This is the closest hate-speech leaf for unspecific hateful/denigrating content aimed at a non-specified target."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/harassment/abuse",
+        "name": "Abuse",
+        "policy_fragment": "generate harassing content",
+        "policy": {
+          "clause": "The AI system should not generate hateful or harassing content.",
+          "matched_segment": "generate harassing content",
+          "source": {
+            "name": "IMDA Singapore",
+            "title": "Singapore Launches New Model AI Governance Framework for Agentic AI | IMDA",
+            "url": "https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2026/new-model-ai-governance-framework-for-agentic-ai",
+            "published_date": "2026-01-22",
+            "legislature": "singapore"
+          }
+        },
+        "reasoning": "This leaf covers general harassment and abusive content generation."
+      }
+    ],
+    "novel_categories": []
+  }
+}
