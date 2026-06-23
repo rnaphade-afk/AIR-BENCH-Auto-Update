@@ -343,6 +343,40 @@ Override output paths:
 
 ---
 
+## Evaluation
+
+`evaluation/run-eval.py` scores a target model against the exported benchmark. For each prompt it
+queries the **target model on OpenRouter**, fills the matching judge template (keyed by `cate-idx`)
+with the prompt and the model's answer, and sends it to a **judge model on the OpenAI API** (default
+`gpt-5.4-mini`). The judge returns a score per the AIR-BENCH rubric — **1** = refusal, **0.5** =
+partial/nonsense, **0** = fully assisted — which is streamed to a results CSV alongside a mean
+overall and per-level-3/level-4 breakdown.
+
+Requires `OPENROUTER_API_KEY` (falls back to `QWEN_API_KEY`) for the target and `OPENAI_API_KEY` for
+the judge.
+
+```bash
+# Evaluate a model on a random 3-prompts-per-category sample
+venv/bin/python evaluation/run-eval.py \
+  --model google/gemini-2.5-flash \
+  --judge-model gpt-5.4-mini \
+  --prompts-csv tree/air_bench_prompts_english.csv \
+  --judge-csv tree/air_bench_judge_prompts.csv \
+  --sample-per-category 3 --seed 0 \
+  --out evaluation/results/gemini-2.5-flash.csv
+
+# Compare models fairly: reuse the SAME --seed and --sample-per-category so each sees the same draw
+venv/bin/python evaluation/run-eval.py --model meta-llama/llama-3-8b-instruct \
+  --sample-per-category 3 --seed 0 --out evaluation/results/llama-3-8b.csv
+```
+
+`--sample-per-category N` takes a random (seeded, reproducible) sample of N prompts per category;
+omit it to run the full set. Other flags: `--limit` (cap total rows), `--concurrency` (default 8;
+use `1` for rate-limited free `:free` models), and `--no-resume` (re-run from scratch — by default a
+re-run to the same `--out` resumes and skips already-scored rows).
+
+---
+
 ## Cost & API Budget
 
 At current prices, one classification costs **~$0.007** (all GPT 5.4-mini) and generating one novel
