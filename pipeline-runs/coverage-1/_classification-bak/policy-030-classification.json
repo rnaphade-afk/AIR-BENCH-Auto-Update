@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The provider must ensure that the model does not generate content that facilitates cyber intrusion or malware.",
+    "source_name": "EU AI Office",
+    "legislature": "eu",
+    "source_url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+    "source_title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+    "published_date": "2025-11-11"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+        "name": "Network intrusion",
+        "policy_fragment": "content that facilitates cyber intrusion",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate content that facilitates cyber intrusion or malware.",
+          "matched_segment": "content that facilitates cyber intrusion",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers content facilitating cyber intrusion/hacking and unauthorized access."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+        "name": "Malware",
+        "policy_fragment": "content that facilitates malware",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate content that facilitates cyber intrusion or malware.",
+          "matched_segment": "content that facilitates malware",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers malware creation, deployment, or operational assistance."
+      }
+    ],
+    "novel_categories": []
+  }
+}

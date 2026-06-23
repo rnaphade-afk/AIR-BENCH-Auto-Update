@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from html import unescape
 from html.parser import HTMLParser
-from typing import Dict, Iterable, List, Optional, Sequence, Set, Tuple
+from typing import Callable, Dict, Iterable, List, Optional, Sequence, Set, Tuple
 from urllib.parse import parse_qs, urlencode, urljoin, urlparse, urlunparse
 
 import requests
@@ -256,6 +256,11 @@ CONGRESS_SEED_BILLS = (
     (118, "s", 2770),   # Protect Elections from Deceptive AI Act
     (118, "hr", 5586),  # DEEPFAKES Accountability Act
     (118, "hr", 6943),  # No AI FRAUD Act — likeness/fraud
+    (119, "s", 1367),   # NO FAKES Act of 2025 — unauthorized AI voice/likeness replicas
+    (119, "hr", 2794),  # NO FAKES Act of 2025 (House)
+    (119, "s", 1837),   # DEFIANCE Act of 2025 — AI digital-forgery intimate imagery
+    (119, "s", 1213),   # Protect Elections from Deceptive AI Act (2025)
+    (119, "hr", 5272),  # Protect Elections from Deceptive AI Act (House)
 )
 GOVINFO_BILL_HTML = "https://www.govinfo.gov/content/pkg/{pkg}/html/{pkg}.htm"
 
@@ -338,6 +343,8 @@ SOURCES: Tuple[SourceConfig, ...] = (
             "https://www.aisi.gov.uk/work",
             "https://www.aisi.gov.uk/work/principles-for-safeguard-evaluation",
             "https://www.gov.uk/government/organisations/ai-security-institute",
+            "https://www.gov.uk/government/publications/ai-safety-institute-approach-to-evaluations/ai-safety-institute-approach-to-evaluations",
+            "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
         ),
         allowed_domains=("www.aisi.gov.uk", "aisi.gov.uk", "www.gov.uk", "gov.uk"),
     ),
@@ -348,8 +355,10 @@ SOURCES: Tuple[SourceConfig, ...] = (
             "https://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm",
             "https://www.cac.gov.cn/2024-04/02/c_1713729983803145.htm",
             "https://www.cac.gov.cn/",
+            "https://www.chinalawtranslate.com/en/ai-labeling/",          # 2025 AI-generated-content labeling Measures (label tampering/forgery)
+            "https://www.chinalawtranslate.com/en/generative-ai-interim/",  # Interim Measures for Generative AI Services
         ),
-        allowed_domains=("www.cac.gov.cn", "cac.gov.cn"),
+        allowed_domains=("www.cac.gov.cn", "cac.gov.cn", "www.chinalawtranslate.com", "chinalawtranslate.com"),
     ),
     SourceConfig(
         name="NIST AI",
@@ -359,6 +368,8 @@ SOURCES: Tuple[SourceConfig, ...] = (
             "https://www.nist.gov/itl/ai-risk-management-framework",
             "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
             "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-1.ipd2.pdf",
+            "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-4.pdf",        # synthetic-content provenance / watermark integrity
+            "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-2e2025.pdf",   # adversarial ML: poisoning, model extraction, evasion
         ),
         allowed_domains=("www.nist.gov", "nist.gov", "nvlpubs.nist.gov"),
     ),
@@ -461,6 +472,49 @@ SOURCES: Tuple[SourceConfig, ...] = (
         ),
         allowed_domains=("oecd.ai",),
         api_kind="oecd",
+    ),
+    SourceConfig(
+        # State-level US AI statutes (2024-2026), direct full-text document URLs — all verified
+        # reachable/extractable. Covers deepfake/likeness, companion chatbots, algorithmic
+        # discrimination, and AI deceptive-practices provisions that have no federal equivalent.
+        name="US State AI Laws",
+        legislature="us",
+        seed_urls=(
+            "https://capitol.texas.gov/tlodocs/89R/billtext/html/HB00149F.htm",  # TX TRAIGA (HB 149)
+            "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=3344.1&lawCode=CIV",   # CA AB 1836 — deceased-likeness digital replica
+            "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=1708.86&lawCode=CIV",  # CA AB 602 — sexually explicit digital forgery
+            "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=647&lawCode=PEN",      # CA SB 926 — deepfake intimate imagery
+            "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=20012&lawCode=ELEC",   # CA AB 2839 — election deepfakes
+            "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB243",  # CA SB 243 — companion chatbots
+            "https://www.ilga.gov/Legislation/PublicActs/View/103-0804",  # IL — AI employment discrimination
+            "https://le.utah.gov/~2024/bills/static/SB0149.html",  # UT AI Policy Act — AI deceptive commercial content
+            "https://leg.colorado.gov/bill_files/47770/download",  # CO SB24-205 — algorithmic discrimination (PDF)
+            "https://www.capitol.tn.gov/Bills/113/Bill/HB2091.pdf",  # TN ELVIS Act — voice/likeness replica (PDF)
+        ),
+        allowed_domains=(
+            "capitol.texas.gov", "leginfo.legislature.ca.gov", "www.ilga.gov", "ilga.gov",
+            "le.utah.gov", "leg.colorado.gov", "www.capitol.tn.gov", "capitol.tn.gov",
+        ),
+    ),
+    SourceConfig(
+        # Cross-cutting frontier-safety & standards documents (2024-2026) covering harms thin in the
+        # jurisdiction sources: loss-of-control / self-replication, agentic-AI unauthorized actions and
+        # prompt injection, synthetic-media provenance forgery, model poisoning/extraction, and AI
+        # companions. Direct document URLs / PDFs, all verified reachable.
+        name="Frontier AI Safety & Standards",
+        legislature="international",
+        seed_urls=(
+            "https://ec.europa.eu/newsroom/dae/redirection/document/118119",  # EU GPAI Code of Practice — Safety & Security (PDF)
+            "https://genai.owasp.org/download/45674/?tmstv=1739819891",  # OWASP Agentic AI — Threats & Mitigations (PDF)
+            "https://cdn.openai.com/papers/practices-for-governing-agentic-ai-systems.pdf",  # OpenAI — Governing Agentic AI
+            "https://www.anthropic.com/legal/aup",  # Anthropic Usage Policy (agentic)
+            "https://spec.c2pa.org/specifications/specifications/2.4/security/Security_Considerations.html",  # C2PA — provenance forgery / stripping
+            "https://cset.georgetown.edu/wp-content/uploads/t0625_south_korea_ai_law_EN.pdf",  # Korea AI Basic Act — full English (CSET)
+        ),
+        allowed_domains=(
+            "ec.europa.eu", "genai.owasp.org", "cdn.openai.com", "www.anthropic.com", "anthropic.com",
+            "spec.c2pa.org", "cset.georgetown.edu",
+        ),
     ),
 )
 
@@ -620,12 +674,21 @@ def fetch_page(session: requests.Session, source: SourceConfig, url: str, max_pa
     links: List[Dict[str, str]] = []
     warning = ""
 
+    # Sniff PDFs by magic bytes too: some hosts serve PDFs with no .pdf extension and a malformed
+    # content-type (e.g. the EU GPAI Code of Practice download), which would otherwise be mis-parsed
+    # as HTML into binary garbage.
+    is_pdf = (
+        "application/pdf" in content_type
+        or urlparse(url).path.lower().endswith(".pdf")
+        or resp.content[:5] == b"%PDF-"
+    )
+
     if "application/json" in content_type or url.endswith(".json"):
         data = resp.json()
         text = extract_json_text(data, max_page_chars)
         links = links_from_json(data, url)
         title = json_title(data) or source.name
-    elif "application/pdf" in content_type or urlparse(url).path.lower().endswith(".pdf"):
+    elif is_pdf:
         text, warning = extract_pdf_text(resp.content, url)
         text = text[:max_page_chars]
         title = os.path.basename(urlparse(url).path)
@@ -1551,7 +1614,11 @@ def scrape_policy_clauses(
     max_chunks_per_page: int,
     delay_seconds: float,
     skip_final_gate: bool,
+    checkpoint: Optional[Callable[[List[Dict[str, str]], Dict[str, object]], None]] = None,
 ) -> Tuple[List[Dict[str, str]], Dict[str, object]]:
+    """Scrape each source (crawl -> extract -> gate) and accumulate. If `checkpoint` is provided it is
+    called after every source with the deduped clauses-so-far and the report-so-far, so a long run
+    persists incrementally and an interruption costs at most one source's work."""
     load_dotenv(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".env")))
     if not os.getenv("OPENAI_API_KEY"):
         raise RuntimeError("OPENAI_API_KEY is not set. Add it to .env or the environment.")
@@ -1565,8 +1632,42 @@ def scrape_policy_clauses(
     )
     client = OpenAI()
 
-    all_pages: List[Dict[str, object]] = []
+    # Per-source funnel so the report shows exactly where clauses are lost:
+    # pages -> extractable_pages -> raw_candidates (model proposals) -> post_keyword_filter -> final.
+    funnel: Dict[str, Dict[str, int]] = defaultdict(
+        lambda: {"pages": 0, "extractable_pages": 0, "raw_candidates": 0, "post_keyword_filter": 0, "final": 0}
+    )
     all_warnings: List[str] = []
+    all_pages_meta: List[Dict[str, object]] = []
+    kept_items: List[Dict[str, str]] = []  # gated survivors across sources (deduped in build_report)
+    raw_total = 0
+
+    def build_report() -> Tuple[List[Dict[str, str]], Dict[str, object]]:
+        deduped = dedupe_items(kept_items)
+        for stats in funnel.values():
+            stats["final"] = 0
+        for item in deduped:
+            funnel[str(item.get("source_name") or "?")]["final"] += 1
+        report = {
+            "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+            "model": model,
+            "sources": [source.name for source in sources],
+            "pages_crawled": len(all_pages_meta),
+            "raw_candidate_count": raw_total,
+            "final_count": len(deduped),
+            "funnel_by_source": {name: funnel[name] for name in sorted(funnel)},
+            "stage_totals": {
+                "pages": sum(f["pages"] for f in funnel.values()),
+                "extractable_pages": sum(f["extractable_pages"] for f in funnel.values()),
+                "raw_candidates": sum(f["raw_candidates"] for f in funnel.values()),
+                "post_keyword_filter": sum(f["post_keyword_filter"] for f in funnel.values()),
+                "final": len(deduped),
+            },
+            "warnings": all_warnings,
+            "pages": all_pages_meta,
+        }
+        return deduped, report
+
     for source in sources:
         print(f"[crawl] {source.name}", file=sys.stderr)
         pages, warnings = crawl_source(
@@ -1578,77 +1679,58 @@ def scrape_policy_clauses(
             delay_seconds=delay_seconds,
             max_page_chars=max_page_chars,
         )
-        all_pages.extend(pages)
         all_warnings.extend(warnings)
 
-    # Per-source funnel so the report shows exactly where clauses are lost:
-    # pages -> extractable_pages -> raw_candidates (model proposals) -> post_keyword_filter -> final.
-    funnel: Dict[str, Dict[str, int]] = defaultdict(
-        lambda: {"pages": 0, "extractable_pages": 0, "raw_candidates": 0, "post_keyword_filter": 0, "final": 0}
-    )
-    for page in all_pages:
-        src = str(page.get("source_name") or "?")
-        funnel[src]["pages"] += 1
-        if page.get("extractable", True):
+        source_raw: List[Dict[str, str]] = []
+        for page in pages:
+            src = str(page.get("source_name") or source.name)
+            funnel[src]["pages"] += 1
+            all_pages_meta.append(
+                {
+                    "source_name": page.get("source_name"),
+                    "legislature": page.get("legislature"),
+                    "url": page.get("url"),
+                    "title": page.get("title"),
+                    "content_type": page.get("content_type"),
+                    "extractable": page.get("extractable"),
+                    "text_chars": len(str(page.get("text") or "")),
+                }
+            )
+            if not page.get("extractable", True):
+                print(f"[skip] discovery-only {page.get('source_name')} - {page.get('url')}", file=sys.stderr)
+                continue
             funnel[src]["extractable_pages"] += 1
+            print(f"[extract] {page.get('source_name')} - {page.get('url')}", file=sys.stderr)
+            items, page_warnings, raw_count = extract_page_items(
+                client=client,
+                model=model,
+                page=page,
+                chunk_chars=chunk_chars,
+                max_chunks_per_page=max_chunks_per_page,
+            )
+            funnel[src]["raw_candidates"] += raw_count
+            funnel[src]["post_keyword_filter"] += len(items)
+            raw_total += raw_count
+            all_warnings.extend(page_warnings)
+            source_raw.extend(items)
 
-    raw_items: List[Dict[str, str]] = []
-    for page in all_pages:
-        if not page.get("extractable", True):
-            print(f"[skip] discovery-only {page.get('source_name')} - {page.get('url')}", file=sys.stderr)
-            continue
-        print(f"[extract] {page.get('source_name')} - {page.get('url')}", file=sys.stderr)
-        items, warnings, raw_count = extract_page_items(
-            client=client,
-            model=model,
-            page=page,
-            chunk_chars=chunk_chars,
-            max_chunks_per_page=max_chunks_per_page,
-        )
-        src = str(page.get("source_name") or "?")
-        funnel[src]["raw_candidates"] += raw_count
-        funnel[src]["post_keyword_filter"] += len(items)
-        raw_items.extend(items)
-        all_warnings.extend(warnings)
+        source_items = dedupe_items(source_raw)
+        if not skip_final_gate and source_items:
+            source_items, gate_warnings = final_gate_items(client, model, source_items)
+            all_warnings.extend(gate_warnings)
+        kept_items.extend(source_items)
 
-    items = dedupe_items(raw_items)
-    if not skip_final_gate:
-        items, gate_warnings = final_gate_items(client, model, items)
-        all_warnings.extend(gate_warnings)
+        # Persist progress after each source so an interruption never discards completed work.
+        if checkpoint is not None:
+            deduped, report = build_report()
+            try:
+                checkpoint(deduped, report)
+                print(f"[checkpoint] saved after {source.name}: {len(deduped)} clauses so far", file=sys.stderr)
+            except Exception as exc:
+                print(f"[checkpoint] write failed after {source.name}: {exc}", file=sys.stderr)
 
-    items = dedupe_items(items)
-    for item in items:
-        funnel[str(item.get("source_name") or "?")]["final"] += 1
+    items, report = build_report()
     items.sort(key=lambda item: (item.get("legislature", ""), item["source_name"], item["source_title"], item["clause"]))
-    report = {
-        "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
-        "model": model,
-        "sources": [source.name for source in sources],
-        "pages_crawled": len(all_pages),
-        "raw_candidate_count": len(raw_items),
-        "final_count": len(items),
-        "funnel_by_source": {name: funnel[name] for name in sorted(funnel)},
-        "stage_totals": {
-            "pages": sum(f["pages"] for f in funnel.values()),
-            "extractable_pages": sum(f["extractable_pages"] for f in funnel.values()),
-            "raw_candidates": sum(f["raw_candidates"] for f in funnel.values()),
-            "post_keyword_filter": sum(f["post_keyword_filter"] for f in funnel.values()),
-            "final": len(items),
-        },
-        "warnings": all_warnings,
-        "pages": [
-            {
-                "source_name": page.get("source_name"),
-                "legislature": page.get("legislature"),
-                "url": page.get("url"),
-                "title": page.get("title"),
-                "content_type": page.get("content_type"),
-                "extractable": page.get("extractable"),
-                "text_chars": len(str(page.get("text") or "")),
-            }
-            for page in all_pages
-        ],
-    }
     return items, report
 
 
@@ -1714,6 +1796,44 @@ def main() -> int:
         print(f"Configured {len(sources)} source(s); output={args.output}; model={args.model}")
         return 0
 
+    # Resolve policy history once (scanning previous_dir can be slow) so per-source checkpoints stay cheap.
+    previous_jsons = list(args.previous_json)
+    previous_jsons.extend(
+        discover_policy_jsons(args.previous_dir, exclude_paths=[args.output, args.all_output])
+    )
+    previous_keys = load_policy_identity_keys(previous_jsons)
+    previous_policy_count = len(previous_keys)
+
+    def new_items_of(items: List[Dict[str, str]]) -> List[Dict[str, str]]:
+        seen = set(previous_keys)
+        out: List[Dict[str, str]] = []
+        for item in items:
+            key = policy_identity_key(item)
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            out.append(item)
+        return out
+
+    def checkpoint(items: List[Dict[str, str]], report: Dict[str, object]) -> List[Dict[str, str]]:
+        new_items = new_items_of(items)
+        if args.all_output:
+            write_json(args.all_output, items)
+        write_json(args.output, new_items)
+        if args.report:
+            write_json(
+                args.report,
+                {
+                    **report,
+                    "previous_jsons": previous_jsons,
+                    "previous_policy_count": previous_policy_count,
+                    "new_count": len(new_items),
+                    "all_output": args.all_output,
+                    "new_output": args.output,
+                },
+            )
+        return new_items
+
     items, report = scrape_policy_clauses(
         model=args.model,
         sources=sources,
@@ -1725,32 +1845,9 @@ def main() -> int:
         max_chunks_per_page=args.max_chunks_per_page,
         delay_seconds=args.delay_seconds,
         skip_final_gate=args.skip_final_gate,
+        checkpoint=checkpoint,
     )
-
-    previous_jsons = list(args.previous_json)
-    previous_jsons.extend(
-        discover_policy_jsons(
-            args.previous_dir,
-            exclude_paths=[args.output, args.all_output],
-        )
-    )
-    new_items, previous_policy_count = filter_new_policy_items(items, previous_jsons)
-    if args.all_output:
-        write_json(args.all_output, items)
-    write_json(args.output, new_items)
-
-    report_path = args.report
-    if report_path:
-        report.update(
-            {
-                "previous_jsons": previous_jsons,
-                "previous_policy_count": previous_policy_count,
-                "new_count": len(new_items),
-                "all_output": args.all_output,
-                "new_output": args.output,
-            }
-        )
-        write_json(report_path, report)
+    new_items = checkpoint(items, report)  # final write (sorted, complete)
 
     print(f"Wrote {len(new_items)} new clause/source records to {args.output}", file=sys.stderr)
     if args.all_output:

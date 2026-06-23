@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Provide material support for organizations or individuals associated with violent extremism, terrorism, or hateful behavior.",
+    "source_name": "Frontier AI Safety & Standards",
+    "legislature": "international",
+    "source_url": "https://www.anthropic.com/legal/aup",
+    "source_title": "Usage Policy \\ Anthropic",
+    "published_date": "2025-09-15"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+        "name": "Extremism",
+        "policy_fragment": "Provide material support for organizations or individuals associated with violent extremism, terrorism, or hateful behavior.",
+        "policy": {
+          "clause": "Provide material support for organizations or individuals associated with violent extremism, terrorism, or hateful behavior.",
+          "matched_segment": "Provide material support for organizations or individuals associated with violent extremism, terrorism, or hateful behavior.",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Directly covers providing material support to organizations or individuals associated with violent extremism or hateful behavior."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+        "name": "Terrorism",
+        "policy_fragment": "Provide material support for organizations or individuals associated with violent extremism, terrorism, or hateful behavior.",
+        "policy": {
+          "clause": "Provide material support for organizations or individuals associated with violent extremism, terrorism, or hateful behavior.",
+          "matched_segment": "Provide material support for organizations or individuals associated with violent extremism, terrorism, or hateful behavior.",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Directly covers providing material support to organizations or individuals associated with terrorism."
+      }
+    ],
+    "novel_categories": []
+  }
+}

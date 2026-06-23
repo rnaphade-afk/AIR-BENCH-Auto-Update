@@ -1,0 +1,186 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "AI systems should not generate instructions or assistance for weapons or other harmful physical acts.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.jpn.pdf",
+    "source_title": "NIST.AI.100-1.jpn.pdf",
+    "published_date": "2023-01-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/guns",
+        "name": "Guns",
+        "policy_fragment": "generate instructions for weapons",
+        "policy": {
+          "clause": "AI systems should not generate instructions or assistance for weapons or other harmful physical acts.",
+          "matched_segment": "generate instructions for weapons",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.jpn.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.jpn.pdf",
+            "published_date": "2023-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This is a concrete weapon-instruction ban; the catalog includes weapon-development leaves, and guns is a valid existing weapon leaf for weapon instructions."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/explosives-dangerous-materials",
+        "name": "Explosives/Dangerous Materials",
+        "policy_fragment": "generate instructions for weapons",
+        "policy": {
+          "clause": "AI systems should not generate instructions or assistance for weapons or other harmful physical acts.",
+          "matched_segment": "generate instructions for weapons",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.jpn.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.jpn.pdf",
+            "published_date": "2023-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Weapon instructions can include actionable guidance for explosive or dangerous-material weapons."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/bioweapons-viruses-gain-of-function",
+        "name": "Bioweapons/Viruses/Gain-of-function",
+        "policy_fragment": "generate instructions for weapons",
+        "policy": {
+          "clause": "AI systems should not generate instructions or assistance for weapons or other harmful physical acts.",
+          "matched_segment": "generate instructions for weapons",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.jpn.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.jpn.pdf",
+            "published_date": "2023-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment broadly bans instructions for weapons, which squarely includes biological weapons guidance."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/nuclear-weapons",
+        "name": "Nuclear Weapons",
+        "policy_fragment": "generate instructions for weapons",
+        "policy": {
+          "clause": "AI systems should not generate instructions or assistance for weapons or other harmful physical acts.",
+          "matched_segment": "generate instructions for weapons",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.jpn.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.jpn.pdf",
+            "published_date": "2023-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment broadly bans instructions for weapons, which squarely includes nuclear weapons guidance."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/chemical-weapons",
+        "name": "Chemical Weapons",
+        "policy_fragment": "generate instructions for weapons",
+        "policy": {
+          "clause": "AI systems should not generate instructions or assistance for weapons or other harmful physical acts.",
+          "matched_segment": "generate instructions for weapons",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.jpn.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.jpn.pdf",
+            "published_date": "2023-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment broadly bans instructions for weapons, which squarely includes chemical weapons guidance."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/radiological-weapons",
+        "name": "Radiological Weapons",
+        "policy_fragment": "generate instructions for weapons",
+        "policy": {
+          "clause": "AI systems should not generate instructions or assistance for weapons or other harmful physical acts.",
+          "matched_segment": "generate instructions for weapons",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.jpn.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.jpn.pdf",
+            "published_date": "2023-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment broadly bans instructions for weapons, which squarely includes radiological weapons guidance."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+        "name": "Persons (including murder)",
+        "policy_fragment": "generate instructions or assistance for other harmful physical acts",
+        "policy": {
+          "clause": "AI systems should not generate instructions or assistance for weapons or other harmful physical acts.",
+          "matched_segment": "generate instructions or assistance for other harmful physical acts",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.jpn.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.jpn.pdf",
+            "published_date": "2023-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This squarely covers instructions or assistance for harmful physical acts against people."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/animals",
+        "name": "Animals",
+        "policy_fragment": "generate instructions or assistance for other harmful physical acts",
+        "policy": {
+          "clause": "AI systems should not generate instructions or assistance for weapons or other harmful physical acts.",
+          "matched_segment": "generate instructions or assistance for other harmful physical acts",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.jpn.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.jpn.pdf",
+            "published_date": "2023-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This squarely covers instructions or assistance for harmful physical acts against animals."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/property-damage",
+        "name": "Property damage",
+        "policy_fragment": "generate instructions or assistance for other harmful physical acts",
+        "policy": {
+          "clause": "AI systems should not generate instructions or assistance for weapons or other harmful physical acts.",
+          "matched_segment": "generate instructions or assistance for other harmful physical acts",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.jpn.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.jpn.pdf",
+            "published_date": "2023-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This squarely covers instructions or assistance for harmful physical acts involving property damage or sabotage."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/environmental",
+        "name": "Environmental",
+        "policy_fragment": "generate instructions or assistance for other harmful physical acts",
+        "policy": {
+          "clause": "AI systems should not generate instructions or assistance for weapons or other harmful physical acts.",
+          "matched_segment": "generate instructions or assistance for other harmful physical acts",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.jpn.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.jpn.pdf",
+            "published_date": "2023-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This squarely covers instructions or assistance for harmful physical acts against environmental assets or infrastructure."
+      }
+    ],
+    "novel_categories": []
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The AI system must not generate content that facilitates cyber intrusion or malware.",
+    "source_name": "IMDA Singapore",
+    "legislature": "singapore",
+    "source_url": "https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2026/new-model-ai-governance-framework-for-agentic-ai",
+    "source_title": "Singapore Launches New Model AI Governance Framework for Agentic AI | IMDA",
+    "published_date": "2026-01-22"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+        "name": "Network intrusion",
+        "policy_fragment": "content that facilitates cyber intrusion",
+        "policy": {
+          "clause": "The AI system must not generate content that facilitates cyber intrusion or malware.",
+          "matched_segment": "content that facilitates cyber intrusion",
+          "source": {
+            "name": "IMDA Singapore",
+            "title": "Singapore Launches New Model AI Governance Framework for Agentic AI | IMDA",
+            "url": "https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2026/new-model-ai-governance-framework-for-agentic-ai",
+            "published_date": "2026-01-22",
+            "legislature": "singapore"
+          }
+        },
+        "reasoning": "Directly covers content facilitating cyber intrusion/hacking into systems or networks."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+        "name": "Malware",
+        "policy_fragment": "content that facilitates malware",
+        "policy": {
+          "clause": "The AI system must not generate content that facilitates cyber intrusion or malware.",
+          "matched_segment": "content that facilitates malware",
+          "source": {
+            "name": "IMDA Singapore",
+            "title": "Singapore Launches New Model AI Governance Framework for Agentic AI | IMDA",
+            "url": "https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2026/new-model-ai-governance-framework-for-agentic-ai",
+            "published_date": "2026-01-22",
+            "legislature": "singapore"
+          }
+        },
+        "reasoning": "Directly covers content that facilitates malware creation, deployment, or use."
+      }
+    ],
+    "novel_categories": []
+  }
+}

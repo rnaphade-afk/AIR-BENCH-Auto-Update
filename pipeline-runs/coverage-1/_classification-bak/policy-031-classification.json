@@ -1,0 +1,373 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+    "source_name": "EU AI Office",
+    "legislature": "eu",
+    "source_url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+    "source_title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+    "published_date": "2025-11-11"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/perpetuating-harmful-beliefs/negative-stereotyping-of-any-group",
+        "name": "Negative stereotyping of any group",
+        "policy_fragment": "discriminatory outputs",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "discriminatory outputs",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Covers discriminatory or biased outputs that stereotype or disparage groups."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/race",
+        "name": "Race",
+        "policy_fragment": "discriminatory outputs",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "discriminatory outputs",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "If the discriminatory output targets race, this is squarely hate speech."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/gender",
+        "name": "Gender",
+        "policy_fragment": "discriminatory outputs",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "discriminatory outputs",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "If the discriminatory output targets gender, this is squarely hate speech."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/religion",
+        "name": "Religion",
+        "policy_fragment": "discriminatory outputs",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "discriminatory outputs",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "If the discriminatory output targets religion, this is squarely hate speech."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/disability",
+        "name": "Disability",
+        "policy_fragment": "discriminatory outputs",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "discriminatory outputs",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "If the discriminatory output targets disability, this is squarely hate speech."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/age",
+        "name": "Age",
+        "policy_fragment": "discriminatory outputs",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "discriminatory outputs",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "If the discriminatory output targets age, this is squarely hate speech."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+        "name": "Ethnicity",
+        "policy_fragment": "hate speech",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "hate speech",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers hate speech targeting ethnicity."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/color",
+        "name": "Color",
+        "policy_fragment": "hate speech",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "hate speech",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers hate speech targeting color."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/sexual-orientation",
+        "name": "Sexual orientation",
+        "policy_fragment": "hate speech",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "hate speech",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers hate speech targeting sexual orientation."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/beliefs",
+        "name": "Beliefs",
+        "policy_fragment": "hate speech",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "hate speech",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers hate speech targeting beliefs."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/nationality",
+        "name": "Nationality",
+        "policy_fragment": "hate speech",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "hate speech",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers hate speech targeting nationality."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/geographic-region",
+        "name": "Geographic region",
+        "policy_fragment": "hate speech",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "hate speech",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers hate speech targeting geographic region."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/caste",
+        "name": "Caste",
+        "policy_fragment": "hate speech",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "hate speech",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers hate speech targeting caste."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/social-behaviors",
+        "name": "Social behaviors",
+        "policy_fragment": "hate speech",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "hate speech",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers hate speech targeting social behaviors."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/physical-characteristics",
+        "name": "Physical characteristics",
+        "policy_fragment": "hate speech",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "hate speech",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers hate speech targeting physical characteristics."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/mental-characteristics",
+        "name": "Mental characteristics",
+        "policy_fragment": "hate speech",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "hate speech",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers hate speech targeting mental characteristics."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/personality",
+        "name": "Personality",
+        "policy_fragment": "hate speech",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "hate speech",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers hate speech targeting personality."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/health-conditions",
+        "name": "Health conditions",
+        "policy_fragment": "hate speech",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "hate speech",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers hate speech targeting health conditions."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/pregnancy-status",
+        "name": "Pregnancy status",
+        "policy_fragment": "hate speech",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "hate speech",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers hate speech targeting pregnancy status."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/genetic-information",
+        "name": "Genetic information",
+        "policy_fragment": "hate speech",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "hate speech",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers hate speech targeting genetic information."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/occupation",
+        "name": "Occupation",
+        "policy_fragment": "hate speech",
+        "policy": {
+          "clause": "The provider must ensure that the model does not generate discriminatory outputs or hate speech.",
+          "matched_segment": "hate speech",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Iránymutatások az általános célú MI-szolgáltatók kötelezettségeiről | Shaping Europe’s digital future",
+            "url": "https://digital-strategy.ec.europa.eu/hu/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers hate speech targeting occupation."
+      }
+    ],
+    "novel_categories": []
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "prevent discriminatory content, including content based on race, country, sex, or health discrimination",
+    "source_name": "CAC China",
+    "legislature": "china",
+    "source_url": "https://www.chinalawtranslate.com/en/key-changes-to-generative-ai-measures/",
+    "source_title": "Key Changes to Generative AI Measures",
+    "published_date": "2023-07-18"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/race",
+        "name": "Race",
+        "policy_fragment": "discriminatory content based on race",
+        "policy": {
+          "clause": "prevent discriminatory content, including content based on race, country, sex, or health discrimination",
+          "matched_segment": "discriminatory content based on race",
+          "source": {
+            "name": "CAC China",
+            "title": "Key Changes to Generative AI Measures",
+            "url": "https://www.chinalawtranslate.com/en/key-changes-to-generative-ai-measures/",
+            "published_date": "2023-07-18",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers race-based discriminatory or hateful content."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/nationality",
+        "name": "Nationality",
+        "policy_fragment": "discriminatory content based on country",
+        "policy": {
+          "clause": "prevent discriminatory content, including content based on race, country, sex, or health discrimination",
+          "matched_segment": "discriminatory content based on country",
+          "source": {
+            "name": "CAC China",
+            "title": "Key Changes to Generative AI Measures",
+            "url": "https://www.chinalawtranslate.com/en/key-changes-to-generative-ai-measures/",
+            "published_date": "2023-07-18",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Country-based discrimination is covered by nationality/country-of-origin hate content."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/gender",
+        "name": "Gender",
+        "policy_fragment": "discriminatory content based on sex",
+        "policy": {
+          "clause": "prevent discriminatory content, including content based on race, country, sex, or health discrimination",
+          "matched_segment": "discriminatory content based on sex",
+          "source": {
+            "name": "CAC China",
+            "title": "Key Changes to Generative AI Measures",
+            "url": "https://www.chinalawtranslate.com/en/key-changes-to-generative-ai-measures/",
+            "published_date": "2023-07-18",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers sex/gender-based discriminatory content."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/health-conditions",
+        "name": "Health conditions",
+        "policy_fragment": "discriminatory content based on health",
+        "policy": {
+          "clause": "prevent discriminatory content, including content based on race, country, sex, or health discrimination",
+          "matched_segment": "discriminatory content based on health",
+          "source": {
+            "name": "CAC China",
+            "title": "Key Changes to Generative AI Measures",
+            "url": "https://www.chinalawtranslate.com/en/key-changes-to-generative-ai-measures/",
+            "published_date": "2023-07-18",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers discriminatory or stigmatizing content targeting people based on health conditions."
+      }
+    ],
+    "novel_categories": []
+  }
+}

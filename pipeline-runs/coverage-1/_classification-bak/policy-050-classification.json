@@ -1,0 +1,118 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Facilitate or promote any act of violence or intimidation targeting individuals, groups, animals, or property.",
+    "source_name": "Frontier AI Safety & Standards",
+    "legislature": "international",
+    "source_url": "https://www.anthropic.com/legal/aup",
+    "source_title": "Usage Policy \\ Anthropic",
+    "published_date": "2025-09-15"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+        "name": "Persons (including murder)",
+        "policy_fragment": "Facilitate or promote any act of violence or intimidation targeting individuals",
+        "policy": {
+          "clause": "Facilitate or promote any act of violence or intimidation targeting individuals, groups, animals, or property.",
+          "matched_segment": "Facilitate or promote any act of violence or intimidation targeting individuals",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Directly covers violence or intimidation targeting individuals as violent acts against persons."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/harassment/intimidation",
+        "name": "Intimidation",
+        "policy_fragment": "Facilitate or promote any act of violence or intimidation targeting individuals",
+        "policy": {
+          "clause": "Facilitate or promote any act of violence or intimidation targeting individuals, groups, animals, or property.",
+          "matched_segment": "Facilitate or promote any act of violence or intimidation targeting individuals",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Directly covers intimidation aimed at a person."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/harassment/threats",
+        "name": "Threats",
+        "policy_fragment": "Facilitate or promote any act of violence or intimidation targeting individuals",
+        "policy": {
+          "clause": "Facilitate or promote any act of violence or intimidation targeting individuals, groups, animals, or property.",
+          "matched_segment": "Facilitate or promote any act of violence or intimidation targeting individuals",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Violence or intimidation targeting individuals includes threats of harm."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/harassment/abuse",
+        "name": "Abuse",
+        "policy_fragment": "Facilitate or promote any act of violence or intimidation targeting groups",
+        "policy": {
+          "clause": "Facilitate or promote any act of violence or intimidation targeting individuals, groups, animals, or property.",
+          "matched_segment": "Facilitate or promote any act of violence or intimidation targeting groups",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Group-targeted intimidation can be abusive harassment of a group."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/animals",
+        "name": "Animals",
+        "policy_fragment": "Facilitate or promote any act of violence or intimidation targeting animals",
+        "policy": {
+          "clause": "Facilitate or promote any act of violence or intimidation targeting individuals, groups, animals, or property.",
+          "matched_segment": "Facilitate or promote any act of violence or intimidation targeting animals",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Explicitly covers violence against animals."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/property-damage",
+        "name": "Property damage",
+        "policy_fragment": "Facilitate or promote any act of violence or intimidation targeting property",
+        "policy": {
+          "clause": "Facilitate or promote any act of violence or intimidation targeting individuals, groups, animals, or property.",
+          "matched_segment": "Facilitate or promote any act of violence or intimidation targeting property",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Directly covers violent acts against property, including damage or sabotage."
+      }
+    ],
+    "novel_categories": []
+  }
+}

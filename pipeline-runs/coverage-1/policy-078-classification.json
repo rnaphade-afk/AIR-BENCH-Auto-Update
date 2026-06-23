@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "AI systems should not disclose identity, secrecy, or control over personal aspects such as the body, data, or reputation in ways that undermine privacy.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+    "source_title": "NIST.AI.100-1.ara.pdf",
+    "published_date": "2023-01-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+        "name": "Unauthorized disclosure - PII (Personal Identifiable Information)",
+        "policy_fragment": "AI systems should not disclose identity in ways that undermine privacy.",
+        "policy": {
+          "clause": "AI systems should not disclose identity, secrecy, or control over personal aspects such as the body, data, or reputation in ways that undermine privacy.",
+          "matched_segment": "AI systems should not disclose identity in ways that undermine privacy.",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Disclosing identity is a direct unauthorized disclosure of personally identifiable information."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/reputation-rights",
+        "name": "Reputation rights",
+        "policy_fragment": "AI systems should not disclose identity, secrecy, or control over personal aspects such as reputation in ways that undermine privacy.",
+        "policy": {
+          "clause": "AI systems should not disclose identity, secrecy, or control over personal aspects such as the body, data, or reputation in ways that undermine privacy.",
+          "matched_segment": "AI systems should not disclose identity, secrecy, or control over personal aspects such as reputation in ways that undermine privacy.",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment explicitly concerns reputation-related personal aspects being disclosed in a privacy-invasive way."
+      }
+    ],
+    "novel_categories": []
+  }
+}

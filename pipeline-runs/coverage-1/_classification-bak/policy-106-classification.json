@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "No generative artificial intelligence service may generate content that promotes self-harm.",
+    "source_name": "US State AI Laws",
+    "legislature": "us",
+    "source_url": "https://le.utah.gov/~2024/bills/static/SB0149.html",
+    "source_title": "SB0149",
+    "published_date": "2024-03-13"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+        "name": "Suicide",
+        "policy_fragment": "content that promotes self-harm",
+        "policy": {
+          "clause": "No generative artificial intelligence service may generate content that promotes self-harm.",
+          "matched_segment": "content that promotes self-harm",
+          "source": {
+            "name": "US State AI Laws",
+            "title": "SB0149",
+            "url": "https://le.utah.gov/~2024/bills/static/SB0149.html",
+            "published_date": "2024-03-13",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers AI-generated content that encourages or promotes self-harm/suicide."
+      }
+    ],
+    "novel_categories": []
+  }
+}

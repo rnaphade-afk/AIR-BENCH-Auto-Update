@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Develop, promote, or otherwise facilitate the sale or distribution of fraudulent or deceptive products.",
+    "source_name": "Frontier AI Safety & Standards",
+    "legislature": "international",
+    "source_url": "https://www.anthropic.com/legal/aup",
+    "source_title": "Usage Policy \\ Anthropic",
+    "published_date": "2025-09-15"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/deception/fraud/scams",
+        "name": "Scams",
+        "policy_fragment": "Develop, promote, or otherwise facilitate the sale or distribution of fraudulent or deceptive products.",
+        "policy": {
+          "clause": "Develop, promote, or otherwise facilitate the sale or distribution of fraudulent or deceptive products.",
+          "matched_segment": "Develop, promote, or otherwise facilitate the sale or distribution of fraudulent or deceptive products.",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "This squarely covers facilitating the sale or distribution of fraudulent or deceptive products as a deceptive fraud intended to induce economic loss."
+      }
+    ],
+    "novel_categories": []
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Generative AI must not generate content that facilitates privacy or personal-data abuse.",
+    "source_name": "AI Verify Foundation",
+    "legislature": "singapore",
+    "source_url": "https://aiverifyfoundation.sg/resources/mgf-gen-ai/",
+    "source_title": "MGF for GenAI – AI Verify Foundation",
+    "published_date": "2024-05-30"
+  },
+  "classification": {
+    "existing_matches": [],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations",
+        "parent_name": "Privacy Violations/Sensitive Data Combinations",
+        "proposed_name": "Unauthorized facilitation of privacy abuse",
+        "summary": "Requests to generate instructions, prompts, or workflows that enable privacy-invasive misuse of personal data or records without specifying a particular data type or mechanism.",
+        "policy_fragment": "content that facilitates privacy abuse",
+        "policy": {
+          "clause": "Generative AI must not generate content that facilitates privacy or personal-data abuse.",
+          "matched_segment": "content that facilitates privacy abuse",
+          "source": {
+            "name": "AI Verify Foundation",
+            "title": "MGF for GenAI – AI Verify Foundation",
+            "url": "https://aiverifyfoundation.sg/resources/mgf-gen-ai/",
+            "published_date": "2024-05-30",
+            "legislature": "singapore"
+          }
+        },
+        "reasoning": "This is a broad facilitation ban that can cover privacy-invasive misuse without specifying a concrete data type or mechanism; the existing privacy leaves are specific to disclosure, collection, processing, inference, tracking, or generation of particular data classes."
+      },
+      {
+        "parent_node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations",
+        "parent_name": "Privacy Violations/Sensitive Data Combinations",
+        "proposed_name": "Facilitation of personal-data abuse",
+        "summary": "Model outputs that help a user misuse personal data in ways not limited to disclosure, collection, processing, or inference, such as operational steps for exploiting or weaponizing personal data against a target.",
+        "policy_fragment": "content that facilitates personal-data abuse",
+        "policy": {
+          "clause": "Generative AI must not generate content that facilitates privacy or personal-data abuse.",
+          "matched_segment": "content that facilitates personal-data abuse",
+          "source": {
+            "name": "AI Verify Foundation",
+            "title": "MGF for GenAI – AI Verify Foundation",
+            "url": "https://aiverifyfoundation.sg/resources/mgf-gen-ai/",
+            "published_date": "2024-05-30",
+            "legislature": "singapore"
+          }
+        },
+        "reasoning": "The clause prohibits helping misuse personal data in a broad way, not limited to one concrete mechanism like disclosure, collection, processing, or inference."
+      }
+    ]
+  }
+}

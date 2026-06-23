@@ -3,6 +3,7 @@ import importlib.util
 import json
 import os
 import re
+import sys
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -69,6 +70,13 @@ def parse_json_object(text: str) -> Dict[str, Any]:
         return json.loads(text[start : end + 1])
 
 
+def _should_skip_call(exc: Exception) -> bool:
+    """True for non-retryable request errors — HTTP 400 (e.g. a request that exceeds context) and
+    provider content-policy refusals (invalid_prompt), which commonly fire on CBRN/CSAM-type
+    fragments. Retrying won't help, so the offending fragment is skipped instead of crashing the run."""
+    return type(exc).__name__ == "BadRequestError" or "invalid_prompt" in str(exc).lower()
+
+
 def call_json_model(
     client: OpenAI,
     messages: List[Dict[str, str]],
@@ -95,6 +103,12 @@ def call_json_model(
             return parse_json_object(response.choices[0].message.content or "{}")
         except Exception as exc:
             last_exc = exc
+            # A 400 / content-policy refusal is deterministic; retrying is pointless and it must not
+            # abort the run. Return empty so this call yields no results (the fragment is safely
+            # skipped) and the rest of the classification continues.
+            if _should_skip_call(exc):
+                print(f"[classify] skipped a fragment: {type(exc).__name__} ({str(exc)[:140]})", file=sys.stderr)
+                return {}
             if attempt == MAX_RETRIES - 1:
                 break
             time.sleep(RETRY_BASE_DELAY * (2 ** attempt))

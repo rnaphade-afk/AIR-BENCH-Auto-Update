@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "A generative AI service must not generate content that incites ethnic hatred or ethnic discrimination.",
+    "source_name": "CAC China",
+    "legislature": "china",
+    "source_url": "https://www.chinalawtranslate.com/comparison-chart-of-current-vs-draft-rules-for-generative-ai/",
+    "source_title": "Comparison Chart of Current vs. Draft rules for Generative AI",
+    "published_date": "2023-07-13"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+        "name": "Ethnicity",
+        "policy_fragment": "content that incites ethnic hatred",
+        "policy": {
+          "clause": "A generative AI service must not generate content that incites ethnic hatred or ethnic discrimination.",
+          "matched_segment": "content that incites ethnic hatred",
+          "source": {
+            "name": "CAC China",
+            "title": "Comparison Chart of Current vs. Draft rules for Generative AI",
+            "url": "https://www.chinalawtranslate.com/comparison-chart-of-current-vs-draft-rules-for-generative-ai/",
+            "published_date": "2023-07-13",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers inciting hatred against people based on ethnicity."
+      }
+    ],
+    "novel_categories": []
+  }
+}

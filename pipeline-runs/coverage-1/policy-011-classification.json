@@ -1,0 +1,186 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Content that incites subversion of national sovereignty or the overturn of the socialist system, endangers national security and interests or harms the nation’s image, incites separatism or undermines national unity and social stability, advocates terrorism or extremism, promotes ethnic hatred and ethnic discrimination, violence and obscenity, or fake and harmful information must not be generated.",
+    "source_name": "CAC China",
+    "legislature": "china",
+    "source_url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+    "source_title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+    "published_date": "2023-07-10"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/subverting-state-power",
+        "name": "Subverting state power",
+        "policy_fragment": "Content that incites subversion of national sovereignty or the overturn of the socialist system",
+        "policy": {
+          "clause": "Content that incites subversion of national sovereignty or the overturn of the socialist system, endangers national security and interests or harms the nation’s image, incites separatism or undermines national unity and social stability, advocates terrorism or extremism, promotes ethnic hatred and ethnic discrimination, violence and obscenity, or fake and harmful information must not be generated.",
+          "matched_segment": "Content that incites subversion of national sovereignty or the overturn of the socialist system",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly matches inciting subversion/overthrow of the state system."
+      },
+      {
+        "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/damaging-state-interests",
+        "name": "Damaging state interests",
+        "policy_fragment": "Content that endangers national security and interests or harms the nation’s image",
+        "policy": {
+          "clause": "Content that incites subversion of national sovereignty or the overturn of the socialist system, endangers national security and interests or harms the nation’s image, incites separatism or undermines national unity and social stability, advocates terrorism or extremism, promotes ethnic hatred and ethnic discrimination, violence and obscenity, or fake and harmful information must not be generated.",
+          "matched_segment": "Content that endangers national security and interests or harms the nation’s image",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly matches content that endangers national security and interests."
+      },
+      {
+        "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/damaging-state-honor",
+        "name": "Damaging state honor",
+        "policy_fragment": "Content that endangers national security and interests or harms the nation’s image",
+        "policy": {
+          "clause": "Content that incites subversion of national sovereignty or the overturn of the socialist system, endangers national security and interests or harms the nation’s image, incites separatism or undermines national unity and social stability, advocates terrorism or extremism, promotes ethnic hatred and ethnic discrimination, violence and obscenity, or fake and harmful information must not be generated.",
+          "matched_segment": "Content that endangers national security and interests or harms the nation’s image",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly matches content that harms the nation’s image."
+      },
+      {
+        "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/undermining-national-unity",
+        "name": "Undermining national unity",
+        "policy_fragment": "Content that incites separatism or undermines national unity and social stability",
+        "policy": {
+          "clause": "Content that incites subversion of national sovereignty or the overturn of the socialist system, endangers national security and interests or harms the nation’s image, incites separatism or undermines national unity and social stability, advocates terrorism or extremism, promotes ethnic hatred and ethnic discrimination, violence and obscenity, or fake and harmful information must not be generated.",
+          "matched_segment": "Content that incites separatism or undermines national unity and social stability",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly matches inciting separatism or undermining national unity."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+        "name": "Terrorism",
+        "policy_fragment": "Content that advocates terrorism or extremism",
+        "policy": {
+          "clause": "Content that incites subversion of national sovereignty or the overturn of the socialist system, endangers national security and interests or harms the nation’s image, incites separatism or undermines national unity and social stability, advocates terrorism or extremism, promotes ethnic hatred and ethnic discrimination, violence and obscenity, or fake and harmful information must not be generated.",
+          "matched_segment": "Content that advocates terrorism or extremism",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers advocating terrorism."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+        "name": "Extremism",
+        "policy_fragment": "Content that advocates terrorism or extremism",
+        "policy": {
+          "clause": "Content that incites subversion of national sovereignty or the overturn of the socialist system, endangers national security and interests or harms the nation’s image, incites separatism or undermines national unity and social stability, advocates terrorism or extremism, promotes ethnic hatred and ethnic discrimination, violence and obscenity, or fake and harmful information must not be generated.",
+          "matched_segment": "Content that advocates terrorism or extremism",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers advocating extremism."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+        "name": "Ethnicity",
+        "policy_fragment": "Content that promotes ethnic hatred and ethnic discrimination",
+        "policy": {
+          "clause": "Content that incites subversion of national sovereignty or the overturn of the socialist system, endangers national security and interests or harms the nation’s image, incites separatism or undermines national unity and social stability, advocates terrorism or extremism, promotes ethnic hatred and ethnic discrimination, violence and obscenity, or fake and harmful information must not be generated.",
+          "matched_segment": "Content that promotes ethnic hatred and ethnic discrimination",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers hatred targeting ethnicity."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/inciting-violence-or-radicalization",
+        "name": "Inciting violence or radicalization",
+        "policy_fragment": "Content that promotes violence and obscenity",
+        "policy": {
+          "clause": "Content that incites subversion of national sovereignty or the overturn of the socialist system, endangers national security and interests or harms the nation’s image, incites separatism or undermines national unity and social stability, advocates terrorism or extremism, promotes ethnic hatred and ethnic discrimination, violence and obscenity, or fake and harmful information must not be generated.",
+          "matched_segment": "Content that promotes violence and obscenity",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers promoting violence."
+      },
+      {
+        "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+        "name": "Obscene",
+        "policy_fragment": "Content that promotes violence and obscenity",
+        "policy": {
+          "clause": "Content that incites subversion of national sovereignty or the overturn of the socialist system, endangers national security and interests or harms the nation’s image, incites separatism or undermines national unity and social stability, advocates terrorism or extremism, promotes ethnic hatred and ethnic discrimination, violence and obscenity, or fake and harmful information must not be generated.",
+          "matched_segment": "Content that promotes violence and obscenity",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers obscene sexual content."
+      },
+      {
+        "node_id": "root/societal-risks/deception/mis-disinformation/generating-or-promoting-misinformation",
+        "name": "Generating or promoting misinformation",
+        "policy_fragment": "Content that promotes fake and harmful information",
+        "policy": {
+          "clause": "Content that incites subversion of national sovereignty or the overturn of the socialist system, endangers national security and interests or harms the nation’s image, incites separatism or undermines national unity and social stability, advocates terrorism or extremism, promotes ethnic hatred and ethnic discrimination, violence and obscenity, or fake and harmful information must not be generated.",
+          "matched_segment": "Content that promotes fake and harmful information",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers generating or promoting misinformation/fake information."
+      }
+    ],
+    "novel_categories": []
+  }
+}

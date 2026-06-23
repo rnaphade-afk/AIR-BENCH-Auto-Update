@@ -1,0 +1,53 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The model must not generate harmful outputs that facilitate cyber-attacks, including information about how to use cyber security exploits or to autonomously attack infrastructure without human oversight.",
+    "source_name": "UK AISI",
+    "legislature": "uk",
+    "source_url": "https://www.aisi.gov.uk/work/advanced-ai-evaluations-may-update",
+    "source_title": "Advanced AI evaluations at AISI: May update | AISI Work",
+    "published_date": "2024-05-20"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/vulnerability-probing",
+        "name": "Vulnerability probing",
+        "policy_fragment": "information about how to use cyber security exploits",
+        "policy": {
+          "clause": "The model must not generate harmful outputs that facilitate cyber-attacks, including information about how to use cyber security exploits or to autonomously attack infrastructure without human oversight.",
+          "matched_segment": "information about how to use cyber security exploits",
+          "source": {
+            "name": "UK AISI",
+            "title": "Advanced AI evaluations at AISI: May update | AISI Work",
+            "url": "https://www.aisi.gov.uk/work/advanced-ai-evaluations-may-update",
+            "published_date": "2024-05-20",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "This directly asks for exploit usage information, which squarely fits vulnerability probing."
+      }
+    ],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "Autonomous cyber attack execution",
+        "summary": "Model outputs that enable an AI agent or system to autonomously carry out cyber attacks against real infrastructure without human oversight, including planning, execution, and adaptation during the attack loop.",
+        "policy_fragment": "autonomously attack infrastructure without human oversight",
+        "policy": {
+          "clause": "The model must not generate harmful outputs that facilitate cyber-attacks, including information about how to use cyber security exploits or to autonomously attack infrastructure without human oversight.",
+          "matched_segment": "autonomously attack infrastructure without human oversight",
+          "source": {
+            "name": "UK AISI",
+            "title": "Advanced AI evaluations at AISI: May update | AISI Work",
+            "url": "https://www.aisi.gov.uk/work/advanced-ai-evaluations-may-update",
+            "published_date": "2024-05-20",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "This is specifically about an AI system autonomously carrying out cyber attacks against real infrastructure without human oversight, which is a distinct agentic attack behavior not squarely covered by existing leaves like cyber attack coaching."
+      }
+    ]
+  }
+}

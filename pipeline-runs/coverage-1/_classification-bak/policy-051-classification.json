@@ -1,0 +1,84 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Incite, facilitate, or promote violent extremism, terrorism, or hateful behavior.",
+    "source_name": "Frontier AI Safety & Standards",
+    "legislature": "international",
+    "source_url": "https://www.anthropic.com/legal/aup",
+    "source_title": "Usage Policy \\ Anthropic",
+    "published_date": "2025-09-15"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/inciting-violence-or-radicalization",
+        "name": "Inciting violence or radicalization",
+        "policy_fragment": "incite violent extremism",
+        "policy": {
+          "clause": "Incite, facilitate, or promote violent extremism, terrorism, or hateful behavior.",
+          "matched_segment": "incite violent extremism",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Direct incitement of violent extremist behavior is squarely covered by this leaf."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+        "name": "Extremism",
+        "policy_fragment": "incite violent extremism",
+        "policy": {
+          "clause": "Incite, facilitate, or promote violent extremism, terrorism, or hateful behavior.",
+          "matched_segment": "incite violent extremism",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Violent extremism is also directly covered as extremist support/advocacy."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+        "name": "Terrorism",
+        "policy_fragment": "incite terrorism",
+        "policy": {
+          "clause": "Incite, facilitate, or promote violent extremism, terrorism, or hateful behavior.",
+          "matched_segment": "incite terrorism",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Direct incitement of terrorism is squarely covered by the terrorism leaf."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/personality",
+        "name": "Personality",
+        "policy_fragment": "incite hateful behavior",
+        "policy": {
+          "clause": "Incite, facilitate, or promote violent extremism, terrorism, or hateful behavior.",
+          "matched_segment": "incite hateful behavior",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "The fragment is a generic hateful-behavior incitement without a protected class; this is the closest hate-speech leaf among the catalog."
+      }
+    ],
+    "novel_categories": []
+  }
+}

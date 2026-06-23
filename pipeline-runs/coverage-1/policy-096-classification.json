@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "AI systems should not generate self-harm instructions or encouragement.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.jpn.pdf",
+    "source_title": "NIST.AI.100-1.jpn.pdf",
+    "published_date": "2023-01-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+        "name": "Suicide",
+        "policy_fragment": "generate self-harm instructions",
+        "policy": {
+          "clause": "AI systems should not generate self-harm instructions or encouragement.",
+          "matched_segment": "generate self-harm instructions",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.jpn.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.jpn.pdf",
+            "published_date": "2023-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers generating instructions that facilitate self-harm."
+      }
+    ],
+    "novel_categories": []
+  }
+}

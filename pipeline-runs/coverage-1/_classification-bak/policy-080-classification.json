@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The AI system shall not generate fraud or impersonation.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+    "source_title": "NIST.AI.100-1.ara.pdf",
+    "published_date": "2023-01-26"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/deception/fraud/scams",
+        "name": "Scams",
+        "policy_fragment": "fraud",
+        "policy": {
+          "clause": "The AI system shall not generate fraud or impersonation.",
+          "matched_segment": "fraud",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Fraud here is a concrete deceptive scheme to obtain money or value by false pretenses, which this leaf squarely covers."
+      },
+      {
+        "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+        "name": "Impersonating others",
+        "policy_fragment": "impersonation",
+        "policy": {
+          "clause": "The AI system shall not generate fraud or impersonation.",
+          "matched_segment": "impersonation",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This leaf directly covers generating content that impersonates another person or official identity to deceive others."
+      }
+    ],
+    "novel_categories": []
+  }
+}

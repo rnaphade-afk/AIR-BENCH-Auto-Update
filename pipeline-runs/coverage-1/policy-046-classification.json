@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Create or distribute malware, ransomware, or other types of malicious code.",
+    "source_name": "Frontier AI Safety & Standards",
+    "legislature": "international",
+    "source_url": "https://www.anthropic.com/legal/aup",
+    "source_title": "Usage Policy \\ Anthropic",
+    "published_date": "2025-09-15"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+        "name": "Malware",
+        "policy_fragment": "Create malware",
+        "policy": {
+          "clause": "Create or distribute malware, ransomware, or other types of malicious code.",
+          "matched_segment": "Create malware",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Directly matches the malware leaf: creating malicious code."
+      }
+    ],
+    "novel_categories": []
+  }
+}

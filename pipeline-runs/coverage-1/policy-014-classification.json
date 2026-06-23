@@ -1,0 +1,186 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Content generated using generative AI shall embody the Core Socialist Values and must not incite subversion of national sovereignty or the overturn of the socialist system, incite separatism, undermine national unity, advocate terrorism or extremism, propagate ethnic hatred and ethnic discrimination, or have information that is violent, obscene, or fake, as well as content that might disrupt the economic or social order.",
+    "source_name": "CAC China",
+    "legislature": "china",
+    "source_url": "https://www.chinalawtranslate.com/en/overview-of-draft-measures-on-generative-ai/",
+    "source_title": "Overview of Draft Measures on Generative AI",
+    "published_date": "2023-04-14"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/subverting-state-power",
+        "name": "Subverting state power",
+        "policy_fragment": "content must not incite subversion of national sovereignty or the overturn of the socialist system",
+        "policy": {
+          "clause": "Content generated using generative AI shall embody the Core Socialist Values and must not incite subversion of national sovereignty or the overturn of the socialist system, incite separatism, undermine national unity, advocate terrorism or extremism, propagate ethnic hatred and ethnic discrimination, or have information that is violent, obscene, or fake, as well as content that might disrupt the economic or social order.",
+          "matched_segment": "content must not incite subversion of national sovereignty or the overturn of the socialist system",
+          "source": {
+            "name": "CAC China",
+            "title": "Overview of Draft Measures on Generative AI",
+            "url": "https://www.chinalawtranslate.com/en/overview-of-draft-measures-on-generative-ai/",
+            "published_date": "2023-04-14",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Explicitly covers inciting subversion of national sovereignty and overturning the socialist system."
+      },
+      {
+        "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/undermining-national-unity",
+        "name": "Undermining national unity",
+        "policy_fragment": "content must not incite separatism",
+        "policy": {
+          "clause": "Content generated using generative AI shall embody the Core Socialist Values and must not incite subversion of national sovereignty or the overturn of the socialist system, incite separatism, undermine national unity, advocate terrorism or extremism, propagate ethnic hatred and ethnic discrimination, or have information that is violent, obscene, or fake, as well as content that might disrupt the economic or social order.",
+          "matched_segment": "content must not incite separatism",
+          "source": {
+            "name": "CAC China",
+            "title": "Overview of Draft Measures on Generative AI",
+            "url": "https://www.chinalawtranslate.com/en/overview-of-draft-measures-on-generative-ai/",
+            "published_date": "2023-04-14",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Separatism is a direct form of undermining national unity."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/inciting-violence-or-radicalization",
+        "name": "Inciting violence or radicalization",
+        "policy_fragment": "content must not advocate terrorism or extremism",
+        "policy": {
+          "clause": "Content generated using generative AI shall embody the Core Socialist Values and must not incite subversion of national sovereignty or the overturn of the socialist system, incite separatism, undermine national unity, advocate terrorism or extremism, propagate ethnic hatred and ethnic discrimination, or have information that is violent, obscene, or fake, as well as content that might disrupt the economic or social order.",
+          "matched_segment": "content must not advocate terrorism or extremism",
+          "source": {
+            "name": "CAC China",
+            "title": "Overview of Draft Measures on Generative AI",
+            "url": "https://www.chinalawtranslate.com/en/overview-of-draft-measures-on-generative-ai/",
+            "published_date": "2023-04-14",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Advocating terrorism or extremism is incitement toward violent radicalization."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+        "name": "Terrorism",
+        "policy_fragment": "content must not advocate terrorism or extremism",
+        "policy": {
+          "clause": "Content generated using generative AI shall embody the Core Socialist Values and must not incite subversion of national sovereignty or the overturn of the socialist system, incite separatism, undermine national unity, advocate terrorism or extremism, propagate ethnic hatred and ethnic discrimination, or have information that is violent, obscene, or fake, as well as content that might disrupt the economic or social order.",
+          "matched_segment": "content must not advocate terrorism or extremism",
+          "source": {
+            "name": "CAC China",
+            "title": "Overview of Draft Measures on Generative AI",
+            "url": "https://www.chinalawtranslate.com/en/overview-of-draft-measures-on-generative-ai/",
+            "published_date": "2023-04-14",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "The fragment explicitly forbids advocating terrorism."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+        "name": "Extremism",
+        "policy_fragment": "content must not advocate terrorism or extremism",
+        "policy": {
+          "clause": "Content generated using generative AI shall embody the Core Socialist Values and must not incite subversion of national sovereignty or the overturn of the socialist system, incite separatism, undermine national unity, advocate terrorism or extremism, propagate ethnic hatred and ethnic discrimination, or have information that is violent, obscene, or fake, as well as content that might disrupt the economic or social order.",
+          "matched_segment": "content must not advocate terrorism or extremism",
+          "source": {
+            "name": "CAC China",
+            "title": "Overview of Draft Measures on Generative AI",
+            "url": "https://www.chinalawtranslate.com/en/overview-of-draft-measures-on-generative-ai/",
+            "published_date": "2023-04-14",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "The fragment explicitly forbids advocating extremism."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+        "name": "Ethnicity",
+        "policy_fragment": "content must not propagate ethnic hatred and ethnic discrimination",
+        "policy": {
+          "clause": "Content generated using generative AI shall embody the Core Socialist Values and must not incite subversion of national sovereignty or the overturn of the socialist system, incite separatism, undermine national unity, advocate terrorism or extremism, propagate ethnic hatred and ethnic discrimination, or have information that is violent, obscene, or fake, as well as content that might disrupt the economic or social order.",
+          "matched_segment": "content must not propagate ethnic hatred and ethnic discrimination",
+          "source": {
+            "name": "CAC China",
+            "title": "Overview of Draft Measures on Generative AI",
+            "url": "https://www.chinalawtranslate.com/en/overview-of-draft-measures-on-generative-ai/",
+            "published_date": "2023-04-14",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Explicitly targets ethnic hatred and discrimination against an ethnic group."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/depicting-violence/bodily-destruction",
+        "name": "Bodily destruction",
+        "policy_fragment": "content must not have information that is violent",
+        "policy": {
+          "clause": "Content generated using generative AI shall embody the Core Socialist Values and must not incite subversion of national sovereignty or the overturn of the socialist system, incite separatism, undermine national unity, advocate terrorism or extremism, propagate ethnic hatred and ethnic discrimination, or have information that is violent, obscene, or fake, as well as content that might disrupt the economic or social order.",
+          "matched_segment": "content must not have information that is violent",
+          "source": {
+            "name": "CAC China",
+            "title": "Overview of Draft Measures on Generative AI",
+            "url": "https://www.chinalawtranslate.com/en/overview-of-draft-measures-on-generative-ai/",
+            "published_date": "2023-04-14",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Violent information is covered by violence depiction; bodily destruction is the closest squarely matching leaf for violent content."
+      },
+      {
+        "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+        "name": "Obscene",
+        "policy_fragment": "content must not have information that is obscene",
+        "policy": {
+          "clause": "Content generated using generative AI shall embody the Core Socialist Values and must not incite subversion of national sovereignty or the overturn of the socialist system, incite separatism, undermine national unity, advocate terrorism or extremism, propagate ethnic hatred and ethnic discrimination, or have information that is violent, obscene, or fake, as well as content that might disrupt the economic or social order.",
+          "matched_segment": "content must not have information that is obscene",
+          "source": {
+            "name": "CAC China",
+            "title": "Overview of Draft Measures on Generative AI",
+            "url": "https://www.chinalawtranslate.com/en/overview-of-draft-measures-on-generative-ai/",
+            "published_date": "2023-04-14",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Explicitly matches obscene content."
+      },
+      {
+        "node_id": "root/societal-risks/deception/mis-disinformation/generating-or-promoting-misinformation",
+        "name": "Generating or promoting misinformation",
+        "policy_fragment": "content must not have information that is fake",
+        "policy": {
+          "clause": "Content generated using generative AI shall embody the Core Socialist Values and must not incite subversion of national sovereignty or the overturn of the socialist system, incite separatism, undermine national unity, advocate terrorism or extremism, propagate ethnic hatred and ethnic discrimination, or have information that is violent, obscene, or fake, as well as content that might disrupt the economic or social order.",
+          "matched_segment": "content must not have information that is fake",
+          "source": {
+            "name": "CAC China",
+            "title": "Overview of Draft Measures on Generative AI",
+            "url": "https://www.chinalawtranslate.com/en/overview-of-draft-measures-on-generative-ai/",
+            "published_date": "2023-04-14",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Fake information is misinformation/fabricated content."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/criminal-activities/other-illegal-unlawful-criminal-activities/undermining-social-stability-china-unique",
+        "name": "Undermining social stability (China-unique)",
+        "policy_fragment": "content must not have information that might disrupt the economic or social order",
+        "policy": {
+          "clause": "Content generated using generative AI shall embody the Core Socialist Values and must not incite subversion of national sovereignty or the overturn of the socialist system, incite separatism, undermine national unity, advocate terrorism or extremism, propagate ethnic hatred and ethnic discrimination, or have information that is violent, obscene, or fake, as well as content that might disrupt the economic or social order.",
+          "matched_segment": "content must not have information that might disrupt the economic or social order",
+          "source": {
+            "name": "CAC China",
+            "title": "Overview of Draft Measures on Generative AI",
+            "url": "https://www.chinalawtranslate.com/en/overview-of-draft-measures-on-generative-ai/",
+            "published_date": "2023-04-14",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Disrupting economic or social order is a direct social-stability harm in the China-unique unlawful activities branch."
+      }
+    ],
+    "novel_categories": []
+  }
+}

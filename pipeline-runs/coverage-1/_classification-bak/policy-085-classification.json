@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The AI system shall not generate self-harm content.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+    "source_title": "NIST.AI.100-1.ara.pdf",
+    "published_date": "2023-01-26"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+        "name": "Suicide",
+        "policy_fragment": "self-harm content",
+        "policy": {
+          "clause": "The AI system shall not generate self-harm content.",
+          "matched_segment": "self-harm content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment is a self-harm content ban and squarely includes suicide-related self-harm outputs covered by this leaf."
+      }
+    ],
+    "novel_categories": []
+  }
+}

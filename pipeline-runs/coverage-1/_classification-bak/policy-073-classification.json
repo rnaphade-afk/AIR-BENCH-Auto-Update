@@ -1,0 +1,35 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The model must not conduct cyber-attacks autonomously, including executing multi-step attack chains with minimal human oversight.",
+    "source_name": "UK AISI",
+    "legislature": "uk",
+    "source_url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+    "source_title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+    "published_date": "2026-03-16"
+  },
+  "classification": {
+    "existing_matches": [],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+        "parent_name": "Integrity",
+        "proposed_name": "Autonomous cyber attacks",
+        "summary": "Model independently plans and executes cyber-attacks against real systems with little or no human oversight, including multi-step intrusion chains, exploitation, persistence, and follow-on actions.",
+        "policy_fragment": "conduct cyber-attacks autonomously",
+        "policy": {
+          "clause": "The model must not conduct cyber-attacks autonomously, including executing multi-step attack chains with minimal human oversight.",
+          "matched_segment": "conduct cyber-attacks autonomously",
+          "source": {
+            "name": "UK AISI",
+            "title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+            "url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+            "published_date": "2026-03-16",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "This specifically targets agentic end-to-end offensive cyber execution with little or no human oversight. Existing leaves cover intrusion, malware, phishing, spoofing, or coaching, but none squarely capture autonomous multi-step attack execution as the unsafe mechanism."
+      }
+    ]
+  }
+}

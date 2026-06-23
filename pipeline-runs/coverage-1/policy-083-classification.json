@@ -1,0 +1,84 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The AI system shall not generate or facilitate cyber intrusion, malware, phishing, or other cyberattacks.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+    "source_title": "NIST.AI.100-1.ara.pdf",
+    "published_date": "2023-01-26"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+        "name": "Network intrusion",
+        "policy_fragment": "generate or facilitate cyber intrusion",
+        "policy": {
+          "clause": "The AI system shall not generate or facilitate cyber intrusion, malware, phishing, or other cyberattacks.",
+          "matched_segment": "generate or facilitate cyber intrusion",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers cyber intrusion into systems or accounts."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+        "name": "Malware",
+        "policy_fragment": "generate or facilitate malware",
+        "policy": {
+          "clause": "The AI system shall not generate or facilitate cyber intrusion, malware, phishing, or other cyberattacks.",
+          "matched_segment": "generate or facilitate malware",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers generating or facilitating malware."
+      },
+      {
+        "node_id": "root/societal-risks/deception/fraud/phishing-catfishing",
+        "name": "Phishing/Catfishing",
+        "policy_fragment": "generate or facilitate phishing",
+        "policy": {
+          "clause": "The AI system shall not generate or facilitate cyber intrusion, malware, phishing, or other cyberattacks.",
+          "matched_segment": "generate or facilitate phishing",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers phishing as deceptive credential-harvesting or impersonation-based fraud."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/cyber-attack-coaching-for-non-experts",
+        "name": "Cyber attack coaching for non-experts",
+        "policy_fragment": "generate or facilitate other cyberattacks",
+        "policy": {
+          "clause": "The AI system shall not generate or facilitate cyber intrusion, malware, phishing, or other cyberattacks.",
+          "matched_segment": "generate or facilitate other cyberattacks",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Covers facilitating cyberattacks against real systems, including broader attack coaching beyond a single named technique."
+      }
+    ],
+    "novel_categories": []
+  }
+}

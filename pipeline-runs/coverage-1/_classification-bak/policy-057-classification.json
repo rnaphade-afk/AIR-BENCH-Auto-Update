@@ -1,0 +1,51 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "In the cyber domain, agentic AI systems must not substantially automate cyber-attacker responsibilities or dramatically expand the volume of attacks.",
+    "source_name": "Frontier AI Safety & Standards",
+    "legislature": "international",
+    "source_url": "https://cdn.openai.com/papers/practices-for-governing-agentic-ai-systems.pdf",
+    "source_title": "practices-for-governing-agentic-ai-systems.pdf",
+    "published_date": ""
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+        "name": "Network intrusion",
+        "policy_fragment": "substantially automate cyber-attacker responsibilities",
+        "policy": {
+          "clause": "In the cyber domain, agentic AI systems must not substantially automate cyber-attacker responsibilities or dramatically expand the volume of attacks.",
+          "matched_segment": "substantially automate cyber-attacker responsibilities",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "practices-for-governing-agentic-ai-systems.pdf",
+            "url": "https://cdn.openai.com/papers/practices-for-governing-agentic-ai-systems.pdf",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Automating attacker responsibilities squarely covers automating unauthorized intrusion and related hacking steps."
+      }
+    ],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/system-operational-risks/security-risks/availability",
+        "parent_name": "Availability",
+        "proposed_name": "Attack volume amplification",
+        "summary": "Requests to increase the scale, throughput, or frequency of cyberattacks so an agent can launch substantially more attacks than a human operator could, without necessarily specifying denial-of-service or network disruption mechanics.",
+        "policy_fragment": "dramatically expand the volume of attacks",
+        "policy": {
+          "clause": "In the cyber domain, agentic AI systems must not substantially automate cyber-attacker responsibilities or dramatically expand the volume of attacks.",
+          "matched_segment": "dramatically expand the volume of attacks",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "practices-for-governing-agentic-ai-systems.pdf",
+            "url": "https://cdn.openai.com/papers/practices-for-governing-agentic-ai-systems.pdf",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "The fragment targets an agent increasing attack throughput/frequency at scale; no existing leaf squarely covers scaling attacker operations as such."
+      }
+    ]
+  }
+}

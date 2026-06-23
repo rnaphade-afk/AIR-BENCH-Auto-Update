@@ -1,0 +1,186 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "must not generate content that incites subversion of state power, overthrow of the socialist system, endangers national security or interests, damages the national image, incites secession, undermines national unity or social stability, promotes terrorism or extremism, promotes ethnic hatred or ethnic discrimination, or contains violence, obscene pornography, or false harmful information prohibited by law or administrative regulations",
+    "source_name": "CAC China",
+    "legislature": "china",
+    "source_url": "https://www.chinalawtranslate.com/generative-ai-interim/",
+    "source_title": "生成式人工智能服务管理暂行办法",
+    "published_date": "2023-07-10"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/subverting-state-power",
+        "name": "Subverting state power",
+        "policy_fragment": "content that incites subversion of state power",
+        "policy": {
+          "clause": "must not generate content that incites subversion of state power, overthrow of the socialist system, endangers national security or interests, damages the national image, incites secession, undermines national unity or social stability, promotes terrorism or extremism, promotes ethnic hatred or ethnic discrimination, or contains violence, obscene pornography, or false harmful information prohibited by law or administrative regulations",
+          "matched_segment": "content that incites subversion of state power",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理暂行办法",
+            "url": "https://www.chinalawtranslate.com/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Direct exact match for inciting subversion of state power."
+      },
+      {
+        "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/damaging-state-interests",
+        "name": "Damaging state interests",
+        "policy_fragment": "content that endangers national security or interests",
+        "policy": {
+          "clause": "must not generate content that incites subversion of state power, overthrow of the socialist system, endangers national security or interests, damages the national image, incites secession, undermines national unity or social stability, promotes terrorism or extremism, promotes ethnic hatred or ethnic discrimination, or contains violence, obscene pornography, or false harmful information prohibited by law or administrative regulations",
+          "matched_segment": "content that endangers national security or interests",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理暂行办法",
+            "url": "https://www.chinalawtranslate.com/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "This leaf covers harms to state interests, including national security interests."
+      },
+      {
+        "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/undermining-national-unity",
+        "name": "Undermining national unity",
+        "policy_fragment": "content that incites secession",
+        "policy": {
+          "clause": "must not generate content that incites subversion of state power, overthrow of the socialist system, endangers national security or interests, damages the national image, incites secession, undermines national unity or social stability, promotes terrorism or extremism, promotes ethnic hatred or ethnic discrimination, or contains violence, obscene pornography, or false harmful information prohibited by law or administrative regulations",
+          "matched_segment": "content that incites secession",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理暂行办法",
+            "url": "https://www.chinalawtranslate.com/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Inciting secession is a direct separatist form of undermining national unity."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/criminal-activities/other-illegal-unlawful-criminal-activities/undermining-social-stability-china-unique",
+        "name": "Undermining social stability (China-unique)",
+        "policy_fragment": "content that undermines national unity or social stability",
+        "policy": {
+          "clause": "must not generate content that incites subversion of state power, overthrow of the socialist system, endangers national security or interests, damages the national image, incites secession, undermines national unity or social stability, promotes terrorism or extremism, promotes ethnic hatred or ethnic discrimination, or contains violence, obscene pornography, or false harmful information prohibited by law or administrative regulations",
+          "matched_segment": "content that undermines national unity or social stability",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理暂行办法",
+            "url": "https://www.chinalawtranslate.com/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "The social-stability portion is directly covered by this China-unique unlawful-activities leaf."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+        "name": "Terrorism",
+        "policy_fragment": "content that promotes terrorism or extremism",
+        "policy": {
+          "clause": "must not generate content that incites subversion of state power, overthrow of the socialist system, endangers national security or interests, damages the national image, incites secession, undermines national unity or social stability, promotes terrorism or extremism, promotes ethnic hatred or ethnic discrimination, or contains violence, obscene pornography, or false harmful information prohibited by law or administrative regulations",
+          "matched_segment": "content that promotes terrorism or extremism",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理暂行办法",
+            "url": "https://www.chinalawtranslate.com/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Direct match for promoting terrorism."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+        "name": "Extremism",
+        "policy_fragment": "content that promotes terrorism or extremism",
+        "policy": {
+          "clause": "must not generate content that incites subversion of state power, overthrow of the socialist system, endangers national security or interests, damages the national image, incites secession, undermines national unity or social stability, promotes terrorism or extremism, promotes ethnic hatred or ethnic discrimination, or contains violence, obscene pornography, or false harmful information prohibited by law or administrative regulations",
+          "matched_segment": "content that promotes terrorism or extremism",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理暂行办法",
+            "url": "https://www.chinalawtranslate.com/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Direct match for promoting extremism."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+        "name": "Ethnicity",
+        "policy_fragment": "content that promotes ethnic hatred or ethnic discrimination",
+        "policy": {
+          "clause": "must not generate content that incites subversion of state power, overthrow of the socialist system, endangers national security or interests, damages the national image, incites secession, undermines national unity or social stability, promotes terrorism or extremism, promotes ethnic hatred or ethnic discrimination, or contains violence, obscene pornography, or false harmful information prohibited by law or administrative regulations",
+          "matched_segment": "content that promotes ethnic hatred or ethnic discrimination",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理暂行办法",
+            "url": "https://www.chinalawtranslate.com/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Direct hate-speech match for ethnicity-based hatred/discrimination."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+        "name": "Persons (including murder)",
+        "policy_fragment": "content that contains violence",
+        "policy": {
+          "clause": "must not generate content that incites subversion of state power, overthrow of the socialist system, endangers national security or interests, damages the national image, incites secession, undermines national unity or social stability, promotes terrorism or extremism, promotes ethnic hatred or ethnic discrimination, or contains violence, obscene pornography, or false harmful information prohibited by law or administrative regulations",
+          "matched_segment": "content that contains violence",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理暂行办法",
+            "url": "https://www.chinalawtranslate.com/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Violence content involving people is directly covered by this violent-acts leaf."
+      },
+      {
+        "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+        "name": "Obscene",
+        "policy_fragment": "content that contains obscene pornography",
+        "policy": {
+          "clause": "must not generate content that incites subversion of state power, overthrow of the socialist system, endangers national security or interests, damages the national image, incites secession, undermines national unity or social stability, promotes terrorism or extremism, promotes ethnic hatred or ethnic discrimination, or contains violence, obscene pornography, or false harmful information prohibited by law or administrative regulations",
+          "matched_segment": "content that contains obscene pornography",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理暂行办法",
+            "url": "https://www.chinalawtranslate.com/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Direct match for obscene pornographic content."
+      },
+      {
+        "node_id": "root/societal-risks/deception/mis-disinformation/generating-or-promoting-misinformation",
+        "name": "Generating or promoting misinformation",
+        "policy_fragment": "content that contains false harmful information prohibited by law or administrative regulations",
+        "policy": {
+          "clause": "must not generate content that incites subversion of state power, overthrow of the socialist system, endangers national security or interests, damages the national image, incites secession, undermines national unity or social stability, promotes terrorism or extremism, promotes ethnic hatred or ethnic discrimination, or contains violence, obscene pornography, or false harmful information prohibited by law or administrative regulations",
+          "matched_segment": "content that contains false harmful information prohibited by law or administrative regulations",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理暂行办法",
+            "url": "https://www.chinalawtranslate.com/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "False harmful information is a form of misinformation/disinformation content."
+      }
+    ],
+    "novel_categories": []
+  }
+}

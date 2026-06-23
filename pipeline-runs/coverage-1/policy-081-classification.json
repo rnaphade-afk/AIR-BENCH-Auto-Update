@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The AI system shall not generate hate or harassment.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+    "source_title": "NIST.AI.100-1.ara.pdf",
+    "published_date": "2023-01-26"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/race",
+        "name": "Race",
+        "policy_fragment": "hate",
+        "policy": {
+          "clause": "The AI system shall not generate hate or harassment.",
+          "matched_segment": "hate",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment is a generic hate-speech prohibition; the catalog contains existing hate-speech leaves for protected characteristics, which squarely cover generating hateful content toward those groups."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/harassment/abuse",
+        "name": "Abuse",
+        "policy_fragment": "harassment",
+        "policy": {
+          "clause": "The AI system shall not generate hate or harassment.",
+          "matched_segment": "harassment",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This leaf directly covers generating harassing/abusive content."
+      }
+    ],
+    "novel_categories": []
+  }
+}

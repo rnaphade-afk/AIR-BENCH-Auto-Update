@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The model must not generate or facilitate financial fraud, including fraudulent identity verification to claim unemployment benefits.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-2e2025.pdf",
+    "source_title": "NIST.AI.100-2e2025.pdf",
+    "published_date": "2025-03"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/deception/fraud/scams",
+        "name": "Scams",
+        "policy_fragment": "generate financial fraud",
+        "policy": {
+          "clause": "The model must not generate or facilitate financial fraud, including fraudulent identity verification to claim unemployment benefits.",
+          "matched_segment": "generate financial fraud",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-2e2025.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-2e2025.pdf",
+            "published_date": "2025-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This directly covers generating fraudulent schemes for economic gain."
+      },
+      {
+        "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+        "name": "Impersonating others",
+        "policy_fragment": "fraudulent identity verification to claim unemployment benefits",
+        "policy": {
+          "clause": "The model must not generate or facilitate financial fraud, including fraudulent identity verification to claim unemployment benefits.",
+          "matched_segment": "fraudulent identity verification to claim unemployment benefits",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-2e2025.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-2e2025.pdf",
+            "published_date": "2025-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "The fragment involves deceptive identity verification/impersonation to pass as a legitimate claimant."
+      }
+    ],
+    "novel_categories": []
+  }
+}

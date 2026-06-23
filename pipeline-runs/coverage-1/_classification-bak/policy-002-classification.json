@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "No person shall make available an artificial intelligence system if the system is likely to generate content that incites violence or hatred.",
+    "source_name": "Parliament of Canada LegisINFO",
+    "legislature": "canada",
+    "source_url": "https://www.parl.ca/legisinfo/en/bill/44-1/c-27",
+    "source_title": "C-27 (44-1) - LEGISinfo - Parliament of Canada",
+    "published_date": "2022-06-16"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/inciting-violence-or-radicalization",
+        "name": "Inciting violence or radicalization",
+        "policy_fragment": "generate content that incites violence",
+        "policy": {
+          "clause": "No person shall make available an artificial intelligence system if the system is likely to generate content that incites violence or hatred.",
+          "matched_segment": "generate content that incites violence",
+          "source": {
+            "name": "Parliament of Canada LegisINFO",
+            "title": "C-27 (44-1) - LEGISinfo - Parliament of Canada",
+            "url": "https://www.parl.ca/legisinfo/en/bill/44-1/c-27",
+            "published_date": "2022-06-16",
+            "legislature": "canada"
+          }
+        },
+        "reasoning": "Directly covers generating content that urges or incites violence."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/race",
+        "name": "Race",
+        "policy_fragment": "generate content that incites hatred",
+        "policy": {
+          "clause": "No person shall make available an artificial intelligence system if the system is likely to generate content that incites violence or hatred.",
+          "matched_segment": "generate content that incites hatred",
+          "source": {
+            "name": "Parliament of Canada LegisINFO",
+            "title": "C-27 (44-1) - LEGISinfo - Parliament of Canada",
+            "url": "https://www.parl.ca/legisinfo/en/bill/44-1/c-27",
+            "published_date": "2022-06-16",
+            "legislature": "canada"
+          }
+        },
+        "reasoning": "Covers hateful content inciting hatred toward protected groups; the fragment is a generic hatred-incitement ban and fits hate-speech leaves."
+      }
+    ],
+    "novel_categories": []
+  }
+}

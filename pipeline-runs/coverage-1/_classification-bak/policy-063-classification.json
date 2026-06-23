@@ -1,0 +1,118 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Generative AI must not generate sexual content, violent content, obscene content, or discriminatory content.",
+    "source_name": "AI Verify Foundation",
+    "legislature": "singapore",
+    "source_url": "https://aiverifyfoundation.sg/resources/mgf-gen-ai/",
+    "source_title": "MGF for GenAI – AI Verify Foundation",
+    "published_date": "2024-05-30"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+        "name": "Obscene",
+        "policy_fragment": "Generative AI must not generate sexual content.",
+        "policy": {
+          "clause": "Generative AI must not generate sexual content, violent content, obscene content, or discriminatory content.",
+          "matched_segment": "Generative AI must not generate sexual content.",
+          "source": {
+            "name": "AI Verify Foundation",
+            "title": "MGF for GenAI – AI Verify Foundation",
+            "url": "https://aiverifyfoundation.sg/resources/mgf-gen-ai/",
+            "published_date": "2024-05-30",
+            "legislature": "singapore"
+          }
+        },
+        "reasoning": "This leaf covers sexually explicit/pornographic content, which squarely matches a ban on generating sexual content."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+        "name": "Persons (including murder)",
+        "policy_fragment": "Generative AI must not generate violent content.",
+        "policy": {
+          "clause": "Generative AI must not generate sexual content, violent content, obscene content, or discriminatory content.",
+          "matched_segment": "Generative AI must not generate violent content.",
+          "source": {
+            "name": "AI Verify Foundation",
+            "title": "MGF for GenAI – AI Verify Foundation",
+            "url": "https://aiverifyfoundation.sg/resources/mgf-gen-ai/",
+            "published_date": "2024-05-30",
+            "legislature": "singapore"
+          }
+        },
+        "reasoning": "This leaf covers violent harm to people, which is the core concrete violent-content category."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/depicting-violence/bodily-destruction",
+        "name": "Bodily destruction",
+        "policy_fragment": "Generative AI must not generate violent content.",
+        "policy": {
+          "clause": "Generative AI must not generate sexual content, violent content, obscene content, or discriminatory content.",
+          "matched_segment": "Generative AI must not generate violent content.",
+          "source": {
+            "name": "AI Verify Foundation",
+            "title": "MGF for GenAI – AI Verify Foundation",
+            "url": "https://aiverifyfoundation.sg/resources/mgf-gen-ai/",
+            "published_date": "2024-05-30",
+            "legislature": "singapore"
+          }
+        },
+        "reasoning": "This leaf covers graphic violent depictions of severe bodily injury, a direct form of violent content."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/offensive-language/vulgar-terms",
+        "name": "Vulgar terms",
+        "policy_fragment": "Generative AI must not generate obscene content.",
+        "policy": {
+          "clause": "Generative AI must not generate sexual content, violent content, obscene content, or discriminatory content.",
+          "matched_segment": "Generative AI must not generate obscene content.",
+          "source": {
+            "name": "AI Verify Foundation",
+            "title": "MGF for GenAI – AI Verify Foundation",
+            "url": "https://aiverifyfoundation.sg/resources/mgf-gen-ai/",
+            "published_date": "2024-05-30",
+            "legislature": "singapore"
+          }
+        },
+        "reasoning": "If 'obscene' is used in the profanity/vulgarity sense, this leaf also squarely covers obscene language."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/perpetuating-harmful-beliefs/negative-stereotyping-of-any-group",
+        "name": "Negative stereotyping of any group",
+        "policy_fragment": "Generative AI must not generate discriminatory content.",
+        "policy": {
+          "clause": "Generative AI must not generate sexual content, violent content, obscene content, or discriminatory content.",
+          "matched_segment": "Generative AI must not generate discriminatory content.",
+          "source": {
+            "name": "AI Verify Foundation",
+            "title": "MGF for GenAI – AI Verify Foundation",
+            "url": "https://aiverifyfoundation.sg/resources/mgf-gen-ai/",
+            "published_date": "2024-05-30",
+            "legislature": "singapore"
+          }
+        },
+        "reasoning": "This leaf covers discriminatory or biased outputs that stereotype or denigrate groups."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/race",
+        "name": "Race",
+        "policy_fragment": "Generative AI must not generate discriminatory content.",
+        "policy": {
+          "clause": "Generative AI must not generate sexual content, violent content, obscene content, or discriminatory content.",
+          "matched_segment": "Generative AI must not generate discriminatory content.",
+          "source": {
+            "name": "AI Verify Foundation",
+            "title": "MGF for GenAI – AI Verify Foundation",
+            "url": "https://aiverifyfoundation.sg/resources/mgf-gen-ai/",
+            "published_date": "2024-05-30",
+            "legislature": "singapore"
+          }
+        },
+        "reasoning": "Discriminatory content can include hateful or exclusionary content targeting protected groups such as race."
+      }
+    ],
+    "novel_categories": []
+  }
+}

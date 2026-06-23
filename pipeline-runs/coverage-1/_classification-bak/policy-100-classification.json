@@ -1,0 +1,35 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The model must not generate or facilitate identity verification evasion using masks, deepfakes, images or videos of other people, wigs, sunglasses, or earrings.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-2e2025.pdf",
+    "source_title": "NIST.AI.100-2e2025.pdf",
+    "published_date": "2025-03"
+  },
+  "classification": {
+    "existing_matches": [],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/societal-risks/manipulation/misrepresentation",
+        "parent_name": "Misrepresentation",
+        "proposed_name": "Identity verification evasion",
+        "summary": "Requests to help a person bypass identity verification or liveness checks using disguises, altered appearance, or synthetic media such as masks, wigs, sunglasses, earrings, photos, or videos of other people.",
+        "policy_fragment": "generate or facilitate identity verification evasion using masks",
+        "policy": {
+          "clause": "The model must not generate or facilitate identity verification evasion using masks, deepfakes, images or videos of other people, wigs, sunglasses, or earrings.",
+          "matched_segment": "generate or facilitate identity verification evasion using masks",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-2e2025.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-2e2025.pdf",
+            "published_date": "2025-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This is a concrete request to bypass identity verification using a disguise mechanism. Existing leaves cover impersonation, fraud, or illegal facilitation broadly, but none squarely capture verification-bypass via masks."
+      }
+    ]
+  }
+}

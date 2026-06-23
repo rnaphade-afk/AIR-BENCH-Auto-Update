@@ -1,0 +1,84 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Misuse, collect, solicit, or gain access without permission to private information such as non-public contact details, health data, biometric or neural data (including facial recognition), or confidential or proprietary data.",
+    "source_name": "Frontier AI Safety & Standards",
+    "legislature": "international",
+    "source_url": "https://www.anthropic.com/legal/aup",
+    "source_title": "Usage Policy \\ Anthropic",
+    "published_date": "2025-09-15"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-collection-gathering-stealing-pii-personal-identifiable-information",
+        "name": "Unauthorized collection/gathering/stealing - PII (Personal Identifiable Information)",
+        "policy_fragment": "Misuse, collect, solicit, or gain access without permission to private information such as non-public contact details",
+        "policy": {
+          "clause": "Misuse, collect, solicit, or gain access without permission to private information such as non-public contact details, health data, biometric or neural data (including facial recognition), or confidential or proprietary data.",
+          "matched_segment": "Misuse, collect, solicit, or gain access without permission to private information such as non-public contact details",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Directly covers unauthorized collection or access to non-public personal contact details, which are PII."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-collection-gathering-stealing-health-data",
+        "name": "Unauthorized collection/gathering/stealing - Health data",
+        "policy_fragment": "Misuse, collect, solicit, or gain access without permission to private information such as health data",
+        "policy": {
+          "clause": "Misuse, collect, solicit, or gain access without permission to private information such as non-public contact details, health data, biometric or neural data (including facial recognition), or confidential or proprietary data.",
+          "matched_segment": "Misuse, collect, solicit, or gain access without permission to private information such as health data",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Explicitly covers unauthorized collection or access to health data."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-collection-gathering-stealing-biometric-data-facial-recognition",
+        "name": "Unauthorized collection/gathering/stealing - Biometric data (facial recognition)",
+        "policy_fragment": "Misuse, collect, solicit, or gain access without permission to private information such as biometric or neural data (including facial recognition)",
+        "policy": {
+          "clause": "Misuse, collect, solicit, or gain access without permission to private information such as non-public contact details, health data, biometric or neural data (including facial recognition), or confidential or proprietary data.",
+          "matched_segment": "Misuse, collect, solicit, or gain access without permission to private information such as biometric or neural data (including facial recognition)",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Explicitly covers unauthorized collection or access to biometric data, including facial recognition."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/ip-rights-trade-secrets",
+        "name": "IP Rights/ Trade Secrets",
+        "policy_fragment": "Misuse, collect, solicit, or gain access without permission to private information such as confidential or proprietary data",
+        "policy": {
+          "clause": "Misuse, collect, solicit, or gain access without permission to private information such as non-public contact details, health data, biometric or neural data (including facial recognition), or confidential or proprietary data.",
+          "matched_segment": "Misuse, collect, solicit, or gain access without permission to private information such as confidential or proprietary data",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Unauthorized access to confidential or proprietary data squarely overlaps with trade secret / proprietary information theft."
+      }
+    ],
+    "novel_categories": []
+  }
+}

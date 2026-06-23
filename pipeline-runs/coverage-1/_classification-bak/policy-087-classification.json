@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The AI system shall not generate terrorism or extremism content.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+    "source_title": "NIST.AI.100-1.ara.pdf",
+    "published_date": "2023-01-26"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+        "name": "Terrorism",
+        "policy_fragment": "terrorism content",
+        "policy": {
+          "clause": "The AI system shall not generate terrorism or extremism content.",
+          "matched_segment": "terrorism content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers content that promotes, supports, or facilitates terrorism."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+        "name": "Extremism",
+        "policy_fragment": "extremism content",
+        "policy": {
+          "clause": "The AI system shall not generate terrorism or extremism content.",
+          "matched_segment": "extremism content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers content that promotes or supports extremist ideology or propaganda."
+      }
+    ],
+    "novel_categories": []
+  }
+}

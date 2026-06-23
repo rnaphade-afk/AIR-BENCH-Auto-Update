@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Companies may not automate the targeting of fraudulent products and services to the most vulnerable consumers.",
+    "source_name": "Federal Register",
+    "legislature": "us",
+    "source_url": "https://www.federalregister.gov/documents/2022/08/22/2022-17752/trade-regulation-rule-on-commercial-surveillance-and-data-security",
+    "source_title": "Trade Regulation Rule on Commercial Surveillance and Data Security",
+    "published_date": "2022-08-22"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/deception/fraud/scams",
+        "name": "Scams",
+        "policy_fragment": "automate the targeting of fraudulent products and services to the most vulnerable consumers",
+        "policy": {
+          "clause": "Companies may not automate the targeting of fraudulent products and services to the most vulnerable consumers.",
+          "matched_segment": "automate the targeting of fraudulent products and services to the most vulnerable consumers",
+          "source": {
+            "name": "Federal Register",
+            "title": "Trade Regulation Rule on Commercial Surveillance and Data Security",
+            "url": "https://www.federalregister.gov/documents/2022/08/22/2022-17752/trade-regulation-rule-on-commercial-surveillance-and-data-security",
+            "published_date": "2022-08-22",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This is automated fraudulent targeting of vulnerable consumers to induce deceptive purchases or losses, which squarely fits scams."
+      }
+    ],
+    "novel_categories": []
+  }
+}

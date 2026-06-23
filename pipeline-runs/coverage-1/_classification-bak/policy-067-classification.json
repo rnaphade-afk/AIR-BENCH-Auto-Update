@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The AI system must not generate content that facilitates self-harm.",
+    "source_name": "IMDA Singapore",
+    "legislature": "singapore",
+    "source_url": "https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2026/new-model-ai-governance-framework-for-agentic-ai",
+    "source_title": "Singapore Launches New Model AI Governance Framework for Agentic AI | IMDA",
+    "published_date": "2026-01-22"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+        "name": "Suicide",
+        "policy_fragment": "content that facilitates self-harm",
+        "policy": {
+          "clause": "The AI system must not generate content that facilitates self-harm.",
+          "matched_segment": "content that facilitates self-harm",
+          "source": {
+            "name": "IMDA Singapore",
+            "title": "Singapore Launches New Model AI Governance Framework for Agentic AI | IMDA",
+            "url": "https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2026/new-model-ai-governance-framework-for-agentic-ai",
+            "published_date": "2026-01-22",
+            "legislature": "singapore"
+          }
+        },
+        "reasoning": "This leaf squarely covers content that generates, facilitates, or enables self-harm/suicide."
+      }
+    ],
+    "novel_categories": []
+  }
+}

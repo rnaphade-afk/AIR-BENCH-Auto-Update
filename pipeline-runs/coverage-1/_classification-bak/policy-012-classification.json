@@ -1,0 +1,169 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Effective measures shall be employed to prevent the creation of discrimination such as by race, ethnicity, faith, nationality, region, sex, age, profession, or health.",
+    "source_name": "CAC China",
+    "legislature": "china",
+    "source_url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+    "source_title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+    "published_date": "2023-07-10"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/race",
+        "name": "Race",
+        "policy_fragment": "creation of discrimination such as by race",
+        "policy": {
+          "clause": "Effective measures shall be employed to prevent the creation of discrimination such as by race, ethnicity, faith, nationality, region, sex, age, profession, or health.",
+          "matched_segment": "creation of discrimination such as by race",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers race-based discriminatory content."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+        "name": "Ethnicity",
+        "policy_fragment": "creation of discrimination such as by ethnicity",
+        "policy": {
+          "clause": "Effective measures shall be employed to prevent the creation of discrimination such as by race, ethnicity, faith, nationality, region, sex, age, profession, or health.",
+          "matched_segment": "creation of discrimination such as by ethnicity",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers ethnicity-based discriminatory content."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/religion",
+        "name": "Religion",
+        "policy_fragment": "creation of discrimination such as by faith",
+        "policy": {
+          "clause": "Effective measures shall be employed to prevent the creation of discrimination such as by race, ethnicity, faith, nationality, region, sex, age, profession, or health.",
+          "matched_segment": "creation of discrimination such as by faith",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Faith-based discrimination is covered by the religion leaf."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/nationality",
+        "name": "Nationality",
+        "policy_fragment": "creation of discrimination such as by nationality",
+        "policy": {
+          "clause": "Effective measures shall be employed to prevent the creation of discrimination such as by race, ethnicity, faith, nationality, region, sex, age, profession, or health.",
+          "matched_segment": "creation of discrimination such as by nationality",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers nationality-based discriminatory content."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/geographic-region",
+        "name": "Geographic region",
+        "policy_fragment": "creation of discrimination such as by region",
+        "policy": {
+          "clause": "Effective measures shall be employed to prevent the creation of discrimination such as by race, ethnicity, faith, nationality, region, sex, age, profession, or health.",
+          "matched_segment": "creation of discrimination such as by region",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers discrimination based on geographic region."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/gender",
+        "name": "Gender",
+        "policy_fragment": "creation of discrimination such as by sex",
+        "policy": {
+          "clause": "Effective measures shall be employed to prevent the creation of discrimination such as by race, ethnicity, faith, nationality, region, sex, age, profession, or health.",
+          "matched_segment": "creation of discrimination such as by sex",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Sex-based discrimination is covered by the gender leaf."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/age",
+        "name": "Age",
+        "policy_fragment": "creation of discrimination such as by age",
+        "policy": {
+          "clause": "Effective measures shall be employed to prevent the creation of discrimination such as by race, ethnicity, faith, nationality, region, sex, age, profession, or health.",
+          "matched_segment": "creation of discrimination such as by age",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers age-based discriminatory content."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/occupation",
+        "name": "Occupation",
+        "policy_fragment": "creation of discrimination such as by profession",
+        "policy": {
+          "clause": "Effective measures shall be employed to prevent the creation of discrimination such as by race, ethnicity, faith, nationality, region, sex, age, profession, or health.",
+          "matched_segment": "creation of discrimination such as by profession",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Profession-based discrimination is covered by the occupation leaf."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/health-conditions",
+        "name": "Health conditions",
+        "policy_fragment": "creation of discrimination such as by health",
+        "policy": {
+          "clause": "Effective measures shall be employed to prevent the creation of discrimination such as by race, ethnicity, faith, nationality, region, sex, age, profession, or health.",
+          "matched_segment": "creation of discrimination such as by health",
+          "source": {
+            "name": "CAC China",
+            "title": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+            "url": "https://www.chinalawtranslate.com/en/generative-ai-interim/",
+            "published_date": "2023-07-10",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Health-based discrimination is covered by the health conditions leaf."
+      }
+    ],
+    "novel_categories": []
+  }
+}

@@ -1,0 +1,220 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The provider must not generate or facilitate content or conduct involving child sexual abuse material, sexual content, violent content, obscene content, self-harm, fraud, impersonation, privacy or personal-data abuse, discriminatory outputs, hate or harassment, unlawful deception, election or political manipulation, illegal content, or concrete national-security or public-order harms.",
+    "source_name": "EU AI Office",
+    "legislature": "eu",
+    "source_url": "https://digital-strategy.ec.europa.eu/fr/faqs/guidelines-obligations-general-purpose-ai-providers",
+    "source_title": "Lignes directrices sur les obligations des fournisseurs d’IA à usage général | Bâtir l’avenir numérique de l’Europe",
+    "published_date": "2025-11-11"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/child-harm/child-sexual-abuse/csam",
+        "name": "CSAM",
+        "policy_fragment": "child sexual abuse material",
+        "policy": {
+          "clause": "The provider must not generate or facilitate content or conduct involving child sexual abuse material, sexual content, violent content, obscene content, self-harm, fraud, impersonation, privacy or personal-data abuse, discriminatory outputs, hate or harassment, unlawful deception, election or political manipulation, illegal content, or concrete national-security or public-order harms.",
+          "matched_segment": "child sexual abuse material",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Lignes directrices sur les obligations des fournisseurs d’IA à usage général | Bâtir l’avenir numérique de l’Europe",
+            "url": "https://digital-strategy.ec.europa.eu/fr/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly names CSAM, which this leaf squarely covers."
+      },
+      {
+        "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+        "name": "Obscene",
+        "policy_fragment": "sexual content",
+        "policy": {
+          "clause": "The provider must not generate or facilitate content or conduct involving child sexual abuse material, sexual content, violent content, obscene content, self-harm, fraud, impersonation, privacy or personal-data abuse, discriminatory outputs, hate or harassment, unlawful deception, election or political manipulation, illegal content, or concrete national-security or public-order harms.",
+          "matched_segment": "sexual content",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Lignes directrices sur les obligations des fournisseurs d’IA à usage général | Bâtir l’avenir numérique de l’Europe",
+            "url": "https://digital-strategy.ec.europa.eu/fr/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Covers explicit/pornographic sexual content, the clearest concrete unsafe subtype of this broad fragment."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+        "name": "Persons (including murder)",
+        "policy_fragment": "violent content",
+        "policy": {
+          "clause": "The provider must not generate or facilitate content or conduct involving child sexual abuse material, sexual content, violent content, obscene content, self-harm, fraud, impersonation, privacy or personal-data abuse, discriminatory outputs, hate or harassment, unlawful deception, election or political manipulation, illegal content, or concrete national-security or public-order harms.",
+          "matched_segment": "violent content",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Lignes directrices sur les obligations des fournisseurs d’IA à usage général | Bâtir l’avenir numérique de l’Europe",
+            "url": "https://digital-strategy.ec.europa.eu/fr/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Violent content involving harm to people is directly covered here."
+      },
+      {
+        "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+        "name": "Suicide",
+        "policy_fragment": "self-harm",
+        "policy": {
+          "clause": "The provider must not generate or facilitate content or conduct involving child sexual abuse material, sexual content, violent content, obscene content, self-harm, fraud, impersonation, privacy or personal-data abuse, discriminatory outputs, hate or harassment, unlawful deception, election or political manipulation, illegal content, or concrete national-security or public-order harms.",
+          "matched_segment": "self-harm",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Lignes directrices sur les obligations des fournisseurs d’IA à usage général | Bâtir l’avenir numérique de l’Europe",
+            "url": "https://digital-strategy.ec.europa.eu/fr/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "The catalog leaf covers outputs facilitating self-harm/suicide."
+      },
+      {
+        "node_id": "root/societal-risks/deception/fraud/scams",
+        "name": "Scams",
+        "policy_fragment": "fraud",
+        "policy": {
+          "clause": "The provider must not generate or facilitate content or conduct involving child sexual abuse material, sexual content, violent content, obscene content, self-harm, fraud, impersonation, privacy or personal-data abuse, discriminatory outputs, hate or harassment, unlawful deception, election or political manipulation, illegal content, or concrete national-security or public-order harms.",
+          "matched_segment": "fraud",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Lignes directrices sur les obligations des fournisseurs d’IA à usage général | Bâtir l’avenir numérique de l’Europe",
+            "url": "https://digital-strategy.ec.europa.eu/fr/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Generic fraud is directly covered by the scams/fraud leaf."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+        "name": "Unauthorized disclosure - PII (Personal Identifiable Information)",
+        "policy_fragment": "privacy or personal-data abuse",
+        "policy": {
+          "clause": "The provider must not generate or facilitate content or conduct involving child sexual abuse material, sexual content, violent content, obscene content, self-harm, fraud, impersonation, privacy or personal-data abuse, discriminatory outputs, hate or harassment, unlawful deception, election or political manipulation, illegal content, or concrete national-security or public-order harms.",
+          "matched_segment": "privacy or personal-data abuse",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Lignes directrices sur les obligations des fournisseurs d’IA à usage général | Bâtir l’avenir numérique de l’Europe",
+            "url": "https://digital-strategy.ec.europa.eu/fr/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Covers unauthorized revealing or facilitating access to personal data."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-processing-pii-personal-identifiable-information",
+        "name": "Unauthorized processing - PII (Personal Identifiable Information)",
+        "policy_fragment": "privacy or personal-data abuse",
+        "policy": {
+          "clause": "The provider must not generate or facilitate content or conduct involving child sexual abuse material, sexual content, violent content, obscene content, self-harm, fraud, impersonation, privacy or personal-data abuse, discriminatory outputs, hate or harassment, unlawful deception, election or political manipulation, illegal content, or concrete national-security or public-order harms.",
+          "matched_segment": "privacy or personal-data abuse",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Lignes directrices sur les obligations des fournisseurs d’IA à usage général | Bâtir l’avenir numérique de l’Europe",
+            "url": "https://digital-strategy.ec.europa.eu/fr/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Covers misuse of personal data through collection, merging, inference, or disclosure."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/perpetuating-harmful-beliefs/negative-stereotyping-of-any-group",
+        "name": "Negative stereotyping of any group",
+        "policy_fragment": "discriminatory outputs",
+        "policy": {
+          "clause": "The provider must not generate or facilitate content or conduct involving child sexual abuse material, sexual content, violent content, obscene content, self-harm, fraud, impersonation, privacy or personal-data abuse, discriminatory outputs, hate or harassment, unlawful deception, election or political manipulation, illegal content, or concrete national-security or public-order harms.",
+          "matched_segment": "discriminatory outputs",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Lignes directrices sur les obligations des fournisseurs d’IA à usage général | Bâtir l’avenir numérique de l’Europe",
+            "url": "https://digital-strategy.ec.europa.eu/fr/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers discriminatory or stereotyped outputs about groups."
+      },
+      {
+        "node_id": "root/content-safety-risks/hate-toxicity/harassment/abuse",
+        "name": "Abuse",
+        "policy_fragment": "hate or harassment",
+        "policy": {
+          "clause": "The provider must not generate or facilitate content or conduct involving child sexual abuse material, sexual content, violent content, obscene content, self-harm, fraud, impersonation, privacy or personal-data abuse, discriminatory outputs, hate or harassment, unlawful deception, election or political manipulation, illegal content, or concrete national-security or public-order harms.",
+          "matched_segment": "hate or harassment",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Lignes directrices sur les obligations des fournisseurs d’IA à usage général | Bâtir l’avenir numérique de l’Europe",
+            "url": "https://digital-strategy.ec.europa.eu/fr/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Directly covers hateful or harassing content."
+      },
+      {
+        "node_id": "root/societal-risks/political-usage/deterring-democratic-participation/deterring-participation-in-democratic-processes",
+        "name": "Deterring participation in democratic processes",
+        "policy_fragment": "election or political manipulation",
+        "policy": {
+          "clause": "The provider must not generate or facilitate content or conduct involving child sexual abuse material, sexual content, violent content, obscene content, self-harm, fraud, impersonation, privacy or personal-data abuse, discriminatory outputs, hate or harassment, unlawful deception, election or political manipulation, illegal content, or concrete national-security or public-order harms.",
+          "matched_segment": "election or political manipulation",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Lignes directrices sur les obligations des fournisseurs d’IA à usage général | Bâtir l’avenir numérique de l’Europe",
+            "url": "https://digital-strategy.ec.europa.eu/fr/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Covers manipulation aimed at suppressing or altering democratic participation."
+      },
+      {
+        "node_id": "root/societal-risks/political-usage/political-persuasion/political-advertisements",
+        "name": "Political advertisements",
+        "policy_fragment": "election or political manipulation",
+        "policy": {
+          "clause": "The provider must not generate or facilitate content or conduct involving child sexual abuse material, sexual content, violent content, obscene content, self-harm, fraud, impersonation, privacy or personal-data abuse, discriminatory outputs, hate or harassment, unlawful deception, election or political manipulation, illegal content, or concrete national-security or public-order harms.",
+          "matched_segment": "election or political manipulation",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Lignes directrices sur les obligations des fournisseurs d’IA à usage général | Bâtir l’avenir numérique de l’Europe",
+            "url": "https://digital-strategy.ec.europa.eu/fr/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Political manipulation can include targeted political persuasion and ads."
+      },
+      {
+        "node_id": "root/societal-risks/political-usage/influencing-politics/influence-political-decisions",
+        "name": "Influence political decisions",
+        "policy_fragment": "election or political manipulation",
+        "policy": {
+          "clause": "The provider must not generate or facilitate content or conduct involving child sexual abuse material, sexual content, violent content, obscene content, self-harm, fraud, impersonation, privacy or personal-data abuse, discriminatory outputs, hate or harassment, unlawful deception, election or political manipulation, illegal content, or concrete national-security or public-order harms.",
+          "matched_segment": "election or political manipulation",
+          "source": {
+            "name": "EU AI Office",
+            "title": "Lignes directrices sur les obligations des fournisseurs d’IA à usage général | Bâtir l’avenir numérique de l’Europe",
+            "url": "https://digital-strategy.ec.europa.eu/fr/faqs/guidelines-obligations-general-purpose-ai-providers",
+            "published_date": "2025-11-11",
+            "legislature": "eu"
+          }
+        },
+        "reasoning": "Covers attempts to influence political decisions."
+      }
+    ],
+    "novel_categories": []
+  }
+}

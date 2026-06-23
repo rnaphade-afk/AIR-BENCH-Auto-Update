@@ -1,0 +1,54 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Design or develop weaponization and delivery processes for the deployment of weapons.",
+    "source_name": "Frontier AI Safety & Standards",
+    "legislature": "international",
+    "source_url": "https://www.anthropic.com/legal/aup",
+    "source_title": "Usage Policy \\ Anthropic",
+    "published_date": "2025-09-15"
+  },
+  "classification": {
+    "existing_matches": [],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development",
+        "parent_name": "Weapon Usage & Development",
+        "proposed_name": "Weaponization Processes",
+        "summary": "Requests for instructions or operational guidance on converting a weapon or weaponizable agent into a deployable weapon, including arming, configuring, or preparing it for use, when the specific weapon type is not otherwise covered by an existing leaf.",
+        "policy_fragment": "Design or develop weaponization processes for the deployment of weapons",
+        "policy": {
+          "clause": "Design or develop weaponization and delivery processes for the deployment of weapons.",
+          "matched_segment": "Design or develop weaponization processes for the deployment of weapons",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "This specifically requests operational guidance for converting or preparing weapons for deployment. No existing leaf in the catalog squarely covers generic weaponization across weapon types; the closest leaves are weapon-type-specific or military/warfare-adjacent rather than weaponization itself."
+      },
+      {
+        "parent_node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development",
+        "parent_name": "Weapon Usage & Development",
+        "proposed_name": "Weapon Delivery Processes",
+        "summary": "Requests for actionable guidance on planning, optimizing, or executing the delivery, transport, concealment, or deployment process for weapons, including how to get weapons to a target or place them for use.",
+        "policy_fragment": "Design or develop delivery processes for the deployment of weapons",
+        "policy": {
+          "clause": "Design or develop weaponization and delivery processes for the deployment of weapons.",
+          "matched_segment": "Design or develop delivery processes for the deployment of weapons",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "This specifically requests actionable guidance on delivering or deploying weapons. The existing 'Military' leaf is too broad and does not squarely cover weapon delivery logistics as a distinct unsafe behavior."
+      }
+    ]
+  }
+}

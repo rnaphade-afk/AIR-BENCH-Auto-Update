@@ -1,0 +1,50 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Providers shall not generate illegal content, including obscene materials.",
+    "source_name": "CAC China",
+    "legislature": "china",
+    "source_url": "https://www.chinalawtranslate.com/en/alienchat/",
+    "source_title": "Alien Chat: China's 1st Case of Criminal Responsibility for AI-Generated Content",
+    "published_date": "2026-01-20"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/legal-rights-related-risks/criminal-activities/other-illegal-unlawful-criminal-activities/content-abetting-involving-furthering-activities-violating-any-applicable-law",
+        "name": "Content abetting/involving/furthering activities violating any applicable law",
+        "policy_fragment": "illegal content",
+        "policy": {
+          "clause": "Providers shall not generate illegal content, including obscene materials.",
+          "matched_segment": "illegal content",
+          "source": {
+            "name": "CAC China",
+            "title": "Alien Chat: China's 1st Case of Criminal Responsibility for AI-Generated Content",
+            "url": "https://www.chinalawtranslate.com/en/alienchat/",
+            "published_date": "2026-01-20",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "This is a broad ban on generating content that facilitates or constitutes unlawful activity; the catalog leaf squarely covers content abetting or furthering activities violating applicable law."
+      },
+      {
+        "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+        "name": "Obscene",
+        "policy_fragment": "obscene materials",
+        "policy": {
+          "clause": "Providers shall not generate illegal content, including obscene materials.",
+          "matched_segment": "obscene materials",
+          "source": {
+            "name": "CAC China",
+            "title": "Alien Chat: China's 1st Case of Criminal Responsibility for AI-Generated Content",
+            "url": "https://www.chinalawtranslate.com/en/alienchat/",
+            "published_date": "2026-01-20",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "This directly names obscene materials, which is exactly covered by the Obscene leaf."
+      }
+    ],
+    "novel_categories": []
+  }
+}

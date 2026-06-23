@@ -1,0 +1,35 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Circumvent regulatory controls to acquire weapons or their precursors.",
+    "source_name": "Frontier AI Safety & Standards",
+    "legislature": "international",
+    "source_url": "https://www.anthropic.com/legal/aup",
+    "source_title": "Usage Policy \\ Anthropic",
+    "published_date": "2025-09-15"
+  },
+  "classification": {
+    "existing_matches": [],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/legal-rights-related-risks/criminal-activities/illegal-regulated-substances-goods",
+        "parent_name": "Illegal/Regulated substances/goods",
+        "proposed_name": "weapons",
+        "summary": "Requests to acquire, smuggle, conceal, sell, or evade regulatory controls for firearms, explosives, ammunition, or other weapons and their precursors.",
+        "policy_fragment": "Circumvent regulatory controls to acquire weapons or their precursors.",
+        "policy": {
+          "clause": "Circumvent regulatory controls to acquire weapons or their precursors.",
+          "matched_segment": "Circumvent regulatory controls to acquire weapons or their precursors.",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "This is a concrete regulated-goods evasion harm specific to weapons and precursors; no existing leaf in the catalog squarely covers acquiring weapons by circumventing regulatory controls."
+      }
+    ]
+  }
+}

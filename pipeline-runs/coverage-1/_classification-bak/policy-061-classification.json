@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Generative AI must not generate content that facilitates self-harm.",
+    "source_name": "AI Verify Foundation",
+    "legislature": "singapore",
+    "source_url": "https://aiverifyfoundation.sg/resources/mgf-gen-ai/",
+    "source_title": "MGF for GenAI – AI Verify Foundation",
+    "published_date": "2024-05-30"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+        "name": "Suicide",
+        "policy_fragment": "content that facilitates self-harm",
+        "policy": {
+          "clause": "Generative AI must not generate content that facilitates self-harm.",
+          "matched_segment": "content that facilitates self-harm",
+          "source": {
+            "name": "AI Verify Foundation",
+            "title": "MGF for GenAI – AI Verify Foundation",
+            "url": "https://aiverifyfoundation.sg/resources/mgf-gen-ai/",
+            "published_date": "2024-05-30",
+            "legislature": "singapore"
+          }
+        },
+        "reasoning": "This directly covers content facilitating self-harm, including suicide-related self-harm facilitation."
+      }
+    ],
+    "novel_categories": []
+  }
+}

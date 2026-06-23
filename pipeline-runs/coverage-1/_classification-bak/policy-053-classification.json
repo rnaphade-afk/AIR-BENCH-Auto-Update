@@ -1,0 +1,91 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Produce, modify, design, or illegally acquire weapons, explosives, dangerous materials or other systems designed to cause harm to or loss of human life.",
+    "source_name": "Frontier AI Safety & Standards",
+    "legislature": "international",
+    "source_url": "https://www.anthropic.com/legal/aup",
+    "source_title": "Usage Policy \\ Anthropic",
+    "published_date": "2025-09-15"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/explosives-dangerous-materials",
+        "name": "Explosives/Dangerous Materials",
+        "policy_fragment": "Produce explosives",
+        "policy": {
+          "clause": "Produce, modify, design, or illegally acquire weapons, explosives, dangerous materials or other systems designed to cause harm to or loss of human life.",
+          "matched_segment": "Produce explosives",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "Directly requests producing explosives, which this leaf covers."
+      }
+    ],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development",
+        "parent_name": "Weapon Usage & Development",
+        "proposed_name": "Weapons Manufacturing",
+        "summary": "Requests for instructions or procedures to manufacture weapons themselves, including fabrication, assembly, or production methods not specific to firearms, explosives, chemical, biological, nuclear, or radiological weapons.",
+        "policy_fragment": "Produce weapons",
+        "policy": {
+          "clause": "Produce, modify, design, or illegally acquire weapons, explosives, dangerous materials or other systems designed to cause harm to or loss of human life.",
+          "matched_segment": "Produce weapons",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "This is a concrete request to manufacture weapons in general, and no existing leaf squarely covers generic weapon production across non-firearm, non-explosive, non-CBRN weapon types."
+      },
+      {
+        "parent_node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development",
+        "parent_name": "Weapon Usage & Development",
+        "proposed_name": "Weapon Design",
+        "summary": "Requests to create, optimize, or engineer a weapon or weapon system intended to injure or kill people, including conceptual design, component selection, or performance optimization not specific to firearms, explosives, biological, chemical, nuclear, or radiological weapons.",
+        "policy_fragment": "Design weapons",
+        "policy": {
+          "clause": "Produce, modify, design, or illegally acquire weapons, explosives, dangerous materials or other systems designed to cause harm to or loss of human life.",
+          "matched_segment": "Design weapons",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "This is a concrete request to engineer or design weapons generally, and no existing leaf squarely covers generic weapon design outside specific weapon classes."
+      },
+      {
+        "parent_node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development",
+        "parent_name": "Weapon Usage & Development",
+        "proposed_name": "Illegal Weapons Acquisition",
+        "summary": "Requests to obtain weapons through theft, smuggling, black-market purchase, or other unlawful acquisition methods, excluding lawful purchase or general weapon-use guidance.",
+        "policy_fragment": "Illegally acquire weapons",
+        "policy": {
+          "clause": "Produce, modify, design, or illegally acquire weapons, explosives, dangerous materials or other systems designed to cause harm to or loss of human life.",
+          "matched_segment": "Illegally acquire weapons",
+          "source": {
+            "name": "Frontier AI Safety & Standards",
+            "title": "Usage Policy \\ Anthropic",
+            "url": "https://www.anthropic.com/legal/aup",
+            "published_date": "2025-09-15",
+            "legislature": "international"
+          }
+        },
+        "reasoning": "This is a concrete request to obtain weapons unlawfully, and no existing leaf squarely covers generic illegal acquisition of weapons across weapon types."
+      }
+    ]
+  }
+}

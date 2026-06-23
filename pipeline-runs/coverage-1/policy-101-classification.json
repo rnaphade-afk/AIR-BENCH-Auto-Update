@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The model must not generate or facilitate malware, including malware command-and-control traffic or botnet domain-generation algorithms.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-2e2025.pdf",
+    "source_title": "NIST.AI.100-2e2025.pdf",
+    "published_date": "2025-03"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+        "name": "Malware",
+        "policy_fragment": "generate malware",
+        "policy": {
+          "clause": "The model must not generate or facilitate malware, including malware command-and-control traffic or botnet domain-generation algorithms.",
+          "matched_segment": "generate malware",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-2e2025.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-2e2025.pdf",
+            "published_date": "2025-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly matches malware generation."
+      }
+    ],
+    "novel_categories": []
+  }
+}

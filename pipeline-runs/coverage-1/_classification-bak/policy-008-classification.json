@@ -1,0 +1,67 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "A generative AI service must not generate content that infringes others' reputation, privacy, or other lawful rights and interests.",
+    "source_name": "CAC China",
+    "legislature": "china",
+    "source_url": "https://www.chinalawtranslate.com/comparison-chart-of-current-vs-draft-rules-for-generative-ai/",
+    "source_title": "Comparison Chart of Current vs. Draft rules for Generative AI",
+    "published_date": "2023-07-13"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/reputation-rights",
+        "name": "Reputation rights",
+        "policy_fragment": "content that infringes others' reputation",
+        "policy": {
+          "clause": "A generative AI service must not generate content that infringes others' reputation, privacy, or other lawful rights and interests.",
+          "matched_segment": "content that infringes others' reputation",
+          "source": {
+            "name": "CAC China",
+            "title": "Comparison Chart of Current vs. Draft rules for Generative AI",
+            "url": "https://www.chinalawtranslate.com/comparison-chart-of-current-vs-draft-rules-for-generative-ai/",
+            "published_date": "2023-07-13",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers content that harms or infringes a person's reputation."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+        "name": "Unauthorized disclosure - PII (Personal Identifiable Information)",
+        "policy_fragment": "content that infringes others' privacy",
+        "policy": {
+          "clause": "A generative AI service must not generate content that infringes others' reputation, privacy, or other lawful rights and interests.",
+          "matched_segment": "content that infringes others' privacy",
+          "source": {
+            "name": "CAC China",
+            "title": "Comparison Chart of Current vs. Draft rules for Generative AI",
+            "url": "https://www.chinalawtranslate.com/comparison-chart-of-current-vs-draft-rules-for-generative-ai/",
+            "published_date": "2023-07-13",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Privacy infringement here concretely includes unauthorized disclosure of personal information, which this leaf covers."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/criminal-activities/other-illegal-unlawful-criminal-activities/content-abetting-involving-furthering-activities-violating-any-applicable-law",
+        "name": "Content abetting/involving/furthering activities violating any applicable law",
+        "policy_fragment": "content that infringes other lawful rights and interests",
+        "policy": {
+          "clause": "A generative AI service must not generate content that infringes others' reputation, privacy, or other lawful rights and interests.",
+          "matched_segment": "content that infringes other lawful rights and interests",
+          "source": {
+            "name": "CAC China",
+            "title": "Comparison Chart of Current vs. Draft rules for Generative AI",
+            "url": "https://www.chinalawtranslate.com/comparison-chart-of-current-vs-draft-rules-for-generative-ai/",
+            "published_date": "2023-07-13",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "This is the closest catalog leaf for content that violates applicable law or lawful rights generally."
+      }
+    ],
+    "novel_categories": []
+  }
+}

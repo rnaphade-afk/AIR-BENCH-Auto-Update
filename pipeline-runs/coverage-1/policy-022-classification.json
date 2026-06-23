@@ -1,0 +1,118 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "Providers must respect others' lawful interests and prevent harm to others' physical and mental health, damage to portrait rights, reputation rights, and personal privacy, and infringement of intellectual property rights; illegal acquisition, disclosure, or use of personal information, privacy, and trade secrets is prohibited.",
+    "source_name": "CAC China",
+    "legislature": "china",
+    "source_url": "https://www.chinalawtranslate.com/gen-ai-draft/",
+    "source_title": "生成式人工智能服务管理办法 （征求意见稿）",
+    "published_date": "2023-04-11"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/portrait-rights",
+        "name": "Portrait rights",
+        "policy_fragment": "damage to portrait rights",
+        "policy": {
+          "clause": "Providers must respect others' lawful interests and prevent harm to others' physical and mental health, damage to portrait rights, reputation rights, and personal privacy, and infringement of intellectual property rights; illegal acquisition, disclosure, or use of personal information, privacy, and trade secrets is prohibited.",
+          "matched_segment": "damage to portrait rights",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理办法 （征求意见稿）",
+            "url": "https://www.chinalawtranslate.com/gen-ai-draft/",
+            "published_date": "2023-04-11",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Explicitly matches harm to portrait/likeness rights."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/reputation-rights",
+        "name": "Reputation rights",
+        "policy_fragment": "damage to reputation rights",
+        "policy": {
+          "clause": "Providers must respect others' lawful interests and prevent harm to others' physical and mental health, damage to portrait rights, reputation rights, and personal privacy, and infringement of intellectual property rights; illegal acquisition, disclosure, or use of personal information, privacy, and trade secrets is prohibited.",
+          "matched_segment": "damage to reputation rights",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理办法 （征求意见稿）",
+            "url": "https://www.chinalawtranslate.com/gen-ai-draft/",
+            "published_date": "2023-04-11",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Explicitly matches harm to reputation rights."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+        "name": "Unauthorized disclosure - PII (Personal Identifiable Information)",
+        "policy_fragment": "damage to personal privacy",
+        "policy": {
+          "clause": "Providers must respect others' lawful interests and prevent harm to others' physical and mental health, damage to portrait rights, reputation rights, and personal privacy, and infringement of intellectual property rights; illegal acquisition, disclosure, or use of personal information, privacy, and trade secrets is prohibited.",
+          "matched_segment": "damage to personal privacy",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理办法 （征求意见稿）",
+            "url": "https://www.chinalawtranslate.com/gen-ai-draft/",
+            "published_date": "2023-04-11",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "A privacy damage clause here most directly corresponds to unauthorized exposure/disclosure of personal data that violates privacy."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/ip-rights-trade-secrets",
+        "name": "IP Rights/ Trade Secrets",
+        "policy_fragment": "infringement of intellectual property rights",
+        "policy": {
+          "clause": "Providers must respect others' lawful interests and prevent harm to others' physical and mental health, damage to portrait rights, reputation rights, and personal privacy, and infringement of intellectual property rights; illegal acquisition, disclosure, or use of personal information, privacy, and trade secrets is prohibited.",
+          "matched_segment": "infringement of intellectual property rights",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理办法 （征求意见稿）",
+            "url": "https://www.chinalawtranslate.com/gen-ai-draft/",
+            "published_date": "2023-04-11",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Explicitly covers IP rights infringement and trade secrets."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-collection-gathering-stealing-pii-personal-identifiable-information",
+        "name": "Unauthorized collection/gathering/stealing - PII (Personal Identifiable Information)",
+        "policy_fragment": "illegal acquisition of personal information",
+        "policy": {
+          "clause": "Providers must respect others' lawful interests and prevent harm to others' physical and mental health, damage to portrait rights, reputation rights, and personal privacy, and infringement of intellectual property rights; illegal acquisition, disclosure, or use of personal information, privacy, and trade secrets is prohibited.",
+          "matched_segment": "illegal acquisition of personal information",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理办法 （征求意见稿）",
+            "url": "https://www.chinalawtranslate.com/gen-ai-draft/",
+            "published_date": "2023-04-11",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly covers unauthorized collection or stealing of personal identifiable information."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-processing-pii-personal-identifiable-information",
+        "name": "Unauthorized processing - PII (Personal Identifiable Information)",
+        "policy_fragment": "illegal use of personal information",
+        "policy": {
+          "clause": "Providers must respect others' lawful interests and prevent harm to others' physical and mental health, damage to portrait rights, reputation rights, and personal privacy, and infringement of intellectual property rights; illegal acquisition, disclosure, or use of personal information, privacy, and trade secrets is prohibited.",
+          "matched_segment": "illegal use of personal information",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理办法 （征求意见稿）",
+            "url": "https://www.chinalawtranslate.com/gen-ai-draft/",
+            "published_date": "2023-04-11",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Unauthorized processing includes misuse or illegal use of personal data."
+      }
+    ],
+    "novel_categories": []
+  }
+}

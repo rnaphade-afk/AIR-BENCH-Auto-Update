@@ -1,0 +1,106 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The system must not be used to produce misleading realistic images or videos, or to impersonate real people, in ways that enable deception that can harm democratic or criminal justice institutions.",
+    "source_name": "ISED Canada AI",
+    "legislature": "canada",
+    "source_url": "https://ised-isde.canada.ca/site/isde/fr/code-conduite-volontaire-visant-developpement-gestion-responsables-systemes-dia-generative-avances",
+    "source_title": "Code de conduite volontaire visant un développement et une gestion responsables des systèmes d'IA générative avancés",
+    "published_date": "2023-09-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/manipulation/misrepresentation/impersonating-humans",
+        "name": "Impersonating humans",
+        "policy_fragment": "produce misleading realistic images or videos",
+        "policy": {
+          "clause": "The system must not be used to produce misleading realistic images or videos, or to impersonate real people, in ways that enable deception that can harm democratic or criminal justice institutions.",
+          "matched_segment": "produce misleading realistic images or videos",
+          "source": {
+            "name": "ISED Canada AI",
+            "title": "Code de conduite volontaire visant un développement et une gestion responsables des systèmes d'IA générative avancés",
+            "url": "https://ised-isde.canada.ca/site/isde/fr/code-conduite-volontaire-visant-developpement-gestion-responsables-systemes-dia-generative-avances",
+            "published_date": "2023-09-01",
+            "legislature": "canada"
+          }
+        },
+        "reasoning": "Misleading realistic images or videos are synthetic-media deepfakes that can directly impersonate a real person."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/portrait-rights",
+        "name": "Portrait rights",
+        "policy_fragment": "impersonate real people",
+        "policy": {
+          "clause": "The system must not be used to produce misleading realistic images or videos, or to impersonate real people, in ways that enable deception that can harm democratic or criminal justice institutions.",
+          "matched_segment": "impersonate real people",
+          "source": {
+            "name": "ISED Canada AI",
+            "title": "Code de conduite volontaire visant un développement et une gestion responsables des systèmes d'IA générative avancés",
+            "url": "https://ised-isde.canada.ca/site/isde/fr/code-conduite-volontaire-visant-developpement-gestion-responsables-systemes-dia-generative-avances",
+            "published_date": "2023-09-01",
+            "legislature": "canada"
+          }
+        },
+        "reasoning": "Using a real person's likeness for impersonation is a portrait-rights violation."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/name-rights",
+        "name": "Name rights",
+        "policy_fragment": "impersonate real people",
+        "policy": {
+          "clause": "The system must not be used to produce misleading realistic images or videos, or to impersonate real people, in ways that enable deception that can harm democratic or criminal justice institutions.",
+          "matched_segment": "impersonate real people",
+          "source": {
+            "name": "ISED Canada AI",
+            "title": "Code de conduite volontaire visant un développement et une gestion responsables des systèmes d'IA générative avancés",
+            "url": "https://ised-isde.canada.ca/site/isde/fr/code-conduite-volontaire-visant-developpement-gestion-responsables-systemes-dia-generative-avances",
+            "published_date": "2023-09-01",
+            "legislature": "canada"
+          }
+        },
+        "reasoning": "Impersonation can also involve misuse of a real person's name or identity cues."
+      }
+    ],
+    "novel_categories": [
+      {
+        "parent_node_id": "root/societal-risks/political-usage/influencing-politics",
+        "parent_name": "Influencing Politics",
+        "proposed_name": "Deceptive synthetic media harming democratic institutions",
+        "summary": "Use of realistic synthetic images or videos, or impersonation of real people, to deceive the public or officials in ways that undermine democratic institutions such as elections, legislatures, courts, or public trust in governance.",
+        "policy_fragment": "deception that can harm democratic institutions",
+        "policy": {
+          "clause": "The system must not be used to produce misleading realistic images or videos, or to impersonate real people, in ways that enable deception that can harm democratic or criminal justice institutions.",
+          "matched_segment": "deception that can harm democratic institutions",
+          "source": {
+            "name": "ISED Canada AI",
+            "title": "Code de conduite volontaire visant un développement et une gestion responsables des systèmes d'IA générative avancés",
+            "url": "https://ised-isde.canada.ca/site/isde/fr/code-conduite-volontaire-visant-developpement-gestion-responsables-systemes-dia-generative-avances",
+            "published_date": "2023-09-01",
+            "legislature": "canada"
+          }
+        },
+        "reasoning": "The clause targets realistic synthetic images/videos or impersonation used to deceive in ways that undermine democratic institutions; no existing leaf squarely captures this institutional-harm mechanism."
+      },
+      {
+        "parent_node_id": "root/societal-risks/political-usage/influencing-politics",
+        "parent_name": "Influencing Politics",
+        "proposed_name": "Criminal justice deception via synthetic media",
+        "summary": "Use of misleading realistic images, videos, or impersonation of real people to deceive courts, juries, prosecutors, law enforcement, or other criminal justice actors in ways that could affect investigations, charging, testimony, or case outcomes.",
+        "policy_fragment": "deception that can harm criminal justice institutions",
+        "policy": {
+          "clause": "The system must not be used to produce misleading realistic images or videos, or to impersonate real people, in ways that enable deception that can harm democratic or criminal justice institutions.",
+          "matched_segment": "deception that can harm criminal justice institutions",
+          "source": {
+            "name": "ISED Canada AI",
+            "title": "Code de conduite volontaire visant un développement et une gestion responsables des systèmes d'IA générative avancés",
+            "url": "https://ised-isde.canada.ca/site/isde/fr/code-conduite-volontaire-visant-developpement-gestion-responsables-systemes-dia-generative-avances",
+            "published_date": "2023-09-01",
+            "legislature": "canada"
+          }
+        },
+        "reasoning": "The fragment targets deceptive realistic media or impersonation used against courts, police, prosecutors, juries, or similar criminal justice actors; no existing leaf squarely covers this concrete context."
+      }
+    ]
+  }
+}

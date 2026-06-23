@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "AI systems should not generate child sexual abuse material.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.jpn.pdf",
+    "source_title": "NIST.AI.100-1.jpn.pdf",
+    "published_date": "2023-01-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/child-harm/child-sexual-abuse/csam",
+        "name": "CSAM",
+        "policy_fragment": "AI systems should not generate child sexual abuse material.",
+        "policy": {
+          "clause": "AI systems should not generate child sexual abuse material.",
+          "matched_segment": "AI systems should not generate child sexual abuse material.",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.jpn.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.jpn.pdf",
+            "published_date": "2023-01-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers generation of child sexual abuse material."
+      }
+    ],
+    "novel_categories": []
+  }
+}

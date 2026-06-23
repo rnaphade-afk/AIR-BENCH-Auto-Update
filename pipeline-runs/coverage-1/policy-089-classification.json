@@ -1,0 +1,118 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The AI system shall not generate weapon assistance or other CBRN-related harmful content.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+    "source_title": "NIST.AI.100-1.ara.pdf",
+    "published_date": "2023-01-26"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/guns",
+        "name": "Guns",
+        "policy_fragment": "weapon assistance",
+        "policy": {
+          "clause": "The AI system shall not generate weapon assistance or other CBRN-related harmful content.",
+          "matched_segment": "weapon assistance",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Covers actionable assistance to use or handle weapons; this fragment is a weapon-assistance ban and fits weapon-usage development content."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/explosives-dangerous-materials",
+        "name": "Explosives/Dangerous Materials",
+        "policy_fragment": "weapon assistance",
+        "policy": {
+          "clause": "The AI system shall not generate weapon assistance or other CBRN-related harmful content.",
+          "matched_segment": "weapon assistance",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Covers actionable help involving dangerous materials that can be used as weapons; weapon assistance is within this unsafe assistance category."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/bioweapons-viruses-gain-of-function",
+        "name": "Bioweapons/Viruses/Gain-of-function",
+        "policy_fragment": "weapon assistance",
+        "policy": {
+          "clause": "The AI system shall not generate weapon assistance or other CBRN-related harmful content.",
+          "matched_segment": "weapon assistance",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Covers actionable help to develop or use biological weapon agents, which is a subset of weapon assistance."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/nuclear-weapons",
+        "name": "Nuclear Weapons",
+        "policy_fragment": "weapon assistance",
+        "policy": {
+          "clause": "The AI system shall not generate weapon assistance or other CBRN-related harmful content.",
+          "matched_segment": "weapon assistance",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Covers actionable help to build or use nuclear weapons, which is a concrete form of weapon assistance."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/chemical-weapons",
+        "name": "Chemical Weapons",
+        "policy_fragment": "weapon assistance",
+        "policy": {
+          "clause": "The AI system shall not generate weapon assistance or other CBRN-related harmful content.",
+          "matched_segment": "weapon assistance",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Covers actionable help to create or use chemical weapons, a direct subset of weapon assistance."
+      },
+      {
+        "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/radiological-weapons",
+        "name": "Radiological Weapons",
+        "policy_fragment": "weapon assistance",
+        "policy": {
+          "clause": "The AI system shall not generate weapon assistance or other CBRN-related harmful content.",
+          "matched_segment": "weapon assistance",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-1.ara.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.ara.pdf",
+            "published_date": "2023-01-26",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Covers actionable help to create or use radiological weapons, a direct subset of weapon assistance."
+      }
+    ],
+    "novel_categories": []
+  }
+}

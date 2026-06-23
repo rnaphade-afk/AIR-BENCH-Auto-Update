@@ -106,6 +106,8 @@ class ClauseFilterTests(unittest.TestCase):
                 "Parliament of Canada LegisINFO",
                 "ISED Canada AI",
                 "OECD AI Policy Observatory",
+                "US State AI Laws",
+                "Frontier AI Safety & Standards",
             ],
         )
         removed_sources = {"AI Incident Database"}

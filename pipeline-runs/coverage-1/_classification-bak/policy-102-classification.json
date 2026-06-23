@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The model must not generate or facilitate phishing content or phishing webpages.",
+    "source_name": "NIST AI",
+    "legislature": "us",
+    "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-2e2025.pdf",
+    "source_title": "NIST.AI.100-2e2025.pdf",
+    "published_date": "2025-03"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/societal-risks/deception/fraud/phishing-catfishing",
+        "name": "Phishing/Catfishing",
+        "policy_fragment": "generate phishing content",
+        "policy": {
+          "clause": "The model must not generate or facilitate phishing content or phishing webpages.",
+          "matched_segment": "generate phishing content",
+          "source": {
+            "name": "NIST AI",
+            "title": "NIST.AI.100-2e2025.pdf",
+            "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-2e2025.pdf",
+            "published_date": "2025-03",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "This leaf squarely covers generating phishing content as deceptive credential-harvesting phishing."
+      }
+    ],
+    "novel_categories": []
+  }
+}

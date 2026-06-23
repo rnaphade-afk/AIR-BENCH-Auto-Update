@@ -1,0 +1,1683 @@
+{
+  "policies_path": "pipeline-runs/coverage-1/webscraped-policies-new.json",
+  "taxonomy_path": "/Users/ro/Desktop/Code/Virtue/AIR-BENCH-Auto-Update/tree/semantic-tree.json",
+  "run_dir": "pipeline-runs/coverage-1",
+  "webscraping": null,
+  "export": {
+    "prompt_paths": {
+      "default": "/Users/ro/Desktop/Code/Virtue/AIR-BENCH-Auto-Update/tree/air_bench_prompts_default.csv",
+      "china": "/Users/ro/Desktop/Code/Virtue/AIR-BENCH-Auto-Update/tree/air_bench_prompts_china.csv",
+      "eu": "/Users/ro/Desktop/Code/Virtue/AIR-BENCH-Auto-Update/tree/air_bench_prompts_eu.csv",
+      "us": "/Users/ro/Desktop/Code/Virtue/AIR-BENCH-Auto-Update/tree/air_bench_prompts_us.csv",
+      "language_english": "/Users/ro/Desktop/Code/Virtue/AIR-BENCH-Auto-Update/tree/air_bench_prompts_english.csv",
+      "language_spanish": "/Users/ro/Desktop/Code/Virtue/AIR-BENCH-Auto-Update/tree/air_bench_prompts_spanish.csv",
+      "language_japanese": "/Users/ro/Desktop/Code/Virtue/AIR-BENCH-Auto-Update/tree/air_bench_prompts_japanese.csv",
+      "language_portuguese": "/Users/ro/Desktop/Code/Virtue/AIR-BENCH-Auto-Update/tree/air_bench_prompts_portuguese.csv"
+    },
+    "prompt_counts": {
+      "default": 13397,
+      "china": 2037,
+      "eu": 1920,
+      "us": 3720,
+      "language_english": 3350,
+      "language_spanish": 3350,
+      "language_japanese": 3347,
+      "language_portuguese": 3350
+    },
+    "judges_path": "/Users/ro/Desktop/Code/Virtue/AIR-BENCH-Auto-Update/tree/air_bench_judge_prompts.csv",
+    "judge_count": 335
+  },
+  "applied": [
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/manipulation/misrepresentation/impersonating-humans",
+      "matched_segment": "produce misleading realistic images or videos"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/portrait-rights",
+      "matched_segment": "impersonate real people"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/name-rights",
+      "matched_segment": "impersonate real people"
+    },
+    {
+      "type": "novel",
+      "node_id": "root/societal-risks/political-usage/influencing-politics/deceptive-synthetic-media-harming-democratic-institutions",
+      "parent_node_id": "root/societal-risks/political-usage/influencing-politics",
+      "name": "Deceptive synthetic media harming democratic institutions"
+    },
+    {
+      "type": "novel",
+      "node_id": "root/societal-risks/political-usage/influencing-politics/criminal-justice-deception-via-synthetic-media",
+      "parent_node_id": "root/societal-risks/political-usage/influencing-politics",
+      "name": "Criminal justice deception via synthetic media"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/inciting-violence-or-radicalization",
+      "matched_segment": "generate content that incites violence"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/race",
+      "matched_segment": "generate content that incites hatred"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/defamation/types-of-defamation/libel",
+      "matched_segment": "generate content that is defamatory"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+      "matched_segment": "generate content that infringes privacy"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "generate content that is obscene"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/criminal-activities/other-illegal-unlawful-criminal-activities/content-abetting-involving-furthering-activities-violating-any-applicable-law",
+      "matched_segment": "illegal content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "obscene materials"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+      "matched_segment": "content that incites ethnic hatred"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/inciting-violence-or-radicalization",
+      "matched_segment": "content that incites violence"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "obscenity"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/reputation-rights",
+      "matched_segment": "content that infringes others' reputation"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+      "matched_segment": "content that infringes others' privacy"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/criminal-activities/other-illegal-unlawful-criminal-activities/content-abetting-involving-furthering-activities-violating-any-applicable-law",
+      "matched_segment": "content that infringes other lawful rights and interests"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "content that promotes terrorism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+      "matched_segment": "content that promotes extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/criminal-activities/other-illegal-unlawful-criminal-activities/content-abetting-involving-furthering-activities-violating-any-applicable-law",
+      "matched_segment": "publication of illegal content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/subverting-state-power",
+      "matched_segment": "Content that incites subversion of national sovereignty or the overturn of the socialist system"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/damaging-state-interests",
+      "matched_segment": "Content that endangers national security and interests or harms the nation’s image"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/damaging-state-honor",
+      "matched_segment": "Content that endangers national security and interests or harms the nation’s image"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/undermining-national-unity",
+      "matched_segment": "Content that incites separatism or undermines national unity and social stability"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "Content that advocates terrorism or extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+      "matched_segment": "Content that advocates terrorism or extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+      "matched_segment": "Content that promotes ethnic hatred and ethnic discrimination"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/inciting-violence-or-radicalization",
+      "matched_segment": "Content that promotes violence and obscenity"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "Content that promotes violence and obscenity"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/mis-disinformation/generating-or-promoting-misinformation",
+      "matched_segment": "Content that promotes fake and harmful information"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/race",
+      "matched_segment": "creation of discrimination such as by race"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+      "matched_segment": "creation of discrimination such as by ethnicity"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/religion",
+      "matched_segment": "creation of discrimination such as by faith"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/nationality",
+      "matched_segment": "creation of discrimination such as by nationality"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/geographic-region",
+      "matched_segment": "creation of discrimination such as by region"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/gender",
+      "matched_segment": "creation of discrimination such as by sex"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/age",
+      "matched_segment": "creation of discrimination such as by age"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/occupation",
+      "matched_segment": "creation of discrimination such as by profession"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/health-conditions",
+      "matched_segment": "creation of discrimination such as by health"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/race",
+      "matched_segment": "discriminatory content based on race"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/nationality",
+      "matched_segment": "discriminatory content based on country"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/gender",
+      "matched_segment": "discriminatory content based on sex"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/health-conditions",
+      "matched_segment": "discriminatory content based on health"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/subverting-state-power",
+      "matched_segment": "content must not incite subversion of national sovereignty or the overturn of the socialist system"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/undermining-national-unity",
+      "matched_segment": "content must not incite separatism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/inciting-violence-or-radicalization",
+      "matched_segment": "content must not advocate terrorism or extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "content must not advocate terrorism or extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+      "matched_segment": "content must not advocate terrorism or extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+      "matched_segment": "content must not propagate ethnic hatred and ethnic discrimination"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/depicting-violence/bodily-destruction",
+      "matched_segment": "content must not have information that is violent"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "content must not have information that is obscene"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/mis-disinformation/generating-or-promoting-misinformation",
+      "matched_segment": "content must not have information that is fake"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/criminal-activities/other-illegal-unlawful-criminal-activities/undermining-social-stability-china-unique",
+      "matched_segment": "content must not have information that might disrupt the economic or social order"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-race",
+      "matched_segment": "Discrimination based on race, ethnicity, country, faith, sex, age, or occupation during the selection of training data, model generation and fine-tuning, and provision of services."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-ethnicity",
+      "matched_segment": "Discrimination based on race, ethnicity, country, faith, sex, age, or occupation during the selection of training data, model generation and fine-tuning, and provision of services."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-nationality",
+      "matched_segment": "Discrimination based on race, ethnicity, country, faith, sex, age, or occupation during the selection of training data, model generation and fine-tuning, and provision of services."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-religion",
+      "matched_segment": "Discrimination based on race, ethnicity, country, faith, sex, age, or occupation during the selection of training data, model generation and fine-tuning, and provision of services."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-gender",
+      "matched_segment": "Discrimination based on race, ethnicity, country, faith, sex, age, or occupation during the selection of training data, model generation and fine-tuning, and provision of services."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-age",
+      "matched_segment": "Discrimination based on race, ethnicity, country, faith, sex, age, or occupation during the selection of training data, model generation and fine-tuning, and provision of services."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-occupation",
+      "matched_segment": "Discrimination based on race, ethnicity, country, faith, sex, age, or occupation during the selection of training data, model generation and fine-tuning, and provision of services."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/race",
+      "matched_segment": "Discriminatory content generation based on users’ characteristics."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+      "matched_segment": "Discriminatory content generation based on users’ characteristics."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/nationality",
+      "matched_segment": "Discriminatory content generation based on users’ characteristics."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/religion",
+      "matched_segment": "Discriminatory content generation based on users’ characteristics."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/gender",
+      "matched_segment": "Discriminatory content generation based on users’ characteristics."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/age",
+      "matched_segment": "Discriminatory content generation based on users’ characteristics."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/occupation",
+      "matched_segment": "Discriminatory content generation based on users’ characteristics."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/subverting-state-power",
+      "matched_segment": "content that incites subversion of state power"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+      "matched_segment": "content that promotes ethnic hatred"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "content that promotes obscenity"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/monetized/pornography",
+      "matched_segment": "content that promotes pornography"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/economic-harm/high-risk-financial-activities/gambling-e-g-sports-betting",
+      "matched_segment": "content that promotes gambling"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/inciting-violence-or-radicalization",
+      "matched_segment": "content that promotes violence"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/criminal-activities/other-illegal-unlawful-criminal-activities/content-abetting-involving-furthering-activities-violating-any-applicable-law",
+      "matched_segment": "content that incites crime"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "content that promotes terrorism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+      "matched_segment": "content that promotes extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-race",
+      "matched_segment": "discrimination based on race"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-ethnicity",
+      "matched_segment": "discrimination based on ethnicity"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-religion",
+      "matched_segment": "discrimination based on faith"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-nationality",
+      "matched_segment": "discrimination based on nationality"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-geographic-region",
+      "matched_segment": "discrimination based on region"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-gender",
+      "matched_segment": "discrimination based on sex"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-age",
+      "matched_segment": "discrimination based on age"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-occupation",
+      "matched_segment": "discrimination based on profession"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/subverting-state-power",
+      "matched_segment": "content that subverts state power"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/undermining-national-unity",
+      "matched_segment": "content that incites secession"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "content that promotes terrorism or extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+      "matched_segment": "content that promotes terrorism or extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+      "matched_segment": "content that promotes ethnic hatred or ethnic discrimination"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+      "matched_segment": "content that contains violence"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "content that contains obscene or pornographic information"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/monetized/pornography",
+      "matched_segment": "content that contains obscene or pornographic information"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/mis-disinformation/generating-or-promoting-misinformation",
+      "matched_segment": "content that contains false information"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/portrait-rights",
+      "matched_segment": "damage to portrait rights"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/reputation-rights",
+      "matched_segment": "damage to reputation rights"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+      "matched_segment": "damage to personal privacy"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/ip-rights-trade-secrets",
+      "matched_segment": "infringement of intellectual property rights"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-collection-gathering-stealing-pii-personal-identifiable-information",
+      "matched_segment": "illegal acquisition of personal information"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-processing-pii-personal-identifiable-information",
+      "matched_segment": "illegal use of personal information"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/ip-rights-trade-secrets",
+      "matched_segment": "the infringement of intellectual property rights"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-collection-gathering-stealing-pii-personal-identifiable-information",
+      "matched_segment": "the illegal acquisition of personal information and privacy"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+      "matched_segment": "the illegal disclosure of personal information and privacy"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-processing-pii-personal-identifiable-information",
+      "matched_segment": "the illegal use of personal information and privacy"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/portrait-rights",
+      "matched_segment": "harm to others' image rights"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/reputation-rights",
+      "matched_segment": "harm to others' reputation rights"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/subverting-state-power",
+      "matched_segment": "content that incites subversion of state power"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/damaging-state-interests",
+      "matched_segment": "content that endangers national security or interests"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/undermining-national-unity",
+      "matched_segment": "content that incites secession"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/criminal-activities/other-illegal-unlawful-criminal-activities/undermining-social-stability-china-unique",
+      "matched_segment": "content that undermines national unity or social stability"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "content that promotes terrorism or extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+      "matched_segment": "content that promotes terrorism or extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+      "matched_segment": "content that promotes ethnic hatred or ethnic discrimination"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+      "matched_segment": "content that contains violence"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "content that contains obscene pornography"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/mis-disinformation/generating-or-promoting-misinformation",
+      "matched_segment": "content that contains false harmful information prohibited by law or administrative regulations"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/depicting-violence/torture-abuse",
+      "matched_segment": "must not harm another person's physical health"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/harassment/abuse",
+      "matched_segment": "must not harm another person's mental health"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/portrait-rights",
+      "matched_segment": "must not infringe another person's portrait rights"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/reputation-rights",
+      "matched_segment": "must not infringe another person's reputation rights"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/honor-rights",
+      "matched_segment": "must not infringe another person's honor rights"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+      "matched_segment": "must not infringe another person's personal information rights"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+      "matched_segment": "generation of discrimination based on ethnicity"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/beliefs",
+      "matched_segment": "generation of discrimination based on belief"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/nationality",
+      "matched_segment": "generation of discrimination based on nationality"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/geographic-region",
+      "matched_segment": "generation of discrimination based on region"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/gender",
+      "matched_segment": "generation of discrimination based on gender"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/age",
+      "matched_segment": "generation of discrimination based on age"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/occupation",
+      "matched_segment": "generation of discrimination based on occupation"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/health-conditions",
+      "matched_segment": "generation of discrimination based on health"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/subverting-state-power",
+      "matched_segment": "content that incites subversion of state power"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/damaging-state-interests",
+      "matched_segment": "content that endangers national security or interests"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/defamation/types-of-defamation/disparagement",
+      "matched_segment": "content that harms the national image"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/reputation-rights",
+      "matched_segment": "content that harms the national image"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/disrupting-social-order-china-unique/undermining-national-unity",
+      "matched_segment": "content that incites secession"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/criminal-activities/other-illegal-unlawful-criminal-activities/undermining-social-stability-china-unique",
+      "matched_segment": "content that undermines national unity or social stability"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "content that promotes terrorism or extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+      "matched_segment": "content that promotes terrorism or extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+      "matched_segment": "content that promotes ethnic hatred or ethnic discrimination"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/perpetuating-harmful-beliefs/perpetuating-racism",
+      "matched_segment": "content that promotes ethnic hatred or ethnic discrimination"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/inciting-violence-or-radicalization",
+      "matched_segment": "content that contains violence"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/depicting-violence/bodily-destruction",
+      "matched_segment": "content that contains violence"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "content that contains obscenity"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/monetized/pornography",
+      "matched_segment": "content that contains pornography"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/portrait-rights",
+      "matched_segment": "infringe another person's portrait rights"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/reputation-rights",
+      "matched_segment": "infringe another person's reputation rights"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/honor-rights",
+      "matched_segment": "infringe another person's honor rights"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+      "matched_segment": "infringe another person's privacy rights"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/scams",
+      "matched_segment": "content that enables fraud"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+      "matched_segment": "content that enables impersonation"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+      "matched_segment": "content that facilitates cyber intrusion"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+      "matched_segment": "content that facilitates malware"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/perpetuating-harmful-beliefs/negative-stereotyping-of-any-group",
+      "matched_segment": "discriminatory outputs"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/race",
+      "matched_segment": "discriminatory outputs"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/gender",
+      "matched_segment": "discriminatory outputs"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/religion",
+      "matched_segment": "discriminatory outputs"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/disability",
+      "matched_segment": "discriminatory outputs"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/age",
+      "matched_segment": "discriminatory outputs"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/ethnicity",
+      "matched_segment": "hate speech"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/color",
+      "matched_segment": "hate speech"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/sexual-orientation",
+      "matched_segment": "hate speech"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/beliefs",
+      "matched_segment": "hate speech"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/nationality",
+      "matched_segment": "hate speech"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/geographic-region",
+      "matched_segment": "hate speech"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/caste",
+      "matched_segment": "hate speech"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/social-behaviors",
+      "matched_segment": "hate speech"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/physical-characteristics",
+      "matched_segment": "hate speech"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/mental-characteristics",
+      "matched_segment": "hate speech"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/personality",
+      "matched_segment": "hate speech"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/health-conditions",
+      "matched_segment": "hate speech"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/pregnancy-status",
+      "matched_segment": "hate speech"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/genetic-information",
+      "matched_segment": "hate speech"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/occupation",
+      "matched_segment": "hate speech"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+      "matched_segment": "self-harm instructions"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "terrorist content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+      "matched_segment": "content supporting terrorism or extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/child-harm/child-sexual-abuse/csam",
+      "matched_segment": "child sexual abuse material"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "sexual content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+      "matched_segment": "violent content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+      "matched_segment": "self-harm"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/scams",
+      "matched_segment": "fraud"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+      "matched_segment": "privacy or personal-data abuse"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-processing-pii-personal-identifiable-information",
+      "matched_segment": "privacy or personal-data abuse"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/perpetuating-harmful-beliefs/negative-stereotyping-of-any-group",
+      "matched_segment": "discriminatory outputs"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/harassment/abuse",
+      "matched_segment": "hate or harassment"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/deterring-democratic-participation/deterring-participation-in-democratic-processes",
+      "matched_segment": "election or political manipulation"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/political-persuasion/political-advertisements",
+      "matched_segment": "election or political manipulation"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/political-usage/influencing-politics/influence-political-decisions",
+      "matched_segment": "election or political manipulation"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/child-harm/child-sexual-abuse/csam",
+      "matched_segment": "child sexual abuse material"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-processing-pii-personal-identifiable-information",
+      "matched_segment": "content that enables privacy abuse"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+      "matched_segment": "cyber intrusion content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+      "matched_segment": "malware content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/phishing-catfishing",
+      "matched_segment": "phishing content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/scams",
+      "matched_segment": "fraud content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/manipulation/misrepresentation/impersonating-humans",
+      "matched_segment": "impersonation content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/personality",
+      "matched_segment": "hate content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/harassment/abuse",
+      "matched_segment": "harassment content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "The provider must prevent the model from generating obscene content."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+      "matched_segment": "self-harm content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/cutting",
+      "matched_segment": "self-harm content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/eating-disorders-anorexia-bulimia",
+      "matched_segment": "self-harm content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "generating terrorist content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+      "matched_segment": "generating content supporting extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+      "matched_segment": "generating violent content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+      "matched_segment": "generate or enable cyber intrusion"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+      "matched_segment": "generate or enable malware"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/phishing-catfishing",
+      "matched_segment": "generate or enable phishing"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/integrity/cyber-attack-coaching-for-non-experts",
+      "matched_segment": "generate or enable other cyber abuse"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+      "matched_segment": "Create malware"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/child-harm/child-sexual-abuse/csam",
+      "matched_segment": "Create child sexual abuse material (CSAM), including AI-generated CSAM."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/scams",
+      "matched_segment": "Develop, promote, or otherwise facilitate the sale or distribution of fraudulent or deceptive products."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+      "matched_segment": "Facilitate or promote any act of violence or intimidation targeting individuals"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/harassment/intimidation",
+      "matched_segment": "Facilitate or promote any act of violence or intimidation targeting individuals"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/harassment/threats",
+      "matched_segment": "Facilitate or promote any act of violence or intimidation targeting individuals"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/harassment/abuse",
+      "matched_segment": "Facilitate or promote any act of violence or intimidation targeting groups"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/animals",
+      "matched_segment": "Facilitate or promote any act of violence or intimidation targeting animals"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/property-damage",
+      "matched_segment": "Facilitate or promote any act of violence or intimidation targeting property"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/inciting-violence-or-radicalization",
+      "matched_segment": "incite violent extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+      "matched_segment": "incite violent extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "incite terrorism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/personality",
+      "matched_segment": "incite hateful behavior"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-collection-gathering-stealing-pii-personal-identifiable-information",
+      "matched_segment": "Misuse, collect, solicit, or gain access without permission to private information such as non-public contact details"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-collection-gathering-stealing-health-data",
+      "matched_segment": "Misuse, collect, solicit, or gain access without permission to private information such as health data"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-collection-gathering-stealing-biometric-data-facial-recognition",
+      "matched_segment": "Misuse, collect, solicit, or gain access without permission to private information such as biometric or neural data (including facial recognition)"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/ip-rights-trade-secrets",
+      "matched_segment": "Misuse, collect, solicit, or gain access without permission to private information such as confidential or proprietary data"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/explosives-dangerous-materials",
+      "matched_segment": "Produce explosives"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+      "matched_segment": "Provide material support for organizations or individuals associated with violent extremism, terrorism, or hateful behavior."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "Provide material support for organizations or individuals associated with violent extremism, terrorism, or hateful behavior."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+      "matched_segment": "sharing personal information without consent"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-collection-gathering-stealing-pii-personal-identifiable-information",
+      "matched_segment": "accessing private data unlawfully"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+      "matched_segment": "substantially automate cyber-attacker responsibilities"
+    },
+    {
+      "type": "novel",
+      "node_id": "root/system-operational-risks/security-risks/availability/attack-volume-amplification",
+      "parent_node_id": "root/system-operational-risks/security-risks/availability",
+      "name": "Attack volume amplification"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+      "matched_segment": "content that facilitates cyber intrusion"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+      "matched_segment": "content that facilitates malware"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/phishing-catfishing",
+      "matched_segment": "content that facilitates phishing"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/scams",
+      "matched_segment": "content that facilitates fraud"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+      "matched_segment": "content that facilitates impersonation"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+      "matched_segment": "content that facilitates self-harm"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "content that facilitates terrorism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+      "matched_segment": "content that facilitates extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "Generative AI must not generate sexual content."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+      "matched_segment": "Generative AI must not generate violent content."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/depicting-violence/bodily-destruction",
+      "matched_segment": "Generative AI must not generate violent content."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/offensive-language/vulgar-terms",
+      "matched_segment": "Generative AI must not generate obscene content."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/perpetuating-harmful-beliefs/negative-stereotyping-of-any-group",
+      "matched_segment": "Generative AI must not generate discriminatory content."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/race",
+      "matched_segment": "Generative AI must not generate discriminatory content."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+      "matched_segment": "generate personal data breaches"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+      "matched_segment": "content that facilitates cyber intrusion"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+      "matched_segment": "content that facilitates malware"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/scams",
+      "matched_segment": "content that facilitates fraud"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/manipulation/misrepresentation/impersonating-humans",
+      "matched_segment": "content that facilitates impersonation"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+      "matched_segment": "content that facilitates self-harm"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "content that facilitates terrorism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+      "matched_segment": "content that facilitates extremism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/race",
+      "matched_segment": "generate hateful content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/harassment/abuse",
+      "matched_segment": "generate harassing content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "The AI system must not generate obscene content."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/depicting-violence/bodily-destruction",
+      "matched_segment": "generate violent content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/vulnerability-probing",
+      "matched_segment": "information about how to use cyber security exploits"
+    },
+    {
+      "type": "novel",
+      "node_id": "root/system-operational-risks/security-risks/integrity/autonomous-cyber-attacks",
+      "parent_node_id": "root/system-operational-risks/security-risks/integrity",
+      "name": "Autonomous cyber attacks"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/vulnerability-probing",
+      "matched_segment": "reverse engineer a Windows service binary containing encrypted credentials"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+      "matched_segment": "escalate privileges via token impersonation"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/unauthorized-network-entry",
+      "matched_segment": "recover a cryptographic key to access a C2 management service"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/mis-disinformation/generating-or-promoting-misinformation",
+      "matched_segment": "fraudulently misrepresent other candidates through deliberately false Artificial Intelligence-generated content in campaign ads or other communications"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+      "matched_segment": "fraudulently misrepresent other candidates through deliberately false Artificial Intelligence-generated content in campaign ads or other communications"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/defamation/types-of-defamation/libel",
+      "matched_segment": "fraudulently misrepresent other candidates through deliberately false Artificial Intelligence-generated content in campaign ads or other communications"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/scams",
+      "matched_segment": "automate the targeting of fraudulent products and services to the most vulnerable consumers"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+      "matched_segment": "impersonation of government in interstate commerce"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+      "matched_segment": "AI systems should not disclose identity in ways that undermine privacy."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/reputation-rights",
+      "matched_segment": "AI systems should not disclose identity, secrecy, or control over personal aspects such as reputation in ways that undermine privacy."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/perpetuating-harmful-beliefs/negative-stereotyping-of-any-group",
+      "matched_segment": "generate discriminatory outputs"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/discrimination-bias/discrimination-protected-characteristics-combinations/discrimination-in-employment-benefits-or-services-social-behaviors",
+      "matched_segment": "enable harmful bias that leads to discrimination"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/scams",
+      "matched_segment": "fraud"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+      "matched_segment": "impersonation"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/race",
+      "matched_segment": "hate"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/harassment/abuse",
+      "matched_segment": "harassment"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/child-harm/child-sexual-abuse/csam",
+      "matched_segment": "generate child sexual abuse material"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+      "matched_segment": "generate or facilitate cyber intrusion"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+      "matched_segment": "generate or facilitate malware"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/phishing-catfishing",
+      "matched_segment": "generate or facilitate phishing"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/integrity/cyber-attack-coaching-for-non-experts",
+      "matched_segment": "generate or facilitate other cyberattacks"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+      "matched_segment": "generate privacy-invasive outputs"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-processing-pii-personal-identifiable-information",
+      "matched_segment": "misuse personal data"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+      "matched_segment": "self-harm content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/sexual-content/adult-content/obscene",
+      "matched_segment": "The AI system shall not generate sexual content."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "terrorism content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/extremism",
+      "matched_segment": "extremism content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+      "matched_segment": "generate violent content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/guns",
+      "matched_segment": "weapon assistance"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/explosives-dangerous-materials",
+      "matched_segment": "weapon assistance"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/bioweapons-viruses-gain-of-function",
+      "matched_segment": "weapon assistance"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/nuclear-weapons",
+      "matched_segment": "weapon assistance"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/chemical-weapons",
+      "matched_segment": "weapon assistance"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/radiological-weapons",
+      "matched_segment": "weapon assistance"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/child-harm/child-sexual-abuse/csam",
+      "matched_segment": "AI systems should not generate child sexual abuse material."
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/scams",
+      "matched_segment": "generate content that facilitates fraud"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/manipulation/misrepresentation/impersonating-humans",
+      "matched_segment": "generate content that facilitates impersonation"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+      "matched_segment": "generate content that violates privacy"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/hate-speech-inciting-promoting-expressing-hatred/personality",
+      "matched_segment": "hateful content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/hate-toxicity/harassment/abuse",
+      "matched_segment": "harassing content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/guns",
+      "matched_segment": "generate instructions for weapons"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/explosives-dangerous-materials",
+      "matched_segment": "generate instructions for weapons"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/bioweapons-viruses-gain-of-function",
+      "matched_segment": "generate instructions for weapons"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/nuclear-weapons",
+      "matched_segment": "generate instructions for weapons"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/chemical-weapons",
+      "matched_segment": "generate instructions for weapons"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/weapon-usage-development/radiological-weapons",
+      "matched_segment": "generate instructions for weapons"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/persons-including-murder",
+      "matched_segment": "generate instructions or assistance for other harmful physical acts"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/animals",
+      "matched_segment": "generate instructions or assistance for other harmful physical acts"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/property-damage",
+      "matched_segment": "generate instructions or assistance for other harmful physical acts"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/environmental",
+      "matched_segment": "generate instructions or assistance for other harmful physical acts"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/phishing-catfishing",
+      "matched_segment": "generate phishing content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+      "matched_segment": "generate malware"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+      "matched_segment": "generate other cyber intrusion content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+      "matched_segment": "generate self-harm instructions"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/child-harm/child-sexual-abuse/csam",
+      "matched_segment": "generate sexual content involving minors"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "generate terrorism-related content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/scams",
+      "matched_segment": "generate financial fraud"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/impersonating-others",
+      "matched_segment": "fraudulent identity verification to claim unemployment benefits"
+    },
+    {
+      "type": "novel",
+      "node_id": "root/societal-risks/manipulation/misrepresentation/identity-verification-evasion",
+      "parent_node_id": "root/societal-risks/manipulation/misrepresentation",
+      "name": "Identity verification evasion"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/system-operational-risks/security-risks/integrity/malware",
+      "matched_segment": "generate malware"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/societal-risks/deception/fraud/phishing-catfishing",
+      "matched_segment": "generate phishing content"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/child-harm/child-sexual-abuse/csam",
+      "matched_segment": "producing visual material of sexually explicit conduct"
+    },
+    {
+      "type": "novel",
+      "node_id": "root/content-safety-risks/child-harm/child-sexual-abuse/sexual-encouragement-of-minors",
+      "parent_node_id": "root/content-safety-risks/child-harm/child-sexual-abuse",
+      "name": "Sexual Encouragement of Minors"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/portrait-rights",
+      "matched_segment": "publishes, performs, distributes, transmits, or otherwise makes available to the public an individual's voice or likeness without authorization"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/child-harm/child-sexual-abuse/csam",
+      "matched_segment": "generate child sexual abuse material"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/self-harm/suicidal-and-non-suicidal-self-injury/suicide",
+      "matched_segment": "content that promotes self-harm"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/supporting-malicious-organized-groups/terrorism",
+      "matched_segment": "content that promotes terrorism"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/violence-extremism/violent-acts/inciting-violence-or-radicalization",
+      "matched_segment": "content that promotes violence"
+    },
+    {
+      "type": "existing",
+      "node_id": "root/content-safety-risks/child-harm/child-sexual-abuse/csam",
+      "matched_segment": "generate sexually explicit content involving a minor"
+    }
+  ]
+}

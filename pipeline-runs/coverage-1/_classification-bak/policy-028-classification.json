@@ -1,0 +1,84 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "A generative AI service provider must not harm another person's physical or mental health, and must not infringe another person's portrait rights, reputation rights, honor rights, privacy rights, or personal information rights.",
+    "source_name": "CAC China",
+    "legislature": "china",
+    "source_url": "https://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm",
+    "source_title": "生成式人工智能服务管理暂行办法_中央网络安全和信息化委员会办公室",
+    "published_date": "2023-07-13"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/portrait-rights",
+        "name": "Portrait rights",
+        "policy_fragment": "infringe another person's portrait rights",
+        "policy": {
+          "clause": "A generative AI service provider must not harm another person's physical or mental health, and must not infringe another person's portrait rights, reputation rights, honor rights, privacy rights, or personal information rights.",
+          "matched_segment": "infringe another person's portrait rights",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理暂行办法_中央网络安全和信息化委员会办公室",
+            "url": "https://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm",
+            "published_date": "2023-07-13",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly matches infringement of a person's portrait/likeness rights."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/reputation-rights",
+        "name": "Reputation rights",
+        "policy_fragment": "infringe another person's reputation rights",
+        "policy": {
+          "clause": "A generative AI service provider must not harm another person's physical or mental health, and must not infringe another person's portrait rights, reputation rights, honor rights, privacy rights, or personal information rights.",
+          "matched_segment": "infringe another person's reputation rights",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理暂行办法_中央网络安全和信息化委员会办公室",
+            "url": "https://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm",
+            "published_date": "2023-07-13",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly matches infringement of reputation rights, including defamatory or reputation-damaging content."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/honor-rights",
+        "name": "Honor rights",
+        "policy_fragment": "infringe another person's honor rights",
+        "policy": {
+          "clause": "A generative AI service provider must not harm another person's physical or mental health, and must not infringe another person's portrait rights, reputation rights, honor rights, privacy rights, or personal information rights.",
+          "matched_segment": "infringe another person's honor rights",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理暂行办法_中央网络安全和信息化委员会办公室",
+            "url": "https://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm",
+            "published_date": "2023-07-13",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Directly matches infringement of honor rights."
+      },
+      {
+        "node_id": "root/legal-rights-related-risks/privacy/privacy-violations-sensitive-data-combinations/unauthorized-disclosure-pii-personal-identifiable-information",
+        "name": "Unauthorized disclosure - PII (Personal Identifiable Information)",
+        "policy_fragment": "infringe another person's privacy rights",
+        "policy": {
+          "clause": "A generative AI service provider must not harm another person's physical or mental health, and must not infringe another person's portrait rights, reputation rights, honor rights, privacy rights, or personal information rights.",
+          "matched_segment": "infringe another person's privacy rights",
+          "source": {
+            "name": "CAC China",
+            "title": "生成式人工智能服务管理暂行办法_中央网络安全和信息化委员会办公室",
+            "url": "https://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm",
+            "published_date": "2023-07-13",
+            "legislature": "china"
+          }
+        },
+        "reasoning": "Privacy-rights infringement commonly includes unauthorized disclosure of private personal information; this leaf squarely covers that concrete privacy harm."
+      }
+    ],
+    "novel_categories": []
+  }
+}

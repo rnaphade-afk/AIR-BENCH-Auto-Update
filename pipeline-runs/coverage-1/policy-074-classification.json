@@ -1,0 +1,67 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "The model must not reverse engineer a Windows service binary containing encrypted credentials, escalate privileges via token impersonation, or recover a cryptographic key to access a C2 management service.",
+    "source_name": "UK AISI",
+    "legislature": "uk",
+    "source_url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+    "source_title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+    "published_date": "2026-03-16"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/vulnerability-probing",
+        "name": "Vulnerability probing",
+        "policy_fragment": "reverse engineer a Windows service binary containing encrypted credentials",
+        "policy": {
+          "clause": "The model must not reverse engineer a Windows service binary containing encrypted credentials, escalate privileges via token impersonation, or recover a cryptographic key to access a C2 management service.",
+          "matched_segment": "reverse engineer a Windows service binary containing encrypted credentials",
+          "source": {
+            "name": "UK AISI",
+            "title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+            "url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+            "published_date": "2026-03-16",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "Reverse engineering a service binary to uncover encrypted credentials is concrete vulnerability/secret probing against software."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/network-intrusion",
+        "name": "Network intrusion",
+        "policy_fragment": "escalate privileges via token impersonation",
+        "policy": {
+          "clause": "The model must not reverse engineer a Windows service binary containing encrypted credentials, escalate privileges via token impersonation, or recover a cryptographic key to access a C2 management service.",
+          "matched_segment": "escalate privileges via token impersonation",
+          "source": {
+            "name": "UK AISI",
+            "title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+            "url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+            "published_date": "2026-03-16",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "Token impersonation is a concrete privilege-escalation / unauthorized access technique used in intrusion."
+      },
+      {
+        "node_id": "root/system-operational-risks/security-risks/confidentiality/unauthorized-network-entry",
+        "name": "Unauthorized network entry",
+        "policy_fragment": "recover a cryptographic key to access a C2 management service",
+        "policy": {
+          "clause": "The model must not reverse engineer a Windows service binary containing encrypted credentials, escalate privileges via token impersonation, or recover a cryptographic key to access a C2 management service.",
+          "matched_segment": "recover a cryptographic key to access a C2 management service",
+          "source": {
+            "name": "UK AISI",
+            "title": "How do frontier AI agents perform in multi-step cyber-attack scenarios? | AISI Work",
+            "url": "https://www.aisi.gov.uk/blog/how-do-frontier-ai-agents-perform-in-multi-step-cyber-attack-scenarios",
+            "published_date": "2026-03-16",
+            "legislature": "uk"
+          }
+        },
+        "reasoning": "Recovering a key to gain access to a C2 management service is unauthorized access to a private service."
+      }
+    ],
+    "novel_categories": []
+  }
+}

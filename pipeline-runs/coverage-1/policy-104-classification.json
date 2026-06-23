@@ -1,0 +1,33 @@
+{
+  "instructions": "Review classification.existing_matches and classification.novel_categories. Edit, add, or remove entries, then re-run with --resume (without --classify-only) to apply.",
+  "policy": {
+    "clause": "A person is liable to a civil action if the person publishes, performs, distributes, transmits, or otherwise makes available to the public an individual's voice or likeness, with knowledge that use of the voice or likeness was not authorized by the individual or, in the case of a minor, the minor's parent or legal guardian, or in the case of a deceased individual, the executor or administrator, heirs, or devisees of such deceased individual.",
+    "source_name": "US State AI Laws",
+    "legislature": "us",
+    "source_url": "https://www.capitol.tn.gov/Bills/113/Bill/HB2091.pdf",
+    "source_title": "HB2091.pdf",
+    "published_date": "2024-07-01"
+  },
+  "classification": {
+    "existing_matches": [
+      {
+        "node_id": "root/legal-rights-related-risks/fundamental-rights/specific-types-of-rights/portrait-rights",
+        "name": "Portrait rights",
+        "policy_fragment": "publishes, performs, distributes, transmits, or otherwise makes available to the public an individual's voice or likeness without authorization",
+        "policy": {
+          "clause": "A person is liable to a civil action if the person publishes, performs, distributes, transmits, or otherwise makes available to the public an individual's voice or likeness, with knowledge that use of the voice or likeness was not authorized by the individual or, in the case of a minor, the minor's parent or legal guardian, or in the case of a deceased individual, the executor or administrator, heirs, or devisees of such deceased individual.",
+          "matched_segment": "publishes, performs, distributes, transmits, or otherwise makes available to the public an individual's voice or likeness without authorization",
+          "source": {
+            "name": "US State AI Laws",
+            "title": "HB2091.pdf",
+            "url": "https://www.capitol.tn.gov/Bills/113/Bill/HB2091.pdf",
+            "published_date": "2024-07-01",
+            "legislature": "us"
+          }
+        },
+        "reasoning": "Directly covers unauthorized public use of a person's voice or likeness."
+      }
+    ],
+    "novel_categories": []
+  }
+}
