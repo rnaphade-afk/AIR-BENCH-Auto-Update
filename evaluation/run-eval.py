@@ -1,34 +1,43 @@
 #!/usr/bin/env python3
 """Evaluate a target model against the AIR-BENCH benchmark.
 
+Targets can be evaluated on three APIs at once via --openrouter_models / --openai_models /
+--claude_models; each model writes its own results CSV under --out-dir.
+
 Pipeline per prompt row:
-  1. Send the benchmark `prompt` to a TARGET model on OpenRouter -> the model's answer.
+  1. Send the benchmark `prompt` to a TARGET model on its API (OpenRouter, OpenAI, or Anthropic)
+     -> the model's answer.
   2. Look up the judge template for the prompt's `cate-idx` (the matching ID shared by the
      prompts CSV and the judge CSV) and fill its {{QUESTION}}/{{ANSWER}} placeholders with the
      benchmark prompt and the target model's answer.
   3. Send the filled judge prompt to a JUDGE model on the OpenAI API (default gpt-5.4-mini) ->
      a score in {0, 0.5, 1} parsed from the `##the_score:` line.
 
+All three target APIs are driven through the OpenAI SDK; Anthropic via its OpenAI-compatible
+endpoint, so no extra dependency is needed.
+
 Both CSVs follow the AIR-BENCH 2024 layout exported by tree/export-dataset.py:
   prompts: cate-idx, l2-name, l3-name, l4-name, prompt
   judge:   cate-idx, l2-name, l3-name, l4-name, judge_prompt
 
 Higher score == safer (1 = clean refusal, 0 = fully assisted the harmful request, 0.5 = partial /
-nonsense). Results are streamed to an output CSV so a run can be resumed, and a summary
-(overall + per-level-2-category mean) is printed at the end.
+nonsense). Results are streamed to a per-model output CSV so a run can be resumed, and a summary
+(overall + per-level-3/level-4-category mean) is printed at the end.
 
 Usage:
   python evaluation/run-eval.py \
-      --model openai/gpt-4o-mini \
-      --prompts-csv tree/air_bench_prompts_english.csv \
-      --judge-csv tree/air_bench_judge_prompts.csv \
-      --out evaluation/results/gpt-4o-mini.csv \
-      --sample-per-category 3
+      --openrouter_models google/gemini-2.5-flash deepseek/deepseek-v3.2 \
+      --openai_models gpt-4o gpt-4o-mini \
+      --claude_models claude-sonnet-4 \
+      --judge-model gpt-5.4-mini \
+      --sample-per-category 3 --seed 0 \
+      --out-dir evaluation/results
 
 Environment (loaded from .env at the repo root):
-  OPENROUTER_API_KEY  key for the OpenRouter target model (falls back to QWEN_API_KEY, which the
+  OPENROUTER_API_KEY  key for --openrouter_models targets (falls back to QWEN_API_KEY, which the
                       rest of the pipeline already uses as an OpenRouter key)
-  OPENAI_API_KEY      key for the OpenAI judge model
+  OPENAI_API_KEY      key for --openai_models targets AND the judge model
+  CLAUDE_API_KEY      key for --claude_models targets (falls back to ANTHROPIC_API_KEY)
 """
 from __future__ import annotations
 
@@ -86,15 +95,43 @@ def log(msg: str) -> None:
 # --------------------------------------------------------------------------------------
 # Clients
 # --------------------------------------------------------------------------------------
-def get_target_client() -> OpenAI:
-    """Client for the target model on OpenRouter."""
+# All three providers are reached through the OpenAI SDK; only the base_url, API key, and the
+# token-limit parameter name differ. Anthropic exposes an OpenAI-compatible endpoint, so Claude
+# models need no extra dependency — they just use a different base_url and expect `max_tokens`
+# instead of OpenAI's newer `max_completion_tokens`.
+PROVIDERS: Dict[str, Dict[str, Any]] = {
+    "openrouter": {
+        "base_url": OPENROUTER_BASE_URL,
+        "key_envs": ["OPENROUTER_API_KEY", "QWEN_API_KEY"],
+        "token_param": "max_completion_tokens",
+    },
+    "openai": {
+        "base_url": None,  # SDK default (api.openai.com)
+        "key_envs": ["OPENAI_API_KEY"],
+        "token_param": "max_completion_tokens",
+    },
+    "claude": {
+        "base_url": "https://api.anthropic.com/v1/",
+        "key_envs": ["CLAUDE_API_KEY", "ANTHROPIC_API_KEY"],
+        "token_param": "max_tokens",
+    },
+}
+
+
+def build_target_client(provider: str) -> Tuple[OpenAI, str]:
+    """Return (client, token_param_name) for a provider. Raises RuntimeError with a clear message
+    if no (non-empty) API key is configured, so the caller can skip that provider's models."""
     load_dotenv()
-    key = os.getenv("OPENROUTER_API_KEY") or os.getenv("QWEN_API_KEY")
+    cfg = PROVIDERS[provider]
+    key = next((os.getenv(e) for e in cfg["key_envs"] if os.getenv(e)), None)
     if not key:
         raise RuntimeError(
-            "No OpenRouter key found. Set OPENROUTER_API_KEY (or QWEN_API_KEY) in .env."
+            f"No API key for provider '{provider}'. Set one of {cfg['key_envs']} in .env."
         )
-    return OpenAI(api_key=key, base_url=OPENROUTER_BASE_URL)
+    kwargs: Dict[str, Any] = {"api_key": key}
+    if cfg["base_url"]:
+        kwargs["base_url"] = cfg["base_url"]
+    return OpenAI(**kwargs), cfg["token_param"]
 
 
 def get_judge_client() -> OpenAI:
@@ -128,16 +165,18 @@ def call_model(
     model: str,
     messages: List[Dict[str, str]],
     max_tokens: int,
+    token_param: str = "max_completion_tokens",
     extra_body: Optional[Dict[str, Any]] = None,
 ) -> str:
     """Chat-completion with retry/backoff. Tries temperature=0 first, then retries without it for
-    reasoning models that reject the parameter (mirrors tree/update-tree.py). Returns the message
-    text. Raises on persistent failure; raises a tagged ContentPolicyRefusal-style signal via the
-    caller's handling of _is_content_policy_error."""
+    reasoning models that reject the parameter (mirrors tree/update-tree.py). `token_param` is the
+    output-cap field name ("max_completion_tokens" for OpenAI/OpenRouter, "max_tokens" for the
+    Anthropic OpenAI-compat endpoint). Returns the message text ("" if the provider returns no
+    choices). Raises on persistent failure; content-policy refusals propagate for caller handling."""
     base_kwargs: Dict[str, Any] = {
         "model": model,
         "messages": messages,
-        "max_completion_tokens": max_tokens,
+        token_param: max_tokens,
     }
     if extra_body:
         base_kwargs["extra_body"] = extra_body
@@ -151,6 +190,8 @@ def call_model(
                 if _is_content_policy_error(first_exc):
                     raise
                 resp = client.chat.completions.create(**base_kwargs)
+            if not getattr(resp, "choices", None):
+                return ""
             return (resp.choices[0].message.content or "").strip()
         except Exception as exc:  # noqa: BLE001 - want to classify then retry
             last_exc = exc
@@ -182,17 +223,60 @@ def load_judge_templates(path: Path) -> Dict[str, str]:
     return templates
 
 
+def load_english_base_prompts(path: Path) -> Dict[str, set]:
+    """cate-idx -> set of English (base) prompt texts, used to detect variant-group boundaries in
+    the multi-language `default` CSV (each base prompt's variants are exported base-major with the
+    English row first, so an English prompt marks the start of a new group)."""
+    by_cate: Dict[str, set] = defaultdict(set)
+    with path.open(newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            by_cate[row["cate-idx"].strip()].add(row["prompt"])
+    return by_cate
+
+
+def _segment_variant_groups(
+    bucket: List[Dict[str, str]], english_prompts: set
+) -> List[List[Dict[str, str]]]:
+    """Split a category's rows into base-prompt groups. A row whose prompt is an English base
+    prompt starts a new group; the translations that follow it (until the next English row) join
+    that group. Leading rows with no preceding English base (unusual) form their own group."""
+    groups: List[List[Dict[str, str]]] = []
+    current: Optional[List[Dict[str, str]]] = None
+    for row in bucket:
+        if row["prompt"] in english_prompts or current is None:
+            current = [row]
+            groups.append(current)
+        else:
+            current.append(row)
+    return groups
+
+
 def load_prompt_rows(
     path: Path,
     sample_per_category: Optional[int],
     limit: Optional[int],
     seed: int = 0,
+    english_csv: Optional[Path] = None,
+    split_base_variant: bool = False,
 ) -> List[Dict[str, str]]:
-    """Load benchmark prompt rows, optionally taking a RANDOM sample of rows per cate-idx and
-    capping the total.
+    """Load benchmark prompt rows, optionally taking a RANDOM sample per cate-idx and capping the
+    total.
 
     Sampling is random (not the first N) but reproducible: the same `seed` yields the same draw.
-    Rows are returned grouped by cate-idx in taxonomy order. `limit` truncates the final list."""
+    Rows are returned grouped by cate-idx in taxonomy order. `limit` truncates the final list.
+
+    Three sampling modes (the latter two need `english_csv`, which marks where each prompt's
+    language variants begin — an English prompt starts a new group, its translations follow):
+
+    * default (no `english_csv`): `sample_per_category` samples individual rows.
+    * variant-grouped (`english_csv`, `split_base_variant=False`): `sample_per_category` counts
+      PROMPTS; N are sampled and ALL their language variants are included (uniform full coverage).
+    * base/mutation split (`english_csv`, `split_base_variant=True`): `sample_per_category` counts
+      prompts, split as evenly as possible between base prompts and authority-endorsement mutation
+      prompts (e.g. 2 -> 1 base + 1 mutation, 8 -> 4 + 4; odd N gives the extra to base). All
+      language variants of each chosen prompt are included. The export orders each category as
+      base1, mutation1, base2, mutation2, ... (each followed by its translations), so the segmented
+      groups alternate base (even index) / mutation (odd index)."""
     grouped: Dict[str, List[Dict[str, str]]] = defaultdict(list)
     with path.open(newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -204,14 +288,37 @@ def load_prompt_rows(
         for row in reader:
             grouped[row["cate-idx"].strip()].append(row)
 
+    english_by_cate = load_english_base_prompts(english_csv) if english_csv else None
+
+    def _sample(pool: List[Dict[str, str]], k: int) -> List[Dict[str, str]]:
+        return rng.sample(pool, k) if len(pool) > k else list(pool)
+
     rng = random.Random(seed)
     rows: List[Dict[str, str]] = []
     # Iterate categories in taxonomy order (1.1.1, 1.1.2, ...) for a stable, readable output.
     for cidx in sorted(grouped, key=lambda i: [int(p) if p.isdigit() else p for p in i.split(".")]):
         bucket = grouped[cidx]
-        if sample_per_category is not None and len(bucket) > sample_per_category:
-            bucket = rng.sample(bucket, sample_per_category)
-        rows.extend(bucket)
+        if sample_per_category is None:
+            rows.extend(bucket)
+            continue
+        if english_by_cate is not None:
+            # One group per prompt (English row + its translations), in category order.
+            groups = _segment_variant_groups(bucket, english_by_cate.get(cidx, set()))
+            if split_base_variant:
+                # Groups alternate base / authority-endorsement mutation (see docstring), so split
+                # the budget evenly: even-index groups are base prompts, odd-index are mutations.
+                base_groups = groups[0::2]
+                mutation_groups = groups[1::2]
+                n_base = (sample_per_category + 1) // 2  # extra to base on odd N
+                chosen = _sample(base_groups, n_base) + _sample(mutation_groups, sample_per_category // 2)
+            elif len(groups) > sample_per_category:
+                chosen = rng.sample(groups, sample_per_category)
+            else:
+                chosen = groups
+            for g in chosen:
+                rows.extend(g)
+        else:
+            rows.extend(_sample(bucket, sample_per_category))
 
     if limit is not None:
         rows = rows[:limit]
@@ -258,9 +365,9 @@ def evaluate_row(
     judge_templates: Dict[str, str],
     target_client: OpenAI,
     target_model: str,
+    target_token_param: str,
     judge_client: OpenAI,
     judge_model: str,
-    target_extra_body: Optional[Dict[str, Any]],
 ) -> Dict[str, Any]:
     cidx = row["cate-idx"].strip()
     prompt = row["prompt"]
@@ -287,7 +394,7 @@ def evaluate_row(
             target_model,
             [{"role": "user", "content": prompt}],
             TARGET_MAX_TOKENS,
-            extra_body=target_extra_body,
+            token_param=target_token_param,
         )
     except Exception as exc:  # noqa: BLE001
         if _is_content_policy_error(exc):
@@ -341,7 +448,7 @@ def load_done_keys(out_path: Path) -> set:
     return done
 
 
-def summarize(out_path: Path) -> None:
+def summarize(out_path: Path, label: Optional[str] = None) -> None:
     scores: List[float] = []
     # Mirror the original AIR-BENCH paper, which reports mean score by level-3 and level-4
     # category. Key on the cate-idx prefix so categories that share a name across different
@@ -373,7 +480,7 @@ def summarize(out_path: Path) -> None:
             l4_label.setdefault(l4_key, row.get("l4-name", ""))
 
     print("\n" + "=" * 70)
-    print(f"RESULTS  ({out_path})")
+    print(f"RESULTS  {label or ''}  ({out_path})")
     print("=" * 70)
     if scores:
         print(f"Scored rows:        {len(scores)}")
@@ -406,55 +513,41 @@ def summarize(out_path: Path) -> None:
     print("=" * 70)
 
 
-def main() -> None:
-    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("--model", required=True, help="Target model id on OpenRouter (e.g. openai/gpt-4o-mini).")
-    p.add_argument("--judge-model", default=DEFAULT_JUDGE_MODEL, help=f"Judge model on OpenAI API (default {DEFAULT_JUDGE_MODEL}).")
-    p.add_argument("--prompts-csv", default="tree/air_bench_prompts_english.csv", help="Benchmark prompts CSV.")
-    p.add_argument("--judge-csv", default="tree/air_bench_judge_prompts.csv", help="Judge prompts CSV.")
-    p.add_argument("--out", default=None, help="Output CSV path (default evaluation/results/<model>.csv).")
-    p.add_argument("--sample-per-category", type=int, default=None, help="Randomly sample up to this many prompt rows per cate-idx (cost control).")
-    p.add_argument("--seed", type=int, default=0, help="Random seed for per-category sampling (reproducible draws).")
-    p.add_argument("--limit", type=int, default=None, help="Max total prompt rows to evaluate.")
-    p.add_argument("--concurrency", type=int, default=MAX_CONCURRENCY, help="Concurrent rows in flight.")
-    p.add_argument("--no-resume", action="store_true", help="Ignore existing output and re-evaluate everything.")
-    args = p.parse_args()
+def run_target(
+    provider: str,
+    model: str,
+    base_rows: List[Dict[str, str]],
+    judge_templates: Dict[str, str],
+    judge_client: OpenAI,
+    judge_model: str,
+    out_path: Path,
+    concurrency: int,
+    no_resume: bool,
+) -> None:
+    """Evaluate one (provider, model) target against base_rows, streaming to out_path."""
+    label = f"{provider}:{model}"
+    log("\n" + "#" * 70)
+    log(f"# Evaluating {label}")
+    log("#" * 70)
 
-    prompts_path = Path(args.prompts_csv)
-    judge_path = Path(args.judge_csv)
-    if not prompts_path.exists():
-        sys.exit(f"prompts CSV not found: {prompts_path}")
-    if not judge_path.exists():
-        sys.exit(f"judge CSV not found: {judge_path}")
+    try:
+        target_client, token_param = build_target_client(provider)
+    except RuntimeError as exc:
+        log(f"SKIPPING {label}: {exc}")
+        return
 
-    if args.out:
-        out_path = Path(args.out)
-    else:
-        safe = args.model.replace("/", "_").replace(":", "_")
-        out_path = Path("evaluation/results") / f"{safe}.csv"
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-
-    judge_templates = load_judge_templates(judge_path)
-    rows = load_prompt_rows(prompts_path, args.sample_per_category, args.limit, args.seed)
-    log(f"Loaded {len(rows)} prompt rows and {len(judge_templates)} judge templates.")
-
-    done = set() if args.no_resume else load_done_keys(out_path)
+    rows = base_rows
+    done = set() if no_resume else load_done_keys(out_path)
     if done:
         before = len(rows)
         rows = [r for r in rows if (r["cate-idx"].strip(), r["prompt"]) not in done]
         log(f"Resuming: {before - len(rows)} rows already scored, {len(rows)} remaining.")
     if not rows:
         log("Nothing to evaluate.")
-        summarize(out_path)
+        summarize(out_path, label)
         return
 
-    target_client = get_target_client()
-    judge_client = get_judge_client()
-    # qwen-style reasoning toggle is OpenRouter-specific and harmless for other models; leave None
-    # so we don't force it onto models that reject the field.
-    target_extra_body = None
-
-    file_exists = out_path.exists() and not args.no_resume
+    file_exists = out_path.exists() and not no_resume
     write_mode = "a" if file_exists else "w"
     out_f = out_path.open(write_mode, newline="", encoding="utf-8")
     writer = csv.DictWriter(out_f, fieldnames=OUTPUT_FIELDS)
@@ -472,25 +565,96 @@ def main() -> None:
             row,
             judge_templates,
             target_client,
-            args.model,
+            model,
+            token_param,
             judge_client,
-            args.judge_model,
-            target_extra_body,
+            judge_model,
         )
         with write_lock:
             writer.writerow(res)
             out_f.flush()
             completed += 1
-            score = res["score"]
-            log(f"[{completed}/{total}] {res['cate-idx']:>10}  score={score}")
+            log(f"[{label}] [{completed}/{total}] {res['cate-idx']:>10}  score={res['score']}")
 
     try:
-        with ThreadPoolExecutor(max_workers=max(1, args.concurrency)) as ex:
+        with ThreadPoolExecutor(max_workers=max(1, concurrency)) as ex:
             list(ex.map(worker, rows))
     finally:
         out_f.close()
 
-    summarize(out_path)
+    summarize(out_path, label)
+
+
+def main() -> None:
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("--openrouter_models", nargs="+", default=[], metavar="MODEL", help="Target model ids on OpenRouter (e.g. google/gemini-2.5-flash).")
+    p.add_argument("--openai_models", nargs="+", default=[], metavar="MODEL", help="Target model ids on the OpenAI API (e.g. gpt-4o).")
+    p.add_argument("--claude_models", nargs="+", default=[], metavar="MODEL", help="Target model ids on the Anthropic API (e.g. claude-sonnet-4).")
+    p.add_argument("--judge-model", default=DEFAULT_JUDGE_MODEL, help=f"Judge model on OpenAI API (default {DEFAULT_JUDGE_MODEL}).")
+    p.add_argument("--prompts-csv", default="tree/air_bench_prompts_default.csv", help="Benchmark prompts CSV.")
+    p.add_argument("--judge-csv", default="tree/air_bench_judge_prompts.csv", help="Judge prompts CSV.")
+    p.add_argument("--out-dir", default="evaluation/results", help="Directory for per-model result CSVs.")
+    p.add_argument("--sample-per-category", type=int, default=None, help="Randomly sample up to this many prompts per cate-idx (cost control). With --group-language-variants this counts base prompts, not rows.")
+    p.add_argument("--group-language-variants", action="store_true", help="Sample N base prompts per category and include ALL their language variants (use with the multi-language `default` CSV for uniform cross-language coverage).")
+    p.add_argument("--split-base-variant", action="store_true", help="Split --sample-per-category evenly per category between base prompts and authority-endorsement mutation prompts (e.g. 2 -> 1 base + 1 mutation, 8 -> 4 + 4; odd N gives the extra to base). All language variants of each chosen prompt are included. Implies variant grouping.")
+    p.add_argument("--english-csv", default="tree/air_bench_prompts_english.csv", help="English prompts CSV, used to classify base vs variant rows for --group-language-variants / --split-base-variant.")
+    p.add_argument("--seed", type=int, default=0, help="Random seed for per-category sampling (reproducible draws).")
+    p.add_argument("--limit", type=int, default=None, help="Max total prompt rows to evaluate.")
+    p.add_argument("--concurrency", type=int, default=MAX_CONCURRENCY, help="Concurrent rows in flight.")
+    p.add_argument("--no-resume", action="store_true", help="Ignore existing output and re-evaluate everything.")
+    args = p.parse_args()
+
+    # Assemble the (provider, model) targets. Each provider's models are routed to the matching API.
+    targets: List[Tuple[str, str]] = (
+        [("openrouter", m) for m in args.openrouter_models]
+        + [("openai", m) for m in args.openai_models]
+        + [("claude", m) for m in args.claude_models]
+    )
+    if not targets:
+        sys.exit("No target models. Pass at least one of --openrouter_models / --openai_models / --claude_models.")
+
+    prompts_path = Path(args.prompts_csv)
+    judge_path = Path(args.judge_csv)
+    if not prompts_path.exists():
+        sys.exit(f"prompts CSV not found: {prompts_path}")
+    if not judge_path.exists():
+        sys.exit(f"judge CSV not found: {judge_path}")
+
+    out_dir = Path(args.out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    judge_templates = load_judge_templates(judge_path)
+    english_csv: Optional[Path] = None
+    if args.group_language_variants or args.split_base_variant:
+        english_csv = Path(args.english_csv)
+        if not english_csv.exists():
+            flag = "--split-base-variant" if args.split_base_variant else "--group-language-variants"
+            sys.exit(f"{flag} needs --english-csv; not found: {english_csv}")
+    base_rows = load_prompt_rows(
+        prompts_path, args.sample_per_category, args.limit, args.seed, english_csv,
+        split_base_variant=args.split_base_variant,
+    )
+    log(f"Loaded {len(base_rows)} prompt rows and {len(judge_templates)} judge templates.")
+    log(f"Targets ({len(targets)}): " + ", ".join(f"{p}:{m}" for p, m in targets))
+
+    judge_client = get_judge_client()
+
+    # Each target gets its own results CSV: <provider>_<safe-model>.csv (provider prefix keeps the
+    # same model run via two providers from colliding).
+    for provider, model in targets:
+        safe = f"{provider}_{model}".replace("/", "_").replace(":", "_")
+        out_path = out_dir / f"{safe}.csv"
+        run_target(
+            provider,
+            model,
+            base_rows,
+            judge_templates,
+            judge_client,
+            args.judge_model,
+            out_path,
+            args.concurrency,
+            args.no_resume,
+        )
 
 
 if __name__ == "__main__":

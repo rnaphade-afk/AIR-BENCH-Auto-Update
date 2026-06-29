@@ -1,0 +1,114 @@
+// AIR-BENCH update pipeline — workflow flowchart.
+// Render:  dot -Tsvg pipeline_workflow.dot -o pipeline_workflow.svg
+//          dot -Tpng -Gdpi=200 pipeline_workflow.dot -o pipeline_workflow.png
+digraph pipeline {
+  rankdir=TB;
+  bgcolor="white";
+  labelloc="t";
+  fontname="Helvetica"; fontsize=22; fontcolor="#2b2b2b";
+  label="AIR-BENCH update pipeline";
+  nodesep=0.32; ranksep=0.5;
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10,
+        color="#8a8f94", penwidth=1.1, margin="0.16,0.09", fontcolor="#222222"];
+  edge [color="#8a8f94", arrowsize=0.7, penwidth=1.0];
+
+  start [label="Semantic tree\nexisting taxonomy + attack/judge prompts\n+ GPT-5.4-mini node summaries",
+         shape=cylinder, fillcolor="#eef0f2", color="#555555"];
+
+  // ---------------- Step 1: Scrape ----------------
+  subgraph cluster1 {
+    label="Step 1  ·  Scrape new policies";
+    labeljust="l"; style="rounded,filled"; fillcolor="#f5f8fc";
+    color="#3E6D9C"; fontcolor="#3E6D9C"; fontname="Helvetica"; fontsize=13; penwidth=1.8;
+    node [fillcolor="#e7eef6", color="#3E6D9C"];
+    s_crawl   [label="Bounded BFS crawl of 16 gov / policy sources\n(follows only AI-topical links)"];
+    s_access  [label="Dedicated access paths\nEUR-Lex → LexAPI · Congress → govinfo\nFed Register raw text · Korea LIC · OECD / METI PDFs",
+               shape=note, fillcolor="#ffffff"];
+    s_extract [label="Extract candidate clauses\n(GPT-5.4-mini → JSON)"];
+    s_filter  [label="Recall keyword pre-filter\n(names a concrete, testable harm)"];
+    s_verify  [label="Verifier gate  ·  KEEP / DROP\n(one concurrent call per clause)"];
+    s_json    [label="new-policy JSON\n(+ dedup → all-policy JSON, funnel report)",
+               shape=cylinder, fillcolor="#ffffff"];
+    s_crawl -> s_extract -> s_filter -> s_verify -> s_json;
+    s_access -> s_crawl [style=dashed, arrowhead=none, constraint=false];
+  }
+  s_review [label="Human review  ·  new policies",
+            shape=note, style="filled,dashed", fillcolor="#fbe9c7", color="#b07a1e"];
+
+  // ---------------- Step 2: Classify ----------------
+  subgraph cluster2 {
+    label="Step 2  ·  Classify into the taxonomy";
+    labeljust="l"; style="rounded,filled"; fillcolor="#f4faf6";
+    color="#4F8A6B"; fontcolor="#3f7558"; fontname="Helvetica"; fontsize=13; penwidth=1.8;
+    node [fillcolor="#e6f1ea", color="#4F8A6B"];
+    c_frag  [label="Split each clause into\nrisk fragments (GPT-5.4-mini)"];
+    c_route [label="Hierarchical top-down routing\n(L1–L3 node summaries · concurrent)"];
+    c_match [label="At L3: match an existing L4 leaf\nor propose a branch-local novel leaf"];
+    c_recon [label="Reconciliation agent\n(+ full cross-branch leaf catalog)"];
+    c_json  [label="classification JSON\nmatched leaves + novel proposals",
+             shape=cylinder, fillcolor="#ffffff"];
+    c_frag -> c_route -> c_match -> c_recon -> c_json;
+  }
+  c_review [label="Human review / prune\n(classify-only mode)",
+            shape=note, style="filled,dashed", fillcolor="#fbe9c7", color="#b07a1e"];
+  c_apply  [label="Apply reviewed classifications", shape=diamond, style=filled,
+            fillcolor="#e6f1ea", color="#4F8A6B", margin="0.05,0.03"];
+  c_addmeta [label="Matched  →  add policy\nto the leaf's metadata", fillcolor="#e6f1ea", color="#4F8A6B"];
+  c_resum   [label="Regenerate node summaries\nalong the affected branch", fillcolor="#e6f1ea", color="#4F8A6B"];
+
+  // ---------------- Step 3: Generate prompts ----------------
+  subgraph cluster3 {
+    label="Step 3  ·  Generate prompts for novel leaves";
+    labeljust="l"; style="rounded,filled"; fillcolor="#fbf6ec";
+    color="#C08A3E"; fontcolor="#9c6f2f"; fontname="Helvetica"; fontsize=13; penwidth=1.8;
+    node [fillcolor="#f5ecd9", color="#C08A3E"];
+    g_base  [label="Generate 10–20 base prompts\n(GPT-5.4-mini + PersonaHub persona;\nsafe-words filtered)"];
+    g_loop1 [label="Critic (GPT-5.4) ↔ Refiner (GPT-5.4-mini)\nloop ×2–3"];
+    g_sel   [label="Human selects 5–10 effective prompts",
+             shape=note, style="filled,dashed", fillcolor="#fbe9c7", color="#b07a1e"];
+    g_mut   [label="Mutate: authority endorsement\n(GPT-5.4-mini) + critic / refiner loop"];
+    g_judge [label="Generate judge prompts\n(parent-category examples)"];
+    g_trans [label="Translate → ES / JA / PT (Qwen 3.7-plus)\n+ critic loop (GPT-5.4)"];
+    g_rev   [label="Human review  ·  attack + judge prompts",
+             shape=note, style="filled,dashed", fillcolor="#fbe9c7", color="#b07a1e"];
+    g_base -> g_loop1 -> g_sel -> g_mut -> g_judge -> g_trans -> g_rev;
+  }
+  c_newleaf [label="Novel  →  create new leaf\n+ store policy", fillcolor="#f5ecd9", color="#C08A3E"];
+  g_addleaf [label="Add finished leaf to the tree", fillcolor="#f5ecd9", color="#C08A3E"];
+
+  // ---------------- Step 4: Export ----------------
+  subgraph cluster4 {
+    label="Step 4  ·  Export dataset";
+    labeljust="l"; style="rounded,filled"; fillcolor="#f6f1f5";
+    color="#8B5E83"; fontcolor="#74506d"; fontname="Helvetica"; fontsize=13; penwidth=1.8;
+    node [fillcolor="#eee3ec", color="#8B5E83"];
+    e_csv [label="Traverse tree → CSV\n(AIR-BENCH 2024 format)"];
+    e_sub [label="prompt + judge CSVs\n+ jurisdiction & language subsets",
+           shape=cylinder, fillcolor="#ffffff"];
+    e_csv -> e_sub;
+  }
+
+  // ---------------- Cross-stage flow ----------------
+  start   -> s_crawl  [lhead=cluster1];
+  s_json  -> s_review -> c_frag;
+  c_json  -> c_review -> c_apply;
+  c_apply -> c_addmeta [label="  matched", fontname="Helvetica", fontsize=9, fontcolor="#555"];
+  c_apply -> c_newleaf [label="  novel", fontname="Helvetica", fontsize=9, fontcolor="#555"];
+  c_newleaf -> g_base;
+  g_rev   -> g_addleaf;
+  c_addmeta -> c_resum;
+  g_addleaf -> c_resum;
+  c_resum -> e_csv;
+
+  // ---------------- Legend ----------------
+  subgraph cluster_legend {
+    label="Legend"; labeljust="l"; style="rounded"; color="#bbbbbb";
+    fontname="Helvetica"; fontsize=11; fontcolor="#555555";
+    L1 [label="process step", fillcolor="#eef0f2", color="#8a8f94"];
+    L2 [label="data store", shape=cylinder, fillcolor="#ffffff", color="#8a8f94"];
+    L3 [label="human review\n(skippable; multi-agent\nloops are the quality layer)",
+        shape=note, style="filled,dashed", fillcolor="#fbe9c7", color="#b07a1e"];
+    L4 [label="decision", shape=diamond, fillcolor="#eef0f2", color="#8a8f94", margin="0.04,0.02"];
+    L1 -> L2 [style=invis]; L2 -> L3 [style=invis]; L3 -> L4 [style=invis];
+  }
+}

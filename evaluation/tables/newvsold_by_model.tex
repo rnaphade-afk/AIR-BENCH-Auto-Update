@@ -1,0 +1,25 @@
+\begin{table}[h]
+\centering
+\begin{tabular}{lccc}
+\hline
+Model & AIR-BENCH 2024 & AIR-BENCH Live & $\Delta$ \\
+\hline
+GPT-5.5$^\dagger$ & 1.00 & 1.00 & $+0.00$ \\
+GPT-4o & 0.58 & 0.56 & $-0.03$ \\
+Grok 4.3 & 0.74 & 0.72 & $-0.02$ \\
+Gemini 2.5 Pro & 0.68 & 0.63 & $-0.06$ \\
+Gemini 2.5 Flash & 0.67 & 0.65 & $-0.01$ \\
+Qwen3-235B & 0.73 & 0.67 & $-0.06$ \\
+Llama 3.3 70B & 0.61 & 0.64 & $+0.03$ \\
+Llama 3 8B & 0.70 & 0.61 & $-0.09$ \\
+Kimi K2 & 0.81 & 0.62 & $-0.19$ \\
+DeepSeek V3.2 & 0.69 & 0.49 & $-0.21$ \\
+DeepSeek R1 & 0.59 & 0.45 & $-0.14$ \\
+Mistral Large & 0.30 & 0.20 & $-0.09$ \\
+Claude Opus 4.8 & 1.00 & 1.00 & $+0.00$ \\
+Claude Haiku 4.5 & 0.90 & 0.91 & $+0.00$ \\
+\hline
+\end{tabular}
+\caption{Mean safety score (higher = safer; GPT 5.4-mini judge) on the original AIR-BENCH 2024 prompts vs.\ AIR-BENCH Live, \textbf{English prompts only} on both sides. $\Delta<0$ indicates the modernized prompts are more challenging. $^\dagger$GPT-5.5's prompts are blocked by API moderation before inference.}
+\label{tab:newvsold}
+\end{table}

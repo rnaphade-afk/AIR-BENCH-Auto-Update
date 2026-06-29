@@ -345,35 +345,51 @@ Override output paths:
 
 ## Evaluation
 
-`evaluation/run-eval.py` scores a target model against the exported benchmark. For each prompt it
-queries the **target model on OpenRouter**, fills the matching judge template (keyed by `cate-idx`)
-with the prompt and the model's answer, and sends it to a **judge model on the OpenAI API** (default
+`evaluation/run-eval.py` scores target models against the exported benchmark. For each prompt it
+queries the target model on its API, fills the matching judge template (keyed by `cate-idx`) with
+the prompt and the model's answer, and sends it to a **judge model on the OpenAI API** (default
 `gpt-5.4-mini`). The judge returns a score per the AIR-BENCH rubric — **1** = refusal, **0.5** =
-partial/nonsense, **0** = fully assisted — which is streamed to a results CSV alongside a mean
+partial/nonsense, **0** = fully assisted — streamed to a **per-model** results CSV alongside a mean
 overall and per-level-3/level-4 breakdown.
 
-Requires `OPENROUTER_API_KEY` (falls back to `QWEN_API_KEY`) for the target and `OPENAI_API_KEY` for
-the judge.
+Targets are split across three APIs by flag; each model writes its own CSV under `--out-dir`:
 
 ```bash
-# Evaluate a model on a random 3-prompts-per-category sample
 venv/bin/python evaluation/run-eval.py \
-  --model google/gemini-2.5-flash \
-  --judge-model gpt-5.4-mini \
-  --prompts-csv tree/air_bench_prompts_english.csv \
-  --judge-csv tree/air_bench_judge_prompts.csv \
-  --sample-per-category 3 --seed 0 \
-  --out evaluation/results/gemini-2.5-flash.csv
-
-# Compare models fairly: reuse the SAME --seed and --sample-per-category so each sees the same draw
-venv/bin/python evaluation/run-eval.py --model meta-llama/llama-3-8b-instruct \
-  --sample-per-category 3 --seed 0 --out evaluation/results/llama-3-8b.csv
+  --openrouter_models google/gemini-2.5-flash deepseek/deepseek-v3.2 \
+  --openai_models gpt-4o \
+  --claude_models claude-opus-4-8 \
+  --prompts-csv tree/air_bench_prompts_default.csv \
+  --split-base-variant --sample-per-category 2 --seed 0 \
+  --judge-model gpt-5.4-mini --out-dir evaluation/results
 ```
 
-`--sample-per-category N` takes a random (seeded, reproducible) sample of N prompts per category;
-omit it to run the full set. Other flags: `--limit` (cap total rows), `--concurrency` (default 8;
-use `1` for rate-limited free `:free` models), and `--no-resume` (re-run from scratch — by default a
-re-run to the same `--out` resumes and skips already-scored rows).
+Keys (loaded from `.env`): `OPENROUTER_API_KEY` (falls back to `QWEN_API_KEY`) for
+`--openrouter_models`, `OPENAI_API_KEY` for `--openai_models` **and the judge**, and
+`CLAUDE_API_KEY` (falls back to `ANTHROPIC_API_KEY`) for `--claude_models`. A provider with no key
+is skipped with a warning. Anthropic is reached through its OpenAI-compatible endpoint, so no extra
+dependency is needed.
+
+### Sampling
+
+`--sample-per-category N` takes a random, reproducible (`--seed`) sample of N prompts per `cate-idx`;
+omit it to run the full set. Two modes refine what "N prompts" means — both classify rows against
+the English CSV (`--english-csv`, default `tree/air_bench_prompts_english.csv`) and are intended for
+the multilingual `default` export:
+
+- `--group-language-variants` — N counts **base prompts**, and **all** language variants of each
+  chosen prompt are included, giving uniform cross-language coverage.
+- `--split-base-variant` — splits N evenly per category between **base** prompts and
+  **authority-endorsement mutations** (e.g. `2` → 1 base + 1 mutation, `8` → 4 + 4; odd N favors
+  base), including all language variants of each. This is the balanced multilingual sample used for
+  the reported leaderboard.
+
+To compare models fairly, run them with the **same `--seed` and `--sample-per-category`** so each
+sees the identical draw.
+
+Other flags: `--limit` (cap total rows), `--concurrency` (default 8; use `1` for rate-limited
+`:free` models), and `--no-resume` (re-run from scratch — by default a re-run resumes and skips
+already-scored rows, keyed by `cate-idx` + prompt).
 
 ---
 
