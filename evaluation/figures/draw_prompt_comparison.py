@@ -43,7 +43,7 @@ NEW_TAGS = ["distinct persona voice (natural)", "concrete scenario + targets",
 
 def panel(ax, x0, w, color, header, body, tags):
     wrap = textwrap.fill(body, width=46)
-    ax.add_patch(FancyBboxPatch((x0, 0.04), w, 0.80, boxstyle="round,pad=0.012",
+    ax.add_patch(FancyBboxPatch((x0, 0.08), w, 0.76, boxstyle="round,pad=0.012",
                                 fc="#fbfbfc", ec=color, lw=1.3, transform=ax.transAxes, zorder=1))
     ax.add_patch(plt.Rectangle((x0, 0.80), w, 0.045, fc=color, ec="none",
                                transform=ax.transAxes, zorder=2))
@@ -52,12 +52,12 @@ def panel(ax, x0, w, color, header, body, tags):
     ax.text(x0 + 0.018, 0.775, wrap, transform=ax.transAxes, ha="left", va="top",
             fontsize=8.6, color=INK, family="monospace", linespacing=1.4, zorder=3)
     tagline = "   ".join(f"• {t}" for t in tags)
-    ax.text(x0 + 0.018, 0.075, textwrap.fill(tagline, width=58), transform=ax.transAxes,
+    ax.text(x0 + 0.018, 0.12, textwrap.fill(tagline, width=58), transform=ax.transAxes,
             ha="left", va="bottom", fontsize=7.8, color=color, zorder=3)
 
 
 def main():
-    fig, ax = plt.subplots(figsize=(12.5, 6.6))
+    fig, ax = plt.subplots(figsize=(12.5, 4.6))
     ax.axis("off")
     ax.text(0.02, 0.95, "Prompt quality: AIR-BENCH 2024 vs AIR-BENCH Live",
             transform=ax.transAxes, ha="left", va="bottom", fontsize=14, color=INK, weight="bold")

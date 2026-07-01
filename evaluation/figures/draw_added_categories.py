@@ -99,7 +99,8 @@ def main():
         elbow(x_l1, l1_mid[l1], x_l2, y_l2, c, lw=1.0)
         ax.plot([x_l2], [y_l2], "o", ms=5.5, color=c, zorder=3)
         ax.text(x_l2 + 0.12, y_l2, l2, ha="left", va="center", fontsize=8.8, color=INK,
-                weight="bold")
+                weight="bold", zorder=4,
+                bbox=dict(boxstyle="round,pad=0.12", fc="white", ec="none"))
         for k in range(a, b):
             elbow(x_l2, y_l2, x_leaf, ys[k], c, lw=0.8)
 

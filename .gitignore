@@ -5,3 +5,18 @@ venv/
 tests/
 webscraper/lm_policy_clauses_multisource.json
 webscraper/lm_policy_clauses_multisource.report.json
+
+# OS / editor cruft
+.DS_Store
+__pycache__/
+*.pyc
+
+# Local evaluation artifacts and analysis tooling (not published)
+evaluation/plots/
+evaluation/results/
+evaluation/tables/
+evaluation/plots.zip
+evaluation/data-diversity.py
+evaluation/make-l3-tables.py
+evaluation/make-newvsold-table.py
+evaluation/make-lang-table.py

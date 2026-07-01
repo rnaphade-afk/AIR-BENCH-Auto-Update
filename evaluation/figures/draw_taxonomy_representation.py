@@ -1,132 +1,148 @@
 #!/usr/bin/env python3
-"""Methodology figure: the AIR-BENCH taxonomy as a depth-4 tree (the representation the pipeline
-starts from). Compact, horizontal root -> category -> subcategory layout, with per-subcategory
-level-3 / level-4 counts and a banner stating the four-tier cardinalities.
-
-Based on the ORIGINAL AIR-BENCH 2024 taxonomy (4 / 16 / 43 / 314), derived once from
-stanford-crfm/air-bench-2024 and hard-coded here so the figure renders offline.
+"""Methodology figure: the pipeline's data representation --- a depth-4 JSON tree in which every
+node carries metadata. Shows one representative root->leaf path plus the JSON schema stored at an
+inner node (a recursive summary) and at a leaf (summary + attack prompts + judge prompt + the
+scraped policies that justify the category). Sibling counts are read live from the tree.
 """
+import json
+import re
 from pathlib import Path
 
 import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Rectangle
 
-OUT_STEM = Path(__file__).with_name("air_bench_taxonomy_representation")
-L1_COLORS = {
-    "System & Operational Risks": "#3E6D9C",
-    "Content Safety Risks": "#4F8A6B",
-    "Societal Risks": "#C08A3E",
-    "Legal & Rights-Related Risks": "#8B5E83",
-}
-INK, SUBTLE, LINE = "#2b2b2b", "#6b7177", "#9aa0a6"
+ROOT = Path(__file__).resolve().parents[2]
+TREE = json.loads((ROOT / "tree" / "semantic-tree.json").read_text())
+OUT = Path(__file__).with_name("air_bench_taxonomy_representation")
+ACCENT, INK, SUBTLE, CARDBG = "#3E6D9C", "#2b2b2b", "#6b7177", "#f6f7f9"
+CODE, KEY = "#565c62", "#3E6D9C"          # value/punctuation grey, key accent
+_KEY_RE = re.compile(r'"[^"]+"(?=\s*:)')   # a quoted string immediately followed by a colon
 
-# (top category, subcategory, #level-3 groups, #level-4 leaves) -- original AIR-BENCH 2024.
-ORIG = [
-    ("System & Operational Risks", "Security Risks", 3, 12),
-    ("System & Operational Risks", "Operational Misuses", 3, 26),
-    ("Content Safety Risks", "Violence & Extremism", 6, 24),
-    ("Content Safety Risks", "Hate/Toxicity", 4, 36),
-    ("Content Safety Risks", "Sexual Content", 4, 9),
-    ("Content Safety Risks", "Child Harm", 2, 7),
-    ("Content Safety Risks", "Self-harm", 1, 3),
-    ("Societal Risks", "Political Usage", 4, 25),
-    ("Societal Risks", "Economic Harm", 4, 10),
-    ("Societal Risks", "Deception", 3, 9),
-    ("Societal Risks", "Manipulation", 2, 5),
-    ("Societal Risks", "Defamation", 1, 3),
-    ("Legal & Rights-Related Risks", "Fundamental Rights", 1, 5),
-    ("Legal & Rights-Related Risks", "Discrimination/Bias", 1, 60),
-    ("Legal & Rights-Related Risks", "Privacy", 1, 72),
-    ("Legal & Rights-Related Risks", "Criminal Activities", 3, 8),
-]
+PATH = ["System & Operational Risks", "Security Risks", "Confidentiality", "Network intrusion"]
 
 
-def runs(seq):
-    out, i = [], 0
-    while i < len(seq):
-        j = i
-        while j < len(seq) and seq[j] == seq[i]:
-            j += 1
-        out.append((seq[i], i, j))
-        i = j
+def kids(n):
+    return n.get("children") or []
+
+
+def walk_path(tree, names):
+    """Return [(display, level_label, 'k of N')] for root + each named node along the path."""
+    out = [("AIR-BENCH root", "root", None)]
+    node, level = tree, 0
+    labels = ["level 1 (category)", "level 2 (subcategory)", "level 3 (group)", "level 4 (leaf)"]
+    for i, name in enumerate(names):
+        sibs = kids(node)
+        idx = next((j for j, c in enumerate(sibs) if c.get("name") == name), 0)
+        out.append((name, labels[i], f"{idx + 1} of {len(sibs)}"))
+        node = sibs[idx]
     return out
 
 
+INNER_JSON = """{
+  "name": "Confidentiality",
+  "level": 3,
+  "summary": "<recursive synthesis of
+              child summaries (GPT 5.4-mini)>",
+  "children": [ ... ]
+}"""
+
+LEAF_JSON = """{
+  "name": "Network intrusion",
+  "level": 4,
+  "summary": "<GPT 5.4-mini category summary>",
+  "prompts": [
+    { "variant": "base | authority_endorsement",
+      "language": "English | ES | JA | PT",
+      "prompt": "<attack prompt>" }, ...
+  ],
+  "judge": "<judge-prompt template>",
+  "policies": [
+    { "clause": "<scraped policy text>",
+      "matched_segment": "<...>",
+      "source": { "legislature": "us",
+                  "url": "<...>" } }, ...
+  ]
+}"""
+
+
+def _keys_only(body):
+    """Same text as body but every character blanked except keys (quoted strings before a colon),
+    so overlaying it in monospace recolors just the keys."""
+    lines = []
+    for line in body.split("\n"):
+        chars = [" "] * len(line)
+        for m in _KEY_RE.finditer(line):
+            chars[m.start():m.end()] = line[m.start():m.end()]
+        lines.append("".join(chars))
+    return "\n".join(lines)
+
+
+def card(ax, x, y, w, h, title, body, border):
+    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.4",
+                                fc=CARDBG, ec=border, lw=1.4, zorder=2))
+    ax.add_patch(Rectangle((x, y), 0.7, h, fc=border, ec="none", zorder=3))  # left stripe
+    ax.text(x + 1.4, y + h - 1.6, title, fontsize=9.5, color=border, weight="bold",
+            va="top", ha="left", zorder=4)
+    tx, ty = x + 1.4, y + h - 4.6
+    kw = dict(fontsize=7.4, family="monospace", va="top", ha="left", linespacing=1.32)
+    ax.text(tx, ty, body, color=CODE, zorder=4, **kw)                 # values + punctuation (grey)
+    ax.text(tx, ty, _keys_only(body), color=KEY, zorder=5, **kw)      # keys (accent), overlaid
+
+
 def main():
-    row_h, gap = 0.62, 0.45
-    ys, y, prev = [], 0.0, None
-    for (l1, *_r) in ORIG:
-        if prev is not None and l1 != prev:
-            y -= gap
-        ys.append(y)
-        y -= row_h
-        prev = l1
-
-    x_root, x_l1, x_l2 = -1.6, 0.0, 4.0
-    x_g, x_l = 8.6, 9.8               # level-3 / level-4 count columns
-    top = max(ys) + 1.0
-
-    fig_h = (max(ys) - min(ys)) * 0.5 + 2.6
-    fig, ax = plt.subplots(figsize=(12.5, fig_h))
-
-    def elbow(x0, y0, x1, y1, color, lw=0.9):
-        xm = (x0 + x1) / 2
-        ax.plot([x0, xm, xm, x1], [y0, y0, y1, y1], color=color, lw=lw,
-                solid_capstyle="round", zorder=1)
-
-    l1_mid = {l1: sum(ys[a:b]) / (b - a) for (l1, a, b) in runs([r[0] for r in ORIG])}
-    root_y = sum(l1_mid.values()) / len(l1_mid)
-
-    # root -> L1
-    for l1, yy in l1_mid.items():
-        elbow(x_root, root_y, x_l1, yy, L1_COLORS[l1], lw=1.3)
-    ax.plot([x_root], [root_y], "o", ms=9, color=INK, zorder=3)
-    ax.text(x_root - 0.12, root_y, "AIR-BENCH\ntaxonomy", ha="right", va="center",
-            fontsize=11, color=INK, weight="bold", linespacing=1.0)
-
-    # L1 nodes
-    for (l1, a, b) in runs([r[0] for r in ORIG]):
-        c = L1_COLORS[l1]
-        ax.plot([x_l1], [l1_mid[l1]], "o", ms=8, color=c, zorder=3)
-        ax.text(x_l1 + 0.14, l1_mid[l1] + 0.14, l1.replace(" Risks", ""), ha="left",
-                va="bottom", fontsize=9.5, color=INK, weight="bold")
-
-    # L2 rows + counts
-    for k, (l1, l2, n3, n4) in enumerate(ORIG):
-        c = L1_COLORS[l1]
-        elbow(x_l1, l1_mid[l1], x_l2, ys[k], c, lw=0.9)
-        ax.plot([x_l2], [ys[k]], "o", ms=5, color=c, zorder=3)
-        ax.text(x_l2 + 0.12, ys[k], l2, ha="left", va="center", fontsize=9.0, color=INK)
-        ax.text(x_g, ys[k], str(n3), ha="center", va="center", fontsize=8.6, color=SUBTLE)
-        ax.text(x_l, ys[k], str(n4), ha="center", va="center", fontsize=8.6, color=SUBTLE)
-
-    # Column banner emphasizing the four tiers.
-    chips = [(x_l1, "LEVEL 1", "4 categories"),
-             (x_l2 + 0.1, "LEVEL 2", "16 subcategories"),
-             (x_g, "LEVEL 3", "43 groups"),
-             (x_l, "LEVEL 4", "314 leaf risks")]
-    for x, a, b in chips:
-        ha = "left" if x in (x_l1, x_l2 + 0.1) else "center"
-        ax.text(x, top + 0.25, a, ha=ha, va="bottom", fontsize=8.5, color=INK, weight="bold")
-        ax.text(x, top - 0.1, b, ha=ha, va="bottom", fontsize=7.8, color=SUBTLE)
-    ax.plot([x_root, x_l + 0.6], [top - 0.35, top - 0.35], color="#dddddd", lw=0.8, zorder=0)
-
-    # Title + leaf-contents note.
-    ax.text(x_root - 0.12, top + 1.15, "Data representation: a depth-4 taxonomy tree",
-            ha="left", va="bottom", fontsize=13.5, color=INK, weight="bold")
-    ax.text(x_root - 0.12, top + 0.62,
-            "Each leaf stores attack prompts, a judge prompt, associated policies, and a category "
-            "summary; inner nodes store recursive summaries.",
-            ha="left", va="bottom", fontsize=8.8, color=SUBTLE)
-
-    ax.set_xlim(x_root - 1.7, x_l + 1.0)
-    ax.set_ylim(min(ys) - 0.7, top + 1.9)
+    steps = walk_path(TREE, PATH)
+    fig, ax = plt.subplots(figsize=(13, 8))
+    ax.set_xlim(0, 100)
+    ax.set_ylim(0, 100)
     ax.axis("off")
+
+    ax.text(2, 96, "Data representation: a JSON tree with per-node metadata", fontsize=14,
+            color=INK, weight="bold", va="top")
+    ax.text(2, 91.5, "A depth-4 tree; inner nodes store a recursive summary, leaves store the "
+            "benchmark payload the pipeline reads and writes.", fontsize=9.2, color=SUBTLE, va="top")
+
+    # ---- left: representative root -> leaf path ----
+    bx, bw, bh = 3.0, 27.0, 8.5
+    ys = [78, 63, 48, 33, 16]
+    boxes = {}
+    for (name, lvl, kn), y in zip(steps, ys):
+        is_leaf = lvl.endswith("(leaf)")
+        col = ACCENT if (lvl == "root" or is_leaf) else "#9aa0a6"
+        ax.add_patch(FancyBboxPatch((bx, y), bw, bh, boxstyle="round,pad=0.3",
+                                    fc="#eef2f7" if (lvl == "root" or is_leaf) else "white",
+                                    ec=col, lw=1.6 if is_leaf else 1.2, zorder=3))
+        ax.text(bx + bw / 2, y + bh - 2.6, name, fontsize=9.2, color=INK, weight="bold",
+                ha="center", va="top", zorder=4)
+        tag = lvl if kn is None else f"{lvl}   ·   {kn}"
+        ax.text(bx + bw / 2, y + 1.8, tag, fontsize=7.0, color=SUBTLE, ha="center", va="bottom",
+                zorder=4)
+        boxes[lvl] = (bx, y, bw, bh)
+    # downward connectors
+    for (a_y), (b_y) in zip(ys[:-1], ys[1:]):
+        ax.add_patch(FancyArrowPatch((bx + bw / 2, a_y), (bx + bw / 2, b_y + bh),
+                                     arrowstyle="-|>", mutation_scale=11, color="#9aa0a6",
+                                     lw=1.1, shrinkA=0, shrinkB=0, zorder=1))
+
+    # ---- right: metadata cards ----
+    card(ax, 45, 55, 53, 33, "inner node  —  metadata", INNER_JSON, "#8a8f94")
+    card(ax, 45, 4, 53, 46, "leaf node  —  metadata", LEAF_JSON, ACCENT)
+
+    # dashed leaders from the path to the cards
+    lx, ly, lw_, lh_ = boxes["level 3 (group)"]
+    ax.add_patch(FancyArrowPatch((lx + lw_, ly + lh_ / 2), (45, 62),
+                                 arrowstyle="-|>", mutation_scale=10, color="#8a8f94",
+                                 lw=1.0, linestyle=(0, (4, 3)), shrinkA=2, shrinkB=2, zorder=1))
+    lx, ly, lw_, lh_ = boxes["level 4 (leaf)"]
+    ax.add_patch(FancyArrowPatch((lx + lw_, ly + lh_ / 2), (45, 26),
+                                 arrowstyle="-|>", mutation_scale=10, color=ACCENT,
+                                 lw=1.0, linestyle=(0, (4, 3)), shrinkA=2, shrinkB=2, zorder=1))
+
     fig.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.01)
     for ext, dpi in (("png", 220), ("pdf", None), ("svg", None)):
-        out = OUT_STEM.with_suffix("." + ext)
+        out = OUT.with_suffix("." + ext)
         fig.savefig(out, dpi=dpi, bbox_inches="tight", facecolor="white")
         print("wrote", out)
 

@@ -318,15 +318,15 @@ billed tokens, so with it off `qwen3.7-plus` matches `gpt-5.4-mini` on fidelity/
 The exporter computes category IDs from tree order. Default output paths:
 
 ```
-tree/air_bench_prompts_default.csv
-tree/air_bench_prompts_china.csv
-tree/air_bench_prompts_eu.csv
-tree/air_bench_prompts_us.csv
-tree/air_bench_prompts_english.csv
-tree/air_bench_prompts_spanish.csv
-tree/air_bench_prompts_japanese.csv
-tree/air_bench_prompts_portuguese.csv
-tree/air_bench_judge_prompts.csv
+air_bench_prompts_default.csv
+air_bench_prompts_china.csv
+air_bench_prompts_eu.csv
+air_bench_prompts_us.csv
+air_bench_prompts_english.csv
+air_bench_prompts_spanish.csv
+air_bench_prompts_japanese.csv
+air_bench_prompts_portuguese.csv
+air_bench_judge_prompts.csv
 ```
 
 China, EU, and US files are written as siblings using the same filename stem; the
@@ -359,7 +359,7 @@ venv/bin/python evaluation/run-eval.py \
   --openrouter_models google/gemini-2.5-flash deepseek/deepseek-v3.2 \
   --openai_models gpt-4o \
   --claude_models claude-opus-4-8 \
-  --prompts-csv tree/air_bench_prompts_default.csv \
+  --prompts-csv air_bench_prompts_default.csv \
   --split-base-variant --sample-per-category 2 --seed 0 \
   --judge-model gpt-5.4-mini --out-dir evaluation/results
 ```
@@ -374,7 +374,7 @@ dependency is needed.
 
 `--sample-per-category N` takes a random, reproducible (`--seed`) sample of N prompts per `cate-idx`;
 omit it to run the full set. Two modes refine what "N prompts" means — both classify rows against
-the English CSV (`--english-csv`, default `tree/air_bench_prompts_english.csv`) and are intended for
+the English CSV (`--english-csv`, default `air_bench_prompts_english.csv`) and are intended for
 the multilingual `default` export:
 
 - `--group-language-variants` — N counts **base prompts**, and **all** language variants of each

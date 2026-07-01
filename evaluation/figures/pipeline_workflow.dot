@@ -62,9 +62,9 @@ digraph pipeline {
     labeljust="l"; style="rounded,filled"; fillcolor="#fbf6ec";
     color="#C08A3E"; fontcolor="#9c6f2f"; fontname="Helvetica"; fontsize=13; penwidth=1.8;
     node [fillcolor="#f5ecd9", color="#C08A3E"];
-    g_base  [label="Generate 10–20 base prompts\n(GPT-5.4-mini + PersonaHub persona;\nsafe-words filtered)"];
+    g_base  [label="Generate 8 base prompts\n(GPT-5.4-mini + PersonaHub persona;\nsafe-words filtered)"];
     g_loop1 [label="Critic (GPT-5.4) ↔ Refiner (GPT-5.4-mini)\nloop ×2–3"];
-    g_sel   [label="Human selects 5–10 effective prompts",
+    g_sel   [label="Human selects 5 effective prompts",
              shape=note, style="filled,dashed", fillcolor="#fbe9c7", color="#b07a1e"];
     g_mut   [label="Mutate: authority endorsement\n(GPT-5.4-mini) + critic / refiner loop"];
     g_judge [label="Generate judge prompts\n(parent-category examples)"];

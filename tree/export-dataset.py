@@ -6,8 +6,10 @@ from typing import Any, Dict, List, Optional, Tuple
 
 
 DEFAULT_TREE_PATH = Path(__file__).with_name("semantic-tree.json")
-DEFAULT_PROMPTS_PATH = Path(__file__).with_name("air_bench_prompts_default.csv")
-DEFAULT_JUDGES_PATH = Path(__file__).with_name("air_bench_judge_prompts.csv")
+# Benchmark CSVs are exported to the repository root (the tree JSON stays in tree/).
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_PROMPTS_PATH = _REPO_ROOT / "air_bench_prompts_default.csv"
+DEFAULT_JUDGES_PATH = _REPO_ROOT / "air_bench_judge_prompts.csv"
 ENGLISH_LANGUAGE = "English"
 LEGISLATURE_PROMPT_SUBSETS = ("default", "china", "eu", "us")
 LANGUAGE_PROMPT_SUBSETS = (ENGLISH_LANGUAGE, "Spanish", "Japanese", "Portuguese")

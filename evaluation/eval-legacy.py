@@ -34,7 +34,7 @@ re_mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(re_mod)
 
 DEFAULT_DATASET = "stanford-crfm/air-bench-2024"
-DEFAULT_JUDGE_CSV = "tree/air_bench_judge_prompts.csv"
+DEFAULT_JUDGE_CSV = "air_bench_judge_prompts.csv"
 
 
 def leaf_to_cate_idx(judge_csv: Path) -> Dict[tuple, str]:
