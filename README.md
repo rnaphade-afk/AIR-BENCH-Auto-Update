@@ -1,6 +1,6 @@
 # AIR-BENCH Auto Update
 
-A pipeline for automatic maintenance of the AIR-BENCH dataset. It contains functionality for scraping policy sources, filtering and classifying new clauses into a semantic tree, generating attack/judge prompts for novel cateogires, and exporting the updated dataset.
+A pipeline for automatic maintenance of the AIR-BENCH dataset. It contains functionality for scraping policy sources, filtering and classifying new clauses into a semantic tree, generating attack/judge prompts for novel and existing categories, and exporting the updated dataset.
 
 ---
 
